@@ -4,19 +4,19 @@
 
 ### Utilisateur
 - **Nom d'utilisateur** : AMENI-NOVA
-- **Email** : ameni.nova@example.com
+- **Email** : ameni060492@gmail.com
 
 ### Configuration globale
 ```bash
 git config --global user.name "AMENI-NOVA"
-git config --global user.email "ameni.nova@example.com"
+git config --global user.email "ameni060492@gmail.com"
 git config --global credential.helper store
 ```
 
 ### Configuration locale (projet)
 ```bash
 git config user.name "AMENI-NOVA"
-git config user.email "ameni.nova@example.com"
+git config user.email "ameni060492@gmail.com"
 ```
 
 ## 🔑 Authentification GitHub
@@ -31,7 +31,7 @@ git config user.email "ameni.nova@example.com"
 ### Option 2 : SSH Keys
 ```bash
 # Générer une clé SSH
-ssh-keygen -t ed25519 -C "ameni.nova@example.com"
+ssh-keygen -t ed25519 -C "ameni060492@gmail.com"
 
 # Ajouter la clé à ssh-agent
 ssh-add ~/.ssh/id_ed25519
