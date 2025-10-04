@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Edition des en-cours</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="EdStatGP.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H3 id=_D2HTopic_2259><SPAN>Edition des en-cours</SPAN></H3>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="editionducomparatifdestempsdesdossiers.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="editiondesdossierstermins.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Cette édition permet de visualiser les en-cours à une 
+date choisie. </SPAN></P>
+<P class=MsoNormal><SPAN>3 types d’éditions des en-cours sont 
+possibles&nbsp;:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><B><SPAN>Les 
+en-cours de fabrication&nbsp;: </SPAN></B><SPAN>Les dossiers commencés (début de 
+fabrication, facture de sous-traitance ou d'achat) et pas terminés à la date 
+choisie.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><B><SPAN>Les 
+en-cours de facturation&nbsp;</SPAN></B><SPAN>: Les dossiers terminés et pas 
+totalement facturés à la date choisie.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><B><SPAN>Les 
+en-cours total</SPAN></B><SPAN>&nbsp;: Les dossiers commencés et pas terminés ou 
+pas totalement facturés à la date choisie.</SPAN></P>
+<P class=MsoNormal><SPAN>On peut choisir si la date à retenir dans les calculs 
+pour qu’un dossier soit considéré comme terminé est la date de clôture du 
+dossier, ou bien la date de livraison totale du dossier.</SPAN></P>
+<P class=MsoNormal><SPAN>Les dossiers pris en compte sont facturables, ni 
+prévisionnels, ni annulés, ni d'activités secondaires.</SPAN></P>
+<P class=MsoNormal><SPAN>Cette édition n’est possible que pour une date 
+antérieure ou égale à la date du jour et postérieure à la date du dernier 
+archivage. Si un des dossiers à prendre en compte possède une date de début de 
+fabrication antérieure à la date du dernier archivage, l’édition s’arrête. En 
+effet le calcul de l'en-cours pour un dossier est fait à partir des opérations 
+effectuées jusqu'à la date demandée. Or la fonction d'archivage supprime le 
+détail des opérations effectuées sur un dossier, empêchant donc ce 
+calcul.</SPAN></P>
+<P class=MsoNormal><SPAN>Les montants des achats papier pour un dossier ne sont 
+pris en compte dans l'en-cours du dossier que si au moins un des coûts réels en 
+"Impression", "Façonnage" ou "Livraison" n'est pas nul. (indiquant que le papier 
+a été travaillé). Sinon, le montant de l'achat est cumulé dans la ligne "Stock", 
+colonne "papier" du récapitulatif des en-cours si on a coché la case 
+«&nbsp;Isoler les matières non travaillées&nbsp;».</SPAN></P>
+<P class=MsoNormal><SPAN>Les montants des achats pour les autres matières sont 
+pris en compte dans le dossier si le coût réel (sous-traitance ou travail 
+interne) n'est pas nul pour le centre de coût. Sinon, la ligne "Stock" cumule le 
+montant de ces achats.</SPAN></P>
+<P class=MsoNormal><SPAN>Les mises en stock de produits finis peuvent être 
+isolées pour obtenir un montant d’en-cours déduction faite des mises en stock. 
+Dans ce cas, une ligne «&nbsp;Mises en stock&nbsp;» est ajoutée pour chaque 
+dossier ainsi que pour les lignes de Total et Sous-totaux par fonction, employé 
+ou client.</SPAN></P>
+<H6><SPAN>Paramètres des éditions des encours</SPAN></H6>
+<P class=MsoNormal><SPAN style="mso-no-proof: yes"><IMG 
+src="Images/image28_37.jpg"></SPAN><SPAN></SPAN></P>
+<P class=MsoNormal><SPAN>Le paramètres à saisir sont&nbsp;:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>la date de 
+l’encours, vous pouvez soit saisir une date fixe , soit une date relative (fin 
+du mois, fin de la semaine ...). La date saisie doit être postérieure à la date 
+d'archivage de niveau 1.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>l’édition 
+désirée&nbsp;: encours de fabrication, encours de facturation ou encours 
+total</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>le tarif 
+auquel il faut valoriser les dossiers édités&nbsp;: la valorisation est faite à 
+partir des prix de l’heure enregistrés pour chaque poste de travail. Si vous 
+voulez une édition valorisée en fonction du tarif 3, cela implique que les prix 
+de l’heure soient remplis pour cette colonne de tarif (voir<a href="JavaScript:TL_85939.HHClick()"> «&nbsp;Caractéristiques d’un poste</A>&nbsp;» dans le 
+chapitre «&nbsp;Paramétrages de gestion de production&nbsp;»). </SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>la base de 
+calcul de l’encours&nbsp;: dates de clôture ou dates de livraison 
+totale.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Afficher 3 
+lignes supplémentaires (Interne, matière et sous-traitance) qui représentent le 
+détail de la ligne ‘Prévu’.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Afficher des 
+sous totaux par fonction, par commercial, par client.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Isoler les 
+matières non travaillées&nbsp;: Indique que les achats saisis pour le dossier 
+mais non encore consommés seront regroupés dans une ligne 
+«&nbsp;Stock&nbsp;».</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Isoler les 
+mises en stock&nbsp;: Affiche les mises en stock et le solde (Réel – Mises en 
+stock) dans une ligne spécifique de chaque dossier, total et 
+sous-total.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Afficher en 
+données brutes&nbsp;: Les informations détaillées sont affichées<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>sur une ligne pour le total , une ligne 
+par dossier et par sous-total demandé. Dans ce cas les colonnes sont&nbsp;: Type 
+de la ligne (Total, Fonction, Commercial, Client, Dossier), Nombre de dossiers, 
+Fonction, Commercial, Client, Dossier, Référence, Prévu pour chaque centre de 
+coût, Interne pour chaque centre de coût, Matière pour chaque centre de coût, 
+Sous-traitance pour chaque centre de coût, indicateur Facture non saisie pour 
+chaque centre de coût, Cumul Stock pour chaque centre de coût dans la ligne de 
+Total, Indicateur de facture non saisie global, Mises en stock&nbsp;(codes 
+stock, détail des valeurs et cumul valeur). </SPAN></P>
+<P class=MsoListBullet 
+style="MARGIN-LEFT: 14.2pt; TEXT-INDENT: 0cm; tab-stops: 1.0cm; mso-list: none"><SPAN>&nbsp;</SPAN></P>
+<H6><SPAN>Description de l’édition</SPAN></H6>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Un bloc pour 
+le total, avec le nombre de dossiers pris en compte dans la colonne 
+‘Marge’.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Un bloc par 
+fonction, avec le nom de la fonction dans la colonne ‘Dossier’ et le nombre de 
+dossiers pris en compte dans la colonne ‘Marge’ (optionnel).</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Un bloc par 
+commercial, avec le nom de la fonction et du commercial dans la colonne 
+‘Dossier’ (optionnel) et le nombre de dossiers pris en compte dans la colonne 
+‘Marge’.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Un bloc par 
+client, avec le nom de la fonction, du commercial et du client dans la colonne 
+‘Dossier’ et le nombre de dossiers pris en compte dans la colonne ‘Marge’ 
+(optionnel).</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Un bloc par 
+dossier, avec le N°, la référence et le client du dossier dans la colonne 
+‘Dossier’.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Chaque bloc comporte les informations 
+suivantes&nbsp;:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Une colonne 
+par centre de coût, avec&nbsp;:</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Une ligne 
+pour le montant prévu.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Une ligne 
+pour le montant interne (optionnel).</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Une ligne 
+pour le montant des matières (optionnel).</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Une ligne 
+pour le montant de sous-traitance (optionnel).</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Une ligne 
+pour le montant réellement engagé (Interne+Matière+Sous-traitance).</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Une ligne 
+pour l’Ecart entre le prévu et le réel.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Une ligne 
+pour le ‘Stock’ dans le cas du bloc ‘Total’. Ce montant représente, les matières 
+consommées pour un centre de coût sur lesquelles il n’y a pas encore eu de 
+travail réalisé (ex prix des films alors que la fiche de travail de photogravure 
+n’est pas encore commencée ) ou le papier pas encore consommé.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Une colonne 
+de total du bloc avec les mêmes lignes.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Une colonne 
+‘Marge’ du bloc = (Prévu-Réel)/Prévu*100.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Une ligne 
+pour les «&nbsp;Mises en stock&nbsp;» si on a demandé de les isoler. La première 
+colonne contient les codes du ou des stocks, la colonne suivante «&nbsp;Mises en 
+stock&nbsp;», la 3<SUP>ème</SUP> colonne les montants des mises en stock pour 
+chaque stock et les dernières colonnes le total des mises en stock et le solde 
+réel – mises en stock pour la ligne.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Les écarts et les marges négatifs sont affichés en 
+rouge pour être mis en évidence...</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>NB&nbsp;: Un astérisque à droite d’un montant prévu 
+indique une facture à recevoir à la date de l'en-cours, pour ce centre de coût: 
+La sous-traitance est terminée à la date de l'en-cours mais la facture n'est pas 
+encore saisie à cette date.</SPAN></P>
+<P class=MsoNormal><U><SPAN><SPAN 
+style="TEXT-DECORATION: none">&nbsp;</SPAN></SPAN></U></P>
+<P class=Listing 
+style="BACKGROUND: #e5e5e5; mso-shading: windowtext; mso-pattern: gray-10 auto"><SPAN><SPAN 
+style="mso-no-proof: yes"><IMG src="Images/image28_38.jpg"></SPAN></SPAN></P>
+<P class=MsoNormal><SPAN>Autre exemple avec les mises en stock 
+isolées&nbsp;mises en évidence :<SPAN 
+style="mso-no-proof: yes"></SPAN></SPAN></P>
+<P class=Listing 
+style="BACKGROUND: #e5e5e5; mso-shading: windowtext; mso-pattern: gray-10 auto"><SPAN 
+style="mso-no-proof: yes"><IMG 
+src="Images/image28_39.jpg"></SPAN><SPAN></SPAN></P><object id=TL_85939 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/misejourdespostesdunservice.htm">
+</object>
+
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

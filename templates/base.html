@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Portail Novaprint{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='logo-novaprint.png') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <img src="{{ url_for('static', filename='logo-novaprint.png') }}" alt="Novaprint" class="navbar-logo">
+            <ul class="navbar-links">
+                <li><a href="{{ url_for('index') }}">🏠 Accueil</a></li>
+                <li><a href="{{ url_for('projet1.index') }}">📋 Planning</a></li>
+                <li><a href="{{ url_for('projet2.commandes') }}">📦 Commandes</a></li>
+                <li><a href="{{ url_for('projet3.page_projet3') }}">🖨️ Suivi BAT</a></li>
+                <li><a href="{{ url_for('projet4.rapport_visite') }}">📝 Rapport Visite</a></li>
+                <li><a href="{{ url_for('projet5.index') }}">📝 Planning Production</a></li>
+                <li><a href="{{ url_for('projet6.programme_voyage') }}">🚚 Voyages</a></li>
+                <li><a href="{{ url_for('projet7_bp.import_facture') }}">💡 Factures STEG</a></li>
+                <li><a href="{{ url_for('projet8.stats_devis_commandes') }}">📊 Stats</a></li>
+                <li><a href="{{ url_for('projet9.index') }}">📈 Performance</a></li>
+                <li><a href="{{ url_for('projet10.index') }}">🔍 Qualité</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- CONTENU DE PAGE -->
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© {{ now.year }} Novaprint Tunisie – Tous droits réservés.</p>
+        <p>
+		<a href="{{ url_for('projet6.liste_camions') }}">🚚 Gestion des camions & maintenance</a>
+
+            <a href="https://www.novaprint.tn" target="_blank">Site officiel</a> |
+            <a href="mailto:contact@novaprint.tn">Contact</a>
+        </p>
+    </footer>
+
+    <!-- SCRIPTS JS ADDITIONNELS -->
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

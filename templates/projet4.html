@@ -1,0 +1,477 @@
+{% extends "base.html" %}
+{% block title %}Rapport de Visite Client{% endblock %}
+
+{% block content %}
+<h2>Rapport de Visite Client</h2>
+<form method="POST">
+    <input type="hidden" name="id_societe" id="id_societe">
+    <input type="hidden" name="id_personne" id="id_personne">
+    <input type="hidden" name="is_new_prospect" id="is_new_prospect" value="false">
+    <input type="hidden" name="id_fonction" id="hidden_fonction_id">
+
+    <div>
+        <label><input type="checkbox" id="checkbox_new_prospect"> Nouveau prospect</label>
+    </div>
+
+    <div class="form-grid">
+      <fieldset>
+          <legend>Identification client</legend>
+          <label for="raison_sociale">Raison sociale :</label>
+          <input type="text" name="raison_sociale" id="raison_sociale" required autocomplete="off">
+
+          <label for="ville">Ville :</label>
+          <input type="text" name="ville" id="ville">
+
+          <label for="pays">Pays :</label>
+          <select id="pays_select"></select>
+
+          <label for="telephone">Téléphone :</label>
+          <input type="tel" name="telephone" id="telephone">
+
+          <label for="fax">Fax :</label>
+          <input type="text" name="fax" id="fax">
+
+          <label for="email">Adresse mail :</label>
+          <input type="email" name="email" id="email">
+
+          <label for="id_categorie">Catégorie :</label>
+          <select id="id_categorie" name="id_categorie"></select>
+
+          <button type="button" id="btnUpdateSociete">Mettre à jour la société</button>
+          <button type="button" id="btnAddProspect" style="background-color: #007bff; color: white; margin-left: 10px;">➕ Ajouter le prospect</button>
+
+      </fieldset>
+
+      <fieldset>
+          <legend>Personne rencontrée</legend>
+
+          <div id="contact_select_wrapper" style="display: none;">
+              <label for="contact_selector">Choisir un contact :</label>
+              <select id="contact_selector"></select>
+              <button type="button" id="btn_add_new_contact" style="margin-left: 10px;">➕ Ajouter un contact</button>
+          </div>
+
+          <label for="contact_nom">Nom :</label>
+          <input type="text" name="contact_nom" id="contact_nom">
+
+          <div id="fonctionSelectWrapper" style="display: none;">
+              <label for="id_fonction">Sélectionner une fonction :</label>
+              <select name="id_fonction" id="id_fonction"></select><br>
+          </div>
+
+          <label for="contact_email">Email :</label>
+          <input type="email" name="contact_email" id="contact_email">
+
+          <label for="contact_telephone">Téléphone :</label>
+          <input type="text" name="contact_telephone" id="contact_telephone">
+		  <button type="button" id="btnUpdateContact">Mettre à jour le contact</button>
+		  <button type="button" id="btnAddContact" style="margin-top: 10px; background-color: #286090;">➕ Enregistrer ce nouveau contact</button>
+
+      </fieldset>
+    </div>
+
+    <fieldset>
+        <legend>Détails de la visite</legend>
+        <label for="resume_visite">Résumé de la visite :</label>
+        <textarea name="resume_visite" id="resume_visite" rows="5" cols="50"></textarea>
+    </fieldset>
+
+    <button type="submit">Enregistrer</button>
+</form>
+
+<div id="suggestions"></div>
+
+<style>
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin: 20px 0;
+  }
+
+  fieldset {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+
+  fieldset legend {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+
+  label {
+    display: block;
+    margin-top: 10px;
+    font-weight: 500;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("raison_sociale");
+    const suggestionsBox = document.createElement("div");
+    suggestionsBox.id = "suggestion-list";
+    suggestionsBox.style.border = "1px solid #ccc";
+    suggestionsBox.style.position = "absolute";
+    suggestionsBox.style.backgroundColor = "white";
+    suggestionsBox.style.zIndex = "1000";
+    suggestionsBox.style.maxHeight = "200px";
+    suggestionsBox.style.overflowY = "auto";
+    suggestionsBox.style.display = "none";
+    input.parentNode.appendChild(suggestionsBox);
+
+    input.addEventListener("input", function () {
+        const query = this.value.trim();
+        if (query.length < 2) {
+            suggestionsBox.style.display = "none";
+            suggestionsBox.innerHTML = "";
+            return;
+        }
+
+        fetch(`/projet4/api/societes?query=${encodeURIComponent(query)}`)
+            .then(res => res.json())
+            .then(data => {
+                suggestionsBox.innerHTML = "";
+                if (data.length === 0) {
+                    suggestionsBox.style.display = "none";
+                    return;
+                }
+
+                data.forEach(soc => {
+                    const option = document.createElement("div");
+                    option.textContent = soc.raison_sociale + (soc.ville ? ` (${soc.ville})` : "");
+                    option.style.padding = "5px";
+                    option.style.cursor = "pointer";
+
+                    option.addEventListener("click", () => {
+                        chargerSocieteSelectionnee(soc);
+                        suggestionsBox.innerHTML = "";
+                        suggestionsBox.style.display = "none";
+                    });
+
+                    suggestionsBox.appendChild(option);
+                });
+
+                suggestionsBox.style.left = input.offsetLeft + "px";
+                suggestionsBox.style.top = (input.offsetTop + input.offsetHeight) + "px";
+                suggestionsBox.style.width = input.offsetWidth + "px";
+                suggestionsBox.style.display = "block";
+            });
+    });
+
+    document.addEventListener("click", function (e) {
+        if (!suggestionsBox.contains(e.target) && e.target !== input) {
+            suggestionsBox.innerHTML = "";
+            suggestionsBox.style.display = "none";
+        }
+    });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const btnContact = document.getElementById("btnUpdateContact");
+    if (btnContact) {
+        btnContact.addEventListener("click", function () {
+            const data = {
+                id_personne: document.getElementById("id_personne")?.value || "",
+                telephone: document.getElementById("contact_telephone").value,
+                email: document.getElementById("contact_email").value,
+                id_fonction: document.getElementById("id_fonction")?.value || ""
+            };
+
+            console.log("Données contact envoyées :", data); // Vérification dans la console
+
+            fetch("/projet4/api/update_contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Erreur serveur');
+                return res.json();
+            })
+            .then(json => alert("✅ Contact mis à jour avec succès."))
+            .catch(err => {
+                console.error(err);
+                alert("❌ Erreur lors de la mise à jour du contact.");
+            });
+        });
+    }
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const btnAddContact = document.getElementById("btnAddContact");
+
+    if (btnAddContact) {
+        btnAddContact.addEventListener("click", function () {
+            const data = {
+                id_societe: document.getElementById("id_societe").value,
+                nom: document.getElementById("contact_nom").value,
+                email: document.getElementById("contact_email").value,
+                telephone: document.getElementById("contact_telephone").value,
+                id_fonction: document.getElementById("id_fonction")?.value || null
+            };
+
+            if (!data.id_societe || !data.nom) {
+                alert("Veuillez sélectionner une société et saisir le nom du contact.");
+                return;
+            }
+
+            fetch("/projet4/api/add_contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if (!res.ok) throw new Error("Erreur serveur lors de l'ajout du contact");
+                return res.json();
+            })
+            .then(json => {
+                if (json.success) {
+                    alert("✅ Nouveau contact ajouté avec succès.");
+                    document.getElementById("id_personne").value = json.id_personne;
+                    chargerContacts(data.id_societe);  // Recharge automatiquement la liste des contacts
+                } else {
+                    alert("❌ Erreur : " + (json.error || 'Problème inconnu'));
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("❌ Erreur réseau ou serveur : " + err.message);
+            });
+        });
+    }
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const btnSociete = document.getElementById("btnUpdateSociete");
+
+    if (btnSociete) {
+        btnSociete.addEventListener("click", function () {
+            const data = {
+                id_societe: document.getElementById("id_societe")?.value || "",
+                ville: document.getElementById("ville").value,
+                telephone: document.getElementById("telephone").value,
+                fax: document.getElementById("fax").value,
+                email: document.getElementById("email").value
+            };
+
+            if (!data.id_societe) {
+                alert("Aucune société sélectionnée !");
+                return;
+            }
+
+            fetch("/projet4/api/update_societe", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if (!res.ok) throw new Error("Erreur serveur");
+                return res.json();
+            })
+            .then(json => {
+                if (json.success) {
+                    alert("✅ Société mise à jour avec succès !");
+                } else {
+                    alert("❌ Erreur : " + (json.error || "inconnue"));
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("❌ Erreur : " + err.message);
+            });
+        });
+    }
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const btnAddProspect = document.getElementById("btnAddProspect");
+
+    if (btnAddProspect) {
+        btnAddProspect.addEventListener("click", function () {
+            const data = {
+                raison_sociale: document.getElementById("raison_sociale").value,
+                ville: document.getElementById("ville").value,
+                pays: document.getElementById("pays_select").value,
+                telephone: document.getElementById("telephone").value,
+                email: document.getElementById("email").value,
+                id_categorie: document.getElementById("id_categorie").value
+            };
+
+            if (!data.raison_sociale || !data.ville || !data.pays) {
+                alert("Veuillez renseigner au moins la raison sociale, la ville et le pays.");
+                return;
+            }
+
+            fetch("/projet4/api/add_prospect", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if (!res.ok) throw new Error("Erreur serveur");
+                return res.json();
+            })
+            .then(json => {
+                if (json.success) {
+                    alert("✅ Prospect ajouté avec succès !");
+                    document.getElementById("id_societe").value = json.id_societe;
+                    document.getElementById("is_new_prospect").value = "false";
+                } else {
+                    alert("❌ Erreur lors de l’ajout : " + (json.error || "inconnue"));
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("❌ Erreur : " + err.message);
+            });
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const fonctionSelectWrapper = document.getElementById("fonctionSelectWrapper");
+    const selectFonction = document.getElementById("id_fonction");
+
+    if (fonctionSelectWrapper && selectFonction) {
+        fetch("/projet4/api/fonctions")
+            .then(res => res.json())
+            .then(data => {
+                selectFonction.innerHTML = "";
+                data.forEach(f => {
+                    const opt = document.createElement("option");
+                    opt.value = f.id;
+                    opt.textContent = f.nom;
+                    selectFonction.appendChild(opt);
+                });
+
+                if (data.length > 0) {
+                    fonctionSelectWrapper.style.display = "block";
+                }
+            })
+            .catch(error => console.error("Erreur fonctions :", error));
+    }
+
+    const selectCategorie = document.getElementById("id_categorie");
+    if (selectCategorie) {
+        fetch("/projet4/api/categories")
+            .then(res => res.json())
+            .then(data => {
+                selectCategorie.innerHTML = "";
+                data.forEach(cat => {
+                    const opt = document.createElement("option");
+                    opt.value = cat.id;
+                    opt.textContent = cat.nom;
+                    selectCategorie.appendChild(opt);
+                });
+            })
+            .catch(error => console.error("Erreur catégories :", error));
+    }
+
+    const selectPays = document.getElementById("pays_select");
+    if (selectPays) {
+        fetch("/projet4/api/pays")
+            .then(res => res.json())
+            .then(data => {
+                selectPays.innerHTML = "";
+                data.forEach(p => {
+                    const opt = document.createElement("option");
+                    opt.value = p.nom;
+                    opt.textContent = p.nom;
+                    selectPays.appendChild(opt);
+                });
+            })
+            .catch(error => console.error("Erreur pays :", error));
+    }
+});
+function chargerSocieteSelectionnee(soc) {
+    document.getElementById("raison_sociale").value = soc.raison_sociale || "";
+    document.getElementById("ville").value = soc.ville || "";
+    document.getElementById("telephone").value = soc.telephone || "";
+    document.getElementById("fax").value = soc.fax || "";
+    document.getElementById("email").value = soc.email || "";
+    document.getElementById("id_societe").value = soc.id;
+    document.getElementById("is_new_prospect").value = "false";
+
+    const paysSelect = document.getElementById("pays_select");
+    if (paysSelect && soc.pays) {
+        const target = soc.pays.trim().toLowerCase();
+        for (let option of paysSelect.options) {
+            if (option.textContent.trim().toLowerCase() === target) {
+                paysSelect.value = option.value;
+                break;
+            }
+        }
+    }
+
+    chargerContacts(soc.id);
+}
+function chargerContacts(idSociete) {
+    fetch(`/projet4/api/contacts?id_societe=${idSociete}`)
+        .then(res => res.json())
+        .then(contacts => {
+            const selector = document.getElementById("contact_selector");
+            const wrapper = document.getElementById("contact_select_wrapper");
+            const btnAdd = document.getElementById("btn_add_new_contact");
+            selector.innerHTML = "";
+
+            if (contacts.length === 0) {
+                wrapper.style.display = "none";
+                if (btnAdd) btnAdd.style.display = "inline-block";
+                return;
+            }
+
+            wrapper.style.display = "block";
+            if (btnAdd) btnAdd.style.display = "none";
+
+            contacts.forEach(c => {
+                const opt = document.createElement("option");
+                opt.value = c.id;
+                opt.textContent = `${c.nom} - ${c.fonction || ''}`;
+                opt.dataset.nom = c.nom;
+                opt.dataset.fonction = c.fonction;
+                opt.dataset.email = c.email;
+                opt.dataset.telephone = c.telephone;
+                selector.appendChild(opt);
+            });
+
+            selector.addEventListener("change", function () {
+                const selected = selector.options[selector.selectedIndex];
+
+                document.getElementById("id_personne").value = selected.value;
+                document.getElementById("contact_nom").value = selected.dataset.nom;
+                document.getElementById("contact_email").value = selected.dataset.email;
+                document.getElementById("contact_telephone").value = selected.dataset.telephone;
+
+                const fonctionSelectWrapper = document.getElementById("fonctionSelectWrapper");
+                const selectFonction = document.getElementById("id_fonction");
+
+                if (selected.dataset.fonction) {
+                    fonctionSelectWrapper.style.display = "block";
+                    Array.from(selectFonction.options).forEach(option => {
+                        if (option.textContent === selected.dataset.fonction) {
+                            selectFonction.value = option.value;
+                        }
+                    });
+                } else {
+                    fonctionSelectWrapper.style.display = "block";
+                    selectFonction.value = "";
+                }
+            });
+
+            selector.dispatchEvent(new Event('change'));
+        })
+        .catch(error => console.error("Erreur contacts :", error));
+}
+
+</script>
+{% endblock %}

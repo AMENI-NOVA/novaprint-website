@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil – Portail Novaprint{% endblock %}
+
+{% block content %}
+    <h1 class="fade-in">Bienvenue sur le Portail Novaprint</h1>
+
+    <ul class="project-list fade-in">
+        <li><a href="{{ url_for('projet1.index') }}">📋 Projet 1 – Planning</a></li>
+        <li><a href="{{ url_for('projet2.commandes') }}">📦 Projet 2 – Gestion de commandes</a></li>
+        <li><a href="{{ url_for('projet3.page_projet3') }}">🖨️ Projet 3 – Suivi BAT / Prépresse</a></li>
+        <li><a href="{{ url_for('projet4.rapport_visite') }}">📝 Projet 4 – Rapport de visite client</a></li>
+		<li><a href="{{ url_for('projet5.index') }}">📝 Projet 5 – planing production</a></li>
+		<li><a href="{{ url_for('projet6.programme_voyage') }}">🚚 Projet 6 – Programme de voyage</a></li>
+		<li><a href="{{ url_for('projet7_bp.import_facture') }}">💡 Projet 7 – Importation Factures STEG</a></li>
+    <li><a href="{{ url_for('projet8.stats_devis_commandes') }}">📊 Projet 8 – Stats Devis/Commandes</a></li> <!-- ➔ Ajouté -->
+        <li><a href="{{ url_for('projet9.index') }}">📈 Projet 9 – Suivi Performance Livraison</a></li>
+        <li><a href="{{ url_for('projet10.index') }}">🔍 Projet 10 – Contrôle Qualité</a></li>
+
+
+
+    </ul>
+{% endblock %}

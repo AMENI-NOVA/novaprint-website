@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Paramétrage des actions dans le plan d'Apogee (fichier Agfa.xml)</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H3 id=_D2HTopic_3374><SPAN>Paramétrage des actions dans le plan d’Apogee 
+(fichier Agfa.xml)</SPAN></H3>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="paramtragedespostesdegestiondeproduction.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="paramtragedapogee.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Lors de la création du travail dans Apogee (via le JDF) 
+il est possible d’ajouter automatiquement dans actions dans le plan.</SPAN></P>
+<P class=MsoNormal><SPAN>Pour cela, on utilise un fichier AGFA.XML qui est 
+enregistré dans le répertoire de l’application. Ce fichier contient les actions 
+à mettre dans le plan d’Apogee. Le fichier est inséré dans le JDF lors de 
+l’envoi d’une commande.</SPAN></P>
+<P class=MsoNormal><SPAN>Ce fichier est définit par un technicien d’AGFA en 
+fonction des souhaits de l’opérateur d’Apogee..</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Exemple de fichier AGFA.XML&nbsp;:</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'">&lt;?xml 
+version="1.0"?&gt;</SPAN></P>
+<P class=MsoNormal style="tab-stops: 200.3pt"><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'">&lt;agfa 
+xmlns:agfa="http://www.agfa.com/w3c/gs/jdf/agfaextensions.xsd"&gt;</SPAN></P>
+<P class=MsoNormal style="tab-stops: 9.2pt 200.3pt"><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'; mso-ansi-language: EN-GB"><SPAN>&nbsp; 
+</SPAN>&lt;agfa:Actions&gt;</SPAN></P>
+<P class=MsoNormal style="tab-stops: 24.8pt 200.3pt 204.2pt 305.6pt"><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'; mso-ansi-language: EN-GB"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>&lt;agfa:Action 
+Flow="Auto"<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Location="normalize"<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN>Type="keepresult"/&gt;</SPAN></P>
+<P class=MsoNormal style="tab-stops: 24.8pt 200.3pt 204.2pt 305.6pt"><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'; mso-ansi-language: EN-GB"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>&lt;agfa:Action 
+Flow="Auto"<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Location="runlist"<SPAN>&nbsp; </SPAN>Type="keepresult"/&gt;</SPAN></P>
+<P class=MsoNormal style="tab-stops: 24.8pt 200.3pt 204.2pt 305.6pt"><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'; mso-ansi-language: EN-GB"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>&lt;agfa:Action 
+Flow="Auto"<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Location="impose"<SPAN>&nbsp;&nbsp; 
+</SPAN>Type="keepresult"/&gt;</SPAN></P>
+<P class=MsoNormal style="tab-stops: 24.8pt 200.3pt 204.2pt 305.6pt"><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'; mso-ansi-language: EN-GB"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>&lt;agfa:Action Flow="MainOutput"<SPAN>&nbsp;&nbsp; 
+</SPAN>Location="render"<SPAN>&nbsp;&nbsp; 
+</SPAN>Type="keepresult"/&gt;</SPAN></P>
+<P class=MsoNormal style="tab-stops: 24.8pt 200.3pt 204.2pt 305.6pt"><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'; mso-ansi-language: EN-GB"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>&lt;agfa:Action 
+Flow="Auto"<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Location="runlist"<SPAN>&nbsp; 
+</SPAN>Type="archiveresult"/&gt;</SPAN></P>
+<P class=MsoNormal style="tab-stops: 24.8pt 200.3pt 204.2pt 305.6pt"><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'; mso-ansi-language: EN-GB"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>&lt;agfa:Action 
+Flow="Auto"<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Location="impose"<SPAN>&nbsp;&nbsp; 
+</SPAN>Type="archiveresult"/&gt;</SPAN></P>
+<P class=MsoNormal style="tab-stops: 24.8pt 200.3pt 204.2pt 305.6pt"><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'; mso-ansi-language: EN-GB"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>&lt;agfa:Action 
+Flow="ImpositionProof"<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Location="trap"<SPAN>&nbsp; </SPAN>Type="prooffilter_all"/&gt;</SPAN></P>
+<P class=MsoNormal style="tab-stops: 24.8pt 200.3pt 204.2pt 305.6pt"><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'; mso-ansi-language: EN-GB"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>&lt;agfa:Action Flow="PageProof"<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN>Location="trap"<SPAN>&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Type="prooffilter_all"/&gt;</SPAN></P>
+<P class=MsoNormal style="tab-stops: 9.2pt 200.3pt"><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'; mso-ansi-language: EN-GB"><SPAN>&nbsp; 
+</SPAN>&lt;/agfa:Actions&gt;</SPAN></P>
+<P class=MsoNormal style="tab-stops: 200.3pt"><SPAN 
+style="FONT-SIZE: 8pt; FONT-FAMILY: 'Courier New'; mso-ansi-language: EN-GB">&lt;/agfa&gt;</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Organisation des stocks, codage</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="GsArt.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H2 id=_D2HTopic_448><SPAN>Organisation des stocks, codage</SPAN></H2>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="glossaire.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="misejourdestypesdarticles.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<H6><SPAN>Organisation</SPAN></H6>
+<P class=MsoNormal><SPAN>Pour être rapidement accessibles les articles sont 
+organisés en types d’articles, puis en familles.</SPAN></P>
+<P class=MsoNormal><SPAN>Les types d’articles sont des groupes de familles 
+(papiers, encres, plaques…). </SPAN></P>
+<P class=MsoNormal><SPAN>Les familles sont des groupes d'articles possédant les 
+mêmes caractéristiques générales.</SPAN></P>
+<P class=MsoNormal><U><SPAN>Exemple </SPAN></U><SPAN>: Tous les grammages et 
+formats d'un papier possèdent les mêmes caractéristiques générales; donc la 
+famille sera le papier et les articles de cette famille seront les grammages et 
+les formats de ce papier.</SPAN></P>
+<P class=MsoNormal><SPAN>Les lots sont des subdivisions des stocks. Ils 
+permettent de définir l’origine précise des matières, leurs positions dans 
+l’entrepot, éventuellement leur conditionnement. Ils sont repérés par un code 
+jusqu’à 30 caractères qui peut être imprimé sur des étiquettes sous forme de 
+code à barres.</SPAN></P>
+<H6><SPAN>Codage</SPAN></H6>
+<P class=MsoNormal><SPAN>Les familles sont représentées par un code (raccourci) 
+possédant 12 caractères au plus, les articles par un code de 12 caractères au 
+plus.</SPAN></P>
+<P class=MsoNormal><SPAN>Le code complet de l'article est l'ensemble du code de 
+sa famille et de son code propre mis bout à bout.</SPAN></P>
+<P class=MsoNormal><U><SPAN>Exemple </SPAN></U><SPAN>: Pour les papiers, la 
+famille est représentée par un code formé des codes catégorie et papier utilisés 
+dans le fichier des papiers (voyez le<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>fichier papier et le paragraphe "Création des articles - Articles papier" 
+plus loin). Donc<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>pour le 
+Magnoprint, si le code catégorie est ‘CMB7 et le code papier ‘MAPM’, les 
+grammages et formats du magnoprint seront tous dans la même famille de code 
+‘CMB7MAPM’ et de nom Magnoprint. Le code article est composé du grammage et du 
+format ce qui pourra donner: ‘<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>90<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>45<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>64’.<BR>Le code complet de l'article 
+sera donc: ‘CMB7MAPM<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>90<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>45<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>64’. Pour un article plaque, on peut avoir: ‘PLAQNEGA<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>70<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>67<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>94’ où 70 représente l'épaisseur de la plaque en microns et 67x94 son 
+format.</SPAN></P>
+<P class=MsoNormal><SPAN>Ainsi, la structure du code de l'article permet de 
+préciser de gauche à droite de quel article il s'agit jusqu'à ce qu'il n'y ait 
+plus d’ambiguïté possible sur la nature exacte de l’objet représenté.</SPAN></P>
+<P class=MsoNormal><SPAN>La saisie des 24 caractères du code complet d’un 
+article étant source d'erreurs, la spécification d'un article est divisée en une 
+zone ‘code famille’ puis une autre ‘code article’ dans cette famille.</SPAN></P>
+<H6><SPAN>Possesseurs</SPAN></H6>
+<P class=MsoNormal><SPAN>Un stock est défini comme un article muni d’une 
+précision supplémentaire indiquant son appartenance à un possesseur. Les 
+possesseurs ayant un code de quatre caractères alphanumériques, le ‘code stock’ 
+fait 28 caractères au total.</SPAN></P>
+<P class=MsoNormal><SPAN>A chaque fois que l'utilisateur devra spécifier un 
+article ou un stock, pour indiquer une entrée ou une sortie par exemple, il 
+devra entrer le code complet de l'article et préciser le possesseur. C'est à 
+dire taper le code de la famille, puis le code de l'article et le code du 
+possesseur.</SPAN></P>
+<P class=MsoNormal><SPAN>Si les stocks de l’article sont gérés par lots, 
+l’entrée d’un code lot à la place d’un code article définira à la fois le code 
+article, le code possesseur et la référence du lot.</SPAN></P>
+<H6><SPAN>Recherche d'un stock</SPAN></H6>
+<P class=MsoNormal><SPAN>Il est possible de faire afficher une fenêtre d'aide 
+qui permet de choisir parmi la liste des articles ou des familles pour en 
+sélectionner un. </SPAN></P>
+<P class=MsoNormal><SPAN>Ce découpage peut sembler long mais chercher une 
+famille parmi 100 puis un article parmi 100 puis un stock parmi 5 sera plus 
+rapide que de chercher un stock dans une liste de 50,000 stocks.</SPAN></P>
+<P class=MsoNormal><SPAN>Si on doit sélectionner un lot, cela se fera dans une 
+fenêtre particulière, mais généralement on utilisera un lecteur de code à barres 
+pour saisir le code d’un lot. Ceci remplace alors la saisie du code du 
+stock.</SPAN></P>
+<P class=MsoNormal><SPAN>La liste des stocks permet aussi de rechercher un stock 
+mais les critères disponibles ne sont pas les mêmes.</SPAN></P>
+<H6><SPAN>Liste des stocks</SPAN></H6>
+<P class=MsoNormal><SPAN>Cette liste permet de créer/modifier/supprimer les 
+familles et les articles de stocks. Comme les autres listes de l’application, 
+elle permet de définir des macros et/ou d’utiliser des filtres express. 
+</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

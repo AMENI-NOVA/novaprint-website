@@ -1,0 +1,303 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Regroupement des modèles par quantité et versions</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="DevisOpti.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_3624><SPAN>Regroupement des modèles par quantité et 
+versions</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="modlesetversions.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="modlesetchangementsdeplaques.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Si la case «&nbsp;Regrouper les modèles de même 
+quantité dans la même version&nbsp;» est cochée avant de valider la saisie des 
+modèles détaillés, l’application va regrouper au mieux les modèles d’une même 
+quantité dans une seule version. C’est-à-dire que contrairement au mode de 
+fonctionnement «&nbsp;normal&nbsp;», il n’y aura pas création d’une version par 
+modèle mais d’une version pour chaque quantité de modèle distincte. </SPAN></P>
+<P class=MsoNormal><SPAN>Cette case est précoché si des modèles détaillés sont 
+déjà présents pour l’élément, qu’ils sont tous regroupés dans la même version et 
+que le devis ne contient que cette version.</SPAN></P>
+<H5><SPAN>Règles de création des versions</SPAN></H5>
+<P class=MsoNormal><SPAN>La création des versions suivra – dans la mesure du 
+possible – les règles suivantes&nbsp;en se basant sur l’état du devis avant la 
+saisie des modèles: </SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Le devis ne 
+contenait aucune version&nbsp;: une version sera créée pour chaque quantité 
+distincte et celle-ci contiendra tous les modèles ayant cette 
+quantité.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Le devis 
+contenait des versions mais aucun modèle détaillé n’était défini&nbsp;pour 
+l’élément en cours : Chaque version contenant l’élément et dont la quantité a 
+une correspondance verra l’élément remplacé par un ou plusieurs modèles. Si une 
+version n’a pas de correspondance, la référence à l’élément sera supprimée et 
+dans le cas où elle ne contenait que cet élément, elle sera 
+supprimée.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Le devis 
+contenait des versions et des modèles détaillés étaient définis&nbsp;pour 
+l’élément en cours : Les modèles seront conservés dans leur version d’origine. 
+ATTENTION&nbsp;: le nom d’un modèle peut être modifié, l’application considèrant 
+qu’il s’agit toujours du même modèle mais s’il est supprimé, même en l’ajoutant 
+à nouveau sous le même nom, le programme le considèrera comme un 
+nouveau.</SPAN></P>
+<H5><SPAN>Conditionnements et Points de livraison&nbsp;:</SPAN></H5>
+<P class=MsoNormal><SPAN>Si le devis ne contenait pas de version, les 
+conditionnements et les points de livraisons seront repris pour chaque nouvelle 
+version créée. Si au contraire, il contenait déjà des versions, seuls les 
+conditionnements seront repris depuis la première version.</SPAN></P>
+<P class=MsoNormal><SPAN>Pour chaque point de livraison dont la quantité est 
+exprimé en pourcentage, celle-ci sera reprise telle quelle. Si au contraire, 
+elle est exprimée en nombre d’exemplaires, celle-ci sera recalculée au prorata 
+du nombre d’exemplaires de la nouvelle version.</SPAN></P>
+<H5><SPAN>Exemples&nbsp;:</SPAN></H5>
+<P class=MsoNormal><SPAN>Voici quelques cas de figure (en cochant la case 
+"Regrouper les modèles de même quantité dans la même version" avant de valider) 
+:</SPAN></P>
+<H6><SPAN>Cas 1</SPAN></H6>
+<P class=MsoNormal><SPAN>Un devis d'affiche<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>de 10500 exemplaires avec un seul 
+élément. Des conditionnements et des points de livraison sont 
+définis.</SPAN></P>
+<P class=MsoNormal><SPAN>Avant d’accéder à l’écran de saisie des modèles 
+détaillés, entrer 5 comme nombre de modèles.</SPAN></P>
+<P class=MsoNormal><SPAN>Dans l'écran de saisie des modèles, cinq modèles nommés 
+"modèle 1" à "modèle 5" sont prédéfinis, tous avec une quantité de 10500. 
+</SPAN></P>
+<P class=MsoNormal><SPAN>Modifer ces modèles comme suit : </SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>"modèle 1" : m1 de 
+2500ex</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>"modèle 2" : m2 de 
+1500ex</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>"modèle 3" : m3 de 
+2500ex</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>"modèle 4" : m3 de 
+1500ex</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>"modèle 5" : m3 de 
+3500ex</SPAN></P>
+<P class=MsoNormal><SPAN>Après validation, trois versions sont créées : 
+</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>"Version 1", 2500ex, 
+contenant les modèles "m1" et "m3"</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>"Version 2", 1500ex, 
+contenant les modèles "m2" et "m4"</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>"Version 3", 3500ex, 
+contenant le modèle "m5"</SPAN></P>
+<P class=MsoNormal><SPAN>Conditionnement et points de livraison sont repris du 
+devis (avant la saisie des modèles).</SPAN></P>
+<H6><SPAN>Cas 2</SPAN></H6>
+<P class=MsoNormal><SPAN>Un devis d'affiche de 1500 exemplaires avec deux 
+éléments.</SPAN></P>
+<P class=MsoNormal><SPAN>Avant d’accéder à l’écran de saisie des modèles 
+détaillés, entrer 3 comme nombre de modèles.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><B><SPAN>Variante 
+1&nbsp;:</SPAN></B><SPAN> Dans l'écran de saisie des modèles (du premier élément 
+par exemple), trois modèles nommés "modèle 1" à "modèle 3" sont prédéfinis, tous 
+avec une quantité de 1500.</SPAN></P>
+<P class=Suitepuce><SPAN>Modifier les modèles comme suit : </SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>"modèle 1" : m1 de 500ex</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>"modèle 2" : m2 de 1000ex</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>"modèle 3" : m3 de 1000ex</SPAN></P>
+<P class=Suitepuce><SPAN>Après validation, trois versions sont créées : 
+</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>"Version 1", 1500ex, contenant uniquement le second 
+élément</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>"Version 2", 500ex,<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>contenant le modèle "m1"</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>"Version 3", 1000ex, contenant les modèles "m2" et 
+"m3".</SPAN></P>
+<P class=Suitepuce><SPAN>Conditionnement et livraisons sont repris pour ces 
+versions.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><B><SPAN>Variante 
+2&nbsp;:</SPAN></B><SPAN> Dans l'écran de saisie des modèles (du premier élément 
+par exemple), trois modèles nommés "modèle 1" à "modèle 3" sont prédéfinis, tous 
+avec une quantité de 1500.</SPAN></P>
+<P class=Suitepuce><SPAN>Modifier les modèles comme suit : </SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>"modèle 1" : m1 de 1500ex</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>"modèle 2" : m2 de 500ex</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>"modèle 3" : m3 de 1500ex</SPAN></P>
+<P class=Suitepuce><SPAN>Après validation, deux versions sont créées : 
+</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>"Version 1", 1500ex, contenant le second élément mais aussi 
+les deux modèles "m1" et "m3"</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>"Version 2", 500ex,<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>contenant le modèle "m2"</SPAN></P>
+<P class=Suitepuce><SPAN>Conditionnement et livraisons sont repris pour ces 
+versions.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<H6><SPAN>Cas 3</SPAN></H6>
+<P class=MsoNormal><SPAN>Un devis de brochure avec un intérieur nommé 'INT' et 
+une couverture. Saisir trois changements de plaques pour l'intérieur ('FR' pour 
+7500ex, 'EN' pour 2000ex et 'BE' pour 1000ex) afin de créer trois 
+versions.</SPAN></P>
+<P class=MsoNormal><SPAN>Modifier le nom de ces versions en VFR,VEN et VBE selon 
+le changement (de l'interieur) s'y trouvant.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><B><SPAN>Variante 
+1&nbsp;:</SPAN></B><SPAN> Avant d’accéder à l’écran de saisie des modèles 
+détaillés, entrer 3 comme nombre de modèles.</SPAN></P>
+<P class=Suitepuce><SPAN>Dans l'écran de saisie des modèles, trois modèles 
+(nommés et quantitifiés selon les différentes versions) sont prédéfinis. 
+</SPAN></P>
+<P class=Suitepuce><SPAN>Après validation, les trois versions sont modifiées 
+pour y remplacer l'élément par le premier <SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>modèle ayant le même nombre d'exemplaires 
+(ATTENTION&nbsp;: le remplacement se fait via la quantité et non pas sur le nom 
+du modèle !)</SPAN></P>
+<P class=Suitepuce><SPAN>Conditionnements et livraisons des versions sont 
+inchangés.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><B><SPAN>Variante 
+2&nbsp;:</SPAN></B><SPAN> Avant d’accéder à l’écran de saisie des modèles 
+détaillés, entrer 2 comme nombre de modèles.</SPAN></P>
+<P class=Suitepuce><SPAN>Dans l'écran de saisie des modèles, deux modèles 
+(nommés et quantifiés selon les deux premières versions) sont 
+prédéfinis.<BR>Après validation, les deux premières versions (ici VFR et VEN) 
+sont modifiées pour y remplacer l'élément par le premier modèle ayant le même 
+nombre d'exemplaires (indépendament du nom du modèle !) tandis que la troisième 
+version (VBE) ne référence plus que le changement d'intérieur 
+'BE'.<BR>Conditionnements et livraisons des versions «&nbsp;VFR&nbsp;» et 
+«VEN&nbsp;» sont inchangés.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><B><SPAN>Variante 
+3&nbsp;:</SPAN></B><SPAN> Avant d’accéder à l’écran de saisie des modèles 
+détaillés, entrer 5 comme nombre de modèles.</SPAN></P>
+<P class=Suitepuce><SPAN>Dans l'écran de saisie des modèles, cinq modèles sont 
+prédéfinis. Les trois premiers sont nommés et quantifiés selon les trois 
+versions. Les deux autres modèles sont nommés "modèle 4" et "modèle 5", tous 
+deux avec une quantité de 0.</SPAN></P>
+<P class=Suitepuce><SPAN>Après validation, les trois versions sont modifiées 
+pour y remplacer l'élément par le premier modèle ayant le même nombre 
+d'exemplaires (indépendament du nom du modèle !). Une quatrième version nommée 
+'Version 1' de 0 exemplaire est créée et qui référence les modèles "modèle 4" et 
+"modèle 5".</SPAN></P>
+<P class=Suitepuce><SPAN>Conditionnements et livraisons des trois premières 
+versions sont inchangés tandis que la version «&nbsp;Version 1&nbsp;» <SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>a les mêmes conditionnements que la 
+première version (s'il en existe) mais aucun point de livraison.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><B><SPAN>Variante 
+4&nbsp;:</SPAN></B><SPAN> Avant d’accéder à l’écran de saisie des modèles 
+détaillés, entrer 5 comme nombre de modèles.</SPAN></P>
+<P class=Suitepuce><SPAN>Dans l'écran de saisie des modèles, cinq modèles sont 
+prédéfinis. Les trois premiers sont nommés et quantifiés selon les trois 
+versions. Les deux autres modèles sont nommés "modèle 4" et "modèle 5", tous 
+deux avec une quantité de 0.</SPAN></P>
+<P class=Suitepuce><SPAN>Supprimer le modèle «&nbsp;VBE&nbsp;».</SPAN></P>
+<P class=Suitepuce><SPAN>Après validation, les deux premières versions sont 
+modifiées pour y remplacer l'élément couverture par le premier modèle ayant le 
+même nombre d'exemplaires (ATTENTION&nbsp;: le remplacement se fait via la 
+quantité et non pas sur le nom du modèle !). La version 'VBE' ne référence plus 
+la couverture et une quatrième version 'Version 1' (de 0 exemplaire) contient 
+les modèles "modèle 4" et "modèle 5".</SPAN></P>
+<P class=Suitepuce><SPAN>Conditionnements et livraisons des troisièmes versions 
+sont inchangés tandis que la version «&nbsp;Version 1&nbsp;» <SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>a les mêmes conditionnements que la 
+première version (s'il en existe) mais aucun point de livraison.</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Calcul du flashage</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="ParamCalc.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_3075><SPAN>Calcul du flashage</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="cotsduneflasheuse.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="calculdunesolutionpourunchemindeprpressecomportantuneflasheuse.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>La surface d'imposition utilisée pour le calcul, ne 
+comprend pas la prise de pince.</SPAN></P>
+<P class=MsoNormal><SPAN>Pour les flasheuses ayant une sortie plaques, le nombre 
+de flashages est égal au nombre de plaques flashées.</SPAN></P>
+<P class=MsoNormal><SPAN>Le coût de flashage sera mis dans le centre de coût 
+"PHOTOGRAVURE"</SPAN></P>
+<H5><SPAN>Coût de façon</SPAN></H5>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Fixe : Coût 
+fixe x Nombre de flashages.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Variable : 
+Coût au dm² x Surface d'imposition x Nombre de flashages.</SPAN></P>
+<H5><SPAN>Coût de matière</SPAN></H5>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Fixe : Coût 
+fixe x Nombre de flashages</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Variable 
+:</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Flasheuse sortie film en bobine :<BR>Coût au dm² x Laize x 
+Développement x Nombre de flashages,<BR>Calcul du développement :<BR>Plus petite 
+valeur possible du format d'imposition, soit :</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 6pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Largeur du format d'imposition si la longueur du format 
+d'imposition tient dans la laize utile de la flasheuse.</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 6pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Longueur du format d'imposition si supérieure à la laize 
+utile de la flasheuse.</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>La valeur 
+est ensuite majorée de la gâche de développement.<BR>Si la valeur obtenue est 
+inférieure au développement minimum de la flasheuse, c'est ce dernier qui est 
+pris en compte.</SPAN></P>
+<H5><SPAN>Exemple pour une flasheuse en sortie bobine</SPAN></H5>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><U><SPAN>Paramétrages de la flasheuse :</SPAN></U></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Caractéristiques techniques :</SPAN></P>
+<P class=Suitepuce2><SPAN>Laize film 
+<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>: 460 mm<BR>Laize utile 
+<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>: 445 mm<BR>Gâche sens développement 
+<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>: 100 
+mm<BR>Minimum sens développement <SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>: 
+300 mm<BR>Flashage de films montés<SPAN>&nbsp;&nbsp; </SPAN>: Oui</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Tarifs 
+(en fonction du niveau de complexité choisi pour le devis) :</SPAN></P>
+<P class=Suitepuce2><SPAN>Coût fixe matière<SPAN>&nbsp;&nbsp;&nbsp; </SPAN>: 
+0,25<BR>Coût matière par dm²<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>: 1,00<BR>Marge 
+matière<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>: 20 %<BR>Coût fixe 
+façon<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>: 1,5<BR>Coût façon par dm²<SPAN> </SPAN>: 0,5<BR>Marge 
+façon<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>: 
+10%</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><U><SPAN>Devis</SPAN></U></P>
+<P class=Suitepuce><SPAN>Affiche 21x29,7<SPAN> </SPAN>Quadri R°/V°<BR>Impression 
+en 4 poses basculées<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>Format 
+d'impression : 44,5x60,9 cm<BR><IMG src="Images/image15_7.jpg"></SPAN></P>
+<P class=Suitepuce><SPAN>Les caractéristiques indiquées pour la flasheuse 
+permettent de flasher les 4 poses en une seule fois (flashage de films montés : 
+Oui).</SPAN></P>
+<P class=Suitepuce><SPAN>Etant donné qu'on imprime 4 couleurs recto/verso en 
+basculant, 4 flashages sont nécessaires (1 pour chaque plaque).</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><U><SPAN>Calcul du 
+flashage</SPAN></U></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Format 
+d'imposition utilisé pour calculer le flashage :<BR><B>43,5</B><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>(44,5 – 1cm de prise de pince)<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>x<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN><B>60,9</B> cm</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Calcul 
+du coût de la façon :</SPAN></P>
+<P class=Suitepuce2><SPAN>Surface à flasher : Format d'imposition x Nombre de 
+flashages, soit : 4,35 x 6,09 x 4 = <B>105,966 dm²</B></SPAN></P>
+<P class=Suitepuce2><SPAN>Coût de la façon :<BR>[ ( Coût fixe x Nombre de 
+flashages ) + ( Surface à flasher x Prix au dm² ) ] + Marge <BR>soit : [ ( 1,5 x 
+4 ) + ( 105,966 x 0,5 ) ] + 10% = <B>64,8813</B></SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Calcul 
+du coût de la matière :</SPAN></P>
+<P class=Suitepuce2><SPAN>La laize utile étant de 44,5cm, c'est le côté 43,5 qui 
+sera dans le sens laize et le côté 60,9 dans le sens développement.<BR>Longueur 
+de film nécessaire = 60,9 + 10 (gâche sens développement) = 70,9 cm (<B>7,09 
+dm</B>)<BR>Le minimum dans le sens développement est de 300mm (3 dm). Le calcul 
+sera donc fait sur 7,09 dm.<BR>(si la longueur de film nécessaire avait été 
+inférieure à 3 dm, le calcul aurait été fait sur 3 dm).</SPAN></P>
+<P class=Suitepuce2><SPAN>Surface de film nécessaire = 7,09 x 4,6 (laize film 
+flasheuse) = <B>32,614 dm²<BR></B>Surface de films indiquée sur le dossier 
+technique = 32,614 x 4 (Nombre de flashages) = 130,456 dm², arrondi à 130 
+dm²</SPAN></P>
+<P class=Suitepuce2><SPAN>Coût de la matière :<BR>( [ Coût fixe + ( Surface x 
+Prix au dm²) ] x Nombre de flashages ) + Marge<BR>( [ 0,25 + ( 32,614 x 1) ] x 4 
+) + 20% = <B>157,7472</B></SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Coût 
+total du flashage = Façon + Matière = 64,8813 + 157,7472 = 222,6285 arrondi à 
+<B>222,63</B></SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

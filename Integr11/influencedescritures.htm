@@ -1,0 +1,306 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Influence des écritures</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="GsOperat.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H2 id=_D2HTopic_549><SPAN>Influence des écritures</SPAN></H2>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="validationdespiceseninstance.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="influencedescrituresencomptabilit.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Les écritures expriment les mouvements, prévisions de 
+mouvements ou corrections à appliquer aux stocks gérés dans la gestion des 
+stocks. </SPAN></P>
+<P class=MsoNormal><SPAN>Chaque écriture à une action particulière que nous 
+allons décrire ici.</SPAN></P>
+<H6><SPAN>Les commandes</SPAN></H6>
+<P class=MsoNormal><SPAN>Elles augmentent la quantité en commande du stock et le 
+cumul des commandes de l'interlocuteur de la quantité spécifiée.</SPAN></P>
+<P class=MsoNormal><SPAN>Si elle compense une commande existante, elle en annule 
+le solde et la remplace.</SPAN></P>
+<H6><SPAN>Les réservations</SPAN></H6>
+<P class=MsoNormal><SPAN>Elles augmentent la quantité réservé du stock et le 
+cumul des réservations de l'interlocuteur de la quantité spécifiée.</SPAN></P>
+<P class=MsoNormal><SPAN>Si elle compense une réservation existante, elle en 
+annule le solde et la remplace.</SPAN></P>
+<H6><SPAN>Les entrées</SPAN></H6>
+<P class=Note><B><SPAN>Note</SPAN></B><SPAN>: Le prix unitaire de l’entrée est 
+fixé au prix unitaire de la commande compensée ou, à défaut, au dernier prix 
+d’achat indiqué dans la fiche du stock.</SPAN></P>
+<P class=MsoNormal><SPAN>Elles augmentent la quantité en stock et à payer du 
+stock de la quantité spécifiée et diminuent la quantité en commande de la 
+quantité compensée.</SPAN></P>
+<P class=MsoNormal><SPAN>Le cumul des livraisons à payer à l’interlocuteur est 
+augmenté et celui des commandes diminué de la quantité compensée.</SPAN></P>
+<P class=MsoNormal><SPAN>Le dernier prix d’achat du stock est fixé au prix 
+unitaire de l’entrée.</SPAN></P>
+<P class=MsoNormal><SPAN>Remarque: Si dans le possesseur du stock vous avez 
+demandé ‘pas de facture à saisir’, la quantité à payer n’est pas modifiée dans 
+le stock. Dans l’interlocuteur, c’est le cumul des livraisons payées qui est 
+augmenté.</SPAN></P>
+<P class=MsoNormal><SPAN>On déduit un nouveau prix unitaire du stock 
+selon:</SPAN></P>
+<P class=MsoNormal><SPAN>PUN=<U>PU*QS + PE*QE</U><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>si QS+QE non nul, PUN=PE 
+sinon.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>QS + QE</SPAN></P>
+<P class=MsoNormal><SPAN>où</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PUN=prix unitaire moyen des articles après l’entrée.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PU=prix unitaire moyen des articles avant l’entrée.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>QS=quantité en stock avant l’entrée.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PE=prix unitaire spécifié dans l’entrée.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>QE=quantité entrée.</SPAN></P>
+<H6><SPAN>Les sorties</SPAN></H6>
+<P class=MsoNormal><SPAN>Elles diminuent la quantité en stock de la quantité 
+spécifiée et la quantité réservée de la quantité compensée.</SPAN></P>
+<P class=MsoNormal><SPAN>Le cumul des sorties pour l'interlocuteur est augmenté 
+et celui des réservations diminué de la quantité compensée.</SPAN></P>
+<P class=MsoNormal><SPAN>Le prix unitaire du stock n’est pas modifié.</SPAN></P>
+<H6><SPAN>Les factures</SPAN></H6>
+<P class=MsoNormal><SPAN>En général, les factures compensent une entrée. Dans ce 
+cas, elles corrigent la pré-valorisation de cette entrée. Mais elles peuvent 
+servir aussi à corriger une facture existante ou prendre en compte un surcoût 
+intervenu après réception de la facture fournisseur. (Exemple&nbsp;: frais de 
+douane)</SPAN></P>
+<P class=MsoNormal><SPAN>Dans tous les cas, elles modifient le prix unitaire du 
+stock après l’entrée correspondante en fonction du prix effectif de l’entrée, 
+c'est-à-dire le prix de l’entrée corrigé de toutes les factures l’ayant compensé 
+ou ayant compensé une facture liée à cette entrée.</SPAN></P>
+<P class=MsoNormal><SPAN>Par exemple&nbsp;: une entrée de 1000 unités à 1€, 
+compensée par une facture de 500 unités = 1,10€ et une autre de 400 unités à 
+12€, elle-même corrigée de 400 unités à 1,20€ donnera&nbsp;: une entrée avec 100 
+unités valant 1€, 500 valant 1,10€ et 400 valant 1,20€, soit 1000 unités valant 
+au total<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1130€.</SPAN></P>
+<P class=MsoNormal><SPAN>NB&nbsp;: Dans l’historique des mouvments du stock, on 
+aura l’entrée avec le prix unitaire de 1€, mais le prix unitaire après le 
+mouvement tiendra compte de toutes les corrections ultérieures.</SPAN></P>
+<P class=MsoNormal><SPAN>De plus, si l’entrée compensée était ‘à 
+payer’&nbsp;:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 39.3pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>La quantité 
+et la valeur à payer du stock diminuent </SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 39.3pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Le cumul des 
+factures à payer au fournisseur diminue du montant de l’entrée.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 39.3pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Le cumul des 
+livraisons payées augmente du montant de la facture.</SPAN></P>
+<P class=MsoNormal><SPAN>Si l’entrée n’était pas ‘à payer’ ou si la facture 
+compense une précédente facture&nbsp;:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 39.3pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Le cumul des 
+livraisons payées au fournisseur est modifié de l’écart entre le mouvement 
+compensé et la facture.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Le dernier prix d’achat du stock est fixé au prix 
+unitaire de la dernière facture pour ce stock.</SPAN></P>
+<P class=MsoNormal><SPAN>Si le prix unitaire de la facture est différent de 
+celui du mouvement compensé, le calcul du nouveau prix unitaire est fait de la 
+façon suivante:</SPAN></P>
+<P class=MsoNormal><SPAN>On recalcule le montant total effectif de l’entrée en 
+corrigeant celui-ci de toutes les factures établies depuis, ce qui donne un 
+nouveau prix unitaire effectif d’entrée PE et on recalcule l’effet sur le prix 
+unitaire du stock tel qu’il était avant cette entrée selon </SPAN></P>
+<P class=MsoNormal><SPAN>PUN=<U>PU*QS + PE*QE</U><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>si QS+QE non nul, PUN=PE 
+sinon.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>QS + QE</SPAN></P>
+<P class=MsoNormal><SPAN>où</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PUN=prix unitaire moyen des articles après l’entrée.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PU=prix unitaire moyen des articles avant l’entrée.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>QS=quantité en stock avant l’entrée.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PE=prix unitaire effectif recalculé de l’entrée.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>QE=quantité entrée.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Les mouvements suivants sont alors réappliqués sur le 
+nouveau prix unitaire du stock. Les sorties pour des dossiers génèrent 
+éventuellement une correction de la facture d’achat pour le dossier ou une 
+facture complémentaire, ce qui modifie le coût réel des dossiers 
+concernés.</SPAN></P>
+<P class=Note><B><SPAN>Note</SPAN></B><SPAN>: Même si l’export comptable des 
+sorties de stock est actif, aucun export n’est fait de ces corrections vers le 
+brouillard comptable, mais leur liste peut être exportée dans un fichier texte 
+paramétré dans le pont comptable.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN>Les 
+factures ont l’autre particularité de pouvoir être antidatées (sans toutefois 
+pouvoir remonter avant le mouvement compensé&nbsp;!).</SPAN></P>
+<P class=MsoNormal><SPAN>Ainsi, une entrée datant du 15/01, pourra être facturée 
+le 20/01 mais datée du 16/01 malgré une sortie datée du 18/01.</SPAN></P>
+<P class=MsoNormal><SPAN>La facture apparaîtra bien dans l’historique du stock à 
+la date indiquée (mais en dernier à cette date)</SPAN></P>
+<H6><SPAN>Les annulations de commande</SPAN></H6>
+<P class=Note><B><SPAN>Note</SPAN></B><SPAN>: Ce sont les écritures d’annulation 
+qui font référence à une commande.</SPAN></P>
+<P class=TOCBase><SPAN>Elles annulent dans la commande compensée la quantité 
+spécifiée, diminuent le cumul des commandes de l’interlocuteur et diminuent la 
+quantité en commande du stock.</SPAN></P>
+<H6><SPAN>Les annulations de réservation</SPAN></H6>
+<P class=Note><B><SPAN>Note</SPAN></B><SPAN>: Ce sont les écritures d’annulation 
+qui font référence à une réservation.</SPAN></P>
+<P class=TOCBase><SPAN>Elles annulent dans la réservation compensée la quantité 
+spécifiée, diminuent le cumul des réservations de l'interlocuteur et diminuent 
+la quantité réservée du stock.</SPAN></P>
+<H6><SPAN>Les retours</SPAN></H6>
+<P class=MsoNormal><SPAN>Ils annulent la quantité spécifiée dans la sortie 
+compensée. La quantité en stock est augmentée.</SPAN></P>
+<P class=MsoNormal><SPAN>Le cumul des sorties pour l'interlocuteur est 
+diminué.</SPAN></P>
+<P class=MsoNormal><SPAN>Le prix unitaire du stock est corrigé comme pour une 
+entrée au prix de la sortie compensée.</SPAN></P>
+<H6><SPAN>Les renvois</SPAN></H6>
+<P class=MsoNormal><SPAN>Ils annulent la quantité spécifiée dans le mouvement 
+compensé. </SPAN></P>
+<P class=MsoNormal><SPAN>Si on renvoi une entrée déjà facturée, on compensera le 
+mouvement de facture ce qui aura valeur d’avoir.</SPAN></P>
+<P class=MsoNormal><SPAN>La quantité en stock est diminuée. Si l’entrée pointée 
+est ‘à payer’, la quantité à payer est aussi diminuée.</SPAN></P>
+<P class=MsoNormal><SPAN>Le cumul des livraisons faites par l’interlocuteur est 
+diminué.</SPAN></P>
+<P class=MsoNormal><SPAN>Le prix unitaire du stock est corrigé si QS - QR non 
+nul selon:</SPAN></P>
+<P class=MsoNormal><SPAN>PUN=<U>PU*QS - PR*QR</U></SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>QS - QR</SPAN></P>
+<P class=MsoNormal><SPAN>où</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PUN=prix unitaire moyen des articles après le renvoi.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PU=prix unitaire moyen des articles avant le renvoi.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>QS=quantité en stock avant le renvoi.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PR=prix unitaire du mouvement compensé reporté dans le renvoi.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>QR=quantité renvoyée.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<H6><SPAN>Les régularisations</SPAN></H6>
+<P class=MsoNormal><SPAN>Elles appliquent la modification de quantité (en plus 
+ou en moins) au prix unitaire indiqué sur le stock disponible.</SPAN></P>
+<P class=MsoNormal><SPAN>Le calcul du nouveau prix unitaire est fait de la façon 
+suivante pour une régularisation:</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PUN= <U>PU*QS + PR*QR</U><SPAN style="mso-spacerun: yes">&nbsp; </SPAN>si 
+QS+QR non nul, PUN=PR sinon.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>QS + QR</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>où</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PUN=prix unitaire des articles après régularisation.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PU=prix unitaire moyen des articles avant régularisation.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>QS=quantité en stock avant la régularisation.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>PR=prix unitaire spécifié dans l'écriture de régularisation.</SPAN></P>
+<P 
+class=MsoNormal><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>QR=quantité spécifiée dans l'écriture de régularisation.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P><p class=RelatedHead>Voir aussi :</p>
+<p class=MsoNormal><a href="JavaScript:RT_2606.HHClick()"><img src=button.gif border=0></a><a href="JavaScript:RT_2606.HHClick()" style=text-decoration:none;>Influence des écritures en comptabilité</a></p>
+<object id=RT_2606 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/influencedescrituresencomptabilit.htm">
+</object>
+
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

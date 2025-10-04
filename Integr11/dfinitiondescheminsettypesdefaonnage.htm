@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Définition des chemins et types de façonnage</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="ParamCalc.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_3211><SPAN>Définition des chemins et types de 
+façonnage</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="cheminsettypesdefaonnage.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="paramtragedescheminsdefaonnage.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<H5><SPAN>Chemins de façonnage</SPAN></H5>
+<P class=MsoNormal><SPAN style="COLOR: black">Un <B>chemin de façonnage</B> 
+permet de décrire la succession des machines à utiliser et des opérations à 
+effectuer pour un type de façonnage.</SPAN></P>
+<P class=MsoNormal><SPAN style="COLOR: black">Les chemins de façonnage sont 
+utilisés pour décrire les opérations à calculer pour la finition. Ils 
+s’appliquent à tous les types de devis, sauf les devis de continu.</SPAN></P>
+<P class=MsoNormal><SPAN style="COLOR: black">Vous pouvez créer ou modifier les 
+chemins en définissant et ordonnant vous-même les étapes, parmi des opérations 
+par défaut proposées par Graphisoft, des types de machines de façonnage ou des 
+opérations particulières de façonnage que vous avez paramétrées.</SPAN></P>
+<P class=MsoNormal><SPAN style="COLOR: black">Par exemple pour la couture fil, 
+le chemin par défaut est constitué des étapes suivantes :</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Pliage,</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Assemblage 
+cahiers,</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Couture 
+fil,</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Collage à 
+chaud,</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Coupe 3 
+faces.</SPAN></P>
+<H5><SPAN>Types de façonnage</SPAN></H5>
+<P class=MsoNormal><SPAN style="COLOR: black">Pour pouvoir être utilisés lors du 
+calcul d’un devis, les chemins doivent se trouver dans des <B>types de 
+façonnage</B>.<BR>Un type de façonnage désigne un type de finition, par exemple 
+"2 piqûres à cheval", ou "Dos carré collé".<BR>Un type de façonnage peut 
+comporter de 1 à 5 chemins différents. Par exemple, le façonnage "2 piqûres à 
+cheval" est constitué par défaut d’un chemin utilisant une encarteuse piqueuse, 
+et d’un chemin utilisant une assembleuse piqueuse pour des 4 pages.<BR>Un même 
+chemin peut appartenir à plusieurs type de façonnage différents.<BR></SPAN><SPAN 
+style="mso-no-proof: yes"><IMG src="Images/image15_109.png"></SPAN><SPAN 
+style="COLOR: black">C’est la liste des types de façonnage qui est proposée à la 
+<a href="JavaScript:TL_87328.HHClick()">saisie des devis</A> pour le choix "Façonnage". Le 
+calcul du devis sera optimisé pour chaque chemin du type de façonnage 
+sélectionné.<BR>Vous pouvez modifier les types de façonnage existants (changer 
+leur nom ou le libellé apparaissant à l’édition, ou y intégrer de nouveaux 
+chemins), ou créer de nouveaux types de façonnage en utilisant des chemins 
+existants ou de nouveaux chemins.<BR>Vous pouvez créer autant de types de 
+façonnage que vous voulez.</SPAN></P>
+<P class=MsoNormal><SPAN>La liste arborescente des paramétrages vous permet de 
+voir les types de façonnage existants, ainsi que les chemins de chaque type en 
+ouvrant le type correspondant.<SPAN style="COLOR: black"></SPAN></SPAN></P><object id=TL_87328 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/informationsdenttespcifiquesauxdevisdebrochures.htm">
+</object>
+
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

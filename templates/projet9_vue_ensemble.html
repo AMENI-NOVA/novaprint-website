@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block title %}Vue d'Ensemble - Projet 9{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- En-tête avec navigation -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('projet9.index') }}">Projet 9</a></li>
+                    <li class="breadcrumb-item active">Vue d'Ensemble</li>
+                </ol>
+            </nav>
+            
+            <div class="d-flex justify-content-between align-items-center">
+                <h1><i class="fas fa-chart-pie me-2"></i>Vue d'Ensemble - Performance de Livraison</h1>
+                <div class="btn-group" role="group">
+                    <a href="{{ url_for('projet9.index') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-home me-1"></i>Accueil Projet 9
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cartes de statistiques principales -->
+    <div class="row mb-4" id="statsCards">
+        <div class="col-md-3 mb-3">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Commandes</h5>
+                    <h2 id="totalCommandes">-</h2>
+                    <small>Commandes suivies</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Livrées à Temps</h5>
+                    <h2 id="livreesATemps">-</h2>
+                    <small>Commandes</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Taux Ponctualité</h5>
+                    <h2 id="tauxPonctualite">-</h2>
+                    <small>%</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center bg-danger text-white">
+                <div class="card-body">
+                    <h5 class="card-title">En Retard Actuel</h5>
+                    <h2 id="enRetardActuel">-</h2>
+                    <small>Commandes</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphiques -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-chart-donut me-2"></i>Répartition des Statuts</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="statusChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-chart-bar me-2"></i>Performance Mensuelle</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="monthlyChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tableau récapitulatif -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-table me-2"></i>Récapitulatif des Performances</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Métrique</th>
+                                    <th>Valeur</th>
+                                    <th>Évolution</th>
+                                    <th>Statut</th>
+                                </tr>
+                            </thead>
+                            <tbody id="performanceTable">
+                                <!-- Données chargées dynamiquement -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation vers autres vues -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-link me-2"></i>Navigation</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ url_for('projet9.commandes_detaillees') }}" class="btn btn-outline-info w-100">
+                                <i class="fas fa-list me-1"></i>Commandes Détaillées
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ url_for('projet9.performance_clients') }}" class="btn btn-outline-success w-100">
+                                <i class="fas fa-users me-1"></i>Performance Clients
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ url_for('projet9.analyses_avancees') }}" class="btn btn-outline-warning w-100">
+                                <i class="fas fa-chart-line me-1"></i>Analyses Avancées
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ url_for('projet9.index') }}" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-home me-1"></i>Page Principale
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadVueEnsemble();
+});
+
+function loadVueEnsemble() {
+    // Charger les statistiques principales
+    fetch('/projet9/api/statistiques-performance')
+        .then(res => res.json())
+        .then(data => {
+            updateStatsCards(data);
+            updatePerformanceTable(data);
+            createStatusChart(data);
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des statistiques:', error);
+        });
+
+    // Charger les données mensuelles pour le graphique
+    loadMonthlyData();
+}
+
+function updateStatsCards(data) {
+    document.getElementById('totalCommandes').textContent = data.total_commandes || 0;
+    document.getElementById('livreesATemps').textContent = data.livrees_a_temps || 0;
+    document.getElementById('tauxPonctualite').textContent = (data.taux_ponctualite || 0) + '%';
+    document.getElementById('enRetardActuel').textContent = data.en_retard_actuel || 0;
+}
+
+function updatePerformanceTable(data) {
+    const tbody = document.getElementById('performanceTable');
+    const metrics = [
+        { name: 'Commandes Livrées', value: data.commandes_livrees || 0, status: 'success' },
+        { name: 'Livrées en Retard', value: data.livrees_en_retard || 0, status: 'warning' },
+        { name: 'Taux de Livraison', value: (data.taux_livraison || 0) + '%', status: 'info' },
+        { name: 'Délai Moyen', value: (data.delai_moyen || 0) + ' jours', status: 'primary' },
+        { name: 'Retard Moyen', value: (data.retard_moyen || 0) + ' jours', status: 'danger' }
+    ];
+
+    tbody.innerHTML = metrics.map(metric => `
+        <tr>
+            <td>${metric.name}</td>
+            <td><strong>${metric.value}</strong></td>
+            <td><span class="badge bg-secondary">N/A</span></td>
+            <td><span class="badge bg-${metric.status}">Actif</span></td>
+        </tr>
+    `).join('');
+}
+
+function createStatusChart(data) {
+    const ctx = document.getElementById('statusChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Livrées à Temps', 'Livrées en Retard', 'En Cours', 'En Retard Actuel'],
+            datasets: [{
+                data: [
+                    data.livrees_a_temps || 0,
+                    data.livrees_en_retard || 0,
+                    (data.total_commandes || 0) - (data.commandes_livrees || 0) - (data.en_retard_actuel || 0),
+                    data.en_retard_actuel || 0
+                ],
+                backgroundColor: [
+                    '#28a745',
+                    '#ffc107',
+                    '#17a2b8',
+                    '#dc3545'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}
+
+function loadMonthlyData() {
+    // Simuler des données mensuelles (à remplacer par une vraie API si disponible)
+    const ctx = document.getElementById('monthlyChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'],
+            datasets: [{
+                label: 'Taux de Ponctualité (%)',
+                data: [65, 72, 68, 75, 71, 78],
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+}
+</script>
+{% endblock %}

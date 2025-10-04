@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Ajouter un Camion{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>🚛 Ajouter un Nouveau Camion</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="{{ url_for('projet6.ajouter_camion') }}">
+        <label>Immatriculation :</label><br>
+        <input type="text" name="immat" required><br><br>
+
+        <label>Marque :</label><br>
+        <input type="text" name="marque"><br><br>
+
+        <label>Modèle :</label><br>
+        <input type="text" name="modele"><br><br>
+
+        <label>Date d'achat :</label><br>
+        <input type="date" name="date_achat"><br><br>
+
+        <button type="submit">💾 Ajouter le camion</button>
+        <a href="{{ url_for('projet6.programme_voyage') }}" style="margin-left: 15px;">⬅️ Retour</a>
+    </form>
+</div>
+
+<style>
+    .container {
+        max-width: 600px;
+        margin: auto;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="text"], input[type="date"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 3px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        background-color: #3a86ff;
+        color: white;
+        padding: 10px 20px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #265fbc;
+    }
+
+    .flash-messages {
+        margin-bottom: 15px;
+    }
+
+    .flash-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .flash-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+
+{% block title %}Commandes Détaillées - Projet 9{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- En-tête avec navigation -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('projet9.index') }}">Projet 9</a></li>
+                    <li class="breadcrumb-item active">Commandes Détaillées</li>
+                </ol>
+            </nav>
+            
+            <div class="d-flex justify-content-between align-items-center">
+                <h1><i class="fas fa-list me-2"></i>Commandes Détaillées - Suivi des Délais</h1>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-outline-success" onclick="refreshData()">
+                        <i class="fas fa-sync-alt me-1"></i>Actualiser
+                    </button>
+                    <a href="{{ url_for('projet9.index') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-home me-1"></i>Accueil Projet 9
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtres -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-filter me-2"></i>Filtres</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="statutFilter" class="form-label">Statut</label>
+                            <select class="form-select" id="statutFilter" onchange="applyFilters()">
+                                <option value="">Tous les statuts</option>
+                                <option value="Livré à Temps">Livré à Temps</option>
+                                <option value="Livré en Retard">Livré en Retard</option>
+                                <option value="En Cours">En Cours</option>
+                                <option value="En Retard">En Retard</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="clientFilter" class="form-label">Client</label>
+                            <input type="text" class="form-control" id="clientFilter" placeholder="Rechercher un client..." onkeyup="applyFilters()">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="numeroFilter" class="form-label">Numéro Commande</label>
+                            <input type="text" class="form-control" id="numeroFilter" placeholder="Rechercher un numéro..." onkeyup="applyFilters()">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="dateFilter" class="form-label">Date de Livraison Prévue</label>
+                            <input type="date" class="form-control" id="dateFilter" onchange="applyFilters()">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button class="btn btn-outline-secondary" onclick="clearFilters()">
+                                <i class="fas fa-times me-1"></i>Effacer les filtres
+                            </button>
+                            <span class="ms-3 text-muted">
+                                <span id="filterCount">0</span> commande(s) affichée(s)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tableau des commandes -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-table me-2"></i>Liste des Commandes</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover" id="commandesTable">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Numéro</th>
+                                    <th>Client</th>
+                                    <th>Référence</th>
+                                    <th>Date Prévue</th>
+                                    <th>Date Réelle</th>
+                                    <th>Statut Délai</th>
+                                    <th>Écart (Jours)</th>
+                                    <th>Terminé</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="commandesTableBody">
+                                <!-- Données chargées dynamiquement -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation vers autres vues -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-link me-2"></i>Navigation</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ url_for('projet9.vue_ensemble') }}" class="btn btn-outline-info w-100">
+                                <i class="fas fa-chart-pie me-1"></i>Vue d'Ensemble
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ url_for('projet9.performance_clients') }}" class="btn btn-outline-success w-100">
+                                <i class="fas fa-users me-1"></i>Performance Clients
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ url_for('projet9.analyses_avancees') }}" class="btn btn-outline-warning w-100">
+                                <i class="fas fa-chart-line me-1"></i>Analyses Avancées
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ url_for('projet9.index') }}" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-home me-1"></i>Page Principale
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour marquer une livraison -->
+<div class="modal fade" id="livraisonModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Marquer la Livraison</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="livraisonForm">
+                    <input type="hidden" id="modalNumeroCommande">
+                    <div class="mb-3">
+                        <label for="modalDateLivraison" class="form-label">Date de Livraison Réelle</label>
+                        <input type="date" class="form-control" id="modalDateLivraison" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalUser" class="form-label">Utilisateur</label>
+                        <input type="text" class="form-control" id="modalUser" value="Utilisateur" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-success" onclick="marquerLivraison()">Marquer Livré</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let allCommandes = [];
+let filteredCommandes = [];
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadCommandesDetaillees();
+});
+
+function loadCommandesDetaillees() {
+    fetch('/projet9/api/commandes-avec-suivi')
+        .then(res => res.json())
+        .then(data => {
+            allCommandes = data;
+            filteredCommandes = [...data];
+            displayCommandes();
+            updateFilterCount();
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des commandes:', error);
+            document.getElementById('commandesTableBody').innerHTML = 
+                '<tr><td colspan="9" class="text-center text-danger">Erreur lors du chargement des données</td></tr>';
+        });
+}
+
+function displayCommandes() {
+    const tbody = document.getElementById('commandesTableBody');
+    
+    if (filteredCommandes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center text-muted">Aucune commande trouvée</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = filteredCommandes.map(commande => `
+        <tr>
+            <td><strong>${commande.numero}</strong></td>
+            <td>${commande.client || '-'}</td>
+            <td>${commande.reference || '-'}</td>
+            <td>${commande.date_prevue || '-'}</td>
+            <td>${commande.date_reelle || '-'}</td>
+            <td>${getStatusBadge(commande.statut_delai)}</td>
+            <td>${getEcartDisplay(commande.ecart_jours)}</td>
+            <td>${commande.termine ? '<span class="badge bg-success">Oui</span>' : '<span class="badge bg-secondary">Non</span>'}</td>
+            <td>
+                ${!commande.termine && !commande.date_reelle ? 
+                    `<button class="btn btn-sm btn-success" onclick="openLivraisonModal('${commande.numero}')">
+                        <i class="fas fa-check me-1"></i>Marquer Livré
+                    </button>` : 
+                    '<span class="text-muted">-</span>'
+                }
+            </td>
+        </tr>
+    `).join('');
+}
+
+function getStatusBadge(statut) {
+    const badges = {
+        'Livré à Temps': 'bg-success',
+        'Livré en Retard': 'bg-warning',
+        'En Cours': 'bg-info',
+        'En Retard': 'bg-danger'
+    };
+    const badgeClass = badges[statut] || 'bg-secondary';
+    return `<span class="badge ${badgeClass}">${statut}</span>`;
+}
+
+function getEcartDisplay(ecart) {
+    if (ecart === null || ecart === undefined) return '-';
+    const absEcart = Math.abs(ecart);
+    const signe = ecart > 0 ? '+' : '';
+    const badgeClass = ecart > 0 ? 'bg-danger' : ecart < 0 ? 'bg-success' : 'bg-secondary';
+    return `<span class="badge ${badgeClass}">${signe}${ecart} jours</span>`;
+}
+
+function applyFilters() {
+    const statutFilter = document.getElementById('statutFilter').value.toLowerCase();
+    const clientFilter = document.getElementById('clientFilter').value.toLowerCase();
+    const numeroFilter = document.getElementById('numeroFilter').value.toLowerCase();
+    const dateFilter = document.getElementById('dateFilter').value;
+
+    filteredCommandes = allCommandes.filter(commande => {
+        const matchStatut = !statutFilter || commande.statut_delai.toLowerCase().includes(statutFilter);
+        const matchClient = !clientFilter || (commande.client && commande.client.toLowerCase().includes(clientFilter));
+        const matchNumero = !numeroFilter || commande.numero.toLowerCase().includes(numeroFilter);
+        const matchDate = !dateFilter || commande.date_prevue === dateFilter;
+
+        return matchStatut && matchClient && matchNumero && matchDate;
+    });
+
+    displayCommandes();
+    updateFilterCount();
+}
+
+function clearFilters() {
+    document.getElementById('statutFilter').value = '';
+    document.getElementById('clientFilter').value = '';
+    document.getElementById('numeroFilter').value = '';
+    document.getElementById('dateFilter').value = '';
+    applyFilters();
+}
+
+function updateFilterCount() {
+    document.getElementById('filterCount').textContent = filteredCommandes.length;
+}
+
+function refreshData() {
+    loadCommandesDetaillees();
+}
+
+function openLivraisonModal(numero) {
+    document.getElementById('modalNumeroCommande').value = numero;
+    document.getElementById('modalDateLivraison').value = new Date().toISOString().split('T')[0];
+    new bootstrap.Modal(document.getElementById('livraisonModal')).show();
+}
+
+function marquerLivraison() {
+    const numero = document.getElementById('modalNumeroCommande').value;
+    const dateLivraison = document.getElementById('modalDateLivraison').value;
+    const user = document.getElementById('modalUser').value;
+
+    if (!numero || !dateLivraison || !user) {
+        alert('Veuillez remplir tous les champs');
+        return;
+    }
+
+    fetch('/projet9/api/marquer-livraison', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            numero: numero,
+            date_livraison: dateLivraison,
+            user: user
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('Livraison marquée avec succès');
+            bootstrap.Modal.getInstance(document.getElementById('livraisonModal')).hide();
+            refreshData();
+        } else {
+            alert('Erreur: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert('Erreur lors du marquage de la livraison');
+    });
+}
+</script>
+{% endblock %}

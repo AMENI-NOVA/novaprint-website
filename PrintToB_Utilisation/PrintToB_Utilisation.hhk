@@ -1,0 +1,22 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- Sitemap 1.0 -->
+</head>
+<body>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Types de prépresse">
+<param name="Name" value="Prépresse">
+<param name="Local" value="prpresse.htm">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="saisie de devis">
+<param name="Name" value="Prépresse">
+<param name="Local" value="prpresse.htm">
+</object>
+</ul>
+</ul>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Inventaires</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="GsAutrOp.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H2 id=_D2HTopic_1955><SPAN>Inventaires</SPAN></H2>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="editionsencascades1.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="prparationdinventaire.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>La procédure d'inventaire consiste à comparer le stock 
+physique (quantités réellement dans l'entrepôt) avec le stock théorique 
+(quantités supposées dans l'entrepôt par la gestion des stocks).</SPAN></P>
+<P class=MsoNormal><SPAN>On distingue les inventaires généraux des inventaires 
+tournants.</SPAN></P>
+<P class=MsoNormal><SPAN>L'inventaire général consiste à comparer tous les 
+stocks présents dans la Gestion des Stocks aux stocks réellement présents dans 
+l'entrepôt. Généralement il est réalisé une ou deux fois par an et la société 
+est fermée pendant le temps nécessaire pour l'établir.</SPAN></P>
+<P class=MsoNormal><SPAN>Dans les inventaires tournants, on considère qu'il est 
+préférable de vérifier les stocks sur quelques articles seulement à la fois et 
+de le faire plus souvent. La société n'est pas fermée, et la charge que 
+constitue l'inventaire est répartie sur plusieurs périodes. L’important est 
+d'être sûr qu'au moins une fois par an tous les stocks ont bien été 
+vérifiés.</SPAN></P>
+<P class=MsoNormal><SPAN>La procédure d'inventaire génère des écritures de 
+régularisation regroupées en ‘Pièces en instance’ dans un<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>tampon. Ces pièces sont alors 
+accessibles à la saisie des opérations. (Voir le paragraphe "<a href="JavaScript:TL_86070.HHClick()">Généralités</A>" dans le chapitre "Opérations sur les 
+stocks") </SPAN></P>
+<P class=MsoNormal><SPAN>La procédure d'inventaire est décomposée en deux 
+parties.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Préparation</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Saisie des 
+comptages.</SPAN></P>
+<P class=MsoNormal><SPAN>Dans la suite de ce paragraphe, nous appellerons 
+‘<B>Inventaire</B>’ la procédure de comptage, ‘<B>Liste d'inventaire</B>’ la 
+liste permettant de réaliser le comptage et ‘<B>Rapport d'inventaire</B>’ la 
+liste des écarts résultant de la comparaison des stocks. La liste des stocks en 
+quantités et/ou valeurs sera nommée ‘<B>Etat des stocks</B>’.</SPAN></P>
+<H5><SPAN>Ecritures en instance</SPAN></H5>
+<P class=MsoNormal><SPAN>Au lancement de la fonction de préparation, un écran de 
+mise en garde, vous avertit que les pièces en instance ne sont pas prises en 
+compte dans le calcul des écarts.</SPAN></P>
+<P class=MsoNormal><SPAN>En effet, le calcul des écarts est réalisé à partir des 
+soldes enregistrés dans les fiches de stock au moment du retour d'inventaire. 
+Les fiches de stock ne tenant pas compte des tampons, des erreurs pourraient 
+survenir si des écritures non validées correspondaient à des opérations 
+effectuées réellement sur les stocks. Il en irait de même si des écritures 
+validées n'avaient pas été effectivement réalisées dans l'entrepôt.</SPAN></P>
+<H6><SPAN>Exemples</SPAN></H6>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Une sortie 
+de 20 rames est en instance. Lors du retour d'inventaire, la sortie a eu lieu 
+dans l’entrepôt, mais la pièce contenant l'écriture n'est pas validée. Il y aura 
+un écart naturel de 20 rames en trop dans le stock théorique.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si, dans le 
+même cas que ci-dessus, la pièce fut validée avant que l'atelier n'ait sorti les 
+20 rames de l'entrepôt, l'écart naturel sera un manque de 20 rames dans le stock 
+théorique.</SPAN></P>
+<P class=MsoNormal><SPAN>Il est donc important lors du retour d'inventaire que 
+les tampons soient vérifiés au moment du comptage. </SPAN></P>
+<P class=MsoNormal><SPAN>C'est un autre intérêt du tampon mais il faut être 
+vigilant:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Les pièces 
+peuvent continuer à être saisies pendant un inventaire tant qu'elles ne sont pas 
+validées.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Les 
+mouvements effectués dans l'entrepôt et dont il est tenu compte dans le comptage 
+doivent correspondre à des écritures validées lors du retour 
+d'inventaire.</SPAN></P><p class=RelatedHead>Voir aussi :</p>
+<p class=MsoNormal><a href="JavaScript:RT_1956.HHClick()"><img src=button.gif border=0></a><a href="JavaScript:RT_1956.HHClick()" style=text-decoration:none;>Préparation d'inventaire</a></p>
+<p class=MsoNormal><a href="JavaScript:RT_1957.HHClick()"><img src=button.gif border=0></a><a href="JavaScript:RT_1957.HHClick()" style=text-decoration:none;>Retour d'inventaire</a></p>
+<object id=TL_86070 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/gnralits5.htm">
+</object>
+<object id=RT_1956 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/prparationdinventaire.htm">
+</object>
+<object id=RT_1957 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/retourdinventaire.htm">
+</object>
+
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

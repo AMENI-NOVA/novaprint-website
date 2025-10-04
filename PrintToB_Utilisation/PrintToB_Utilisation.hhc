@@ -1,0 +1,163 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- Sitemap 1.0 -->
+</head>
+<body>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Print-to-B : Utilisation client">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Démarrage de l'application">
+<param name="Local" value="dmarragedelapplication.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Mes devis">
+<param name="Local" value="mesdevis.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Consulter mes devis">
+<param name="Local" value="consultermesdevis.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Calculer ou demander un devis">
+<param name="Local" value="calculeroudemanderundevis.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Modifier les commentaires d'un devis">
+<param name="Local" value="modifierlescommentairesdundevis.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Dossier technique">
+<param name="Local" value="dossiertechnique.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Lettre de confirmation">
+<param name="Local" value="lettredeconfirmation.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Commander">
+<param name="Local" value="commander.htm">
+<param name="WindowName" value="$global_main">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Consulter mes modèles de devis">
+<param name="Local" value="consultermesmodlesdedevis.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Calculer ou demander un devis">
+<param name="Local" value="calculeroudemanderundevis1.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Accès à la saisie d'un devis">
+<param name="Local" value="accslasaisiedundevis.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Devis d'impression et devis de prépresse">
+<param name="Local" value="devisdimpressionetdevisdeprpresse.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Présentation de l'écran de saisie">
+<param name="Local" value="prsentationdelcrandesaisie.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Utilisation de la fenêtre de saisie de devis">
+<param name="Local" value="utilisationdelafentredesaisiededevis.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Description des types de devis">
+<param name="Local" value="descriptiondestypesdedevis.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Saisie des informations d'entête d'un devis">
+<param name="Local" value="saisiedesinformationsdenttedundevis.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Eléments du devis">
+<param name="Local" value="elmentsdudevis.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Papier">
+<param name="Local" value="papier.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Impression">
+<param name="Local" value="impression.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Opérations typo">
+<param name="Local" value="oprationstypo.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Opérations de pelliculage et de vernis (traitement de surface)">
+<param name="Local" value="oprationsdepelliculageetdevernistraitementdesurface.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Prépresse">
+<param name="Local" value="prpresse.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Conditionnement">
+<param name="Local" value="conditionnement.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Points de livraison">
+<param name="Local" value="pointsdelivraison.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Commentaires">
+<param name="Local" value="commentaires.htm">
+<param name="WindowName" value="$global_main">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Mes commandes">
+<param name="Local" value="mescommandes.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Consulter mes commandes">
+<param name="Local" value="consultermescommandes.htm">
+<param name="WindowName" value="$global_main">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Visualiser l'avancement des mes commander lancées">
+<param name="Local" value="visualiserlavancementdesmescommanderlances.htm">
+<param name="WindowName" value="$global_main">
+</object>
+</ul>
+</ul>
+</ul>
+</body>
+</html>

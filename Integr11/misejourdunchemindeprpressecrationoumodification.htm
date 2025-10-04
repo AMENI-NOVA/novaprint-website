@@ -1,0 +1,280 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Mise à jour d'un chemin de prépresse (création ou modification)</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="ParamCalc.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_3087><SPAN>Mise à jour d’un chemin de prépresse (création ou 
+modification)</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="dfinitiondescheminsettypesdeprpresse.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="suppressiondunchemindeprpresse.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Un même chemin peut appartenir à plusieurs types 
+différents.</SPAN></P>
+<P class=MsoNormal><SPAN>Pour ajouter un nouveau chemin de prépresse 
+sélectionnez dans la liste des types de prépresse, celui dans lequel devra se 
+trouver le nouveau chemin, puis cliquez sur <B>Nouveau</B> dans le menu 
+<B>Paramétrages</B> ou dans le menu contextuel, ou cliquez sur le bouton 
+correspondant de la barre d’outils. Dans ce cas, le nouveau chemin sera 
+automatiquement intégré au type de prépresse sélectionné au départ.</SPAN></P>
+<H5><SPAN>Nom</SPAN></H5>
+<P class=MsoNormal><SPAN>Chaque chemin doit avoir un nom unique. Si vous tentez 
+d’utiliser pour un nouveau chemin, un nom déjà existant, Graphisoft vous invite 
+à changer de nom.</SPAN></P>
+<H5><SPAN>Calcul du devis à partir de la même solution que le devis 
+rappelé</SPAN></H5>
+<P class=MsoNormal><SPAN>Cochez cette case si le chemin gère les retirages sans 
+corrections.</SPAN></P>
+<P class=MsoNormal><SPAN>Dans le cas d’un devis qui a été rappelé, lorsque le 
+programme de calcul étudie une solution avec ce chemin, celle-ci n'est prise en 
+compte que si elle correspond aux éléments du devis rappelé au début de la 
+saisie (nombre de poses, basculage, machine d'impression, types de cahiers ou 
+formes d'amalgames). Si la machine utilisée dans l'ancien devis a été supprimée, 
+Graphisoft en choisira une autre.</SPAN></P>
+<P class=MsoNormal><SPAN>Dans le cas d’<SPAN style="COLOR: black">un nouveau 
+devis, Graphisoft optimise normalement.</SPAN></SPAN></P>
+<P class=MsoNormal><SPAN>Les coûts à prendre en compte dans ce cas dépendent des 
+opérations incluses dans le chemin. Par exemple, pour ne pas recompter le coût 
+du montage films dans le cas de retirage sans corrections, il suffit de ne pas 
+sélectionner l’opération "Montage films" dans les étapes du chemin (voir le 
+paragraphe suivant).</SPAN></P>
+<P class=MsoNormal><SPAN>En mettant ce chemin dans un type de prépresse 
+contenant un ou plusieurs autres chemin calculant tous les éléments comme s'il 
+s'agissait d'un nouveau devis, on peut savoir automatiquement (en cas de 
+changement important de la quantité) s'il vaut mieux reprendre la solution du 
+devis initial, ou utiliser une solution de fabrication différente quitte à 
+refaire les plaques par exemple.</SPAN></P>
+<H5><SPAN>Etapes du chemin</SPAN></H5>
+<P class=MsoNormal><SPAN>Les étapes du chemin désignent les différentes 
+opérations à effectuer lorsque ce chemin est utilisé pour calculer un 
+devis.</SPAN></P>
+<H6><SPAN>Etapes possibles</SPAN></H6>
+<P class=MsoNormal><SPAN>Les étapes possibles pour un chemin de prépresse sont 
+les suivantes :</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Flashage : 
+permet d’intégrer une flasheuse dans le chemin. La liste des flasheuses 
+enregistrées est proposée pour en sélectionner une. Il ne peut y avoir qu’une 
+seule flasheuse dans un chemin.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Duplis : 
+indique la manière dont le programme de calcul doit traiter les 
+duplis.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Pas de 
+duplis possible : l’optimisation sera toujours en 1 pose ou 2 poses 
+basculées,</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Duplis 
+négatifs : si des duplis doivent être calculés, leur coût sera optimisé entre le 
+coût calculé à partir des formats du fichier des négatifs, et le coût calculé à 
+partir du prix au dm² si celui-ci n’est pas nul,</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Optimisation Duplis négatifs / Répétex : même principe que 
+précédemment, mais le coût des duplis est aussi optimisé par rapport au coût 
+calculé à partir des tarifs indiqués pour la machine à répéter (si les 
+caractéristiques indiquées pour la machine permette le calcul pour la 
+solution).</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Montage film 
+manuel : le coût de montage des films sera calculé à partir des tarifs de 
+montage de la machine d’impression choisie pour la solution.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Copie plaque 
+: même principe que pour le montage films manuel.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Matière 
+plaque : même principe que pour le montage films manuel.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Opération de 
+prépresse : il est possible de choisir comme étape du procédé, une opération de 
+prépresse.<BR>Il peut y avoir jusqu’à 10 opérations de prépresse dans un 
+chemin.<BR>Les opérations sélectionnées dans un chemin doivent avoir un tarif 
+défini (non nul, même s’il ne comprend que des frais fixes), pour que le calcul 
+puisse être fait automatiquement sans qu’il soit nécessaire à l’utilisateur 
+d’intervenir pour saisir le tarif des opérations de prépresse de tous les 
+chemins du type de prépresse sélectionné.<BR>L’unité libre de ces opérations 
+n’est pas prise en compte, pour la même raison.<BR>A chaque solution étudiée 
+lors de l’optimisation du calcul du devis, le coût des opérations de prépresse 
+du chemin est recalculé en fonction du détail de la solution en cours et des 
+unités fixes sélectionnées pour chaque opération.<BR>Le calcul est effectué de 
+la manière suivante en fonction des unités fixes :</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Nombre 
+de pages : le calcul du coût de l’opération est basé sur le nombre de pages ou 
+sur le nombre de modèles de la partie en cours d'optimisation (ex : 2 fois 8 
+pages soit 16 pages, ou 3 fois 5 modèles soit 15 modèles). Seules les pages 
+imprimées sont prises en compte.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Nombre 
+de couleurs : le calcul du coût de l’opération est basé sur le nombre de 
+couleurs de l’élément de devis.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Surface :</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 6pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Si l'opération est aussi en fonction du nombre de pages : le 
+calcul du coût de l’opération est basé sur la surface d'une page ou d'un 
+modèle.</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 6pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Si l'opération n'est pas en fonction du nombre de pages : le 
+calcul du coût de l’opération est basé sur la surface d'une pose. Pour tenir 
+compte de la surface totale de l'imposition, il faut rajouter l'unité fixe 
+"Modèles".</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>Doit être 
+mixé avec le nombre de couleurs pour avoir un calcul en fonction de la surface 
+pour chaque couleur.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Nombre 
+de modèles : le calcul du coût de l’opération est multiplié par le nombre de 
+poses de la solution en cours d'optimisation. S'il y a du basculage, le coût de 
+l’opération est multiplié par le nombre de poses divisé par 2.</SPAN></P>
+<P class=Suitepuce2><SPAN>La calcul en fonction du nombre de poses n'est 
+effectué que si l'opération n'a pas aussi comme unité "dm2", car dans ce cas 
+l'unité "modèles" sert à distinguer les opérations à calculer sur la surface 
+d'une pose (unité "dm2") ou sur la surface de l'imposition complète (unités 
+"dm2" + "modèles") (voir ci-dessus).</SPAN></P>
+<P class=Suitepuce><SPAN>Les coûts fixes des opérations sont comptés autant de 
+fois qu’il y a de types de cahiers différents utilisant ce chemin de prépresse. 
+<BR>Par exemple, pour une brochure de 20 pages, imprimée en 1 cahier de 16 pages 
++ 1 cahier de 4 pages, les coûts fixes d’une opération se trouvant dans le 
+chemin utilisé seront comptés 2 fois.<BR>Si on ajoute une couverture à la 
+brochure, et que c’est toujours le même chemin de prépresse qui est utilisé pour 
+la couverture, les coûts fixes des opérations seront alors comptés 3 
+fois.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Ozalids : 
+même principe que pour le montage films manuel.</SPAN></P>
+<P class=MsoNormal><SPAN>Pour ajouter une étape à un chemin, sélectionnez-la 
+dans la liste "Etapes possibles", puis cliquez sur le bouton "&gt;&gt;" se 
+trouvant entre les deux listes.&nbsp;Vous pouvez aussi double-cliquer sur 
+l’étape à insérer. Pour les étapes "Flashage", "Duplis" ou "Opérations de 
+prépresse", vous devez d’abord développer la rubrique correspondante en cliquant 
+sur le signe "+" se trouvant à gauche du libellé. L’étape choisie vient 
+s’ajouter dans la liste "Etapes du chemin", et disparaît de la liste "Etapes 
+possibles". </SPAN></P>
+<P class=MsoNormal><SPAN><SPAN style="mso-no-proof: yes"><IMG 
+src="Images/image15_10.jpg"></SPAN></SPAN></P>
+<H6><SPAN>Ordre des étapes du chemin</SPAN></H6>
+<P class=MsoNormal><SPAN>Vous pouvez modifier l'ordre des étapes du chemin en 
+utilisant les boutons <IMG src="Images/image15_11.png"><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>et <IMG src="Images/image15_12.png"><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>se trouvant à droite de la liste des 
+étapes sélectionnées.</SPAN></P>
+<P class=MsoNormal><SPAN>Cet ordre sera utilisé au moment de la transformation 
+du devis en commande, pour gérer l'ordre des fiches de travail générées à partir 
+du devis. Ceci permet de rendre visible une fiche de travail sur les terminaux 
+de l'atelier lorsque les travaux précédents de cette fiche ont été au moins 
+commencés. Cette possibilité ne concerne que les utilisateurs de 
+l'Intégrale.</SPAN></P>
+<P class=MsoNormal><SPAN>L'ordre est utilisé pour les étapes de flashage, 
+duplis/répétex et opérations de prépresse. Les étapes de montage film, copie et 
+ozalid viennent toujours après les autres, quel que soit leur ordre dans le 
+chemin, car elles sont liées à la machine d'impression.</SPAN></P>
+<H5><SPAN>Machines imposées par le chemin</SPAN></H5>
+<P class=MsoNormal><SPAN>On peut lier un chemin à une ou plusieurs machines 
+d'impression (pas de limitation du nombre de machines liées).</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN style="mso-no-proof: yes"><IMG 
+src="Images/image15_13.jpg"></SPAN></SPAN></P>
+<P class=MsoNormal><SPAN>Les machines liées au chemin peuvent être :</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Imposées&nbsp;: un chemin avec des machines imposées ne sera 
+choisi que si l'impression est faite sur une de ces machines.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Exclues&nbsp;: un chemin pour lequel on a exclu des machines 
+d’impression ne sera choisi qu’avec des machines d’impression non 
+exclues.</SPAN></P>
+<P class=MsoNormal><SPAN>Cette possibilité est particulièrement intéressante 
+dans les cas suivants :</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Flasheuse 
+sortant directement des plaques d’un certain format, imposant ainsi une machine 
+d’impression.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Gravage 
+direct des plaques sur la machine d’impression.<BR>Dans ce cas, vous créerez un 
+chemin pour lequel il n’y a pas d’étape de flashage, duplis, ni montage 
+films.<BR>Le coût du gravage des plaques sera intégré dans le coût des plaques 
+de la machine, et il suffira d'indiquer dans le procédé quelles sont les coûts 
+correspondant à prendre en compte (copie, matière, ozalids).<BR>Il faut ensuite 
+imposer une ou plusieurs machines d'impression pour ce chemin (ce principe peut 
+fonctionner même s'il y a 2 machines d'impression différentes).<BR>Un seul 
+chemin de ce type peut être utilisé pour plusieurs machines différentes, car à 
+chaque solution d'impression, le programme de calcul ira s'assurer que pour ce 
+chemin, la machine utilisée fait partie des machines imposées (cela permet au 
+passage d'être sûr que le format d'imposition tient dans le format utile 
+d'impression, puisque ces vérifications ont été faites lors du calcul de 
+l'impression pour cette solution).</SPAN></P>
+<P class=MsoNormal><SPAN>Les types de machines qu’il est possible de lier à un 
+chemin sont les suivants : Offset feuilles, Offset rotatives, Typo, Sérigraphie, 
+Impression continue, Presses numériques ou Numérique grand format.</SPAN></P>
+<P class=MsoNormal><SPAN>Si aucune machine n'est liée au chemin, il n'y a pas de 
+contrainte (on n’est pas obligé de sélectionner toutes les machines).</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

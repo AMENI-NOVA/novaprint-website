@@ -1,0 +1,348 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Informations d'entête communes à tous les types de devis</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="DevisOpti.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_278><SPAN>Informations d’entête communes à tous les types de 
+devis</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="saisiedesinformationsdenttedundevis.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="informationsdenttespcifiquesauxdevisdebrochures.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<H5><SPAN>Client, en-cours et interlocuteur</SPAN></H5>
+<H6><SPAN>Client</SPAN></H6>
+<P class=MsoNormal><SPAN style="COLOR: black">Tapez le nom (interne) d’un client 
+ou seulement ses premières lettres. Au fur et à mesure de la saisie, la liste 
+déroulante se positonne sur la société dont le nom commence par les lettres 
+saisies. Vous pouvez utiliser les touches de flèches Haut et Bas pour 
+sélectionner la société voulue.</SPAN></P>
+<P class=MsoNormal><SPAN style="COLOR: black">Si la société n'existe pas dans la 
+liste, tapez son nom dans la zone de saisie, puis appuyez sur la touche 
+Tabulation. U<SPAN style="COLOR: windowtext">ne</SPAN><SPAN 
+style="COLOR: windowtext"> boîte de dialogue vous demande alors si vous désirez 
+ajouter un nouveau client. Si c’est le cas, l’écran de saisie de mise à jour 
+d’une société vous permet de saisir les informations nécessaires (voir le 
+chapitre correspondant).</SPAN></SPAN></P>
+<P class=MsoNormal><SPAN style="COLOR: black">Après avoir sélectionné une 
+société existante dans le fichier</SPAN><SPAN>, les informations la concernant 
+viennent s’afficher&nbsp;: interlocuteur par défaut, tarif et 
+coefficient.</SPAN></P>
+<P class=MsoNormal><SPAN>Si vous tapez le nom d'un client archivé, le programme 
+vous propose de le réactiver.</SPAN></P>
+<P class=MsoNormal><SPAN>Si vous n'indiquez pas de client, vous pourrez tout de 
+même calculer le devis, mais vous ne pourrez l'enregistrer qu'en <a href="JavaScript:TL_85716.HHClick()">attente</A> ou comme <a href="JavaScript:TL_85717.HHClick()">modèle de 
+devis</A>.</SPAN></P>
+<H6><SPAN>Coefficient</SPAN></H6>
+<P class=MsoNormal><SPAN>Lorsque vous sélectionnez un client, le coefficient du 
+devis est initialisé avec son coefficient par défaut qui peut être modifié 
+localement pour le devis.</SPAN></P>
+<P class=MsoNormal><SPAN>Si l’utilisateur dispose du droit «&nbsp;Saisie du 
+coefficient global&nbsp;», ce coefficient est le coefficient global sinon, il 
+s’agit du coefficient interne.</SPAN></P>
+<P class=MsoNormal><SPAN>Nb&nbsp;: Dans le paragraphe suivant ‘Coefficient 
+affiché’ fera référence soit au coefficient global, soit au coefficient interne 
+selon le droit dont dispose l’utilisateur.</SPAN></P>
+<P class=MsoNormal><SPAN>Si vous avez chargé un devis pour lequel le coefficient 
+du mille + est différent du coefficient affiché&nbsp;:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si vous ne 
+modifiez pas le coefficient affiché&nbsp;: le coefficient du mille + sera 
+conservé tel qu’il est dans le devis d’origine</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si vous 
+modifiez le coefficient affiché, le coefficient du mille + sera initialisé avec 
+le nouveau coefficient global (si l’utilisateur ne dispose pas du droit de 
+saisie du coefficient global, celui-ci sera recalculé depuis le coefficient 
+interne MAIS cela uniquement lorsque le devis sera recalculé).</SPAN></P>
+<P class=MsoListBullet 
+style="tab-stops: 1.0cm; mso-list: none"><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Si vous avez chargé un devis pour lequel des 
+coefficients détaillés ont été appliqués (par nature ou par centre de coût), le 
+coefficient global indique le coefficient global calculé à partir du total après 
+application de tous les coefficients détaillés, par rapport au total sans 
+coefficient.</SPAN></P>
+<P class=MsoNormal><SPAN>Remarques&nbsp;: </SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Vous pouvez 
+modifier le coefficient du mille + dans le devis simplifié ou dans les 
+propriétés du devis.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Vous pouvez 
+définir un coefficient minimum autorisé par employé <I>(voir 
+«&nbsp;Employés&nbsp;» dans le chapitre «&nbsp;Paramétrages 
+généraux&nbsp;»)</I>.</SPAN></P>
+<H6><SPAN>En-cours</SPAN></H6>
+<P class=MsoNormal><SPAN>Si l’en-cours est géré pour le client et si vous 
+disposez des droits suffisants, un bouton présente l’encours actuel. Cliquez le 
+bouton pour accéder à l’échéancier. </SPAN></P>
+<P class=MsoNormal><SPAN><IMG src="Images/image18_19.jpg"></SPAN></P>
+<P class=MsoNormal><SPAN>L'accès aux en-cours client est impossible pour la 
+gamme Estiprint et nécessite l'option "Vente &amp; En-cours" pour la gamme 
+Graphisoft.</SPAN></P>
+<H6><SPAN>Interlocuteur</SPAN></H6>
+<P class=MsoNormal><SPAN style="COLOR: black">Il s'agit de la personne à 
+contacter chez ce client (celle à qui sera adressée la lettre de confirmation du 
+devis). Sélectionnez l'interlocuteur dans la liste de ceux qui sont enregistrés 
+pour la société sélectionnée. Si votre interlocuteur n'a pas encore été 
+enregistré, tapez son nom dans la zone de saisie, puis appuyez sur la touche 
+'Tabulation'. Une boite de dialogue vous demande alors si vous désirez ajouter 
+un nouvel interlocuteur pour cette société. En répondant 'Oui', le programme 
+ouvre la fenêtre de saisie de la fiche société, positionnée sur un nouvel 
+interlocuteur.</SPAN></P>
+<H5><SPAN>Description générale</SPAN></H5>
+<H6><SPAN>Référence</SPAN></H6>
+<P class=MsoNormal><SPAN style="COLOR: black">Vous disposez de 200 caractères 
+pour entrer un texte libre qui vous aidera à identifier le devis ultérieurement. 
+La référence peut contenir plusieurs lignes.</SPAN></P>
+<H6><SPAN>Devis de prépresse</SPAN></H6>
+<P class=MsoNormal><SPAN>Cette case à cocher n'apparaît que lorsque vous chargez 
+un devis de prépresse existant. En la décochant, vous pouvez transformer le 
+devis de prépresse en devis d'impression. Vous pouvez alors compléter la saisie 
+puis relancer le calcul.</SPAN></P>
+<H6><SPAN>Produit</SPAN></H6>
+<P class=MsoNormal><SPAN>Vous pouvez sélectionner un type de produit parmi ceux 
+que vous avez paramétrés dans la liste "Produits fabriqués" (par l'entreprise) 
+(voir . Vous pouvez ainsi classer les devis selon votre propre nomenclature. 
+<BR>Le type de produit est un des critéres de sélection et d'affichage de la 
+liste des devis.</SPAN></P>
+<H6><SPAN>Certification</SPAN></H6>
+<P class=MsoNormal><SPAN>Vous pouvez sélectionner une famille de certifications 
+qui restreindra le calcul du devis aux papiers dont la certification appartient 
+à cette famille.</SPAN></P>
+<P class=MsoNormal><I><SPAN>Voir «&nbsp;Certifications (PEFC, FSC, …)&nbsp;» 
+dans le chapitre «&nbsp;Paramétrage de calcul des devis&nbsp;».</SPAN></I></P>
+<H6><SPAN>Article</SPAN></H6>
+<P class=MsoNormal><SPAN>Cette zone permet de lier le devis à un article de 
+produit fini géré en stock. </SPAN></P>
+<P class=MsoNormal><I><SPAN>Voir «&nbsp;<a href="JavaScript:TL_85718.HHClick()">Description et 
+devis d’un article</A>&nbsp;» dans le chapitre «&nbsp;<a href="JavaScript:TL_85719.HHClick()">Articles du stock</A>&nbsp;».</SPAN></I></P>
+<H6><SPAN>Quantités supplémentaires</SPAN></H6>
+<P class=MsoNormal><SPAN style="COLOR: black">Ce bouton vous permet de faire 
+apparaître 3 zones dans lesquelles vous pouvez saisir des quantités 
+supplémentaires.</SPAN></P>
+<P class=MsoNormal><SPAN><IMG src="Images/image18_20.jpg"><SPAN 
+style="COLOR: black"><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN></SPAN></SPAN></P>
+<P class=MsoNormal><SPAN style="COLOR: black">Le calcul des quantités 
+supplémentaires peut être effectué de deux manières différentes :</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><U><SPAN>Optimisation sur chaque quantité </SPAN></U><SPAN>: c'est 
+le choix par défaut. <BR>Dans ce cas, le devis est optimisé pour chaque quantité 
+saisie. La solution technique retenue pourra donc être différente pour chaque 
+quantité. Cette méthode doit être utilisée si les quantités sont très 
+différentes.<BR>A la fin du calcul, la solution technique retenue pour chaque 
+quantité apparaît dans un onglet différent.<BR><IMG 
+src="Images/image18_21.jpg"><BR>Lors de l'enregistrement du devis, chaque 
+quantité supplémentaire est enregistrée comme une variante (avec le même numéro 
+de devis, suivi d'un suffixe qui identifie la variante).</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><U><SPAN>Calcul 
+des quantités supplémentaires à partir du mille suivant de la première 
+quantité</SPAN></U><SPAN>, sur laquelle s'effectue l'optimisation. Dans ce cas, 
+la solution technique est la même pour chaque quantité. Cette méthode peut être 
+utilisée si les quantités sont similaires.<BR>A la fin du calcul, le prix pour 
+chaque quantité supplémentaire est présenté dans un tableau.<BR><IMG 
+src="Images/image18_22.jpg"><BR>Dans ce cas, il n'y a qu'un seul devis 
+enregistré.</SPAN></P>
+<P class=MsoNormal><SPAN>La méthode de calcul peut être choisie dans la partie 
+avancée de la saisie en cochant ou non "Optimisation sur chaque 
+quantité".</SPAN></P>
+<P class=MsoNormal><B><SPAN>Remarques </SPAN></B><SPAN>: </SPAN></P>
+<P class=MsoNormal><SPAN>La saisie de quantités supplémentaires n'est pas 
+possible </SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>S’il y a 
+plusieurs versions (dans le cas où des éléments ont des quantités 
+différentes)</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>En mode 
+"Optiplus".</SPAN></P>
+<H6><SPAN>Gâche de façonnage</SPAN></H6>
+<P class=MsoNormal><SPAN style="COLOR: black">Ce pourcentage est utilisé pour 
+majorer le nombre d'exemplaires saisi pris en compte pour le calcul, de manière 
+à simuler une gâche de façonnage.<BR>Cette gâche est prise en compte pour toutes 
+les opérations, même le façonnage (coupe, assemblage, brochage), mais pas pour 
+le conditionnement ni la livraison.<BR>Le mille suivant sera calculé à partir de 
+la quantité saisie sans le pourcentage de gâche de façonnage.</SPAN></P>
+<P class=MsoNormal><SPAN style="COLOR: black">Pour les devis de brochures, 
+dépliants et affiches, vous pouvez aussi saisir un pourcentage de gâche 
+différent pour chaque élément, qui viendra s’ajouter au pourcentage de gâche 
+global (voir «&nbsp;<a href="JavaScript:TL_85720.HHClick()">Optimisation</A>&nbsp;»).</SPAN></P>
+<P class=MsoNormal><B><SPAN style="COLOR: black">NB </SPAN></B><SPAN 
+style="COLOR: black">: Vous pouvez obtenir un calcul des gâches plus précis en 
+paramétrant des valeurs de gâches (calage et roulage) séparément pour toutes les 
+machines de façonnage, opérations de surface et opérations de façonnage. Dans ce 
+cas, les gâches sont calculées précisément opération par opération et prises en 
+compte pour le calcul des opérations précédentes dans le processus de 
+fabrication. Par exemple, si la plieuse prévue engendre une gâche de 50 
+feuilles, le programme de calcul prévoira d'imprimer 50 bonnes feuilles de plus 
+</SPAN><SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN>(voir le chapitre 
+"Paramétrages de calcul des devis")<SPAN 
+style="COLOR: black">.</SPAN></SPAN></P>
+<H6><SPAN>Quantité pour le prix unitaire</SPAN></H6>
+<P class=MsoNormal><SPAN>Si vous saisissez une quantité différente de 0 pour le 
+prix unitaire, Graphisoft calculera le prix unitaire en fonction de cette unité, 
+et l’affichera sur la lettre de confirmation, à la place du mille 
+suivant.</SPAN></P>
+<P class=MsoNormal><SPAN>Le prix unitaire calculé apparaît aussi à la fin du 
+calcul dans le tableau récapitulatif.</SPAN></P>
+<P class=MsoNormal><SPAN>Vous pouvez aussi saisir, modifier ou remettre à zéro 
+cette information, pour un ancien devis, en passant par le <a href="JavaScript:TL_85721.HHClick()">devis simplifié</A> ou les «&nbsp;<a href="JavaScript:TL_85722.HHClick()">Propriétés du devis</A>&nbsp;».</SPAN></P>
+<H6><SPAN>Poids d’un exemplaire</SPAN></H6>
+<P class=MsoNormal><SPAN>Par défaut, le poids moyen d’un exemplaire est calculé 
+automatiquement mais il est possible de forcer ce poids en saisissant la 
+nouvelle valeur dans cette zone. Si le poids affiché dans cette zone à été entré 
+manuellement, la case<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>voisine 
+(Saisie manuelle) sera cochée.</SPAN></P>
+<P class=MsoNormal><SPAN>En cas de saisie manuelle, tout changement dans le 
+devis susceptible de modifier le poids entrainera un message demandant à 
+l’utilisateur s’il veut utiliser le nouveau poids calculé ou garder la 
+saisie.</SPAN></P>
+<H5><SPAN>Prépresse</SPAN></H5>
+<H6><SPAN>Prépresse global au devis ou par élément</SPAN></H6>
+<P class=MsoNormal><SPAN>La saisie du prépresse diffère suivant le type de 
+devis&nbsp;:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Brochures, 
+Dépliants, Affiche/fiche</SPAN></P>
+<P class=Suitepuce><SPAN>Pour ces types de devis, il y a une saisie globale et 
+une saisie par élément&nbsp;:</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Prépresse global&nbsp;:</SPAN></P>
+<P class=Suitepuce2><SPAN>Permet de saisir des opérations de prépresse&nbsp;qui 
+ne seront comptées qu’une seule fois quel que soit le nombre d’éléments 
+composants le devis ou des opérations qui seront calculées pour tous les 
+éléments du devis&nbsp;:</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Si l’opération sélectionnée ne comporte pas d’unité fixe 
+(page, couleur, dm2 ou&nbsp;modèle), elle ne sera comptée qu’une seule fois pour 
+l’ensemble du devis</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Si l’opération sélectionnée comporte au moins une unité 
+fixe, le nombre d’unités sera calculé en fonction de chaque élément du devis. 
+Par exemple pour une opération par page, le nombre d’unités pour le calcul de 
+cette opération sera la somme du nombre de pages de chaque élément.<BR>Les coûts 
+fixes ne sont comptés qu’une seule fois.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Prépresse par élément&nbsp;:</SPAN></P>
+<P class=Suitepuce2><SPAN>Permet d’indiquer le type de prépresse qui détermine 
+le mode de calcul, et des opérations de prépresse propres à chaque élément de 
+devis.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Affiches 
+multi-morceaux, Liasses/Carnets, Continu</SPAN></P>
+<P class=Suitepuce><SPAN>Le prépresse est toujours saisi globalement pour le 
+devis&nbsp;: type de prépresse et opérations.</SPAN></P>
+<P class=MsoNormal><SPAN>La saisie du prépresse est la même que le prépresse 
+soit global ou par élément&nbsp;: reportez-vous paragraphe «&nbsp;Préparation 
+(prépresse)&nbsp;» de ce chapitre pour plus de détails.</SPAN></P>
+<H6><SPAN>Opérations de prépresse ajoutées automatiquement pour les nouveaux 
+devis</SPAN></H6>
+<P class=MsoNormal><SPAN>Des opérations peuvent être automatiquement ajoutées 
+<SPAN style="mso-spacerun: yes">&nbsp;</SPAN>lors de la création d’un nouveau 
+devis : pour cela, dans le paramétrage des opérations de préparation prépresse 
+du devis, cocher la case «&nbsp;Ajouter automatiquement aux nouveaux 
+devis&nbsp;». </SPAN></P><object id=TL_85716 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/enregistrementdundevisnoncalculenattente.htm">
+</object>
+<object id=TL_85717 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/modlesdedevis.htm">
+</object>
+<object id=TL_85718 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/descriptionetdevisdunarticle.htm">
+</object>
+<object id=TL_85719 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/articlesdustock.htm">
+</object>
+<object id=TL_85720 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/optimisation.htm">
+</object>
+<object id=TL_85721 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/devissimplifi.htm">
+</object>
+<object id=TL_85722 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/propritsdundevis.htm">
+</object>
+
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

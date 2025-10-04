@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>📄 Vérification des données extraites</h2>
+
+{% if message %}
+    <p><strong>{{ message }}</strong></p>
+{% endif %}
+
+{% if factures %}
+<form method="POST" action="{{ url_for('projet7_bp.valider_facture') }}">
+    {% for key, value in factures.items() %}
+        <div style="margin-bottom: 10px;">
+            <label for="{{ key }}">{{ key.replace('_', ' ').capitalize() }} :</label><br>
+            <input type="text" name="{{ key }}" id="{{ key }}" value="{{ value }}" style="width: 300px;">
+        </div>
+    {% endfor %}
+    <button type="submit">✅ Valider l'enregistrement</button>
+</form>
+{% else %}
+    <p>Aucune donnée à afficher.</p>
+{% endif %}
+
+<hr>
+
+<h3>📤 Importer une facture PDF</h3>
+<form method="POST" enctype="multipart/form-data" action="{{ url_for('projet7_bp.import_facture') }}">
+    <input type="file" name="file" required>
+    <button type="submit">📎 Charger</button>
+</form>
+
+<hr>
+
+<h3>📁 Historique des factures enregistrées</h3>
+<form method="GET" action="{{ url_for('projet7_bp.import_facture') }}">
+    <button type="submit" name="voir" value="1">📊 Afficher les factures enregistrées</button>
+</form>
+
+{% if table %}
+<table border="1" cellpadding="6" cellspacing="0" style="margin-top: 15px; border-collapse: collapse;">
+    <thead style="background: #eee;">
+        <tr>
+            <th>Numéro</th>
+            <th>Début</th>
+            <th>Fin</th>
+            <th>Conso (kWh)</th>
+            <th>HT</th>
+            <th>Coef K (remise)</th>
+            <th>Cos PHI</th>
+            <th>Paiement</th>
+            <th>Moyen</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for f in table %}
+        <tr>
+            <td>{{ f.NumFacture }}</td>
+            <td>{{ f.PeriodeDebut }}</td>
+            <td>{{ f.PeriodeFin }}</td>
+            <td>{{ f.ConsommationKWh }}</td>
+            <td>{{ f.MontantHT }}</td>
+            <td>{{ f.CoefficientK }}</td>
+            <td>{{ f.CosPHI if f.CosPHI is defined else '?' }}</td>
+            <td>{{ f.DatePaiement }}</td>
+            <td>{{ f.MoyenPaiement }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

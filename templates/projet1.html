@@ -1,0 +1,489 @@
+
+{% extends "base.html" %}
+
+{% block title %}Planning & Suivi des Délais{% endblock %}
+
+{% block content %}
+    <h1 class="fade-in">Planning & Suivi des Délais</h1>
+
+    <!-- Onglets principaux -->
+    <ul class="nav nav-tabs" id="mainTabs" role="tablist" style="margin-bottom: 1rem;">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="planning-tab" data-bs-toggle="tab" data-bs-target="#planning" type="button" role="tab">
+                📅 Planning
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="suivi-tab" data-bs-toggle="tab" data-bs-target="#suivi" type="button" role="tab">
+                📊 Suivi des Délais
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="performance-tab" data-bs-toggle="tab" data-bs-target="#performance" type="button" role="tab">
+                📈 Performance
+            </button>
+        </li>
+    </ul>
+
+    <!-- Contenu des onglets -->
+    <div class="tab-content" id="mainTabContent">
+        <!-- Onglet Planning -->
+        <div class="tab-pane fade show active" id="planning" role="tabpanel">
+            <div style="margin-bottom: 1rem;">
+                <button id="btnVueStandard" style="padding: 6px 12px; margin-right: 10px;">Vue standard</button>
+                <button id="btnVueDeuxMois" style="padding: 6px 12px;">Vue 2 mois</button>
+            </div>
+
+    <div id="filtersWrapper" class="fade-in" style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+        <input type="text" id="searchInput" placeholder="Rechercher un numéro..." style="padding: 5px; flex: 1;" />
+        <input type="text" id="clientFilterInput" placeholder="Filtrer par client..." style="padding: 5px; flex: 1;" />
+        <button id="resetFilters" style="padding: 6px 12px; cursor: pointer;">Réinitialiser</button>
+    </div>
+
+    <div id="vueStandard">
+        <div id="calendarStandard"></div>
+    </div>
+
+            <div id="vueDeuxMois" style="display: none;">
+                <div style="display: flex; gap: 2rem;">
+                    <div id="calendar1" style="flex: 1;"></div>
+                    <div id="calendar2" style="flex: 1;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Onglet Suivi des Délais -->
+        <div class="tab-pane fade" id="suivi" role="tabpanel">
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>Commandes avec Suivi</h3>
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="tableSuivi">
+                            <thead>
+                                <tr>
+                                    <th>Numéro</th>
+                                    <th>Client</th>
+                                    <th>Date Prévue</th>
+                                    <th>Date Réelle</th>
+                                    <th>Statut</th>
+                                    <th>Écart (jours)</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodySuivi">
+                                <!-- Données chargées via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h3>Alertes de Retard</h3>
+                    <div id="alertesRetard">
+                        <!-- Alertes chargées via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Onglet Performance -->
+        <div class="tab-pane fade" id="performance" role="tabpanel">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Indicateurs Globaux</h3>
+                    <div id="indicateursGlobaux" class="row">
+                        <!-- Indicateurs chargés via JavaScript -->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3>Performance par Client</h3>
+                    <div class="table-responsive">
+                        <table class="table table-sm" id="tablePerformanceClient">
+                            <thead>
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Commandes</th>
+                                    <th>Livrées</th>
+                                    <th>À Temps</th>
+                                    <th>Taux</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyPerformanceClient">
+                                <!-- Données chargées via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+<script>
+// Configuration de localisation française simplifiée pour FullCalendar
+FullCalendar.globalLocales.push(function () {
+  'use strict';
+  var fr = {
+    code: 'fr',
+    week: {
+      dow: 1, // Monday is the first day of the week
+      doy: 4  // The week that contains Jan 4th is the first week of the year
+    },
+    buttonText: {
+      prev: 'Précédent',
+      next: 'Suivant',
+      today: "Aujourd'hui",
+      month: 'Mois',
+      week: 'Semaine',
+      day: 'Jour'
+    },
+    allDayText: 'Toute la journée',
+    moreLinkText: 'en plus',
+    noEventsText: 'Aucun événement'
+  };
+  return fr;
+}());
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    function stringToColor(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        let color = '#';
+        for (let i = 0; i < 3; i++) {
+            let value = (hash >> (i * 8)) & 0xFF;
+            color += ('00' + value.toString(16)).slice(-2);
+        }
+        return color;
+    }
+
+    let allEvents = [];
+    let eventCountsByDate = {};
+
+    function countEvents(events) {
+        eventCountsByDate = {};
+        events.forEach(ev => {
+            let date = ev.start;
+            eventCountsByDate[date] = (eventCountsByDate[date] || 0) + 1;
+        });
+    }
+
+    function createBadge(info) {
+        let dateStr = info.dateStr;
+        if (eventCountsByDate[dateStr]) {
+            let badge = document.createElement('div');
+            badge.textContent = eventCountsByDate[dateStr];
+            Object.assign(badge.style, {
+                position: 'absolute',
+                top: '2px',
+                right: '2px',
+                backgroundColor: 'red',
+                color: 'white',
+                borderRadius: '50%',
+                fontSize: '10px',
+                padding: '2px 5px',
+                zIndex: '10',
+                pointerEvents: 'none'
+            });
+            info.el.style.position = 'relative';
+            info.el.appendChild(badge);
+        }
+    }
+
+    let calStd, cal1, cal2;
+
+    function setupCalendars(events) {
+        console.log('setupCalendars appelée avec', events.length, 'événements');
+        countEvents(events);
+
+        if (calStd) calStd.destroy();
+        if (cal1) cal1.destroy();
+        if (cal2) cal2.destroy();
+
+        calStd = new FullCalendar.Calendar(document.getElementById('calendarStandard'), {
+            locale: 'fr',
+            editable: true,
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events,
+            eventDidMount(info) {
+                if (info.event.extendedProps.reference) {
+                    info.el.setAttribute("title", info.event.extendedProps.reference);
+                }
+            },
+            dayCellDidMount: createBadge
+        });
+
+        cal1 = new FullCalendar.Calendar(document.getElementById('calendar1'), {
+            locale: 'fr',
+            editable: false,
+            initialView: 'dayGridMonth',
+            initialDate: new Date(),
+            headerToolbar: { left: '', center: 'title', right: '' },
+            events,
+            eventDidMount(info) {
+                if (info.event.extendedProps.reference) {
+                    info.el.setAttribute("title", info.event.extendedProps.reference);
+                }
+            },
+            dayCellDidMount: createBadge
+        });
+
+        cal2 = new FullCalendar.Calendar(document.getElementById('calendar2'), {
+            locale: 'fr',
+            editable: false,
+            initialView: 'dayGridMonth',
+            initialDate: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1),
+            headerToolbar: { left: '', center: 'title', right: '' },
+            events,
+            eventDidMount(info) {
+                if (info.event.extendedProps.reference) {
+                    info.el.setAttribute("title", info.event.extendedProps.reference);
+                }
+            },
+            dayCellDidMount: createBadge
+        });
+
+        calStd.render();
+        cal1.render();
+        cal2.render();
+        
+        console.log('Calendriers rendus. Événements dans calStd:', calStd.getEvents().length);
+    }
+
+    fetch('/projet1/api/commandes')
+        .then(res => res.json())
+        .then(data => {
+            console.log('Données reçues de l\'API:', data);
+            data.forEach(ev => {
+                ev.color = stringToColor(ev.client || "");
+            });
+            allEvents = data;
+            console.log('Événements formatés pour FullCalendar:', allEvents);
+            setupCalendars(allEvents);
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des commandes:', error);
+        });
+
+    // Filtres
+    function applyFilters() {
+        const num = document.getElementById("searchInput").value.toLowerCase();
+        const client = document.getElementById("clientFilterInput").value.toLowerCase();
+        const filtered = allEvents.filter(e =>
+            (!num || e.title.toLowerCase().includes(num)) &&
+            (!client || (e.client && e.client.toLowerCase().includes(client)))
+        );
+        setupCalendars(filtered);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('clientFilterInput').addEventListener('input', applyFilters);
+    document.getElementById('resetFilters').addEventListener('click', () => {
+        document.getElementById('searchInput').value = "";
+        document.getElementById('clientFilterInput').value = "";
+        setupCalendars(allEvents);
+    });
+
+    // Onglets
+    document.getElementById('btnVueStandard').addEventListener('click', () => {
+        document.getElementById('vueStandard').style.display = 'block';
+        document.getElementById('vueDeuxMois').style.display = 'none';
+    });
+    document.getElementById('btnVueDeuxMois').addEventListener('click', () => {
+        document.getElementById('vueStandard').style.display = 'none';
+        document.getElementById('vueDeuxMois').style.display = 'block';
+    });
+
+    // ---------------------------
+    // SUIVI DES DÉLAIS
+    // ---------------------------
+    
+    // Charger les données de suivi
+    function loadSuiviData() {
+        fetch('/projet1/api/commandes-avec-suivi')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('tbodySuivi');
+                tbody.innerHTML = '';
+                
+                data.forEach(commande => {
+                    const row = document.createElement('tr');
+                    const statutClass = getStatutClass(commande.statut_delai);
+                    const ecartText = commande.ecart_jours !== null ? 
+                        `${commande.ecart_jours > 0 ? '+' : ''}${commande.ecart_jours}` : '-';
+                    
+                    row.innerHTML = `
+                        <td>${commande.numero}</td>
+                        <td>${commande.client || '-'}</td>
+                        <td>${commande.date_prevue || '-'}</td>
+                        <td>${commande.date_reelle || '-'}</td>
+                        <td><span class="badge ${statutClass}">${commande.statut_delai}</span></td>
+                        <td>${ecartText}</td>
+                        <td>
+                            ${!commande.termine ? 
+                                `<button class="btn btn-sm btn-success" onclick="marquerLivraison('${commande.numero}')">
+                                    Marquer livré
+                                </button>` : 
+                                '<span class="text-muted">Terminé</span>'
+                            }
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            });
+    }
+
+    // Charger les alertes de retard
+    function loadAlertesRetard() {
+        fetch('/projet1/api/alertes-retard')
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('alertesRetard');
+                container.innerHTML = '';
+                
+                if (data.length === 0) {
+                    container.innerHTML = '<div class="alert alert-success">Aucune alerte de retard</div>';
+                    return;
+                }
+                
+                data.forEach(alerte => {
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = 'alert alert-warning';
+                    alertDiv.innerHTML = `
+                        <strong>${alerte.numero}</strong> - ${alerte.client}<br>
+                        <small>Retard de ${alerte.jours_retard} jour(s) depuis le ${alerte.date_prevue}</small>
+                    `;
+                    container.appendChild(alertDiv);
+                });
+            });
+    }
+
+    // Charger les indicateurs de performance
+    function loadIndicateursPerformance() {
+        fetch('/projet1/api/statistiques-performance')
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('indicateursGlobaux');
+                container.innerHTML = `
+                    <div class="col-md-6 mb-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Taux de Ponctualité</h5>
+                                <h2 class="text-success">${data.taux_ponctualite}%</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Commandes Livrées</h5>
+                                <h2 class="text-info">${data.commandes_livrees}/${data.total_commandes}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Délai Moyen</h5>
+                                <h2 class="text-primary">${data.delai_moyen} jours</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">En Retard Actuel</h5>
+                                <h2 class="text-danger">${data.en_retard_actuel}</h2>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+    }
+
+    // Charger la performance par client
+    function loadPerformanceClient() {
+        fetch('/projet1/api/performance-par-client')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('tbodyPerformanceClient');
+                tbody.innerHTML = '';
+                
+                data.forEach(client => {
+                    const row = document.createElement('tr');
+                    const tauxClass = client.taux_ponctualite >= 80 ? 'text-success' : 
+                                    client.taux_ponctualite >= 60 ? 'text-warning' : 'text-danger';
+                    
+                    row.innerHTML = `
+                        <td>${client.client}</td>
+                        <td>${client.total_commandes}</td>
+                        <td>${client.commandes_livrees}</td>
+                        <td>${client.livrees_a_temps}</td>
+                        <td><span class="${tauxClass}">${client.taux_ponctualite}%</span></td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            });
+    }
+
+    // Fonction utilitaire pour les classes de statut
+    function getStatutClass(statut) {
+        switch(statut) {
+            case 'Livré à Temps': return 'bg-success';
+            case 'Livré en Retard': return 'bg-danger';
+            case 'En Retard': return 'bg-warning';
+            case 'En Cours': return 'bg-info';
+            default: return 'bg-secondary';
+        }
+    }
+
+    // Fonction pour marquer une livraison
+    function marquerLivraison(numero) {
+        const date = prompt('Date de livraison réelle (YYYY-MM-DD):', new Date().toISOString().split('T')[0]);
+        if (date) {
+            fetch('/projet1/api/marquer-livraison', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    numero: numero,
+                    date_livraison: date,
+                    user: 'Utilisateur'
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Livraison marquée avec succès');
+                    loadSuiviData();
+                    loadIndicateursPerformance();
+                } else {
+                    alert('Erreur: ' + data.message);
+                }
+            });
+        }
+    }
+
+    // Gestion des onglets
+    document.getElementById('suivi-tab').addEventListener('click', () => {
+        loadSuiviData();
+        loadAlertesRetard();
+    });
+
+    document.getElementById('performance-tab').addEventListener('click', () => {
+        loadIndicateursPerformance();
+        loadPerformanceClient();
+    });
+});
+</script>
+{% endblock %}

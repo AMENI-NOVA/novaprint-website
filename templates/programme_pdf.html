@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    h1, h2 { color: #333; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    th { background-color: #f4f4f4; }
+  </style>
+</head>
+<body>
+
+<h1>Programme de Voyage</h1>
+<h2>N° {{ voyage.NumeroVoyage }}</h2>
+
+<p><strong>Date :</strong> {{ voyage.DateVoyage }}</p>
+<p><strong>Destination :</strong> {{ voyage.Destination }}</p>
+<p><strong>Camion :</strong> {{ voyage.Camion }}</p>
+<p><strong>Chauffeur :</strong> {{ voyage.Chauffeur }}</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Client</th>
+      <th>Numéro de Dossier</th>
+      <th>Quantité</th>
+      <th>Pièces/Carton</th>
+      <th>Cartons/Palette</th>
+      <th>Nb Cartons</th>
+      <th>Nb Palettes</th>
+      <th>Terminé</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ligne in lignes %}
+    <tr>
+      <td>{{ ligne.Client }}</td>
+      <td>{{ ligne.NumDossier }}</td>
+      <td>{{ ligne.Quantite }}</td>
+      <td>{{ ligne.PiecesParCarton }}</td>
+      <td>{{ ligne.CartonsParPalette }}</td>
+      <td>{{ ligne.NbCarton }}</td>
+      <td>{{ ligne.NbPalette }}</td>
+      <td>{% if ligne.Termine %}✔{% else %}✘{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+</body>
+</html>

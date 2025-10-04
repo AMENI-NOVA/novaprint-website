@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% block title %}Planning de Production{% endblock %}
+
+{% block content %}
+<h2>Planning de Production</h2>
+
+<div style="display: flex; gap: 40px; margin-bottom: 20px; flex-wrap: wrap;">
+  <div>
+    <h4>Filtrer par service :</h4>
+    <div style="margin-bottom: 5px;">
+      <button onclick="cocherDecocher('serviceFilters', true)">Tout cocher</button>
+      <button onclick="cocherDecocher('serviceFilters', false)">Tout décocher</button>
+    </div>
+    <div id="serviceFilters" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
+  </div>
+  <div id="posteFilterContainer" style="display: none;">
+    <h4>Filtrer par machine :</h4>
+    <div style="margin-bottom: 5px;">
+      <button onclick="cocherDecocher('posteFilters', true)">Tout cocher</button>
+      <button onclick="cocherDecocher('posteFilters', false)">Tout décocher</button>
+    </div>
+    <div id="posteFilters" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
+  </div>
+</div>
+<div>
+  <button onclick="toutAfficher()" style="margin-bottom: 20px;">Tout afficher</button>
+</div>
+
+<div id="planningContainer">
+  <!-- Contenu dynamique -->
+</div>
+
+<!-- Menu flottant changement de poste -->
+<div id="miniPosteSelector" style="position:absolute; display:none; background:white; border:1px solid #ccc; padding:10px; box-shadow:0 2px 10px rgba(0,0,0,0.2); z-index:10000;">
+  <select id="selectNewPosteInline"></select>
+  <button onclick="confirmerChangementPoste()">✅</button>
+  <button onclick="fermerMiniPoste()">❌</button>
+</div>
+
+<!-- Toast pour notification -->
+<div id="toast" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background-color:#333; color:#fff; padding:10px 20px; border-radius:5px; z-index:10001; font-size:14px;"></div>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+let globalFiches = {};
+let postesDuService = [];
+let currentFicheId = null;
+let currentFicheBtn = null;
+
+function genererCheckboxes(id, valeurs, onchange) {
+  const conteneur = document.getElementById(id);
+  conteneur.innerHTML = "";
+  Object.keys(valeurs).forEach(v => {
+    const label = document.createElement("label");
+    label.style.display = "flex";
+    label.style.alignItems = "center";
+    label.style.marginRight = "10px";
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = v;
+    checkbox.addEventListener("change", onchange);
+    label.appendChild(checkbox);
+    label.append(` ${v}`);
+    conteneur.appendChild(label);
+  });
+}
+
+function cocherDecocher(id, cocher) {
+  document.querySelectorAll(`#${id} input[type='checkbox']`).forEach(cb => {
+    cb.checked = cocher;
+  });
+  afficher();
+}
+
+function toutAfficher() {
+  cocherDecocher('serviceFilters', true);
+  cocherDecocher('posteFilters', true);
+}
+
+function ajouterFiltreCommande() {
+  const container = document.createElement("div");
+  container.innerHTML = `
+    <label for="commandeFilter">Filtrer par commande :</label>
+    <input type="text" id="commandeFilter" placeholder="Ex: 2025..." style="margin-left: 10px;">
+  `;
+  const serviceFilters = document.getElementById("serviceFilters");
+  serviceFilters.parentElement.appendChild(container);
+
+  document.getElementById("commandeFilter").addEventListener("input", afficher);
+}
+
+function afficher() {
+  const servicesActifs = [...document.querySelectorAll('#serviceFilters input:checked')].map(e => e.value);
+  const postesActifs = [...document.querySelectorAll('#posteFilters input:checked')].map(e => e.value);
+  const filtreCommande = document.getElementById("commandeFilter")?.value.toLowerCase() || "";
+
+  const container = document.getElementById("planningContainer");
+  container.innerHTML = "";
+
+  Object.entries(globalFiches).forEach(([service, fiches]) => {
+    if (!servicesActifs.includes(service)) return;
+
+    const fichesFiltrees = fiches.filter(f =>
+      postesActifs.includes(f.poste) &&
+      (!filtreCommande || f.commande.toLowerCase().includes(filtreCommande))
+    );
+    if (fichesFiltrees.length === 0) return;
+
+    const section = document.createElement("section");
+    section.innerHTML = `<h3>${service}</h3>`;
+    const table = document.createElement("table");
+    table.className = "planningTable";
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>Commande</th>
+          <th>Client</th>
+          <th>Poste <span style="font-weight: normal; font-size: 12px;">(🔄 pour changer)</span></th>
+          <th>Fiche</th>
+          <th>Date/Heure Début</th>
+          <th>Date/Heure Fin</th>
+          <th>Opération</th>
+          <th>Opérateur</th>
+          <th>Nb Op.</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
+    const tbody = table.querySelector("tbody");
+    fichesFiltrees.forEach(fiche => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${fiche.commande}</td>
+        <td>${fiche.client}</td>
+        <td>${fiche.poste} <button onclick="ouvrirMiniPoste(this, ${fiche.id_fiche}, '${service}')">🔄</button></td>
+        <td>${fiche.ref_fiche}</td>
+        <td><button onclick="setDebut(this)">Définir</button><br><span class="debut"></span></td>
+        <td><button onclick="setFin(this)">Définir</button><br><span class="fin"></span></td>
+        <td>
+          <select class="operation-select">
+            ${fiche.operations.map(op => `<option value="${op.id}">${op.nom}</option>`).join('')}
+          </select>
+        </td>
+        <td><select class="select-operateur" data-selected="${fiche.id_personne || ''}"></select></td>
+        <td><input type="number" class="nb-op" min="1" value="1" style="width: 60px;"></td>
+        <td><button onclick="enregistrerTraitement(this, ${fiche.id_fiche})">Enregistrer</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    section.appendChild(table);
+    container.appendChild(section);
+  });
+
+  chargerOperateurs();
+}
+
+function chargerOperateurs() {
+  fetch("/projet5/api/personnes")
+    .then(res => res.json())
+    .then(personnes => {
+      document.querySelectorAll(".select-operateur").forEach(select => {
+        select.innerHTML = "";
+        personnes.forEach(p => {
+          const opt = document.createElement("option");
+          opt.value = p.id;
+          opt.textContent = `${p.nom} (${p.code})`;
+          select.appendChild(opt);
+        });
+        const selected = select.dataset.selected;
+        if (selected) select.value = selected;
+      });
+    });
+}
+
+function ouvrirMiniPoste(btn, idFiche, service) {
+  currentFicheId = idFiche;
+  currentFicheBtn = btn;
+  const menu = document.getElementById("miniPosteSelector");
+  const select = document.getElementById("selectNewPosteInline");
+  select.innerHTML = "";
+
+  postesDuService = [...new Set(globalFiches[service].map(f => f.poste))];
+  postesDuService.forEach(p => {
+    const opt = document.createElement("option");
+    opt.value = p;
+    opt.textContent = p;
+    select.appendChild(opt);
+  });
+
+  const rect = btn.getBoundingClientRect();
+  menu.style.top = `${window.scrollY + rect.bottom}px`;
+  menu.style.left = `${rect.left}px`;
+  menu.style.display = "block";
+}
+
+function fermerMiniPoste() {
+  document.getElementById("miniPosteSelector").style.display = "none";
+  currentFicheId = null;
+  currentFicheBtn = null;
+}
+
+function confirmerChangementPoste() {
+  const nouveauPoste = document.getElementById("selectNewPosteInline").value;
+
+  fetch("/projet5/api/change_poste", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      id_fiche_travail: currentFicheId,
+      nouveau_poste: nouveauPoste
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    showToast(data.message || "Poste mis à jour !");
+    fermerMiniPoste();
+    if (data.success && currentFicheBtn) {
+      const ligne = currentFicheBtn.closest("tr");
+      ligne.querySelector("td:nth-child(3)").innerHTML = `${nouveauPoste} <button onclick="ouvrirMiniPoste(this, ${currentFicheId}, '${getServiceByPoste(nouveauPoste)}')">🔄</button>`;
+    }
+  })
+  .catch(() => showToast("Erreur lors du changement de poste."));
+}
+
+function getServiceByPoste(poste) {
+  for (let [service, fiches] of Object.entries(globalFiches)) {
+    if (fiches.some(f => f.poste === poste)) {
+      return service;
+    }
+  }
+  return "";
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.style.display = "block";
+  setTimeout(() => {
+    toast.style.display = "none";
+  }, 3000);
+}
+
+fetch("/projet5/api/fiche_travail")
+  .then(res => res.json())
+  .then(data => {
+    globalFiches = data;
+    genererCheckboxes("serviceFilters", data, () => {
+      const servicesActifs = [...document.querySelectorAll('#serviceFilters input:checked')].map(e => e.value);
+      const postes = {};
+      servicesActifs.forEach(s => {
+        if (!data[s]) return;
+        data[s].forEach(f => postes[f.poste] = true);
+      });
+      document.getElementById("posteFilterContainer").style.display = "block";
+      genererCheckboxes("posteFilters", postes, afficher);
+      afficher();
+    });
+    ajouterFiltreCommande();
+  });
+</script>
+{% endblock %}

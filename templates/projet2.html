@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Gestion des Commandes – Novaprint{% endblock %}
+
+{% block content %}
+    <h1>Liste des Commandes en cours</h1>
+
+    <a href="{{ url_for('index') }}" class="back-link">⬅ Retour à la page d'accueil</a>
+
+    <div class="resume-box">
+        <span>Total de commandes affichées : <strong id="totalCount"></strong></span>
+        <button id="resetFilters" class="reset-btn">Réinitialiser les filtres</button>
+    </div>
+
+    <div class="table-wrapper">
+        <table id="commandesTable" class="display novaprint-table">
+            <thead>
+                <tr>
+                    <th>Numéro</th>
+                    <th>Raison sociale</th>
+                    <th>Référence</th>
+                    <th>Sortie papier</th>
+                    <th>% Éléments reçus</th>
+                    <th>Prépresse</th>
+                    <th>Impression</th>
+                    <th>Façonnage</th>
+                    <th>État livraison</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Numéro</th>
+                    <th>Raison sociale</th>
+                    <th>Référence</th>
+                    <th>Sortie papier</th>
+                    <th>% Éléments reçus</th>
+                    <th>Prépresse</th>
+                    <th>Impression</th>
+                    <th>Façonnage</th>
+                    <th>État livraison</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    <td>{{ row.Numero }}</td>
+                    <td>{{ row.RaiSocTri }}</td>
+                    <td>{{ row.Reference }}</td>
+                    <td class="{{ 'etat-vert' if row.SortiePapier == 'OK' else 'etat-rouge' }}">
+                        {{ '✔️' if row.SortiePapier == 'OK' else '⏳' }}
+                    </td>
+                    <td>{{ row.PourcentageReceptElem }}%</td>
+                    <td>{{ row.EtatPrepress }}</td>
+                    <td>{{ row.EtatImpression }}</td>
+                    <td>{{ row.EtatFaconnage }}</td>
+                    <td>{{ row.EtatLiv }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    $('#commandesTable tfoot th').each(function () {
+        $(this).html('<input type="text" placeholder="Filtrer..." style="width: 100%; box-sizing: border-box;" />');
+    });
+
+    var table = $('#commandesTable').DataTable({
+        pageLength: 50,
+        order: [[0, 'desc']],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
+        },
+        initComplete: function () {
+            this.api().columns().every(function () {
+                var that = this;
+                $('input', this.footer()).on('keyup change clear', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        },
+        createdRow: function (row, data, dataIndex) {
+            const colPourcentage = 4;
+            const colPrepress = 5;
+            const colImpression = 6;
+            const colFaconnage = 7;
+            const colEtatLiv = 8;
+
+            [colPrepress, colImpression, colFaconnage, colEtatLiv].forEach(function (colIndex) {
+                const val = data[colIndex];
+                const cell = $('td', row).eq(colIndex);
+
+                if (val == '1') {
+                    cell.html('✔️').addClass('etat-vert');
+                } else if (val == '0') {
+                    cell.html('❌').addClass('etat-rouge');
+                } else if (val == '2') {
+                    cell.html('🟠').addClass('etat-orange');
+                }
+            });
+
+            const valPourcent = parseInt(data[colPourcentage]);
+            const cellPourcent = $('td', row).eq(colPourcentage);
+            if (valPourcent === 0) {
+                cellPourcent.addClass('etat-rouge');
+            } else if (valPourcent === 100) {
+                cellPourcent.addClass('etat-vert');
+            } else {
+                cellPourcent.addClass('etat-orange');
+            }
+        }
+    });
+
+    function updateTotalCount() {
+        const count = table.rows({ search: 'applied' }).count();
+        $('#totalCount').text(count);
+    }
+
+    updateTotalCount();
+    table.on('draw', updateTotalCount);
+
+    $('#resetFilters').click(function () {
+        $('#commandesTable tfoot input').val('');
+        table.columns().search('').draw();
+    });
+});
+</script>
+{% endblock %}

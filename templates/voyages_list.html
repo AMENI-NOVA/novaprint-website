@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Liste des Voyages{% endblock %}
+{% block content %}
+<h1>Liste des Voyages</h1>
+
+<form method="get" style="margin-bottom: 20px;">
+    <label>🔍 Numéro de voyage :
+        <input type="text" name="numero" value="{{ search_numero }}">
+    </label>
+    <label>📅 Date :
+        <input type="date" name="date" value="{{ search_date }}">
+    </label>
+    <button type="submit">Rechercher</button>
+    <a href="{{ url_for('projet6.list_voyages') }}">🔄 Réinitialiser</a>
+</form>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Numéro de Voyage</th>
+            <th>Date</th>
+            <th>Destination</th>
+            <th>Camion</th>
+            <th>Chauffeur</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for voyage in voyages %}
+        <tr>
+            <td>{{ voyage[1] }}</td>
+            <td>{{ voyage[2] }}</td>
+            <td>{{ voyage[3] }}</td>
+            <td>{{ voyage[4] }}</td>
+            <td>{{ voyage[5] }}</td>
+            <td><a href="{{ url_for('projet6.edit_voyage', id=voyage[0]) }}">Modifier</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<button onclick="window.location.href='{{ url_for('projet6.programme_voyage') }}'">Nouveau Voyage</button>
+<button type="button" onclick="window.history.back()" style="
+    margin-bottom: 15px;
+    padding: 8px 16px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+">
+    ⬅️ Retour
+</button>
+
+{% endblock %}

@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Calcul du façonnage avec plusieurs versions</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="DevisOpti.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_2836><SPAN>Calcul du façonnage avec plusieurs 
+versions</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="vrificationsavantlecalcul.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="amalgamesdemodlesdeformatsetquantitsdiffrentes.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<H5><SPAN>Devis de brochure et étapes du chemin de brochage</SPAN></H5>
+<P class=MsoNormal><SPAN>Les étapes du chemin de brochage se trouvant avant 
+l’étape d’assemblage <SPAN style="COLOR: black"><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>(assemblage cahier, encartage piquage, 
+assemblage feuilles, couture fil) </SPAN>sont calculées séparément pour chaque 
+élément de la version.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si la 
+version est assemblée, les étapes du chemin de brochage à partir de 
+l’assemblage, sont calculées version par version.</SPAN></P>
+<P class=Suitepuce><SPAN>C’est la même machine (assembleuse feuilles ou cahier, 
+encarteuse-piqueuse) qui est utilisée pour réaliser l’assemblage de toutes les 
+versions d’un devis.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si la 
+version n’est pas assemblée, les étapes du chemin de brochage à partir de 
+l’assemblage ne sont pas calculées. </SPAN></P>
+<H5><SPAN>Devis de fiches et assemblage</SPAN></H5>
+<P class=MsoNormal><SPAN>L’assemblage des fiches est calculé pour les versions 
+marquées comme assemblées et comportant plus d’1 modèle.</SPAN></P>
+<H5><SPAN>Calcul des opérations de façonnage saisies au devis</SPAN></H5>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si la 
+version est assemblée, les opérations de façonnage saisies au devis sont 
+calculées version par version.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si la 
+version n’est pas assemblée, les opérations de façonnage saisies au devis sont 
+calculées séparément pour chaque élément de la version. </SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si une 
+opération est présente sur plusieurs versions, ses coûts fixes ne seront comptés 
+que pour la 1<SUP>ère</SUP> version, sauf s’il s’agit d’une opération sans tarif 
+pour laquelle les tarifs sont saisis en même temps que le devis.</SPAN></P>
+<H5><SPAN>Calcul des coûts de calage et de la gâche</SPAN></H5>
+<P class=MsoNormal><SPAN>Quelle que soit l’opération calculée, les coûts de 
+calage ne sont comptés qu’une seule fois, soit pour le 1<SUP>er</SUP> élément ou 
+la 1<SUP>ère</SUP> version.</SPAN></P>
+<P class=MsoNormal><SPAN>Pour le calcul des opérations d’assemblage, le calage 
+est calculé par rapport au plus grand nombre de postes de toutes les versions du 
+devis.</SPAN></P>
+<P class=MsoNormal><SPAN>Les gâches de façonnage sont calculées pour chaque 
+version et utilisées ensuite pour calculer la quantité à produire pour chaque 
+élément en fonction des éléments composant chaque version.</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Calcul d'une solution pour un chemin de prépresse comportant une flasheuse</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="ParamCalc.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_3076><SPAN>Calcul d’une solution pour un chemin de prépresse 
+comportant une flasheuse</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="calculduflashage.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="machinerpter1.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Dans tous les cas, les chemins pour lesquels le format 
+maxi de la flasheuse est plus petit que le format d'1 bout (page ou modèle) ne 
+sont pas pris en compte dans l'optimisation.</SPAN></P>
+<P class=MsoNormal><SPAN>Le format d'imposition comprend les doubles coupes, le 
+blanc tournant, la gamme Bruner et le dépassant, mais pas la prise de 
+pince.</SPAN></P>
+<H6><SPAN>Flasheuse plaques</SPAN></H6>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Format 
+d'imposition &lt; format flasheuse :<BR>Calcul flashage à partir du format 
+d'imposition&nbsp;.<BR>Calcul éventuel du montage films, copie et plaques 
+matière (en toute logique, ces étapes ne devraient pas se trouver dans un 
+procédé comportant une flasheuse avec une sortie plaques, mais si c'est le cas, 
+les coûts correspondant seront tout de même calculés en fonction de la machine 
+d'impression).</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Sinon : ce 
+chemin est impossible.</SPAN></P>
+<H6><SPAN>Flasheuse pouvant sortir des films montés</SPAN></H6>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Format 
+d'imposition &lt; format flasheuse :<BR>Calcul flashage pour tous les bouts (pas 
+de montage manuel).</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Format 
+d'imposition &gt; format flasheuse :<BR>Si le chemin ne comporte pas d'étape 
+"Montage films", on considère qu'il est impossible dans ce cas, puisque le 
+montage entier ne peut être flashé en une seule fois.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Format 
+d'1 pose &lt; Format flasheuse</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 6pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Si pas d'étape "Duplis" dans le chemin :</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>Si la 
+flasheuse sort des films en bobine :</SPAN></P>
+<P class=MsoListBullet4><SPAN>Optimisation du flashage pour flasher en une seule 
+fois le maximum de poses déjà montées, et minimiser le nombre de bouts de films 
+restant à monter après le flashage. Par exemple dans le cas d’une imposition en 
+8 poses, le flashage pourra être fait par 4 poses montées<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>(suivant la laize de la 
+flasheuse).</SPAN></P>
+<P class=MsoListBullet4><SPAN>Calcul montage manuel pour les bouts montés et 
+flashés.</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>Si la 
+flasheuse sort des films en planche :</SPAN></P>
+<P class=MsoListBullet4><SPAN>Calcul du flashage pour tous les bouts,</SPAN></P>
+<P class=MsoListBullet4><SPAN>Calcul montage manuel pour monter les x 
+poses.</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 6pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Si étape "Duplis" dans le chemin :</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>Calcul 
+flashage pour tous les bouts de la 1ère pose</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>Calcul des 
+duplis (optimisation répétex) et du montage pour les x poses.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Format 
+d'1 pose &gt; Format flasheuse :<BR>Possible uniquement dans le cas d'une 
+brochure ou d'amalgame de fiches ou dépliants.<BR>Calcul du format à flasher et 
+du nombre de bouts à monter :</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 6pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Si brochure :</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>. Format du 
+4 pages &lt; Format flasheuse : flashage par 4 pages montées,</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>. Format du 
+4 pages &gt; Format flasheuse : flashage par 2 pages,</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>Toutes les 
+pages doivent être montées.</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 6pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Si amalgame de fiches/dépliant : flashage par 1 
+modèle</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>Tous les 
+modèles doivent être montés.</SPAN></P>
+<P class=Suitepuce2><SPAN>Calcul du flashage (à partir du format à flasher 
+précédemment calculé).</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 6pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Si pas d'étape "Duplis" dans le chemin :</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>Calcul 
+flashage pour tous les bouts,</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN 
+style="mso-ansi-language: PT">Calcul montage manuel.</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 6pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Si étape "Duplis" dans le chemin :</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>Calcul 
+flashage pour tous les bouts de la 1ère pose (ou pour 2 poses si imposition 
+basculée),</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>Calcul des 
+duplis (optimisation répétex) pour les x poses</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN 
+style="mso-ansi-language: PT">Calcul montage manuel.</SPAN></P>
+<H6><SPAN>Flasheuse sortant des films non montés<SPAN 
+style="COLOR: black"></SPAN></SPAN></H6>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si pas 
+d'étape "Duplis" dans le chemin :<BR>Calcul flashage pour tous les bouts : le 
+calcul du flashage de chaque bout est calculé séparément.<BR>Si étape "Montage 
+films" dans le chemin : Calcul montage manuel pour monter tous les 
+bouts.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si étape 
+"Duplis" dans le chemin :<BR>Calcul flashage pour tous les bouts de la 1ère pose 
+(ou pour 2 poses si imposition basculée).<BR>Calcul des duplis (optimisation 
+répétex) pour les x poses.<BR>Calcul du montage pour tous les bouts.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

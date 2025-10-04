@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Codes à barres IFRA</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="GsParam.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_573><SPAN>Codes à barres IFRA</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="paramtragedescodesbarres.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="codesinternesautrescodes.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Le code IFRA est une codification utilisée par les 
+fabricants pour identifier les bobines de papier journal. Le code est formé de 
+16 chiffres. Le 14<SUP>ème</SUP> chiffre code les caractéristiques du papier, 
+les chiffres 13, 15 et 16 définissent le fournisseur, les chiffres 9 à 12 
+donnent le poids en Kg de la bobine.</SPAN></P>
+<P class=MsoNormal><SPAN>Graphisoft peut reconnaître ces codes pour initialiser 
+les informations liées au lot comme le code article, la quantité et le 
+fournisseur. </SPAN></P>
+<P class=MsoNormal><SPAN>Pour paramétrer la liaison entre les codes IFRA et les 
+stocks, vous devez d’abord créer&nbsp;:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Les 
+références des stocks de papiers journal dans la branche «&nbsp;Articles&nbsp;» 
+du paramétrage</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Les 
+fournisseurs de papier journal dans la branche «&nbsp;Noms – Fournisseurs&nbsp;» 
+du paramétrage.</SPAN></P>
+<P class=MsoNormal><SPAN>Ensuite, ouvrez «&nbsp;Paramétrage des codes 
+barre&nbsp;» dans la branche Gestion des Stocks du paramétrage.</SPAN></P>
+<P class=MsoNormal><SPAN>Le type de codage s’affiche en haut à gauche. Pour 
+l’instant seul le codage IFRA est géré.</SPAN></P>
+<P class=MsoNormal><SPAN>Les différentes informations qui peuvent être reliées 
+sont listées dans la liste de déroulante à droite.</SPAN></P>
+<P class=MsoNormal><SPAN>Les valeurs du code et leur correspondance dans les 
+stocks sont listées dans le tableau principal.</SPAN></P>
+<P class=MsoNormal><SPAN>Dans la colonne de gauche figurent les valeurs des 
+caractères du code aux positions indiquées dans l’entête de colonne. Entrez ici 
+les valeurs sans séparateur. <BR>Exemple&nbsp;: Si les caractères 13, 15 et 16 
+du code IFRA sont 1,4 et 2 ou 2, 4 et 2 alors le fournisseur est Chapelle 
+Darblay en France. Entrez 142 dans la colonne de gauche et sélectionnez Chapelle 
+Darblay dans votre liste de fournisseurs. Faites de même dans une nouvelle ligne 
+avec le code 242.</SPAN></P>
+<P class=MsoNormal><SPAN>La colonne de droite permet de taper ou sélectionner le 
+stock ou le fournisseur correspondant. Le bouton «&nbsp;...&nbsp;» ou le bouton 
+pour dérouler la liste donne accès aux éléments déjà paramétrés dans 
+Graphistock.</SPAN></P>
+<P class=MsoNormal><SPAN>Pour relier une valeur du code à un groupe de stocks 
+(le chiffre 14 du code IFRA ne donne que le grammage et la qualité du papier), 
+utilisez le caractère «&nbsp;*&nbsp;». <BR>Exemple&nbsp;: La valeur 1 du code 
+correspond à du 40g/m² journal standard sans préciser la laize. Reliez cette 
+valeur à «&nbsp;JOURSTD...40*&nbsp;» (où les points marquent les espaces) pour 
+englober toutes les laizes en 40g du papier «&nbsp;JOURSTD&nbsp;».</SPAN></P>
+<P class=MsoNormal><SPAN>Remarques&nbsp;: </SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Il n’est pas 
+nécessaire de définir une relation entre le code et le poids car celui-ci est 
+écrit en clair dans le code et Graphistock le reconnaît 
+automatiquement.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Le lien 
+entre le code IFRA et le stock ne précise pas l’entrepôt même si le dialogue de 
+sélection affiche cette information.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Le code IFRA 
+inscrit sur une bobine par le fabricant est reconnu sans modification par 
+Graphistock. Mais Graphistock lui adjoint le préfixe «&nbsp;@1&nbsp;» pour 
+l’identifier comme tel dans les affichages internes. Les codes internes, décrits 
+ci-après, utilisent le préfixe «&nbsp;@0&nbsp;».</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

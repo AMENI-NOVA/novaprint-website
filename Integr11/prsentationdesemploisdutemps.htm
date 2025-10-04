@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Présentation des emplois du temps</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="ParamGP.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_2008><SPAN>Présentation des emplois du temps</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="paramtragedesemploisdutemps.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="misejourdesemploisdutemps.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Les emplois du temps permettent de définir les périodes 
+travaillées et non travaillées pour un poste ou une personne. Pour cela on crée 
+des périodes répétitives pour les événements qui se répètent fréquemment, et des 
+périodes fixes pour des événements ponctuels.</SPAN></P>
+<P class=MsoNormal><SPAN>Afin de faciliter la création et la mise à jour des 
+emplois du temps, une hiérarchie existe. Cela permet de mettre à jour un 
+ensemble de postes (par exemple) en une seule fois.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Définition de la hiérarchie&nbsp;:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Entreprise</SPAN></P>
+<P class=MsoListBullet2 style="mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Services</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Service</SPAN></P>
+<P class=MsoListBullet4><SPAN>Postes du service</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Sous-traitants</SPAN></P>
+<P class=MsoListBullet2 style="mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Pays</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Sous-traitants du pays</SPAN></P>
+<P class=TOCBase><SPAN>&nbsp;</SPAN></P>
+<H5><SPAN>Principe</SPAN></H5>
+<P class=MsoNormal><SPAN>Chaque élément (l’entreprise, un service de 
+l’entreprise, un poste de l’entreprise, un pays, un sous-traitant) hérite de 
+l’emploi du temps de son parent. Par exemple, un service va hériter de l’emploi 
+du temps de l’entreprise, ou un poste va hériter de l’emploi du temps de son 
+service.</SPAN></P>
+<P class=TOCBase><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>En plus des périodes héritées, un élément peut avoir 
+des périodes qui lui sont propres et qui ne sont pas liées à un emploi du temps. 
+Les périodes propres à un élément sont obligatoirement fixes. Seuls les emplois 
+du temps peuvent avoir des périodes répétitives.</SPAN></P>
+<P class=TOCBase><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Un élément hérite des périodes de tous ses parents, 
+jusqu’au premier parent qui à un emploi du temps.</SPAN></P>
+<P class=MsoNormal><SPAN>Exemple&nbsp;: Aucun emploi du temps n’est affecté au 
+poste PAO, ni au service PREPRESSE. Par contre le service PREPRESSE a des jours 
+de congés exceptionnels. Le poste PAO hérite des périodes de l’emploi du temps 
+de l’entreprise, mais aussi des congés exceptionnels du service 
+PREPRESSE.</SPAN></P>
+<H6><SPAN>Séquence de gestion des emplois du temps</SPAN></H6>
+<P class=MsoListNumber 
+style="MARGIN-LEFT: 1cm; TEXT-INDENT: -14.15pt; tab-stops: 1.0cm; mso-list: none"><SPAN>1.<SPAN> 
+</SPAN>Création d’un ou plusieurs emplois du temps type.</SPAN></P>
+<P class=MsoListNumber 
+style="MARGIN-LEFT: 1cm; TEXT-INDENT: -14.15pt; tab-stops: 1.0cm; mso-list: none"><SPAN>2.<SPAN> 
+</SPAN>Affectation d’un emploi du temps à un ou plusieurs éléments.</SPAN></P>
+<P class=MsoListNumber 
+style="MARGIN-LEFT: 1cm; TEXT-INDENT: -14.15pt; tab-stops: 1.0cm; mso-list: none"><SPAN>3.<SPAN> 
+</SPAN>Création ou Ajout de périodes propres à un élément</SPAN></P>
+<P class=HeadingBase><SPAN 
+style="FONT-FAMILY: 'Times New Roman'; mso-bidi-font-weight: bold">&nbsp;</SPAN></P>
+<H6><SPAN>Explications des icônes des éléments</SPAN></H6>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>aucune&nbsp;: Cet élément ne peut avoir ni emploi du temps 
+ni période. Exemple&nbsp;: l’élément&nbsp;Services.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN><IMG 
+src="Images/image22_57.jpg">&nbsp;: Cet élément a un emploi du temps affecté et 
+ne possède aucune période propre.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN><IMG 
+src="Images/image22_58.jpg">&nbsp;: Cet élément a un emploi du temps affecté et 
+possède au moins une période propre.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN><IMG 
+src="Images/image22_59.jpg">&nbsp;: Cet élément n’a aucun emploi du temps 
+affecté et ne possède aucune période propre.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN><IMG 
+src="Images/image22_60.jpg">&nbsp;: Cet élément n’a aucun emploi du temps 
+affecté et possède au moins une période propre.</SPAN></P>
+<H6><SPAN>Cas particuliers</SPAN></H6>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Chaque 
+sous-traitant sera rattaché au pays correspondant dans l’arborescence. Si ce 
+sous-traitant n’a pas de pays paramétré, il sera rattaché au pays de 
+l’entreprise et enfin, si aucun pays n’est paramétré pour cette dernière, un 
+pays ‘non défini’ sera créé dans l’arborescence. Chaque sous-traitant sans pays 
+y sera rattaché.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si un 
+sous-traitant est rattaché à un pays qui est par ailleurs archivé, l’emploi du 
+temps de ce dernier ne peut être modifié.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si l’élément 
+«&nbsp;Sous-traitants&nbsp;» n’a pas d’emploi du temps, il héritera de celui de 
+l’élément «&nbsp;Entreprise&nbsp;».</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Il n’est pas 
+possible de créer des périodes pour l’élément 
+«&nbsp;Sous-traitants&nbsp;»</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Le pays ‘non 
+défini’ ne peut avoir ni emploi du temps (il héritera de celui utilisé par 
+l’élément «&nbsp;Sous-traitants&nbsp;») ni<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>périodes propres.</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

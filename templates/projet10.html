@@ -1,0 +1,415 @@
+{% extends "base.html" %}
+
+{% block title %}Contrôle Qualité{% endblock %}
+
+{% block content %}
+    <h1 class="fade-in">Contrôle Qualité</h1>
+
+    <!-- Onglets principaux -->
+    <ul class="nav nav-tabs" id="mainTabs" role="tablist" style="margin-bottom: 1rem;">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="controles-tab" data-bs-toggle="tab" data-bs-target="#controles" type="button" role="tab">
+                📋 Contrôles
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="nouveau-tab" data-bs-toggle="tab" data-bs-target="#nouveau" type="button" role="tab">
+                ➕ Nouveau Contrôle
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="statistiques-tab" data-bs-toggle="tab" data-bs-target="#statistiques" type="button" role="tab">
+                📊 Statistiques
+            </button>
+        </li>
+    </ul>
+
+    <!-- Contenu des onglets -->
+    <div class="tab-content" id="mainTabContent">
+        <!-- Onglet Contrôles -->
+        <div class="tab-pane fade show active" id="controles" role="tabpanel">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3>Liste des Contrôles Qualité</h3>
+                <button class="btn btn-primary" onclick="actualiserControles()">
+                    🔄 Actualiser
+                </button>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-striped" id="tableControles">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>N° Dossier</th>
+                            <th>Opérateur</th>
+                            <th>Machine Impression</th>
+                            <th>Machine Découpe</th>
+                            <th>Rebus</th>
+                            <th>Validation</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyControles">
+                        <!-- Données chargées via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Onglet Nouveau Contrôle -->
+        <div class="tab-pane fade" id="nouveau" role="tabpanel">
+            <h3>Nouveau Contrôle Qualité</h3>
+            
+            <form id="formNouveauControle">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="date_controle" class="form-label">Date de Contrôle *</label>
+                            <input type="date" class="form-control" id="date_controle" name="date_controle" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="numero_dossier" class="form-label">N° Dossier *</label>
+                            <select class="form-control" id="numero_dossier" name="numero_dossier" required>
+                                <option value="">Sélectionner un numéro...</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="operateur" class="form-label">Opérateur *</label>
+                            <input type="text" class="form-control" id="operateur" name="operateur" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="machine_impression" class="form-label">Machine Impression</label>
+                            <input type="text" class="form-control" id="machine_impression" name="machine_impression">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="operateur_machine_impression" class="form-label">Opérateur Machine Impression</label>
+                            <input type="text" class="form-control" id="operateur_machine_impression" name="operateur_machine_impression">
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="machine_decoupe" class="form-label">Machine Découpe</label>
+                            <input type="text" class="form-control" id="machine_decoupe" name="machine_decoupe">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="operateur_machine_decoupe" class="form-label">Opérateur Machine Découpe</label>
+                            <input type="text" class="form-control" id="operateur_machine_decoupe" name="operateur_machine_decoupe">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="rebus" class="form-label">Rebus</label>
+                            <input type="number" class="form-control" id="rebus" name="rebus" min="0" value="0">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="validation_chef" class="form-label">Validation Chef</label>
+                            <input type="text" class="form-control" id="validation_chef" name="validation_chef">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Tolérances -->
+                <div class="mb-3">
+                    <h5>Tolérances</h5>
+                    <div id="tolerances-container">
+                        <div class="tolerance-row row mb-2">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" name="quantite_conforme[]" placeholder="Quantité conforme" min="0">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" name="quantite_non_conforme[]" placeholder="Quantité non conforme" min="0">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-danger" onclick="supprimerTolerance(this)">Supprimer</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="ajouterTolerance()">+ Ajouter Tolérance</button>
+                </div>
+                
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success">Créer Contrôle</button>
+                    <button type="button" class="btn btn-secondary" onclick="reinitialiserFormulaire()">Réinitialiser</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Onglet Statistiques -->
+        <div class="tab-pane fade" id="statistiques" role="tabpanel">
+            <h3>Statistiques de Contrôle Qualité</h3>
+            
+            <div class="row" id="statistiques-container">
+                <!-- Statistiques chargées via JavaScript -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    
+    // Charger les numéros de commandes disponibles
+    chargerNumerosCommandes();
+    
+    // Charger les contrôles existants
+    chargerControles();
+    
+    // Gestion du formulaire
+    document.getElementById('formNouveauControle').addEventListener('submit', function(e) {
+        e.preventDefault();
+        creerControle();
+    });
+    
+    // Gestion des onglets
+    document.getElementById('statistiques-tab').addEventListener('click', function() {
+        chargerStatistiques();
+    });
+});
+
+// Charger les numéros de commandes disponibles
+function chargerNumerosCommandes() {
+    fetch('/projet10/api/numeros-commandes')
+        .then(res => res.json())
+        .then(data => {
+            const select = document.getElementById('numero_dossier');
+            select.innerHTML = '<option value="">Sélectionner un numéro...</option>';
+            
+            data.forEach(numero => {
+                const option = document.createElement('option');
+                option.value = numero;
+                option.textContent = numero;
+                select.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des numéros:', error);
+        });
+}
+
+// Charger les contrôles existants
+function chargerControles() {
+    fetch('/projet10/api/controles')
+        .then(res => res.json())
+        .then(data => {
+            const tbody = document.getElementById('tbodyControles');
+            tbody.innerHTML = '';
+            
+            data.forEach(controle => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${controle.id}</td>
+                    <td>${new Date(controle.date_controle).toLocaleDateString('fr-FR')}</td>
+                    <td>${controle.numero_dossier}</td>
+                    <td>${controle.operateur}</td>
+                    <td>${controle.machine_impression || '-'}</td>
+                    <td>${controle.machine_decoupe || '-'}</td>
+                    <td>${controle.rebus}</td>
+                    <td>${controle.validation_chef || 'Non validé'}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info" onclick="voirControle(${controle.id})">Voir</button>
+                        <button class="btn btn-sm btn-warning" onclick="editerControle(${controle.id})">Éditer</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des contrôles:', error);
+        });
+}
+
+// Charger les statistiques
+function chargerStatistiques() {
+    fetch('/projet10/api/statistiques')
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById('statistiques-container');
+            container.innerHTML = `
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Contrôles</h5>
+                            <h2 class="text-primary">${data.total_controles}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Contrôles Validés</h5>
+                            <h2 class="text-success">${data.controles_valides}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Rebus Moyen</h5>
+                            <h2 class="text-warning">${data.rebus_moyen}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Rebus</h5>
+                            <h2 class="text-danger">${data.total_rebus}</h2>
+                        </div>
+                    </div>
+                </div>
+            `;
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des statistiques:', error);
+        });
+}
+
+// Créer un nouveau contrôle
+function creerControle() {
+    const formData = new FormData(document.getElementById('formNouveauControle'));
+    const data = {};
+    
+    // Récupérer les données du formulaire
+    for (let [key, value] of formData.entries()) {
+        if (key.includes('[]')) {
+            const fieldName = key.replace('[]', '');
+            if (!data[fieldName]) data[fieldName] = [];
+            data[fieldName].push(value);
+        } else {
+            data[key] = value;
+        }
+    }
+    
+    // Organiser les tolérances
+    if (data.tolerance && data.quantite_conforme && data.quantite_non_conforme) {
+        data.tolérances = [];
+        for (let i = 0; i < data.tolerance.length; i++) {
+            if (data.tolerance[i]) {
+                data.tolérances.push({
+                    tolerance: data.tolerance[i],
+                    quantite_conforme: parseInt(data.quantite_conforme[i]) || 0,
+                    quantite_non_conforme: parseInt(data.quantite_non_conforme[i]) || 0
+                });
+            }
+        }
+    }
+    
+    // Supprimer les champs temporaires
+    delete data.tolerance;
+    delete data.quantite_conforme;
+    delete data.quantite_non_conforme;
+    
+    fetch('/projet10/api/controle', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('Contrôle créé avec succès!');
+            reinitialiserFormulaire();
+            chargerControles();
+            // Basculer vers l'onglet des contrôles
+            document.getElementById('controles-tab').click();
+        } else {
+            alert('Erreur: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert('Erreur lors de la création du contrôle');
+    });
+}
+
+// Ajouter une tolérance
+function ajouterTolerance() {
+    const container = document.getElementById('tolerances-container');
+    const div = document.createElement('div');
+    div.className = 'tolerance-row row mb-2';
+    div.innerHTML = `
+        <div class="col-md-4">
+            <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+        </div>
+        <div class="col-md-3">
+            <input type="number" class="form-control" name="quantite_conforme[]" placeholder="Quantité conforme" min="0">
+        </div>
+        <div class="col-md-3">
+            <input type="number" class="form-control" name="quantite_non_conforme[]" placeholder="Quantité non conforme" min="0">
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-danger" onclick="supprimerTolerance(this)">Supprimer</button>
+        </div>
+    `;
+    container.appendChild(div);
+}
+
+// Supprimer une tolérance
+function supprimerTolerance(button) {
+    button.closest('.tolerance-row').remove();
+}
+
+// Réinitialiser le formulaire
+function reinitialiserFormulaire() {
+    document.getElementById('formNouveauControle').reset();
+    document.getElementById('tolerances-container').innerHTML = `
+        <div class="tolerance-row row mb-2">
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" name="quantite_conforme[]" placeholder="Quantité conforme" min="0">
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" name="quantite_non_conforme[]" placeholder="Quantité non conforme" min="0">
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-danger" onclick="supprimerTolerance(this)">Supprimer</button>
+            </div>
+        </div>
+    `;
+}
+
+// Voir un contrôle
+function voirControle(id) {
+    fetch(`/projet10/api/controle/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                alert('Erreur: ' + data.error);
+            } else {
+                // Afficher les détails du contrôle dans une modal ou une nouvelle page
+                alert(`Contrôle ${id}: ${data.numero_dossier} - ${data.operateur}`);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors du chargement du contrôle');
+        });
+}
+
+// Éditer un contrôle
+function editerControle(id) {
+    // Implémenter l'édition
+    alert('Fonction d\'édition à implémenter');
+}
+
+// Actualiser les contrôles
+function actualiserControles() {
+    chargerControles();
+}
+</script>
+{% endblock %}

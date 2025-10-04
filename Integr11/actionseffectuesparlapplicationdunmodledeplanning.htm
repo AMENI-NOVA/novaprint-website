@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Actions effectuées par l'application d'un modèle de planning</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_2325><SPAN>Actions effectuées par l'application d'un modèle de 
+planning</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="appliquerunmodledeplanningundossier.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="commentappliquerunmodledeplanning.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>L'application d'un modèle de planning entraîne les 
+actions suivantes :</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-WEIGHT: normal; FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>ajout des points de contrôle définis dans le modèle de 
+planning</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-WEIGHT: normal; FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>calcul des dates de planification pour les contrôles et les 
+fiches de travail</SPAN></P>
+<H5><SPAN>Ajout des points de contrôle</SPAN></H5>
+<H6><SPAN>Points de contrôle non liés à un service</SPAN></H6>
+<P class=MsoNormal><SPAN>Chaque point de contrôle du modèle de planning non lié 
+à un service est ajouté au dossier.</SPAN></P>
+<P class=MsoNormal><SPAN>Attention, un même point de contrôle peut apparaître 
+plusieurs fois dans un modèle de planning. Dans ce cas, le point de contrôle 
+apparaîtra autant de fois dans le dossier.</SPAN></P>
+<H6><SPAN>Points de contrôle liés à un service</SPAN></H6>
+<P class=MsoNormal><SPAN>Les points de contrôle paramétrés comme étant liés à un 
+service sont ajoutés à chaque fiche de travail concernant les postes de ce 
+service. </SPAN></P>
+<P class=MsoNormal><SPAN>Ils sont éventuellement liés à une opération, suivant 
+leur paramétrage. </SPAN></P>
+<P class=MsoNormal><SPAN>Un point de contrôle peut ainsi exister plusieurs fois 
+pour le même dossier, en étant lié à des fiches de travail différentes 
+concernant toutes des postes du même service.</SPAN></P>
+<H5><SPAN>Calcul des dates de planification</SPAN></H5>
+<P class=MsoNormal><SPAN>Les étapes correspondant à un service définissent des 
+dates de planification pour toutes les fiches de travail concernant des postes 
+de ce service.</SPAN></P>
+<P class=MsoNormal><SPAN>Pour les contrôles liés à un service, aucune date de 
+planification n'est calculée, car ils sont rattachés à une fiche de travail qui 
+a sa propre date de planification.</SPAN></P>
+<H6><SPAN>Calcul des dates de début</SPAN></H6>
+<P class=MsoNormal><SPAN>Les dates de début de planification des contrôles et 
+des fiches de travail sont calculées à partir de la date de référence et du 
+nombre de jours en + ou en – par rapport à cette date de référence, définis pour 
+chaque étape du modèle de planning.</SPAN></P>
+<P class=MsoNormal><SPAN>Le nombre de jours par rapport à la date de référence 
+est converti en nombre de jours ouvrés en utilisant le calendrier de 
+l'entreprise défini dans le paramétrage des emplois du temps.</SPAN></P>
+<H6><SPAN>Calcul des dates de fin</SPAN></H6>
+<P class=MsoNormal><SPAN>Les dates de fin de planification sont calculées à 
+partir de la date de début de planification et de la durée définie pour chaque 
+étape du modèle de planning.</SPAN></P>
+<P class=MsoNormal><SPAN>La durée est convertie en jours ouvrés en appliquant 
+les calendriers définis dans le paramétrage des emplois du temps, de la manière 
+suivante :</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-WEIGHT: normal; FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Pour les contrôles et les fiches de travail internes, on 
+applique le calendrier de l'entreprise</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-WEIGHT: normal; FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Pour les fiches sous-traitées :</SPAN></P>
+<P class=MsoListBullet2 style="mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si le 
+sous-traitant est connu, on applique le calendrier défini pour ce sous-traitant, 
+ou à défaut celui défini pour son pays ou à défaut celui de 
+l'entreprise.</SPAN></P>
+<P class=MsoListBullet2 style="mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si le 
+sous-traitant n'est pas connu, on applique le calendrier défini pour 
+l'entreprise.</SPAN></P>
+<H6><SPAN>Sous-traitance</SPAN></H6>
+<P class=MsoNormal><SPAN>Pour les fiches de sous-traitance, les dates de 
+planification sont enregistrées dans les dates d'envoi et de retour 
+prévues.</SPAN></P>
+<P class=MsoNormal><SPAN>Ces dates servent ensuite à initialiser les dates 
+d'envoi et de retour prévues des bons de commande. Si un bon de commande 
+contient des fiches de sous-traitance concernant des services différents, sa 
+date d'envoi prévue est la date d'envoi prévue de la première fiche, et sa date 
+de retour prévue est la date de retour de la dernière fiche.</SPAN></P>
+<H6><SPAN>Planification des fiches non prises en compte par le modèle de 
+planning</SPAN></H6>
+<P class=MsoNormal><SPAN>Il s'agit des fiches concernant des postes de travail 
+dont le service n'apparaît pas dans le modèle de planning.</SPAN></P>
+<P class=MsoNormal><SPAN>Elles sont planifiées de la manière suivante 
+:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-WEIGHT: normal; FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Celles qui précèdent une fiche planifiée (dans l'ordre du 
+processus de fabrication ) ont la même date de planification que cette 
+fiche.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-WEIGHT: normal; FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Les autres sont placées à la fin de la planification dans 
+l’ordre du processus de fabrication.</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

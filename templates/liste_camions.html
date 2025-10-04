@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Liste des Camions{% endblock %}
+
+{% block content %}
+<h1>🚚 Suivi des Camions</h1>
+
+<!-- Nouveau bouton Ajouter camion -->
+<div style="margin-bottom: 15px;">
+    <a href="{{ url_for('projet6.ajouter_camion') }}" class="btn-ajout-camion">➕ Ajouter un nouveau camion</a>
+</div>
+
+<table border="1" class="camion-table">
+    <thead>
+        <tr>
+            <th>Immatriculation</th>
+            <th>Marque</th>
+            <th>Modèle</th>
+            <th>Date d'achat</th>
+            <th>Visite Technique</th>
+            <th>Paiement Taxe</th>
+            <th>Observations</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in camions %}
+        {% set visite_alert = c[5] and c[5] <= today + timedelta(days=15) %}
+        {% set taxe_alert = c[6] and c[6] <= today + timedelta(days=15) %}
+        <tr>
+            <td>{{ c[1] }}</td>
+            <td>{{ c[2] }}</td>
+            <td>{{ c[3] }}</td>
+            <td>{{ c[4] or '' }}</td>
+            <td style="background-color: {% if visite_alert %}#ffeeba{% endif %}">
+                {{ c[5] or '' }}
+            </td>
+            <td style="background-color: {% if taxe_alert %}#f8d7da{% endif %}">
+                {{ c[6] or '' }}
+            </td>
+            <td>{{ c[7] or '' }}</td>
+            <td>
+                <a href="{{ url_for('projet6.edit_camion', id=c[0]) }}">✏️ Modifier</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<style>
+    .camion-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .camion-table th, .camion-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .camion-table th {
+        background-color: #e9ecef;
+    }
+
+    /* Style pour bouton Ajouter Camion */
+    .btn-ajout-camion {
+        display: inline-block;
+        background-color: #28a745;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn-ajout-camion:hover {
+        background-color: #218838;
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,486 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Champs</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="ParamEd.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H3 id=_D2HTopic_1017><SPAN>Champs</SPAN></H3>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="blocs.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="images.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Un champ permet de définir dans le texte un emplacement 
+ou sera inséré une information variable qui dépend de l’édition. Par exemple le 
+numéro de devis est un champ dont la valeur dépend du devis à éditer. Lorsque 
+vous éditez une lettre de confirmation, le champ "Numéro de devis" est remplacé 
+par la valeur correspondante.</SPAN></P>
+<H6><SPAN>Types de champ</SPAN></H6>
+<P class=MsoNormal><SPAN>Il y a 3 types de champs :</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Information 
+non fixe provenant de l'élément à éditer : N° de devis, Nom du client,...<BR>Les 
+informations dépendent du type d'édition.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Libellé lié 
+à un champ d'information et n'étant édité que lorsque l'information liée n'est 
+pas vide. Par exemple, le libellé "Conditionnement : " doit apparaître devant le 
+type de conditionnement, mais ne doit pas apparaître s'il n'y a pas de 
+conditionnement pour le devis édité. Pour chaque champ d'information, il y a un 
+champ libellé lié. <BR>L'utilisation des champs libellés liés n'est pas 
+obligatoire ; on peut taper directement du texte dans le bloc, qui sera alors 
+systématiquement édité.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Marques de 
+répétition : marque un groupe (textes et/ou champ) qui devra être répété par 
+exemple pour des devis liés ou chaque élément d'une facture. <BR>Les marques de 
+répétition sont spécifiques aux types d'édition. Par exemple pour la lettre de 
+confirmation, il y a une marque de répétition pour gérer les devis liés. Pour la 
+facture, il y en a deux&nbsp;: une pour les éléments du document (regroupement 
+de factures), et une pour les taux de TVA à récapituler. <BR>La marque de début 
+de répétition a donc une fonction particulière, ce qui n’est pas le cas de la 
+marque de fin de répétition. Par exemple, dans la liste des champs possibles 
+pour le paramétrage de la facture, il y a deux marques de début et une seule 
+marque de fin.<BR>Attention, dans le modèle, il doit toujours y avoir une marque 
+de fin pour chaque marque de début de répétition.</SPAN></P>
+<H6><SPAN>Insertion d’un champ</SPAN></H6>
+<P class=MsoNormal><SPAN>Pour insérer un champ dans un bloc, positionnez le 
+curseur à l’endroit voulu, puis cliquez sur <B>Champ</B> dans le menu 
+<B>Insertion</B> ou cliquez sur le bouton <B>Nouveau champ</B> de la barre 
+d’outils. Une boîte de dialogue vous permet alors de sélectionner le champ à 
+insérer parmi ceux proposés. Les champs proposés dépendent du type d’édition. 
+Suivant l’onglet sélectionné, les champs apparaissent triés par ordre 
+alphabétique ou par catégorie. </SPAN></P>
+<H6><SPAN>Mise en forme</SPAN></H6>
+<P class=MsoNormal><SPAN>Suivant le champ sélectionné, la partie droite de la 
+fenêtre vous permet d’indiquer la mise en forme à appliquer à l’information. 
+Chaque champ accepte une mise en forme qui dépend du type d'information 
+représenté&nbsp;:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Date : 
+plusieurs formats sont proposés. La lettre j<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>représente le jour, m le mois, a 
+l’année.<BR>Si l’heure est précisée, on pourra l’afficher avec les lettres 
+h&nbsp;et<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>n.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Texte : 
+minuscules, majuscules, 1ère lettre en majuscules et initiales sont des formats 
+prédéfinis.<BR>Vous pouvez aussi utiliser @ pour placer les caractères, 
+l’affichage du RIB (23 caractères) utilise cette possibilité pour séparer les 
+différents groupes.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Image ou 
+Texte&nbsp;: Image,&nbsp;Image(50%), Image(1,5&nbsp;;1,5), Pas de mise en 
+forme,&nbsp; minuscules, majuscules sont les formats proposés par défaut, mais 
+vous pouvez modifier les valeurs numériques pour adapter l’affichage à votre 
+besoin. L’image insérée est liée au texte et se déplace donc avec 
+lui.</SPAN></P>
+<P class=MsoListBullet 
+style="MARGIN-LEFT: 42.5pt; tab-stops: 1.0cm 42.5pt 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Pas de mise 
+en forme, Minuscules, Majuscules&nbsp;:<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>Le libellé associé est affiché comme avec la mise en forme de type 
+texte.</SPAN></P>
+<P class=MsoListBullet 
+style="MARGIN-LEFT: 42.5pt; tab-stops: 1.0cm 42.5pt 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Image&nbsp;: 
+l’image associée est affichée dans sa taille réelle.</SPAN></P>
+<P class=MsoListBullet 
+style="MARGIN-LEFT: 42.5pt; tab-stops: 1.0cm 42.5pt 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Image(xxx%)&nbsp;: l’image est affichée avec le zoom 
+indiqué&nbsp;: 50% pour une réduction de moitié. NB&nbsp;: les valeurs admises 
+vont de 10 à 250%. Ex&nbsp;: Image(35%) pou r obtenir une image réduite à 3% de 
+sa taille réelle.</SPAN></P>
+<P class=MsoListBullet 
+style="MARGIN-LEFT: 42.5pt; tab-stops: 1.0cm 42.5pt 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Image(largeur&nbsp;;hauteur)&nbsp;: l’image est affichée 
+pour entrer totalement dans le rectangle dont les dimensions sont indiquées en 
+cm (en pouces si système US) tout en conservant le rapport de forme. Ex&nbsp;: 
+Image(2,3&nbsp;;3,5) pou r obtenir une image qui tiendra totalement dans un 
+rectangle de 2,3 cm x 3,5 cm.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Qualité 
+interlocuteur (M., Mme...) : abrégé ou en entier</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Montants et 
+nombres&nbsp;: Plusieurs formats sont proposés, mais vous pouvez utiliser des 
+formats personnalisés.<BR></SPAN><SPAN>Mise en forme des champs Prix dans les 
+modèles&nbsp;:</SPAN></P>
+<P class=Suitepuce><SPAN>Graphiplus permet de travailler avec plusieurs 
+devises&nbsp;:</SPAN></P>
+<P class=Suitepuce><SPAN>Les champs faisant apparaître des prix présentent les 
+mises en formes&nbsp;suivantes&nbsp;:</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Devise 
+principale&nbsp;: La devise utilisée pour vos tarifs et la 
+comptabilité.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Devise 
+secondaire&nbsp;: Votre devise préférée dans les autres devises 
+définies.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Devise 
+élément&nbsp;: La devise utilisée pour construire l’élément imprimé. C’est celle 
+paramétrée dans la fiche société du client au moment où son devis a été calculé. 
+La devise élément du devis est transmise à la commande puis à la 
+facture.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>Autre 
+devise&nbsp;: Si l’élément est en devise principale, il s’agit de la devise 
+préférée parmi les autres devises. Si l’élément est dans une autre devise, c’est 
+la devise principale.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>"Forme 
+%XXX% où Forme est facultatif et représente un format d’affichage de nombre 
+(avec # , 0 et .&nbsp;) et XXX représente un symbole international de 
+devise&nbsp;définie dans votre liste de devises: le montant exprimé dans cette 
+devise. <BR>Exemples&nbsp;: "#,##0.0000 %EUR% pour afficher en euros avec 4 
+décimales.,<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>%EUR%<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>pour afficher en euros avec le format 
+habituel, défini dans votre liste de devises.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN>"%XXX% 
+Unité NbDec ss-Unité"&nbsp;: permet d’afficher en lettres le montant avec 
+‘Unité’ comme texte d’unités, NbDec le nombre de décimales et ss-Unité<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>le libellé de sous 
+unité.<BR>Exemple&nbsp;: "%EUR% Euros 2 cents" pour afficher en lettre le 
+montant en euros et cents.<BR>Remarque&nbsp;: Ce format n’est disponible que 
+dans certaines langues.</SPAN></P>
+<P class=Suitepuce><SPAN>Vous pouvez donc, dans un modèle&nbsp;:</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Afficher le détail dans la devise de votre client en 
+utilisant la mise en forme «&nbsp;Devise élément&nbsp;» et le total dans une 
+autre devise avec la mise en forme «&nbsp;Autre devise&nbsp;».</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Afficher le détail dans votre devise comptable en utilisant 
+la mise en forme «&nbsp;Devise Principale&nbsp;» et le total dans l’autre devise 
+préférée avec la mise en forme «&nbsp;Devise secondaire&nbsp;». </SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 18.0pt 42.55pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Afficher les prix unitaires avec la précision nécessaire 
+dans une devise choisie.</SPAN></P>
+<P class=MsoListBullet2 
+style="MARGIN-LEFT: 1cm; TEXT-INDENT: 0cm; tab-stops: 42.55pt; mso-list: none"><SPAN>Par 
+ailleurs, des formats personnalisés sont possibles&nbsp;avec les caractères 
+suivants :</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -70.9pt; TEXT-ALIGN: left; tab-stops: 99.25pt 109.9pt" 
+align=left><SPAN 
+style="mso-bidi-font-size: 8.0pt">.<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Le premier caractère «&nbsp;.&nbsp;» (point) de la chaîne de format 
+détermine l'emplacement du séparateur décimal dans la valeur mise en forme. Tout 
+caractère «&nbsp;.&nbsp;» supplémentaire est ignoré.</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -70.9pt; TEXT-ALIGN: left; tab-stops: 99.25pt" 
+align=left><SPAN 
+style="mso-bidi-font-size: 8.0pt">0<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Si la valeur mise en forme possède un chiffre à l'emplacement où «&nbsp; 
+0&nbsp;» (zéro) apparaît dans la chaîne de format, ce chiffre est affiché, sinon 
+affiche un zéro à cet emplacement. Si le nombre a moins de chiffres qu’il n’y a 
+de zéros (quel que soit l’emplacement par rapport au séparateur décimal) dans le 
+format, on affiche les 0 devant ou après le nombre.<BR>Exemple&nbsp;: Avec 
+«&nbsp;0&nbsp;»<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>on affiche au moins 
+un nombre <SPAN style="mso-spacerun: yes">&nbsp;</SPAN>de la valeur arrondie à 
+l’entier le plus proche (0,25 donnera «&nbsp;0&nbsp;», «&nbsp;0123,456&nbsp;» 
+donnera «&nbsp;123&nbsp;»). <BR>Avec «&nbsp;000&nbsp;», «&nbsp;12&nbsp;» sera 
+affiché «&nbsp;012&nbsp;». Avec «&nbsp;0.0&nbsp;» «&nbsp;12&nbsp;» sera affiché 
+«&nbsp;12,0&nbsp;» (si la virgule est le séparateur décimal du 
+poste).</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -70.9pt; TEXT-ALIGN: left; tab-stops: 99.25pt" 
+align=left><SPAN 
+style="mso-bidi-font-size: 8.0pt">#<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Si la valeur mise en forme possède un chiffre à l'emplacement où « # » 
+(dièse) apparaît dans la chaîne de format, ce chiffre est affiché, sinon rien 
+n'est affiché.<BR>Exemple&nbsp;: Avec «&nbsp;#&nbsp;»<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>on affiche aucun ou au moins un 
+nombre<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>de la valeur arrondie à 
+l’entier le plus proche (0,25 ne donnera aucun affichage, «&nbsp;0123,456&nbsp;» 
+donnera «&nbsp;123&nbsp;»). <BR>Avec «&nbsp;#&nbsp;», «&nbsp;12&nbsp;» sera 
+affiché «&nbsp;12&nbsp;». Avec «&nbsp;#.#&nbsp;» «&nbsp;12&nbsp;» sera affiché 
+«&nbsp;12,&nbsp;» et «&nbsp;12.35&nbsp;» sera affiché «&nbsp;12,4&nbsp;» (si la 
+virgule est le séparateur décimal du poste).</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -70.9pt; TEXT-ALIGN: left; tab-stops: 99.25pt 109.9pt" 
+align=left><SPAN 
+style="mso-bidi-font-size: 8.0pt">,<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Le caractère «&nbsp;,&nbsp;» (virgule) remplit deux fonctions. 
+Premièrement, si la chaîne de format contient un caractère «&nbsp;,&nbsp;» entre 
+deux espaces réservés de chiffre (0 ou #) et à gauche de la virgule décimale 
+éventuelle, des séparateurs des milliers seront insérés dans la sortie, entre 
+chaque groupe de trois chiffres à gauche du séparateur décimal.<BR>Deuxièmement, 
+si la chaîne de format contient un ou plusieurs caractères «&nbsp;,&nbsp;» 
+immédiatement à gauche de la virgule décimale, le nombre est divisé par le 
+nombre de caractères « , » multiplié par 1000 avant sa mise en forme. Par 
+exemple, la chaîne de format «&nbsp;0,,&nbsp;» représente simplement 100 
+millions par 100. Utilisez le caractère « , » pour indiquer que la mise à 
+l'échelle ne comprend pas les séparateurs des milliers dans le nombre mis en 
+forme. Par conséquent, pour multiplier un nombre par 1 million et insérer des 
+séparateurs des milliers, vous devez utiliser la chaîne de format 
+«&nbsp;#,##0,,&nbsp;».</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -70.9pt; TEXT-ALIGN: left; tab-stops: 99.25pt 109.9pt" 
+align=left><SPAN 
+style="mso-bidi-font-size: 8.0pt">%<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>La présence d'un caractère «&nbsp;%&nbsp;» dans une chaîne de format 
+entraîne la multiplication d'un nombre par 100 avant sa mise en forme. Le 
+symbole approprié est inséré dans le nombre proprement dit, à l'endroit où le 
+caractère « % » apparaît dans la chaîne de format.</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -70.9pt; TEXT-ALIGN: left; tab-stops: 99.25pt 109.9pt" 
+align=left><SPAN style="mso-bidi-font-size: 8.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>‘abc’ ou "abc"<SPAN>&nbsp;&nbsp; 
+</SPAN>Les caractères compris entre des guillemets simples ou doubles sont 
+copiés littéralement dans la chaîne résultante et n'affectent pas la mise en 
+forme.</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -70.9pt; TEXT-ALIGN: left; tab-stops: 99.25pt 109.9pt" 
+align=left><SPAN style="mso-bidi-font-size: 8.0pt">\ 
+<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Ce caractère est utilisé pour forcer l’affichage sans interprétation du 
+caractère qui le suit. Par exemple, pour afficher le symbole #&nbsp;devant un 
+entier on utilisera «&nbsp;\# 0&nbsp;» qui donnera «&nbsp;# 123&nbsp;» avec le 
+nombre 123.</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -70.9pt; TEXT-ALIGN: left; tab-stops: 99.25pt 109.9pt" 
+align=left><SPAN 
+style="mso-bidi-font-size: 8.0pt">;<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Le caractère «&nbsp;;&nbsp;» est utilisé pour séparer la mise en forme en 
+3 sections qui seront utilisées pour les nombres positifs, négatifs et les 
+zéros. Vous pouvez utiliser les formats spéciaux définis plus haut et les 
+formats personnalisés pour chaque section. Si une section est omise, c’est la 
+section de la valeur positive qui est utilisée<BR>Exemple&nbsp;: «&nbsp;Devise 
+principale;"négatif&nbsp;?";#&nbsp;» donnera «&nbsp;123,50 €&nbsp;» avec 
+«&nbsp;123.5&nbsp;» et l’euro, «&nbsp;négatif&nbsp;?&nbsp;» avec une valeur 
+négative quelle qu’elle soit et n’affichera rien avec une valeur 
+nulle.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Descriptif&nbsp;: les descriptifs de devis, commande, 
+facture etc. sont construits à partir d’un modèle de descriptif paramétrable. 
+Sélectionnez dans la liste des mises en forme le modèle de descriptif que vous 
+souhaitez pour l’édition.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Informations 
+complémentaires&nbsp;: Sélectionnez l’informations complémentaire souhaitée dans 
+la liste des mises en forme ou sélectionnez «&nbsp;Toutes&nbsp;» qui affichera 
+toutes les informations disponibles avec leur libellé et séparées par des 
+retours à la ligne. Voir «&nbsp;Libellé lié à un champ&nbsp;» ci-dessous pour 
+afficher un libellé spécifique d’une information complémentaire 
+sélectionnée.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Libellé lié 
+à un champ&nbsp;: Entrez dans la zone «&nbsp;mise en forme&nbsp;» le texte qui 
+doit apparaître si le champ lié n’est pas vide.</SPAN></P>
+<P class=MsoListBullet 
+style="TEXT-INDENT: 0cm; tab-stops: 35.4pt; mso-list: none"><SPAN>Le texte peut 
+être un code pour ajouter un caractère spécial dépendant de la présence 
+d’informations&nbsp;: </SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -49.6pt; TEXT-ALIGN: left; tab-stops: 99.25pt 109.9pt" 
+align=left><SPAN style="mso-bidi-font-size: 8.0pt">&lt;LF&gt; 
+<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>Un saut de ligne sera 
+inséré.</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -49.6pt; TEXT-ALIGN: left; tab-stops: 99.25pt 109.9pt" 
+align=left><SPAN 
+style="mso-bidi-font-size: 8.0pt">&lt;CR&gt;<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Une fin de paragraphe sera insérée</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -49.6pt; TEXT-ALIGN: left; tab-stops: 99.25pt 109.9pt" 
+align=left><SPAN 
+style="mso-bidi-font-size: 8.0pt">&lt;TAB&gt;<SPAN>&nbsp;&nbsp;&nbsp; </SPAN>Une 
+tabulation sera insérée</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -49.6pt; TEXT-ALIGN: left; tab-stops: 99.25pt 109.9pt" 
+align=left><SPAN 
+style="mso-bidi-font-size: 8.0pt">&lt;FF&gt;<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Un saut de page sera inséré</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -49.6pt; TEXT-ALIGN: left; tab-stops: 99.25pt 109.9pt" 
+align=left><SPAN 
+style="mso-bidi-font-size: 8.0pt">&lt;CW&gt;<SPAN>&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Une césure sera insérée</SPAN></P>
+<P class=MsoBodyTextIndent3 
+style="MARGIN-LEFT: 99.25pt; TEXT-INDENT: -49.6pt; TEXT-ALIGN: left; tab-stops: 99.25pt 109.9pt" 
+align=left><SPAN 
+style="mso-bidi-font-size: 8.0pt">&lt;NBS&gt;<SPAN>&nbsp;&nbsp;&nbsp; </SPAN>Un 
+espace insécable sera inséré</SPAN></P>
+<P class=MsoListBullet 
+style="MARGIN-LEFT: 42.55pt; TEXT-INDENT: -14.2pt; tab-stops: 35.4pt; mso-list: none"><SPAN>Si 
+le champ libellé est lié à un champ qui renvoi un nombre ou un montant alors 
+vous pouvez utiliser le caractères&nbsp;«&nbsp;;&nbsp;» pour séparer les trois 
+libellés utilisables que vous aurez entourés de «&nbsp;</SPAN><SPAN 
+style="mso-bidi-font-size: 8.0pt">"&nbsp;»</SPAN><SPAN>&nbsp;:<BR><I>Exemple</I>&nbsp;:<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>Avec «&nbsp;Mon libellé&nbsp;», on 
+affichera systématiquement «&nbsp;Mon libellé&nbsp;».<BR>Avec 
+«&nbsp;</SPAN><SPAN style="mso-bidi-font-size: 8.0pt">"La majoration est 
+"&nbsp;; "La minoration est "&nbsp;;&nbsp;"pas de modification"&nbsp;», on 
+affichera<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>«&nbsp;La majoration 
+est&nbsp; » si le champ associé renvoi une valeur positive, «&nbsp;La minoration 
+est&nbsp; » si le champ associé renvoi une valeur négative et «&nbsp;pas de 
+modification<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>» si la valeur est 
+nulle. Si une section est omise, c’est la section de la valeur positive qui est 
+utilisée.</SPAN></P>
+<P class=MsoListBullet 
+style="MARGIN-LEFT: 42.55pt; TEXT-INDENT: -14.2pt; tab-stops: 35.4pt; mso-list: none"><SPAN>Si 
+le champ libellé est lié à un champ «&nbsp;«&nbsp;Informations 
+complémentaires&nbsp;» alors indiquez entre &amp;[ et ] le libellé exact de 
+l’information complémentaire à laquelle est associée le libellé en plus du texte 
+que vous voulez afficher.<BR><I>Exemple</I>&nbsp;:<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>Avec «&nbsp;Service 
+fabrication&nbsp;:&amp;[ServiceFab]», le texte «&nbsp;Service fabrication&nbsp;: 
+» n’apparaîtra que si l’information complémentaire «&nbsp;ServiceFab&nbsp;» est 
+renseignée.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Codes 
+GS1-128&nbsp;: Il s’agit de codes utilisés en logistique, composés de plusieurs 
+informations identifiées par un code numérique. Indiquez dans le format du champ 
+ces numéros entre parenthèses pour composer votre code.</SPAN></P>
+<P class=ParagraphedelisteCxSpFirst 
+style="MARGIN-LEFT: 46.35pt; TEXT-INDENT: -18pt; tab-stops: 46.35pt; mso-add-space: auto"><SPAN 
+style="FONT-FAMILY: 'Courier New'; mso-bidi-font-family: 'Times New Roman'">o<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>SSCC (code 00)</SPAN></P>
+<P class=ParagraphedelisteCxSpMiddle 
+style="MARGIN-LEFT: 46.35pt; TEXT-INDENT: -18pt; tab-stops: 46.35pt; mso-add-space: auto"><SPAN 
+style="FONT-FAMILY: 'Courier New'; mso-bidi-font-family: 'Times New Roman'">o<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Numéro de dossier (10)</SPAN></P>
+<P class=ParagraphedelisteCxSpMiddle 
+style="MARGIN-LEFT: 46.35pt; TEXT-INDENT: -18pt; tab-stops: 46.35pt; mso-add-space: auto"><SPAN 
+style="FONT-FAMILY: 'Courier New'; mso-bidi-font-family: 'Times New Roman'">o<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Date du bon de livraison (11)</SPAN></P>
+<P class=ParagraphedelisteCxSpMiddle 
+style="MARGIN-LEFT: 46.35pt; TEXT-INDENT: -18pt; tab-stops: 46.35pt; mso-add-space: auto"><SPAN 
+style="FONT-FAMILY: 'Courier New'; mso-bidi-font-family: 'Times New Roman'">o<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Quantité dans le colis (37)</SPAN></P>
+<P class=ParagraphedelisteCxSpMiddle 
+style="MARGIN-LEFT: 46.35pt; TEXT-INDENT: -18pt; tab-stops: 46.35pt; mso-add-space: auto"><SPAN 
+style="FONT-FAMILY: 'Courier New'; mso-bidi-font-family: 'Times New Roman'">o<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Numéro de commande client (400)</SPAN></P>
+<P class=ParagraphedelisteCxSpMiddle 
+style="MARGIN-LEFT: 46.35pt; TEXT-INDENT: -18pt; tab-stops: 46.35pt; mso-add-space: auto"><SPAN 
+style="FONT-FAMILY: 'Courier New'; mso-bidi-font-family: 'Times New Roman'">o<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Référence article client (241)</SPAN></P>
+<P class=ParagraphedelisteCxSpMiddle 
+style="MARGIN-LEFT: 1cm; tab-stops: 36.0pt; mso-add-space: auto"><SPAN>Ex&nbsp;: 
+«&nbsp;(00)(10)&nbsp;» pour obtenir le SSCC et le suivi du numéro de 
+dossier</SPAN></P>
+<P class=ParagraphedelisteCxSpMiddle 
+style="MARGIN-LEFT: 1cm; tab-stops: 36.0pt; mso-add-space: auto"><SPAN>Des 
+exemples non exhaustifs sont présentés dans la liste déroulante.</SPAN></P>
+<P class=ParagraphedelisteCxSpLast 
+style="MARGIN-LEFT: 1cm; tab-stops: 36.0pt; mso-add-space: auto"><SPAN>NB&nbsp;: 
+lorsqu’il n’est pas formaté en code-barres, le code présente les identifiants 
+entre parenthèses alors que lorsqu’il est formaté en code-barres, les 
+parenthèses n’apparaissent pas.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN 
+style="mso-bidi-font-size: 8.0pt">Code-barres&nbsp;: tout champ peut être 
+affiché avec une police codes à barres mais ces affichages nécessitent une mise 
+en forme spécifique au type de codage qui seule permettra à un lecteur de code 
+barres de lire ce que vous avez imprimé. Deux formes de codes barres sont 
+possible&nbsp;: </SPAN><SPAN></SPAN></P>
+<P class=MsoListBullet 
+style="MARGIN-LEFT: 42.5pt; tab-stops: 1.0cm 42.5pt 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN 
+style="mso-bidi-font-size: 8.0pt">Le code barre 128 qui permet d’afficher sous 
+forme de code barre tout texte. Utilisez la police «&nbsp;DAR28&nbsp;», 
+«&nbsp;DB28&nbsp;» ou «&nbsp;DCR28&nbsp;» avec cette mise en 
+forme.</SPAN><SPAN></SPAN></P>
+<P class=MsoListBullet 
+style="MARGIN-LEFT: 42.5pt; tab-stops: 1.0cm 42.5pt 46.35pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN 
+style="mso-bidi-font-size: 8.0pt">Le code barre EAN13 qui permet l’affichage de 
+nombre de 12 chiffres uniquement. Ce codage est utilisé sur tous les articles 
+commerciaux pour les identifier. Utilisez la police «&nbsp;Code EAN13&nbsp;» 
+pour afficher les champs mis en forme selon ce code.</SPAN><SPAN></SPAN></P>
+<P class=MsoListBullet 
+style="TEXT-INDENT: 0cm; tab-stops: 1.0cm; mso-list: none"><SPAN 
+style="mso-bidi-font-size: 8.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN></SPAN><SPAN></SPAN></P>
+<P class=MsoNormal><SPAN>Le même champ peut apparaître plusieurs fois dans le 
+même modèle (ou dans le même bloc) avec une mise en forme différente (ex : "M." 
+dans l'adresse, puis "Monsieur" dans les formules de politesse).<BR><SPAN 
+style="mso-no-proof: yes"><IMG src="Images/image16_38.jpg"></SPAN><BR 
+style="mso-special-character: line-break"><![if !supportLineBreakNewLine]><BR 
+style="mso-special-character: line-break"><![endif]></SPAN></P>
+<P class=MsoNormal><SPAN>Lorsque vous insérez un champ, celui-ci est représenté 
+par un texte entre deux accolades, qui sera remplacé par l’information 
+correspondante au moment de l’édition du document. Si vous déplacez le curseur 
+de la souris sur un champ, le curseur est remplacé par une flèche et si vous 
+cliquez, le texte représentant le champ apparaît alors en gris foncé. <SPAN 
+style="mso-no-proof: yes"><IMG src="Images/image16_39.gif"></SPAN><BR>Pour avoir 
+une meilleure représentation de votre paramétrage, vous pouvez remplacer ce 
+texte par défaut par celui de votre choix. Veillez toutefois à ne pas effacer 
+complètement le texte qui représente le champ, car sinon c’est le champ lui-même 
+qui sera supprimé du bloc. Si vous changez le texte représentant un champ, le 
+nouveau texte doit également apparaître en gris foncé indiquant ainsi qu’il 
+symbolise le champ et qu’il sera bien remplacé par l’information 
+correspondante.<BR><SPAN style="mso-no-proof: yes"><IMG 
+src="Images/image16_40.gif"></SPAN></SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

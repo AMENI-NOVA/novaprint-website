@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Paramétrage des postes JDF</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_2746><SPAN>Paramétrage des postes JDF</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="paramtragedestypesdecahiers.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="propritsjdfdunecommande.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=TOCBase><SPAN>Pour indiquer qu'une machine de votre atelier est 
+interfacée en JDF, il faut aller dans le paramétrage du poste correspondant dans 
+la gestion de production.</SPAN></P>
+<P class=MsoNormal><B><SPAN>Attention </SPAN></B><SPAN>: le poste doit être 
+détaillé par opération pour que l'interface fonctionne correctement.</SPAN></P>
+<P class=TOCBase><SPAN>&nbsp;</SPAN></P>
+<P class=TOCBase><SPAN>Le bouton &lt;Interfaces JDF&gt; permet d'afficher le 
+"paramétrage JDF" du poste.</SPAN></P>
+<P class=TOCBase><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN><IMG src="Images/image369_16.jpg" border=0>Type de 
+l'interface</SPAN></P>
+<P class=MsoNormal><SPAN>Indique le type de l'interface utilisée pour ce poste. 
+Trois choix possibles:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><B><SPAN>Poste non 
+interfacé </SPAN></B><SPAN>: Le poste n'a pas d'interface JDF.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><B><SPAN>Impression conventionnelle </SPAN></B><SPAN>: Ce poste 
+est une presse qui est interfacée en JDF.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><B><SPAN>Prépresse</SPAN></B><SPAN> : Ce poste correspond à une 
+machine ou logiciel de votre système de prépresse.<BR>Les zones "Poste" et "Type 
+d'opérations du poste" ne sont pas utiles pour cette interface.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<H5><SPAN>Identifiant JDF</SPAN></H5>
+<P class=MsoNormal><SPAN>Cette zone sert à saisir l'identifiant de la machine au 
+sein de votre "parc JDF". Deux machines ne doivent pas avoir le même identifiant 
+JDF au sein de votre imprimerie.</SPAN></P>
+<H5><SPAN>FriendlyName</SPAN></H5>
+<P class=MsoNormal><SPAN>Indiquez ici le nom usuel de la machine. Cette 
+information est optionnelle. Certain partenaire JDF la requière afin 
+d’identifier exactement la machine à sélectionner.</SPAN></P>
+<H5><SPAN>Type de presse</SPAN></H5>
+<P class=MsoNormal><I><SPAN>Seulement si le type d'interface est "Impression 
+conventionnelle".</SPAN></I></P>
+<P class=MsoNormal><SPAN>Indiquez ici le type de votre presse : presse feuille 
+ou presse bobine.</SPAN></P>
+<H5><SPAN>Créer une fiche de travail par passage...</SPAN></H5>
+<P class=MsoNormal><I><SPAN>Seulement si le type d'interface est "Impression 
+conventionnelle".</SPAN></I></P>
+<P class=MsoNormal><SPAN>Si cette case est cochée, lors de la création de la 
+commande, il sera créé autant de fiche de travail d’impression que de passage en 
+machine.</SPAN></P>
+<P class=MsoNormal><SPAN>Exemple&nbsp;: Pour un tirage «&nbsp;côté par 
+côté&nbsp;» il y à deux passages prévus sur la machine&nbsp;: un pour le recto, 
+l’autre pour le verso. Si cette case est cochée, deux fiches de travail seront 
+créées&nbsp;: une pour le recto, une pour le verso.</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Cela va permettre à la machine interfacée en JDF de recevoir 
+autant de travail d’impression que de passage. L’opérateur peut choisir passage 
+qu’il souhaite traité en premier&nbsp;;</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Les temps retournés seront associés au passage 
+correspondant&nbsp;;</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Les quantités affichées sur le pupitre de la presse 
+correspondent bien au passage à effectuer et non à la globalité du 
+travail.</SPAN></P>
+<H5><SPAN>Utiliser les messages JMF pour remplacer un terminal 
+atelier</SPAN></H5>
+<P class=MsoNormal><SPAN>Cochée cette option si vous souhaitez utiliser les 
+messages JMF pour renseigner automatiquement les temps et opérations de la 
+gestion de production.</SPAN></P>
+<P class=MsoNormal><B><SPAN style="COLOR: red">Attention<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>Cette option consomme un droit 
+atelier.</SPAN></B></P>
+<H5><SPAN>Graphiplus vers JDF</SPAN></H5>
+<P class=MsoNormal><I><SPAN>Seulement si le type d'interface est "Impression 
+conventionnelle".</SPAN></I><SPAN></SPAN></P>
+<P class=MsoNormal><SPAN>Ce tableau permet de typer les opérations du poste. 
+Cela permet d'envoyer à la presse des informations détaillée sur le temps de 
+calage, de roulage et de lavage.</SPAN></P>
+<P class=MsoNormal><SPAN>A gauche sont affichées les opérations définies sur ce 
+poste et à droite les types d'opérations connus en JDF.</SPAN></P>
+<P class=MsoNormal><SPAN>Pour chaque opération, sélectionnez le type JDF le plus 
+approprié.</SPAN></P>
+<P class=MsoNormal><B><SPAN><IMG src="Images/image369_17.jpg" 
+border=0></SPAN></B><SPAN></SPAN></P>
+<H5><SPAN>JDF vers Graphiplus</SPAN></H5>
+<P class=MsoNormal><SPAN>Ce tableau permet de définir le lien entre les 
+informations envoyées par une machine JDF et les opérations du poste de gestion 
+de production.</SPAN></P>
+<P class=MsoNormal><SPAN>A gauche sont affichées les opérations définies sur ce 
+poste et à droite les types d'informations envoyées par le JDF.</SPAN></P>
+<P class=MsoNormal><SPAN><IMG src="Images/image369_18.jpg" border=0></SPAN></P>
+<H6><SPAN>Status JMF&nbsp;:</SPAN></H6>
+<P class=MsoNormal><SPAN>Pour chaque opération, sélectionnez le type 
+d'information le plus approprié.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<H6><SPAN>Coût des opérations&nbsp;:</SPAN></H6>
+<P class=MsoNormal><SPAN>Cette colonne n’est utile que pour les postes 
+«&nbsp;prépresse&nbsp;» comme le CTP ou l’épreuve d’imposition.</SPAN></P>
+<P class=MsoNormal><SPAN>Le prépresse n’envoi aucune information de temps mais 
+seulement un nombre d’opérations réalisées. Le fait de définir ici un coût 
+d’opération, permet à Graphisoft de calculer le temps de l’opération en fonction 
+du prix de l’heure du poste.</SPAN></P>
+<P class=MsoNormal><SPAN>Les presses envoyant les informations de temps, il 
+n’est pas utile de saisir un coût d’opération. Il sera déduit automatiquement en 
+fonction du prix de l’heure du poste et du temps indiqué.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<H6><SPAN>Condition&nbsp;:</SPAN></H6>
+<P class=MsoNormal><SPAN>Cette colonne permet de restreindre l’utilisation de 
+cette opération à une condition donnée.</SPAN></P>
+<P class=MsoNormal><SPAN>Les conditions ne s’appliquent que pour les status JMF 
+suivants&nbsp;:</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Création plaque</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Epreuve imposition</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Par exemple, il est possible de créer une opération 
+pour les plaques 1030x800 (avec une condition sur la dimension) et une autre 
+pour les plaques 745x605. Chaque type de plaque peut ainsi avoir un cout 
+différent. Lorsqu’une plaque est créée, le programme choisi l’opération ayant 
+pour condition le format ce celle-ci.</SPAN></P>
+<P class=MsoNormal><SPAN>Si aucune opération ne correspond, le message JMF 
+correspondant est affiché en erreur dans GSTraiteHttp.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN><IMG src="Images/image369_19.jpg" border=0></SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><B><SPAN>Liste des conditions&nbsp;:</SPAN></B></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><B><SPAN>Pas de conditions</SPAN></B><SPAN>&nbsp;: Aucune 
+condition n’est appliquée pour choisir cette opération</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><B><SPAN>Media@Brand&nbsp;</SPAN></B><SPAN>: La condition 
+s’applique sur l’attribut <B>Brand</B> du nœud <B>Media</B> correspondant à la 
+plaque ou à l’épreuve.</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><B><SPAN>Media@Dimension&nbsp;</SPAN></B><SPAN>: La condition 
+s’applique sur l’attribut <B>Dimension</B> du nœud <B>Media</B> correspondant à 
+la plaque ou à l’épreuve.</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><B><SPAN>Media@UserMediaType&nbsp;</SPAN></B><SPAN>: La condition 
+s’applique sur l’attribut <B>UserMediaType </B>du nœud <B>Media</B> 
+correspondant à la plaque ou à l’épreuve.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><B><SPAN>Valeur dans le JMF&nbsp;:</SPAN></B></P>
+<P class=MsoNormal><SPAN>La condition est remplit si la valeur saisie ici est 
+<B>identique</B> à celle dans le JMF. Identique à la décimale prêt.</SPAN></P>
+<P class=MsoNormal><SPAN>C’est pourquoi la dimension (condition Media@Dimension) 
+doit être saisie comme dans le JMF, soit en point pica (72ieme de pouce). La 
+valeur en millimètre est affichée à titre indicatif.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><B><SPAN>Comment connaitre les valeurs des messages 
+JMF&nbsp;?</SPAN></B></P>
+<P class=MsoNormal><SPAN>Pour connaitre avec exactitude les valeurs à indiquer 
+dans la condition, voici comment il est possible de procéder&nbsp;:</SPAN></P>
+<P class=MsoNormal><U><SPAN>En bref&nbsp;:</SPAN></U></P>
+<P class=MsoNormal><SPAN>Le principe consiste à définir des conditions qui 
+seront systématiquement fausses. Ainsi les messages JMF correspondant seront 
+affichés en erreur dans GSTraiteHttp. </SPAN></P>
+<P class=MsoNormal><SPAN>En ouvrant ces messages, on peut trouver les valeurs 
+exactes à mettre dans les conditions.</SPAN></P>
+<P class=MsoNormal><SPAN>Une fois les conditions correctement paramétrées, on 
+demande de réimporter les messages JMF en erreurs.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><U><SPAN>En détails&nbsp;:</SPAN></U></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN>1.<SPAN>&nbsp; 
+</SPAN>Ajouter une condition sur l’opération (par exemple&nbsp;: 
+Media@Dimension);</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN>2.<SPAN>&nbsp; 
+</SPAN>Dans la zone «&nbsp;Valeur dans le JMF&nbsp;» saisir une valeur 
+volontairement fausse (par exemple&nbsp;: 123 123)&nbsp;;</SPAN></P>
+<P class=MsoNormal><SPAN>Dans GSTraiteHttp (programme d’importation des messages 
+JMF) les JMF correspondant à cette opération seront affichés en erreur car 
+aucune opération n’est correctement configurée.</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN>3.<SPAN>&nbsp; 
+</SPAN>Afficher le contenu du message JMF en erreur (en double-cliquant dessus 
+ou clique-droit «&nbsp;Afficher&nbsp;») et chercher la valeur correspondant à la 
+condition&nbsp;:</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 72pt; TEXT-INDENT: -18pt; tab-stops: 72.0pt"><SPAN>a.<SPAN>&nbsp; 
+</SPAN>Media@Brand&nbsp;: Attribut <I>Brand</I> du nœud <I>Media</I></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 72pt; TEXT-INDENT: -18pt; tab-stops: 72.0pt"><SPAN>b.<SPAN>&nbsp; 
+</SPAN>Media@Dimension&nbsp;: Attribut <I>Dimension</I> du nœud 
+<I>Media</I></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 72pt; TEXT-INDENT: -18pt; tab-stops: 72.0pt"><SPAN>c.<SPAN>&nbsp; 
+</SPAN>Media@UserMediaType&nbsp;: Attribut <I>UserMediaType</I> du nœud 
+<I>Media</I></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN>4.<SPAN>&nbsp; 
+</SPAN>Saisir dans la valeur trouvée dans la condition&nbsp;;</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><SPAN>5.<SPAN>&nbsp; 
+</SPAN>Demander de réimporter le message JMF qui était en erreur. Si la 
+condition est correctement définie, le message JMF sera importer et ne sera plus 
+affiché en erreur.</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

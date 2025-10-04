@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Importation de formes depuis un fichier</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="ParamCalc.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_3239><SPAN>Importation de formes depuis un fichier</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="outilstiquettescontinu.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="oprationsdepelliculageetdevernis.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Vous pouvez créer ou mettre à jour les outils à partir 
+d’un fichier texte séparé par des tabulations que vous aurez obtenu par exemple 
+en enregistrant une feuille d’un tableur (Excel, Foxpro…) au format «&nbsp;Texte 
+séparé par des tabulations&nbsp;».</SPAN></P>
+<P class=MsoNormal><SPAN>Vous aurez défini les entêtes des colonnes avec les 
+libellés listés ci-dessous pour indiquer le type des valeurs contenues dans 
+chaque colonne à prendre en compte.</SPAN></P>
+<P class=MsoNormal><SPAN>"NUMERO" : Numéro de l’outil. Cette colonne est 
+obligatoire. Lorsque le programme rencontre cette colonne et si la valeur 
+correspond à un outil existant,, il charge l’étiquette correspondante. Les 
+autres valeurs lues pourront alors modifier les valeurs correspondantes de 
+l’outil. (exemple&nbsp;: ajouter l’image de la forme ou un 
+commentaire)</SPAN></P>
+<P class=MsoNormal><SPAN>"EXISTANT"&nbsp;: Indique si l’outil existe ou s’il 
+faut le faire fabriquer. La colonne pourra contenir «&nbsp;0&nbsp;» ou 
+«&nbsp;1&nbsp;», «&nbsp;Vrai&nbsp;» ou «&nbsp;Faux&nbsp;», «&nbsp;Oui&nbsp;» ou 
+«&nbsp;Non&nbsp;».</SPAN></P>
+<P class=MsoNormal><SPAN>"FORME"&nbsp;: Indique le type de forme. Les valeurs 
+possibles sont «&nbsp;Rectangle&nbsp;», «&nbsp;Carré&nbsp;», 
+«&nbsp;Ovale&nbsp;», «&nbsp;Rond&nbsp;» ou «&nbsp;Spéciale&nbsp;»</SPAN></P>
+<P class=MsoNormal><SPAN>"ETIQ_LXD"&nbsp;: Les dimensions de l’étiquette sens 
+laize puis développement <SPAN style="mso-spacerun: yes">&nbsp;</SPAN>(Exemple 
+«&nbsp;40 x 20&nbsp;»). Si une seule valeur (Exemple «&nbsp;40&nbsp;») alors 
+elle est portée dans la laize et le développement. <BR>Si le symbole 
+«&nbsp;Ø&nbsp;» apparait dans la valeur (Exemple&nbsp;: « Ø40&nbsp;»)&nbsp; et 
+la forme est rectangulaire ou carrée, elle est modifiée pour 
+«&nbsp;Ronde&nbsp;».<BR>Soit par cette colonne soit par les deux suivantes, vous 
+devez définir les dimensions de l’étiquette pour chaque outil importé à moins 
+que l’étiquette existe déjà (même numéro).</SPAN></P>
+<P class=MsoNormal><SPAN>"ETIQ_L"&nbsp;: La dimension de l’étiquette sens laize 
+en mm. Si le symbole «&nbsp;Ø&nbsp;» apparait dans la valeur, la valeur est 
+aussi portée dans la dimension de l’étiquette sens développement. Si la forme 
+est rectangulaire ou carrée, on la modifie pour «&nbsp;Ronde&nbsp;».</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN>"ETIQ_D": 
+La dimension de l’étiquette sens développement en mm.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN>"ETIQ_R": 
+Le rayon des coins de l’étiquette en mm.</SPAN></P>
+<P class=MsoNormal><SPAN>"ESPACE_LXD" : L’espace entre deux étiquettes sens 
+laize puis développement en mm. (Exemple «&nbsp;3 x 5&nbsp;»)</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"ESPACE_L"&nbsp;: L’espace entre deux 
+étiquettes sens laize en mm.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"ESPACE_D"&nbsp;: L’espace entre deux 
+étiquettes sens développement en mm.</SPAN></P>
+<P class=MsoNormal><SPAN>"AVANCE_LXD" : L’avance sens laize puis développement 
+en mm. (Ex&nbsp;: «&nbsp;43 x 25&nbsp;»).</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"AVANCE_L"&nbsp;: L’avance pour passer du 
+haut d’une étiquette à la suivante sens laize en mm.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN>"AVANCE_D" 
+: L’avance pour passer du haut d’une étiquette à la suivante sens développement 
+en mm.</SPAN></P>
+<P class=MsoNormal><SPAN>"POSES_LXD" : Le nombre de poses sens laize puis 
+développement en mm. (Exemple «&nbsp;2 x 3&nbsp;»). Soit par cette colonne soit 
+par les deux suivantes, vous devez définir les nombres de poses des étiquettes 
+pour chaque outil importé.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"POSES_L"&nbsp;: Le nombre de poses sens 
+laize</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"POSES_D"&nbsp;: Le nombre de poses sens 
+développement</SPAN></P>
+<P class=MsoNormal><SPAN>"OUTIL_LXD"&nbsp;: Les dimensions de l’outil sens laize 
+puis développement en mm. (Exemple&nbsp;: «&nbsp;90 x 75&nbsp;»).</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN>"OUTIL_L": 
+La laize minimum de l’outil en mm.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"OUTIL_DMM": Le développé de l’outil en 
+mm.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"OUTIL_DPC": Le développé de l’outil en 
+1/8<SUP>ème</SUP> de pouce. (Exemple&nbsp;: «&nbsp;88&nbsp;» pour 11 
+pouces)</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"OUTIL_TYPE"&nbsp;: Le type de l’outil. 
+La colonne doit contenir le libellé d’un type d’outil existant sinon la valeur 
+ne sera pas prise en compte, mais cela n’empêchera pas l’étiquette d’être 
+importée.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"PERFO"&nbsp;: Indique si l’outil est une 
+perforation. La colonne pourra contenir «&nbsp;0&nbsp;» ou «&nbsp;1&nbsp;», 
+«&nbsp;Vrai&nbsp;» ou «&nbsp;Faux&nbsp;», «&nbsp;Oui&nbsp;» ou 
+«&nbsp;Non&nbsp;».</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"AFOND"&nbsp;: Indique si l’outil fait 
+une coupe à fond. La colonne pourra contenir «&nbsp;0&nbsp;» ou «&nbsp;1&nbsp;», 
+«&nbsp;Vrai&nbsp;» ou «&nbsp;Faux&nbsp;», «&nbsp;Oui&nbsp;» ou 
+«&nbsp;Non&nbsp;».</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"SUPPORT_TYPE"&nbsp;: Le type de support. 
+La colonne doit contenir le libellé d’un type de support existant.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"FOURNISSEUR"&nbsp;: Le nom interne d’un 
+fournisseur existant.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"COUT"&nbsp;: Le coût de fabrication de 
+l’outil.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"ENTRETIEN"&nbsp;: Le coût d’entretient 
+de l’outil.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"MARGE"&nbsp;: La marge à appliquer en 
+pourcentage.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"COMMENTAIRE"&nbsp;: Un 
+commentaire.</SPAN></P>
+<P class=MsoNormal><SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>"IMAGE"&nbsp;: Le chemin complet du 
+fichier image JPEG,BMP,WMF,EMF ou GIF représentant la forme.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Pendant l’importation la fenêtre de saisie affiche les 
+étiquettes lues. Une fois l’importation terminée, si des formes n’ont pas pu 
+être créées, elles sont listées dans une fenêtre. La fenêtre de saisie des 
+formes est alors fermée et l’arbre remis à jour.</SPAN></P>
+<P class=MsoNormal><SPAN>Les mêmes vérifications et calculs sont réalisés 
+pendant l’importation et pendant une saisie manuelle. Les valeurs sont entrées 
+dans la grille de saisie dans l’ordre des tabulations. Des valeurs invalides 
+peuvent donc être corrigées automatiquement par l’importation. Exemple&nbsp;: 
+Forme ronde, diamètre 40 mm, avance 37 mm sera automatiquement recalculé en 
+avance 40 mm.</SPAN></P>
+<P class=MsoNormal><SPAN>Vous pouvez compléter les définitions d’une série 
+d’outils étiquettes déjà dans créés en important un fichier qui ne contient que 
+le numéro de l’outil et l’information que vous souhaitez ajouter. 
+(Exemple&nbsp;: une colonne Numéro et une colonne «&nbsp;Commentaire&nbsp;» ou 
+une colonne «&nbsp;Image&nbsp;»)</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

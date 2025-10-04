@@ -1,0 +1,517 @@
+{% extends "base.html" %}
+
+{% block title %}Analyses Avancées - Projet 9{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- En-tête avec navigation -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('projet9.index') }}">Projet 9</a></li>
+                    <li class="breadcrumb-item active">Analyses Avancées</li>
+                </ol>
+            </nav>
+            
+            <div class="d-flex justify-content-between align-items-center">
+                <h1><i class="fas fa-chart-line me-2"></i>Analyses Avancées - Métriques Détaillées</h1>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-outline-success" onclick="refreshData()">
+                        <i class="fas fa-sync-alt me-1"></i>Actualiser
+                    </button>
+                    <a href="{{ url_for('projet9.index') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-home me-1"></i>Accueil Projet 9
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Métriques avancées -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-calculator me-2"></i>Métriques Avancées</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="metriquesAvancees">
+                        <!-- Données chargées dynamiquement -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphiques d'évolution -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-chart-area me-2"></i>Évolution des Performances</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="evolutionChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top des retards -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-exclamation-triangle me-2"></i>Top des Retards</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Numéro</th>
+                                    <th>Client</th>
+                                    <th>Jours Retard</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyTopRetards">
+                                <!-- Données chargées dynamiquement -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alertes critiques -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-bell me-2"></i>Alertes Critiques</h5>
+                </div>
+                <div class="card-body">
+                    <div id="alertesCritiques">
+                        <!-- Données chargées dynamiquement -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analyses statistiques -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-percentage me-2"></i>Distribution des Taux</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="distributionChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-clock me-2"></i>Analyse des Délais</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="delaisChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-trending-up me-2"></i>Tendances</h5>
+                </div>
+                <div class="card-body">
+                    <div id="tendances">
+                        <!-- Données chargées dynamiquement -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tableau de bord avancé -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-dashboard me-2"></i>Tableau de Bord Avancé</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Indicateurs de Performance</h6>
+                            <div id="indicateursPerformance">
+                                <!-- Données chargées dynamiquement -->
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Recommandations</h6>
+                            <div id="recommandations">
+                                <!-- Données chargées dynamiquement -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation vers autres vues -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-link me-2"></i>Navigation</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ url_for('projet9.vue_ensemble') }}" class="btn btn-outline-info w-100">
+                                <i class="fas fa-chart-pie me-1"></i>Vue d'Ensemble
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ url_for('projet9.commandes_detaillees') }}" class="btn btn-outline-info w-100">
+                                <i class="fas fa-list me-1"></i>Commandes Détaillées
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ url_for('projet9.performance_clients') }}" class="btn btn-outline-success w-100">
+                                <i class="fas fa-users me-1"></i>Performance Clients
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{{ url_for('projet9.index') }}" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-home me-1"></i>Page Principale
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadAnalysesAvancees();
+});
+
+function loadAnalysesAvancees() {
+    loadMetriquesAvancees();
+    loadTopRetards();
+    loadAlertesCritiques();
+    createCharts();
+    loadIndicateursPerformance();
+    loadRecommandations();
+    loadTendances();
+}
+
+function loadMetriquesAvancees() {
+    fetch('/projet9/api/statistiques-performance')
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById('metriquesAvancees');
+            
+            const totalCommandes = data.total_commandes || 0;
+            const commandesLivrees = data.commandes_livrees || 0;
+            const livreesATemps = data.livrees_a_temps || 0;
+            const livreesEnRetard = data.livrees_en_retard || 0;
+            const enRetardActuel = data.en_retard_actuel || 0;
+            const delaiMoyen = data.delai_moyen || 0;
+            const retardMoyen = data.retard_moyen || 0;
+            
+            container.innerHTML = `
+                <div class="col-6 mb-3">
+                    <div class="text-center">
+                        <h6 class="text-muted">Total Commandes</h6>
+                        <h4 class="text-primary">${totalCommandes}</h4>
+                    </div>
+                </div>
+                <div class="col-6 mb-3">
+                    <div class="text-center">
+                        <h6 class="text-muted">Livrées à Temps</h6>
+                        <h4 class="text-success">${livreesATemps}</h4>
+                    </div>
+                </div>
+                <div class="col-6 mb-3">
+                    <div class="text-center">
+                        <h6 class="text-muted">En Retard Actuel</h6>
+                        <h4 class="text-danger">${enRetardActuel}</h4>
+                    </div>
+                </div>
+                <div class="col-6 mb-3">
+                    <div class="text-center">
+                        <h6 class="text-muted">Retard Moyen</h6>
+                        <h4 class="text-warning">${retardMoyen.toFixed(1)} jours</h4>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <hr>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <h6 class="text-success">Livrées à Temps</h6>
+                            <h5>${data.taux_ponctualite || 0}%</h5>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="text-primary">Commandes Livrées</h6>
+                            <h5>${data.taux_livraison || 0}%</h5>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="text-danger">En Retard</h6>
+                            <h5>${commandesLivrees > 0 ? Math.round((livreesEnRetard / commandesLivrees) * 100) : 0}%</h5>
+                        </div>
+                    </div>
+                </div>
+            `;
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des métriques:', error);
+        });
+}
+
+function loadTopRetards() {
+    fetch('/projet9/api/alertes-retard')
+        .then(res => res.json())
+        .then(data => {
+            const tbody = document.getElementById('tbodyTopRetards');
+            
+            if (data && data.length > 0) {
+                const topRetards = data.sort((a, b) => b.jours_retard - a.jours_retard).slice(0, 10);
+                
+                tbody.innerHTML = topRetards.map(retard => `
+                    <tr>
+                        <td><strong>${retard.numero}</strong></td>
+                        <td>${retard.client}</td>
+                        <td><span class="badge ${retard.jours_retard > 100 ? 'bg-danger' : retard.jours_retard > 50 ? 'bg-warning' : 'bg-info'}">${retard.jours_retard} jours</span></td>
+                    </tr>
+                `).join('');
+            } else {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">Aucun retard actuel</td></tr>';
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des retards:', error);
+        });
+}
+
+function loadAlertesCritiques() {
+    fetch('/projet9/api/alertes-retard')
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById('alertesCritiques');
+            const alertesCritiques = data.filter(alerte => alerte.jours_retard > 30);
+            
+            if (alertesCritiques.length > 0) {
+                container.innerHTML = `
+                    <div class="alert alert-danger">
+                        <h6><i class="fas fa-exclamation-triangle me-2"></i>${alertesCritiques.length} Alerte(s) Critique(s)</h6>
+                        <p class="mb-2">Commandes en retard de plus de 30 jours</p>
+                        <ul class="mb-0">
+                            ${alertesCritiques.slice(0, 5).map(alerte => 
+                                `<li><strong>${alerte.numero}</strong> - ${alerte.client} (${alerte.jours_retard} jours)</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = '<div class="alert alert-success"><i class="fas fa-check-circle me-2"></i>Aucune alerte critique</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des alertes:', error);
+        });
+}
+
+function createCharts() {
+    createEvolutionChart();
+    createDistributionChart();
+    createDelaisChart();
+}
+
+function createEvolutionChart() {
+    const ctx = document.getElementById('evolutionChart').getContext('2d');
+    
+    // Données simulées pour l'évolution (à remplacer par de vraies données temporelles)
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'],
+            datasets: [{
+                label: 'Taux de Ponctualité (%)',
+                data: [65, 72, 68, 75, 71, 78],
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                tension: 0.4
+            }, {
+                label: 'Taux de Livraison (%)',
+                data: [80, 85, 82, 88, 86, 90],
+                borderColor: '#28a745',
+                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+}
+
+function createDistributionChart() {
+    const ctx = document.getElementById('distributionChart').getContext('2d');
+    
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['0-20%', '21-40%', '41-60%', '61-80%', '81-100%'],
+            datasets: [{
+                label: 'Nombre de Clients',
+                data: [5, 12, 25, 45, 18],
+                backgroundColor: [
+                    '#dc3545',
+                    '#fd7e14',
+                    '#ffc107',
+                    '#20c997',
+                    '#28a745'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+function createDelaisChart() {
+    const ctx = document.getElementById('delaisChart').getContext('2d');
+    
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['À Temps', 'Retard Léger', 'Retard Modéré', 'Retard Critique'],
+            datasets: [{
+                data: [586, 200, 300, 143],
+                backgroundColor: [
+                    '#28a745',
+                    '#ffc107',
+                    '#fd7e14',
+                    '#dc3545'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}
+
+function loadIndicateursPerformance() {
+    const container = document.getElementById('indicateursPerformance');
+    container.innerHTML = `
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <span>Ponctualité Globale</span>
+                <span class="badge bg-warning">47.68%</span>
+            </div>
+            <div class="progress" style="height: 8px;">
+                <div class="progress-bar bg-warning" style="width: 47.68%"></div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <span>Taux de Livraison</span>
+                <span class="badge bg-info">81.02%</span>
+            </div>
+            <div class="progress" style="height: 8px;">
+                <div class="progress-bar bg-info" style="width: 81.02%"></div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <span>Commandes En Cours</span>
+                <span class="badge bg-primary">288</span>
+            </div>
+        </div>
+    `;
+}
+
+function loadRecommandations() {
+    const container = document.getElementById('recommandations');
+    container.innerHTML = `
+        <div class="alert alert-warning">
+            <h6><i class="fas fa-lightbulb me-2"></i>Améliorer la Ponctualité</h6>
+            <p class="mb-0">Le taux de ponctualité actuel de 47.68% peut être amélioré.</p>
+        </div>
+        <div class="alert alert-info">
+            <h6><i class="fas fa-clock me-2"></i>Optimiser les Délais</h6>
+            <p class="mb-0">Réduire le délai moyen de 3 jours pour améliorer la satisfaction client.</p>
+        </div>
+        <div class="alert alert-success">
+            <h6><i class="fas fa-chart-line me-2"></i>Tendance Positive</h6>
+            <p class="mb-0">Le taux de livraison de 81.02% montre une bonne performance générale.</p>
+        </div>
+    `;
+}
+
+function loadTendances() {
+    const container = document.getElementById('tendances');
+    container.innerHTML = `
+        <div class="text-center">
+            <div class="mb-3">
+                <i class="fas fa-arrow-up text-success fa-2x"></i>
+                <h6 class="mt-2">Livraisons</h6>
+                <span class="badge bg-success">+5%</span>
+            </div>
+            <div class="mb-3">
+                <i class="fas fa-arrow-up text-warning fa-2x"></i>
+                <h6 class="mt-2">Ponctualité</h6>
+                <span class="badge bg-warning">+2%</span>
+            </div>
+            <div class="mb-3">
+                <i class="fas fa-arrow-down text-danger fa-2x"></i>
+                <h6 class="mt-2">Retards</h6>
+                <span class="badge bg-danger">-3%</span>
+            </div>
+        </div>
+    `;
+}
+
+function refreshData() {
+    loadAnalysesAvancees();
+}
+</script>
+{% endblock %}

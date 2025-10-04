@@ -1,0 +1,39 @@
+
+# templates/projet8.html
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistiques Devis/Commandes par Catégorie</title>
+</head>
+<body>
+    <h1>📊 Statistiques Devis/Commandes par Catégorie</h1>
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Catégorie</th>
+                <th>Nombre de Devis</th>
+                <th>Nombre de Commandes</th>
+                <th>Total Devis (HT)</th>
+                <th>Total Commandes (HT)</th>
+                <th>Taux de Transformation (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in stats %}
+            <tr>
+                <td>{{ row.Categorie or 'Non défini' }}</td>
+                <td>{{ row.NbDevis }}</td>
+                <td>{{ row.NbCommandes }}</td>
+                <td>{{ "{:.2f}".format(row.TotalDevis or 0) }}</td>
+                <td>{{ "{:.2f}".format(row.TotalCommandes or 0) }}</td>
+                <td>{{ "{:.2f}".format(row.TauxTransformation or 0) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="/">Retour à l'accueil</a>
+</body>
+</html>

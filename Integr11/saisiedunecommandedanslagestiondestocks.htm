@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Saisie d'une commande dans la gestion de stocks</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="Utilitaires.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_3008><SPAN>Saisie d’une commande dans la gestion de 
+stocks</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="rechercheduprixdupapierjouraprslecalculdundevis.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="prisedecommandeenligne.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Lorsque qu’une commande est saisie dans la gestion des 
+stocks pour un fournisseur pour lequel l’interface papiers Web est active, le 
+bouton <IMG src="Images/image38_29.jpg"><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>est affiché dans la barre d’outils de la 
+pièce. Ce bouton permet d’appliquer les conditions d’achat définies pour 
+<U>tous</U> les articles de la commande en cours de saisie.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Lorsque l’utilisateur clique sur ce bouton, avant de 
+procéder à la recherche en ligne, l’application procède à quelques 
+vérifications.</SPAN></P>
+<P class=MsoNormal><SPAN>L’interrogation à distance se faisant sur la base de la 
+référence des articles, il est obligatoire que celle-ci soit renseignée pour 
+chaque article - elle l’est par exemple lorsque l’utilisateur demande 
+l’application des conditions d’achats enregistrées dans la base. Si au moins un 
+article n’a pas de référence, l’application propose à l’utilisateur d’appliquer 
+automatiquement les conditions pour tous les articles de la pièce dont la 
+référence n’est pas renseignée.</SPAN></P>
+<P class=MsoNormal><SPAN><IMG src="Images/image38_30.jpg"><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN></SPAN></P>
+<P class=MsoNormal><I><SPAN>Exemple de saisie d’une commande</SPAN></I></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Seuls&nbsp;les articles n’ayant qu’une condition seront 
+modifiés automatiquement et si un article a plusieurs conditions, le programme 
+n’en sélectionne aucune mais informe l’utilisateur qu’il doit le faire et 
+n’effectue pas de recherche en ligne. Sont effectuées ensuite les mêmes 
+vérifications que lors de l’enregistrement de la pièce.<U></U></SPAN></P>
+<P class=MsoNormal><SPAN>Si aucune anomalie n’est relevée, le service web du 
+papetier est alors interrogé afin d’obtenir les dernières conditions d’achat en 
+fonction des quantités et indique les informations obtenues.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><I><SPAN>L’écran affichant la réponse du service web est 
+similaire à l’écran utilisé dans la saisie de devis et sauf exception, la 
+signification de chaque information est identique à ce qui a été précisé dans le 
+paragraphe précédent.</SPAN></I></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Données 
+générales par fournisseur&nbsp;: nom du fournisseur, compte utilisateur utilisé, 
+éventuels frais additionnels et date de livraison maximale estimée.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Données 
+spécifiques par article&nbsp;: Etat du tarif de l’article, Fournisseur, Libellé 
+de l’article, Référence fournisseur, Quantité, Unité, Prix en base, Prix en 
+ligne et différence entre les deux, Eventuels frais additionnels, Date de 
+livraison prévue et Date estimée par le fournisseur, Stock 
+disponible.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Lorsque l’utilisateur clique sur le bouton 
+«&nbsp;Fermer&nbsp;», si au moins un prix ou une date de livraison est 
+différent, l’utilisateur devra choisir si les nouvelles valeurs seront utilisées 
+ou non.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>«&nbsp;Oui&nbsp;»&nbsp;: les conditions d’achat de chaque 
+article de la pièce seront modifiées en conséquence. </SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>«&nbsp;Non&nbsp;»&nbsp;: la pièce reste 
+inchangée.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>«&nbsp;Annuler&nbsp;»&nbsp;: l’écran reste 
+affiché.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Si aucune différence n’est détectée, l’écran se fermera 
+automatiquement et sans modification de la pièce.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<H6><SPAN>Notes sur les informations utilisées pour l’actualisation</SPAN></H6>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Seuls les 
+articles dont l’unité&nbsp;de prix est la feuille et dont la référence 
+fournisseur est renseignée peuvent être actualisés en ligne. Référence 
+fournisseur provenant du paramétrage.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>La quantité 
+doit être cohérente avec le paquetage défini dans les conditions d’achat de 
+l’article. Si celle-ci ne correspond pas au paquetage connu défini par le 
+fournisseur, le service web retourne une erreur qui est alors affichée à 
+l’utilisateur.</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

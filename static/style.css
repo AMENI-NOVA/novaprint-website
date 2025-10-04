@@ -1,0 +1,272 @@
+:root {
+    --primary-color: #003366;      /* Bleu Novaprint */
+    --secondary-color: #f2f2f2;    /* Gris clair */
+    --text-color: #333;
+    --button-color: #80C342;       /* Vert Novaprint */
+    --button-hover: #5e9d2d;
+    --border-color: #ddd;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--secondary-color);
+    margin: 0;
+    padding: 40px;
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    max-width: 180px;
+    display: block;
+    margin: 30px auto 10px auto;
+}
+
+/* Navbar */
+.navbar {
+    background-color: white;
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 20px;
+    margin-bottom: 30px;
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-logo {
+    height: 50px;
+}
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+    max-width: 800px;
+}
+
+.navbar-links li a {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 5px 8px;
+    border-radius: 5px;
+}
+
+.navbar-links li a:hover {
+    color: var(--button-hover);
+    background-color: rgba(128, 195, 66, 0.1);
+}
+
+/* Tableau projet2 optimisé */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.novaprint-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 14px;
+    word-wrap: break-word;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.novaprint-table th,
+.novaprint-table td {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    text-align: center;
+}
+
+/* États de production */
+.etat-vert {
+    color: #80C342;
+    font-weight: bold;
+}
+
+.etat-rouge {
+    color: #e30613;
+    font-weight: bold;
+}
+
+.etat-orange {
+    color: orange;
+    font-weight: bold;
+}
+
+/* Boutons */
+.btn-action, .reset-btn {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    margin: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-action:hover, .reset-btn:hover {
+    background-color: var(--button-hover);
+}
+
+/* Résumé */
+.resume-box {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Lien retour */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: var(--button-color);
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: var(--button-hover);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 30px 10px;
+    margin-top: 60px;
+    color: #777;
+    font-size: 14px;
+    border-top: 1px solid #ddd;
+    background-color: var(--secondary-color);
+}
+
+.footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .novaprint-table {
+        font-size: 12px;
+        min-width: 100%;
+    }
+
+    .novaprint-table th, .novaprint-table td {
+        padding: 6px;
+    }
+
+    .btn-action, .reset-btn {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .logo {
+        max-width: 140px;
+    }
+}
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  background: #fdfdfd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.form-section label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input, select {
+  padding: 6px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  width: 250px;
+}
+
+.table-voyage {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: collapse;
+}
+
+.table-voyage th, .table-voyage td {
+  border: 1px solid #ccc;
+  padding: 6px;
+  text-align: center;
+}
+
+.table-voyage th {
+  background-color: #f0f0f0;
+}
+
+.btn-ajout-camion {
+  background-color: #28a745;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn-ajout-camion:hover {
+  background-color: #218838;
+}
+
+.btn-refresh {
+  background-color: #ffc107;
+  color: #212529;
+  padding: 6px 10px;

@@ -1,0 +1,321 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Edition des statistiques des postes.</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="EdStatGP.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_411><SPAN>Edition des statistiques des postes.</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="editiondestempsdoccupationdespostes.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="editiondesactivitsdespostes.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Cette édition permet de visualiser des statistiques par 
+opération pour des postes sur une période donnée.</SPAN></P>
+<P class=MsoNormal><SPAN>Les informations éditées par poste sont séparées en 3 
+parties principales :</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Les 
+statistiques sur les opérations affectables.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Les 
+statistiques sur les opérations non affectables (indirects).</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Le 
+récapitulatif de la période.</SPAN></P>
+<P class=MsoNormal><SPAN>Les dossiers pris en compte sont ceux commencés avant 
+la date de fin de période et terminés après la date de début (ou non 
+terminés).</SPAN></P>
+<H6><SPAN>Paramétrages de l’édition</SPAN></H6>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Postes&nbsp;: voir<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>chapitre «&nbsp;<a href="JavaScript:TL_85955.HHClick()">Sélection des 
+postes</A>&nbsp;».</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN>Période&nbsp;: la date de fin ne peut être antérieure à la 
+date du dernier archivage (niveau 1).</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Le format 
+d‘édition des temps&nbsp;: heures/minutes(avec ou sans les secondes) ou heures 
+/centièmes</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Quel type de 
+prévu (temps et nombre d’opération) prende en compte&nbsp;: le «&nbsp;prévu 
+devis&nbsp;» (choix par défaut) ou «&nbsp;le prévu atelier&nbsp;».</SPAN></P>
+<P class=MsoNormal><SPAN style="mso-no-proof: yes"><IMG 
+src="Images/image28_43.jpg"></SPAN><SPAN>Description de l’édition</SPAN></P>
+<P class=MsoNormal><SPAN>Pour chaque poste on a&nbsp;:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Un en tête 
+avec&nbsp;: le nom du poste, les dates de la période et le nombre de dossier 
+pris en compte pour la statistique du poste (pour la période considérée, ayant 
+au moins une opération terminée avec un temps réel).</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Un bloc pour 
+les opérations affectables avec&nbsp;:</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Une ligne 
+par opération avec&nbsp;:</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Le nom de l’opération.</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Durant la période&nbsp;:</SPAN></P>
+<P class=Suitepuces3 
+style="MARGIN-TOP: 1pt; tab-stops: 36.0pt; mso-list: none"><SPAN>De la date de 
+début à 0 heure à la date de fin minuit.</SPAN></P>
+<P class=MsoListBullet4><SPAN>Temps Total réel&nbsp;: Cumul des temps réellement 
+passés pour effectuer les opérations.</SPAN></P>
+<P class=MsoListBullet4><SPAN>Temps Total prévu&nbsp;: Cumul des temps 
+prévus.</SPAN></P>
+<P class=MsoListBullet4><SPAN>Ecart total&nbsp;: Ecart en temps et en 
+pourcentage entre le temps prévu et passé.</SPAN></P>
+<P class=MsoListBullet4><SPAN>Quantité réelle&nbsp;: Cumul du nombre 
+d’opération.</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Total des fiches concernées (dans et en dehors de la 
+période) &nbsp; :</SPAN></P>
+<P class=Suitepuces3 style="tab-stops: 36.0pt; mso-list: none"><SPAN>Il est 
+possible que certains des traitements examinés pour le poste se retrouvent à 
+cheval sur le début ou sur la fin de période. C'est à dire que leur début de 
+traitement soit antérieur à la date de début de période ou que leur fin de 
+traitement soit postérieure à la date de fin de période. Or, les temps moyens 
+sont calculés par rapport à un nombre d'opérations et il serait aléatoire d'en 
+attribuer une partie seulement à la période exacte. C'est pourquoi on distingue 
+dans ces statistiques des temps prévus et réels "dans la période" et "dans et en 
+dehors de la période". Les temps moyens seront calculés dans la deuxième section 
+qui comprend donc la totalité des temps (aléas y compris).</SPAN></P>
+<P class=MsoListBullet4><SPAN>Quantité réelle&nbsp;: Cumul du nombre 
+d’opérations réelles.</SPAN></P>
+<P class=MsoListBullet4><SPAN>Temps total réel&nbsp;: Cumul des temps réellement 
+passés.</SPAN></P>
+<P class=MsoListBullet4><SPAN>Temps moyen réel&nbsp;: Temps total réel / 
+Quantité réelle.</SPAN></P>
+<P class=MsoListBullet4><SPAN>Quantité prévue&nbsp;: Cumul du nombre 
+d’opérations prévues.</SPAN></P>
+<P class=MsoListBullet4><SPAN>Temps total prévu&nbsp;: Cumul des temps 
+prévus.</SPAN></P>
+<P class=MsoListBullet4><SPAN>Temps moyen prévu&nbsp;: Temps total prévu / 
+Quantité prévue.</SPAN></P>
+<P class=MsoListBullet4><SPAN>Ecart moyen&nbsp;: Temps moyen réel – Temps moyen 
+prévu.</SPAN></P>
+<P class=MsoListBullet4><SPAN>Temps moyen&nbsp;: Temps total réel / Quantité 
+prévue.</SPAN></P>
+<P class=Suitepuces3 
+style="tab-stops: 36.0pt; mso-list: none"><U><SPAN>Nota&nbsp;:</SPAN></U><SPAN> 
+Si pour une opération, le temps moyen réel est inférieur à 1 minute, les temps 
+et les écarts moyens (réel et prévu) sont exprimés pour 1000 opérations. Un 
+astérisque le signale devant le nom de l’opération.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Eventuellement, une ligne "(Global)" correspond aux saisies 
+de temps passées sur des postes sans détail par opération. On peut avoir à la 
+fois un détail par opération et une ligne "(Global)", si le paramétrage du poste 
+a été modifié durant la période demandée pour les statistiques. Les informations 
+éditées sont les mêmes que pour les autres lignes d’opération.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Une ligne 
+de total avec les mêmes informations, cumulées pour l’ensemble des opérations du 
+poste.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Un bloc pour 
+les opérations non affectables avec les mêmes informations (sauf pour le prévu 
+qui n’a pas de sens ici).</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Un bloc 
+récapitulatif avec&nbsp;:</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Production 
+nette&nbsp;:</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Temps&nbsp;: Temps prévu au devis correspondant aux travaux 
+effectués pendant le temps de production.</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Prix d'heure : Prix d'heure vendu = CA HT / Temps 
+prévu.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Production 
+brute&nbsp;:</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Temps : Temps machine réellement effectué durant la période 
+pour des opérations affectables.</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Prix d'heure : CA HT (prix de vente prévu / temps de 
+production brute).</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Indirects&nbsp;:</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Temps machine réellement effectué durant la période pour des 
+opérations non affectables.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Production 
+effectuée&nbsp;:</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Temps : Temps de production brute + temps indirects (temps 
+machine).</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Prix d'heure : CA HT (prix de vente prévu / temps de travail 
+effectué). Si le coût réel du poste doit tenir compte des personnes (<I>voir "<a href="JavaScript:TL_85956.HHClick()">Mise à jour manuelle des postes et opérations</A>" dans 
+le chapitre "Paramétrages de la gestion de production"</I>) :</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Inactivité&nbsp;:</SPAN></P>
+<P class=MsoListBullet3 style="tab-stops: 18.0pt 56.75pt; mso-list: none"><SPAN 
+style="FONT-SIZE: 7pt; FONT-FAMILY: Wingdings; mso-bidi-font-size: 10.0pt">§<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Temps d'occupation durant la période moins le temps de 
+travail effectué. Le temps d'occupation ne tient pas compte des présences 
+d'employés n'ayant pas de poste par défaut.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; 
+</SPAN></SPAN><SPAN>Total&nbsp;: Production effectuée + Inactivité.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>CA 
+HT&nbsp;: Coût prévu devis (prix de vente prévu avec marge et coefficient) des 
+opérations effectuées.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Temps homme 
+: Cumul des temps effectués par les personnes sur le poste durant la période. Il 
+est toujours supérieur ou égal au temps machine</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Nombre de 
+personnes en moyenne : Temps homme / Temps de travail effectué.</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Chiffre 
+d'affaire théorique&nbsp;: Temps total d'occupation * Prix d'heure vendu 
+(production nette).</SPAN></P>
+<P class=MsoListBullet2 style="tab-stops: 42.55pt 72.0pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: 'Courier New'">o<SPAN>&nbsp; </SPAN></SPAN><SPAN>Heures non 
+affectées&nbsp;: Cumul des heures de présence non affectées sur un poste pour 
+chaque employé d'un service. (le service d'un employé est déterminé par son 
+poste son poste par défaut).</SPAN></P>
+<P class=MsoNormal><U><SPAN>Remarques : </SPAN></U></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Les 
+pourcentages relatifs à chaque temps sont calculés par rapport au temps total 
+d'occupation. </SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si des temps 
+réels ont été saisis par le planning ou le retour des fiches. Il est possible 
+que le temps réel soit supérieur au temps d'occupation des postes (basé sur 
+l'occupation des employés). Dans ce cas, pour éviter des incohérences, le temps 
+d'occupation est remplacé par le temps réel.</SPAN></P>
+<H6><SPAN>Calcul du temps prévu pour une opération sur une période 
+donnée</SPAN></H6>
+<P class=MsoNormal><SPAN>Pour les dossiers commencés après la date de début 
+demandée (à 0 heure) et terminés avant la date de fin à minuit, le temps prévu 
+de chaque opération ne demande aucun calcul particulier.</SPAN></P>
+<P class=MsoNormal><SPAN>Dans le cas contraire, on est obligé d'estimer pour 
+chaque opération la part de temps prévu correspondant au temps réel effectué 
+durant la période demandée, sachant que l'opération a pu également être traitée 
+avant la date de début demandée ou après la date de fin.<BR>Par exemple pour une 
+opération de tirage pour laquelle il était prévu 10h00 : S'il y a eu 2h00 
+effectuées le 30 Mars et 9h00 effectuées le 1er Avril, comment estimer la part 
+de temps prévu correspondant au travail effectué pour chacune de ces 2 dates ? 
+La méthode adoptée est la suivante&nbsp;:</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Pour une 
+opération d'une fiche de travail, on compte dans les heures vendues le temps 
+total prévu - les heures réalisées avant la période, à concurrence du temps 
+réalisé dans la période. Exemple&nbsp;:</SPAN></P>
+<P class=Suitepuce><SPAN>10h prévues, 3h réalisées le 2/3, 5h réalisées le 3/3 
+et 1h le 4/03.</SPAN></P>
+<P class=Suitepuce><SPAN>Dans une statistique du 3/03 au 3/03, on comptera 
+:</SPAN></P>
+<P class=Suitepuce><SPAN>(10h-3h)=7h limitées aux 5h effectivement réalisées 
+pendant la période, soit 5h.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Si le temps 
+prévu pour une opération n'a pas été entièrement réalisé, le solde des heures 
+vendues est compté à la date de clôture du dossier. Exemple : </SPAN></P>
+<P class=Suitepuce><SPAN>Dans le cas précédent, si le dossier a été clôturé le 
+15/03. L'heure vendue mais non réalisée sera comptée dans une statistique qui 
+contient la date du 15/03, quelles que soient les heures réalisées dans cette 
+période.</SPAN></P>
+<P class=Suitepuce><SPAN>Ainsi, dans une statistique du 12/03 au 15/03, on 
+comptera :</SPAN></P>
+<P class=Suitepuce><SPAN>(10h-9h)=1h dans les heures vendues alors même qu'il 
+n'y a pas eu de temps réel effectué dans la période pour cette opération de 
+cette fiche.</SPAN></P><object id=TL_85955 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/slectiondespostes.htm">
+</object>
+<object id=TL_85956 type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param name="Command" value="Related Topics">
+	<param name="Window" value="$global_main">
+	<param name="Item1" value=";Integr11.chm::/misejourmanuelledespostesetoprations.htm">
+</object>
+
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

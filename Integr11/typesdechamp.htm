@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Types de champ</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<link rel="stylesheet" href="ParamEd.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_965><SPAN>Types de champ</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="champs2.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="misejourdeschamps.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal style="TEXT-ALIGN: justify"><SPAN>Il existe 2 types de champs 
+:<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>les champs «&nbsp;donnée&nbsp;» 
+et les champs «&nbsp;libellé&nbsp;».</SPAN></P>
+<H5><SPAN>Champs "Donnée"</SPAN></H5>
+<P class=MsoNormal style="TEXT-ALIGN: justify"><SPAN>Lors de la fusion du 
+document (l’édition), un champ «&nbsp;donnée&nbsp;» sera remplacé par la donnée 
+qu’il représente ou par vide si cette dernière est vide. Un champ 
+«&nbsp;libellé&nbsp;» sera remplacé par le texte qu’il contient (suppression des 
+accolades qui l’encadrent) ou par vide si la donnée est vide ou 
+nulle.</SPAN></P>
+<H5><SPAN>Champs "Libellé"</SPAN></H5>
+<P class=MsoNormal style="TEXT-ALIGN: justify"><SPAN>Le champ 
+«&nbsp;libellé&nbsp;» sert donc à afficher du texte seulement si la donnée n’est 
+pas vide. Comme les lignes comportant des champs vides et seulement des espaces 
+et des tabulations seront supprimés, cela permet de prévoir la place pour une 
+information qui n’est pas forcément disponible selon le contexte et qui 
+n’apparaîtra que si nécessaire.</SPAN></P>
+<P class=MsoNormal style="TEXT-ALIGN: justify"><SPAN>Les champs 
+«&nbsp;libellé&nbsp;» peuvent contenir des tabulations, des espaces insécables, 
+etc.</SPAN></P>
+<H6><SPAN>Exemple :</SPAN></H6>
+<P class=MsoNormal><SPAN>Le champ {Interlocuteur&nbsp;:} est un champ 
+«&nbsp;libellé&nbsp;», les autres des champs «&nbsp;donnée&nbsp;» :</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 21.8pt; TEXT-INDENT: 21.8pt; TEXT-ALIGN: justify"><SPAN>Interlocuteur&nbsp;:&nbsp;{Devis-Interlocuteur}</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 21.8pt; TEXT-INDENT: 21.8pt; TEXT-ALIGN: justify"><SPAN>{Interlocuteur&nbsp;:}&nbsp;{Devis-Interlocuteur}</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Fusion si 
+l’interlocuteur du devis existe&nbsp;:<BR>Résultat :</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 21.8pt; TEXT-INDENT: 21.8pt; TEXT-ALIGN: justify"><SPAN>Interlocuteur&nbsp;:&nbsp;Pierre 
+Dupont</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 21.8pt; TEXT-INDENT: 21.8pt; TEXT-ALIGN: justify"><SPAN>Interlocuteur&nbsp;:&nbsp;Pierre 
+Dupont</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 21.8pt; TEXT-ALIGN: justify"><SPAN>Les 2 
+lignes sont identiques, le résultat est le même.</SPAN></P>
+<P class=MsoListBullet style="tab-stops: 1.0cm 32.2pt; mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">¨<SPAN>&nbsp;&nbsp; </SPAN></SPAN><SPAN>Fusion si 
+l’interlocuteur du devis n’existe pas&nbsp;:<BR>Résultat :</SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 21.8pt; TEXT-INDENT: 21.8pt; TEXT-ALIGN: justify"><SPAN>Interlocuteur&nbsp;:&nbsp;</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 21.8pt; TEXT-ALIGN: justify"><SPAN>La 
+deuxième ligne a été supprimée, le résultat n’est pas le même.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>Les champs "Libellé" sont aussi très utiles pour 
+afficher un texte lié à une information de type Oui/Non. </SPAN></P>
+<P class=MsoNormal><SPAN>Par exemple, le champ "Papier-Fourni par le client" 
+renvoie la valeur 1 si le papier est fourni par le client, et rien dans le cas 
+contraire. Dans ce cas, le champ "Donnée" n'est pas destiné à être affiché sur 
+l'édition, mais il faut à la place utiliser le champ "Libellé" en personnalisant 
+le texte, qui ne sera affiché que lorsque le papier sera fourni par le 
+client.</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>

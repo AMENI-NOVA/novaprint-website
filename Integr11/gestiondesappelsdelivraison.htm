@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Gestion des appels de livraison</title>
+<link rel="stylesheet" href="Theme/nav.css" type="text/css">
+<link rel="stylesheet" href="C1H_HTML.css" type="text/css">
+<script type="text/javascript">
+function d2hnsresize() {}
+</script>
+<script language="JavaScript" src="DocToHelp.js">
+</script>
+</head>
+<body
+ style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;
+         width: 100%;"
+ onload="d2hnsresize()"
+ onmousedown="d2hpopup()"
+>
+
+<div
+ id="nsbanner"
+ style="position: relative;
+        left: 0px;
+        padding: 4px 0px 4px 0px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        display: inline; "
+>
+<div
+ id="TitleRow"
+ style="width: 100%;
+        padding: 0px 10px 0px 22px;
+        background-color: #99CCFF;
+        background-image: url();
+        background-repeat: no-repeat;
+        display: inline;"
+>
+<H4 id=_D2HTopic_3396><SPAN>Gestion des appels de livraison</SPAN></H4>
+<div id="ienav" style="display: inline">
+<p align=left>
+
+
+
+
+<a class=D2HPreviousEnabled id="D2HPrevious" href="gestiondesbonsdelivraisons.htm">Précédent</a> &nbsp;
+<a class=D2HNextEnabled id="D2HNext" href="clturedundossier.htm">Suivant</a>
+
+
+</p>
+</div>
+</div>
+</div>
+<div
+ id="nstext"
+ valign="bottom"
+ style="padding: 5px 10px 0px 22px;
+        background-color: #FFFFFF;
+        background-image: url();
+        background-repeat: no-repeat;"
+>
+
+<P class=MsoNormal><SPAN>Le module Gestion des Stocks est nécessaire pour cette 
+fonctionnalité.</SPAN></P>
+<P class=MsoNormal><SPAN>Si la commande est liée à un stock produit, alors le 
+colisage permet d’effectuer des mises en stock, les bons de livraison peuvent 
+être liés à la fois au stock et à la commande pour bénéficier de toutes les 
+informations disponibles et vous pouvez saisir des appels de 
+livraison.</SPAN></P>
+<P class=MsoNormal><SPAN>Les appels de livraison sont des livraisons prévues, 
+liées à des réservations du stock concerné. Ils référencent une livraison du 
+dossier (si plusieurs versions existent, chaque version livrée est gérée 
+indépendamment) et précisent la date, quantité et référence de l’appel pour le 
+client.</SPAN></P>
+<P class=MsoNormal><SPAN>&nbsp;</SPAN></P>
+<P class=MsoNormal><SPAN>L’écran de gestion des appels de livraison présente 
+l’historique des mouvements déjà effectués sur les stocks concernés et un 
+tableau de saisie des appels de livraison à réaliser.</SPAN></P>
+<H5><SPAN>Historique des stocks produits du dossier</SPAN></H5>
+<P class=MsoNormal><SPAN><IMG src="Images/image20_64.jpg"></SPAN></P>
+<P class=MsoNormal><SPAN>Cette liste non modifiable permet de visualiser 
+rapidement les opérations de mise en stock, livraison en attente ou réalisée sur 
+les produits e la commande. Elle utilise le même code couleur pour les 
+opérations que les mouvements du stock. </SPAN></P>
+<P class=MsoNormal><B><SPAN>Type</SPAN></B><SPAN>&nbsp;: Type de mouvement 
+<B></B></SPAN></P>
+<P class=MsoListBullet2 style="mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><B><SPAN>Mise en stock&nbsp;en instance</SPAN></B><SPAN> : Ce sont 
+les mises en stock saisies dans l’écran de colisage/Mise en stock et préparées 
+pour le magasinier mais pas encore validées. Elles utilisent le code couleur des 
+commandes de stock.</SPAN></P>
+<P class=MsoListBullet2 style="mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><B><SPAN>Mise en stock validée</SPAN></B><SPAN>&nbsp;: Ce sont les 
+entrées en stock validées. Elles utilisent le code couleur des entrées en 
+stock.</SPAN></P>
+<P class=MsoListBullet2 style="mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; </SPAN></SPAN><B><SPAN>Bon 
+de livraison en préparation</SPAN></B><SPAN>&nbsp;: Ce sont les demandes de 
+sortie de stock réalisées à partir des appels de livraison. Ils utilisent le 
+code couleur des réservations de stock.</SPAN></P>
+<P class=MsoListBullet2 style="mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><B><SPAN>Bons de livraison réalisé</SPAN></B><SPAN>&nbsp;: Ce sont 
+les bons de livraison, prêts ou expédiés, pour lesquels la sortie de stock a été 
+validée. Ils utilisent le code couleur des réservations compensées de 
+stock.</SPAN></P>
+<P class=MsoListBullet2 style="mso-list: none"><SPAN 
+style="FONT-FAMILY: Symbol">·<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><B><SPAN>Sortie sans BL&nbsp;</SPAN></B><SPAN>: Ce sont les 
+sorties de produit fini vers le client et attachées au dossier mais qui ne 
+concernent pas un bon de livraison de la commande. Elles utilisent le code 
+couleur des sorties de stock. <BR>Pour attacher un bon de livraison de la 
+commande à ces sorties de stock, créez un nouveau bon dans l’écran des 
+livraison. Un message propose d’attacher automatiquement le nouveau bon à la 
+sortie de stock sans BL.</SPAN></P>
+<P class=MsoNormal><B><SPAN>Livraison&nbsp;</SPAN></B><SPAN>: Indique la 
+livraison et éventuellement la version concernée</SPAN></P>
+<P class=MsoNormal><B><SPAN>Date&nbsp;</SPAN></B><SPAN>: Date du 
+mouvement</SPAN></P>
+<P class=MsoNormal><B><SPAN>Quantité&nbsp;</SPAN></B><SPAN>: La quantité 
+concernée par le mouvement</SPAN></P>
+<P class=MsoNormal><B><SPAN>Etat&nbsp;</SPAN></B><SPAN>: Etat du mouvement. 
+C’est l’état du bon de livraison ou «&nbsp;En instance<B>&nbsp;»&nbsp;</B>pour 
+les mises en stock<B> </B>en attente de validation. </SPAN></P>
+<P class=MsoNormal><B><SPAN>Référence&nbsp;</SPAN></B><SPAN>: C’est la référence 
+externe du mouvement de stock correspondant. Egalement affichée et modifiable 
+dans la liste des mouvements de stocks. Attention&nbsp;: Le paramétrage général 
+de la Gestion des Stocks doit définir une longueur positive pour les références 
+externes pour utiliser cette information.</SPAN></P>
+<P class=MsoNormal><B><SPAN>Stock&nbsp;</SPAN></B><SPAN>: C’est la référence 
+interne du mouvement de stock s’il est validé&nbsp;: Type, numéro, date et ligne 
+du mouvement de stock. Si le mouvement est en instance, le code du tampon, le 
+type et date du mouvement sont affichés.</SPAN></P>
+<P class=MsoNormal><B><SPAN>Commentaires&nbsp;</SPAN></B><SPAN>: Le commentaire 
+du mouvement de stock correspondant.</SPAN></P>
+<P class=MsoNormal><SPAN>Le tableau peut être trié sur chacune des 
+colonnes.</SPAN></P>
+<H6><SPAN>&nbsp;</SPAN></H6>
+<H5><SPAN>Appels de livraison</SPAN></H5>
+<P class=MsoNormal><SPAN><IMG src="Images/image20_65.jpg"></SPAN></P>
+<P class=MsoNormal><SPAN>Dans le tableau des appels de livraison sont affichés 
+et saisis les appels de la même façon que dans la création d’une commande. Vous 
+pouvez cliquez sur l’entête de la colonne souhaitée pour trier les lignes selon 
+les valeurs de la colonne.</SPAN></P>
+<H6><SPAN>Ajouter un appel de livraison</SPAN></H6>
+<P class=MsoNormal><SPAN>Pour créer un appel, placez-vous dans la ligne <IMG 
+src="Images/image20_66.png">, sélectionnez la livraison et éventuellement la 
+version concernée, entrez la quantité et date prévue de la livraison ainsi que 
+sa référence. Spécifiez éventuellement le transporteur, destinataire et 
+expéditeur prévu.</SPAN></P>
+<P class=MsoNormal><SPAN>NB&nbsp;: lorsque vous créez un appel, la dernière 
+livraison est sélectionnée par défaut et lorsque vous passez à la colonne 
+quantité, celle-ci est pré-remplie du solde à livrer.</SPAN></P>
+<P class=MsoNormal><SPAN>Lorsque vous enregistrerez, à chaque appel saisi ici 
+correspondra une réservation de stock pour la quantité, date prévue et référence 
+externe indiquées ici.</SPAN></P>
+<P class=MsoNormal><SPAN>NB&nbsp;: Vous pouvez également définir un appel de 
+livraison en saisissant une réservation de produit fini dans la gestion des 
+stocks.</SPAN></P>
+<H6><SPAN>Supprimer un appel de livraison</SPAN></H6>
+<P class=MsoNormal><SPAN>Pour supprimer une ligne, mettez la quantité à 0 ou 
+sélectionnez la ligne avec le sélecteur <IMG src="Images/image20_67.png"><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>et tapez la touche &lt;Suppr&gt;. La 
+réservation concernée sera annulée.</SPAN></P>
+<H6><SPAN>Sortie de stock</SPAN></H6>
+<P class=MsoNormal><SPAN>Lorsque vous désirez réaliser la livraison prévue par 
+un appel, cochez «&nbsp;Sortir&nbsp;» et entrez éventuellement un commentaire 
+qui sera ajouté à la sortie en instance. Lorsque vous enregistrerez, les 
+écritures de sortie seront créées dans le tampon que vous indiquerez et une 
+ligne «&nbsp;Bon de livraison,&nbsp;non prêt » sera ajoutée au tableau 
+historique. Une fois la sortie de stock réalisée, le bon passera à l’état 
+«&nbsp;Prêt&nbsp;» automatiquement.</SPAN></P>
+<P class=MsoNormal><SPAN>NB&nbsp;: Il est possible également de réaliser la 
+sortie de stock en compensant la réservation correspondant à un appel de 
+livraison avec le même résultat.</SPAN></P>
+<P class=MsoNormal><SPAN>La modification des appels de livraison peut 
+s’effectuer aussi bien dans la gestion des livraisons que dans la saisie des 
+écritures ou la fonction «&nbsp;Modifier&nbsp;» de la liste des mouvements de 
+stock.</SPAN></P>
+<p>&nbsp;</p>
+<div id="popupDiv">
+</div>
+</div>
+
+</body>
+</html>
