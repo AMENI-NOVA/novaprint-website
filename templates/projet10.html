@@ -1,9 +1,44 @@
 {% extends "base.html" %}
 
-{% block title %}Contrôle Qualité{% endblock %}
+{% block title %}Feuille de suivi machine contrôle qualité{% endblock %}
 
 {% block content %}
-    <h1 class="fade-in">Contrôle Qualité</h1>
+    <div class="container-fluid">
+        <!-- En-tête du formulaire -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-primary">
+                    <div class="card-header bg-primary text-white text-center">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <span class="fw-bold" style="writing-mode: vertical-rl; text-orientation: mixed;">Formulaire</span>
+                            </div>
+                            <div class="col-8">
+                                <h2 class="mb-0">Feuille de suivi machine contrôle qualité</h2>
+                            </div>
+                            <div class="col-2 text-end">
+                                <img src="{{ url_for('static', filename='logo-novaprint.png') }}" alt="NOVA" style="height: 40px;">
+                                <div class="fw-bold">NOVA</div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-3">
+                                <small>Code : FOR-SMI-14</small>
+                            </div>
+                            <div class="col-3">
+                                <small>Version : 00</small>
+                            </div>
+                            <div class="col-3">
+                                <small>Date : <span id="form-date">{{ moment().format('DD/MM/YYYY') }}</span></small>
+                            </div>
+                            <div class="col-3">
+                                <small>Page : 1/1</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <!-- Onglets principaux -->
     <ul class="nav nav-tabs" id="mainTabs" role="tablist" style="margin-bottom: 1rem;">
@@ -59,89 +94,240 @@
 
         <!-- Onglet Nouveau Contrôle -->
         <div class="tab-pane fade" id="nouveau" role="tabpanel">
-            <h3>Nouveau Contrôle Qualité</h3>
-            
+            <div class="card">
+                <div class="card-body">
             <form id="formNouveauControle">
-                <div class="row">
-                    <div class="col-md-6">
+                        <!-- Informations générales -->
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="date_controle" class="form-label fw-bold">Date :</label>
+                                    <input type="date" class="form-control form-control-lg" id="date_controle" name="date_controle" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                         <div class="mb-3">
-                            <label for="date_controle" class="form-label">Date de Contrôle *</label>
-                            <input type="date" class="form-control" id="date_controle" name="date_controle" required>
+                                    <label for="operateur" class="form-label fw-bold">Opérateur :</label>
+                                    <input type="text" class="form-control form-control-lg" id="operateur" name="operateur" required>
+                                </div>
                         </div>
-                        
+                            <div class="col-md-4">
                         <div class="mb-3">
-                            <label for="numero_dossier" class="form-label">N° Dossier *</label>
-                            <select class="form-control" id="numero_dossier" name="numero_dossier" required>
+                                    <label for="numero_dossier" class="form-label fw-bold">N° dossier :</label>
+                                    <select class="form-control form-control-lg" id="numero_dossier" name="numero_dossier" required>
                                 <option value="">Sélectionner un numéro...</option>
                             </select>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="operateur" class="form-label">Opérateur *</label>
-                            <input type="text" class="form-control" id="operateur" name="operateur" required>
+                            </div>
                         </div>
                         
-                        <div class="mb-3">
-                            <label for="machine_impression" class="form-label">Machine Impression</label>
-                            <input type="text" class="form-control" id="machine_impression" name="machine_impression">
+                        <!-- Tableau des tolérances -->
+                        <div class="mb-4">
+                            <h5 class="text-center mb-3">Les tolérances des triages</h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th class="text-center" style="width: 40%;">Les tolérances des triages</th>
+                                            <th class="text-center" style="width: 30%;">Quantité Conforme</th>
+                                            <th class="text-center" style="width: 30%;">Quantité Non-conforme</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tolerances-container">
+                                        <!-- 9 lignes de tolérances comme dans le formulaire papier -->
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-2">Tolérance :</span>
+                                                    <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_non_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-2">Tolérance :</span>
+                                                    <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_non_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-2">Tolérance :</span>
+                                                    <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_non_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-2">Tolérance :</span>
+                                                    <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_non_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-2">Tolérance :</span>
+                                                    <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_non_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-2">Tolérance :</span>
+                                                    <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_non_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-2">Tolérance :</span>
+                                                    <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_non_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-2">Tolérance :</span>
+                                                    <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_non_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-2">Tolérance :</span>
+                                                    <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" class="form-control text-center" name="quantite_non_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot class="table-secondary">
+                                        <tr>
+                                            <td class="text-center fw-bold">TOTAL</td>
+                                            <td class="text-center fw-bold" id="total-conforme">0</td>
+                                            <td class="text-center fw-bold" id="total-non-conforme">0</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                         
+                        <!-- Section validation -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="operateur_machine_impression" class="form-label">Opérateur Machine Impression</label>
-                            <input type="text" class="form-control" id="operateur_machine_impression" name="operateur_machine_impression">
+                                    <label for="rebus" class="form-label fw-bold">Rebus :</label>
+                                    <input type="number" class="form-control form-control-lg" id="rebus" name="rebus" min="0" value="0" onchange="calculerTotaux()">
                         </div>
                     </div>
-                    
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="machine_decoupe" class="form-label">Machine Découpe</label>
-                            <input type="text" class="form-control" id="machine_decoupe" name="machine_decoupe">
+                                    <label for="validation_chef" class="form-label fw-bold">Validation du chef section :</label>
+                                    <input type="text" class="form-control form-control-lg" id="validation_chef" name="validation_chef">
+                        </div>
+                        </div>
                         </div>
                         
-                        <div class="mb-3">
-                            <label for="operateur_machine_decoupe" class="form-label">Opérateur Machine Découpe</label>
-                            <input type="text" class="form-control" id="operateur_machine_decoupe" name="operateur_machine_decoupe">
+                        <!-- Résumé automatique -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Résumé automatique :</h6>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <strong>Total Conforme :</strong> <span id="resume-conforme" class="text-success">0</span>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="rebus" class="form-label">Rebus</label>
-                            <input type="number" class="form-control" id="rebus" name="rebus" min="0" value="0">
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="validation_chef" class="form-label">Validation Chef</label>
-                            <input type="text" class="form-control" id="validation_chef" name="validation_chef">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Section Tolérances -->
-                <div class="mb-3">
-                    <h5>Tolérances</h5>
-                    <div id="tolerances-container">
-                        <div class="tolerance-row row mb-2">
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+                                            <div class="col-md-3">
+                                                <strong>Total Non-conforme :</strong> <span id="resume-non-conforme" class="text-danger">0</span>
                             </div>
                             <div class="col-md-3">
-                                <input type="number" class="form-control" name="quantite_conforme[]" placeholder="Quantité conforme" min="0">
+                                                <strong>Rebus :</strong> <span id="resume-rebus" class="text-warning">0</span>
                             </div>
                             <div class="col-md-3">
-                                <input type="number" class="form-control" name="quantite_non_conforme[]" placeholder="Quantité non conforme" min="0">
+                                                <strong>Total Général :</strong> <span id="resume-total" class="text-primary">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
-                            <div class="col-md-2">
-                                <button type="button" class="btn btn-danger" onclick="supprimerTolerance(this)">Supprimer</button>
                             </div>
                         </div>
+                        
+                        <div class="d-flex gap-2 justify-content-center">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-save"></i> Enregistrer le Contrôle
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-lg" onclick="reinitialiserFormulaire()">
+                                <i class="fas fa-undo"></i> Réinitialiser
+                            </button>
+                            <button type="button" class="btn btn-info btn-lg" onclick="imprimerFormulaire()">
+                                <i class="fas fa-print"></i> Imprimer
+                            </button>
                     </div>
-                    <button type="button" class="btn btn-secondary" onclick="ajouterTolerance()">+ Ajouter Tolérance</button>
+                    </form>
                 </div>
-                
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-success">Créer Contrôle</button>
-                    <button type="button" class="btn btn-secondary" onclick="reinitialiserFormulaire()">Réinitialiser</button>
                 </div>
-            </form>
         </div>
 
         <!-- Onglet Statistiques -->
@@ -175,6 +361,16 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('statistiques-tab').addEventListener('click', function() {
         chargerStatistiques();
     });
+    
+    // Initialiser la date d'aujourd'hui
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date_controle').value = today;
+    
+    // Initialiser les calculs
+    calculerTotaux();
+    
+    // Mettre à jour la date du formulaire
+    document.getElementById('form-date').textContent = new Date().toLocaleDateString('fr-FR');
 });
 
 // Charger les numéros de commandes disponibles
@@ -277,6 +473,11 @@ function chargerStatistiques() {
 
 // Créer un nouveau contrôle
 function creerControle() {
+    // Validation avant envoi
+    if (!validerFormulaire()) {
+        return;
+    }
+    
     const formData = new FormData(document.getElementById('formNouveauControle'));
     const data = {};
     
@@ -295,9 +496,9 @@ function creerControle() {
     if (data.tolerance && data.quantite_conforme && data.quantite_non_conforme) {
         data.tolérances = [];
         for (let i = 0; i < data.tolerance.length; i++) {
-            if (data.tolerance[i]) {
+            if (data.tolerance[i] && data.tolerance[i].trim() !== '') {
                 data.tolérances.push({
-                    tolerance: data.tolerance[i],
+                    tolerance: data.tolerance[i].trim(),
                     quantite_conforme: parseInt(data.quantite_conforme[i]) || 0,
                     quantite_non_conforme: parseInt(data.quantite_non_conforme[i]) || 0
                 });
@@ -310,6 +511,12 @@ function creerControle() {
     delete data.quantite_conforme;
     delete data.quantite_non_conforme;
     
+    // Afficher un indicateur de chargement
+    const submitBtn = document.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
+    submitBtn.disabled = true;
+    
     fetch('/projet10/api/controle', {
         method: 'POST',
         headers: {
@@ -318,21 +525,99 @@ function creerControle() {
         body: JSON.stringify(data)
     })
     .then(res => res.json())
-    .then(data => {
-        if (data.status === 'success') {
-            alert('Contrôle créé avec succès!');
+    .then(response => {
+        if (response.status === 'success') {
+            // Succès
+            showNotification('Contrôle créé avec succès!', 'success');
             reinitialiserFormulaire();
             chargerControles();
             // Basculer vers l'onglet des contrôles
             document.getElementById('controles-tab').click();
         } else {
-            alert('Erreur: ' + data.error);
+            showNotification('Erreur: ' + response.error, 'error');
         }
     })
     .catch(error => {
         console.error('Erreur:', error);
-        alert('Erreur lors de la création du contrôle');
+        showNotification('Erreur lors de la création du contrôle', 'error');
+    })
+    .finally(() => {
+        // Restaurer le bouton
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
     });
+}
+
+// Valider le formulaire
+function validerFormulaire() {
+    const dateControle = document.getElementById('date_controle').value;
+    const operateur = document.getElementById('operateur').value.trim();
+    const numeroDossier = document.getElementById('numero_dossier').value;
+    
+    // Validation des champs obligatoires
+    if (!dateControle) {
+        showNotification('La date de contrôle est obligatoire', 'error');
+        document.getElementById('date_controle').focus();
+        return false;
+    }
+    
+    if (!operateur) {
+        showNotification('L\'opérateur est obligatoire', 'error');
+        document.getElementById('operateur').focus();
+        return false;
+    }
+    
+    if (!numeroDossier) {
+        showNotification('Le numéro de dossier est obligatoire', 'error');
+        document.getElementById('numero_dossier').focus();
+        return false;
+    }
+    
+    // Validation des tolérances
+    const toleranceInputs = document.querySelectorAll('input[name="tolerance[]"]');
+    const conformeInputs = document.querySelectorAll('input[name="quantite_conforme[]"]');
+    const nonConformeInputs = document.querySelectorAll('input[name="quantite_non_conforme[]"]');
+    
+    let hasValidTolerance = false;
+    for (let i = 0; i < toleranceInputs.length; i++) {
+        const tolerance = toleranceInputs[i].value.trim();
+        const conforme = parseInt(conformeInputs[i].value) || 0;
+        const nonConforme = parseInt(nonConformeInputs[i].value) || 0;
+        
+        if (tolerance && (conforme > 0 || nonConforme > 0)) {
+            hasValidTolerance = true;
+            break;
+        }
+    }
+    
+    if (!hasValidTolerance) {
+        showNotification('Au moins une tolérance avec des quantités doit être renseignée', 'error');
+        return false;
+    }
+    
+    return true;
+}
+
+// Afficher une notification
+function showNotification(message, type = 'info') {
+    // Créer l'élément de notification
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    // Ajouter au DOM
+    document.body.appendChild(notification);
+    
+    // Supprimer automatiquement après 5 secondes
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 5000);
 }
 
 // Ajouter une tolérance
@@ -410,6 +695,174 @@ function editerControle(id) {
 // Actualiser les contrôles
 function actualiserControles() {
     chargerControles();
+}
+
+// Calculer les totaux automatiquement
+function calculerTotaux() {
+    let totalConforme = 0;
+    let totalNonConforme = 0;
+    let rebus = parseInt(document.getElementById('rebus').value) || 0;
+    
+    // Calculer les totaux des tolérances
+    const inputsConforme = document.querySelectorAll('input[name="quantite_conforme[]"]');
+    const inputsNonConforme = document.querySelectorAll('input[name="quantite_non_conforme[]"]');
+    
+    inputsConforme.forEach(input => {
+        totalConforme += parseInt(input.value) || 0;
+    });
+    
+    inputsNonConforme.forEach(input => {
+        totalNonConforme += parseInt(input.value) || 0;
+    });
+    
+    // Mettre à jour les totaux dans le tableau
+    document.getElementById('total-conforme').textContent = totalConforme;
+    document.getElementById('total-non-conforme').textContent = totalNonConforme;
+    
+    // Mettre à jour le résumé
+    document.getElementById('resume-conforme').textContent = totalConforme;
+    document.getElementById('resume-non-conforme').textContent = totalNonConforme;
+    document.getElementById('resume-rebus').textContent = rebus;
+    document.getElementById('resume-total').textContent = totalConforme + totalNonConforme + rebus;
+}
+
+// Imprimer le formulaire
+function imprimerFormulaire() {
+    // Créer une nouvelle fenêtre pour l'impression
+    const printWindow = window.open('', '_blank');
+    
+    // Récupérer les données du formulaire
+    const dateControle = document.getElementById('date_controle').value;
+    const operateur = document.getElementById('operateur').value;
+    const numeroDossier = document.getElementById('numero_dossier').value;
+    const rebus = document.getElementById('rebus').value;
+    const validationChef = document.getElementById('validation_chef').value;
+    
+    // Construire le contenu HTML pour l'impression
+    let printContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Feuille de suivi machine contrôle qualité</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .header { text-align: center; border: 2px solid #000; padding: 10px; margin-bottom: 20px; }
+                .form-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+                .form-info { font-size: 12px; margin-bottom: 5px; }
+                .form-section { margin-bottom: 20px; }
+                .form-row { display: flex; margin-bottom: 10px; }
+                .form-label { font-weight: bold; margin-right: 10px; min-width: 120px; }
+                .form-value { border-bottom: 1px solid #000; flex: 1; padding: 5px; }
+                .table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                .table th, .table td { border: 1px solid #000; padding: 8px; text-align: center; }
+                .table th { background-color: #f0f0f0; font-weight: bold; }
+                .table .tolerance-col { text-align: left; }
+                .footer { margin-top: 30px; }
+                .footer-row { display: flex; margin-bottom: 15px; }
+                @media print { body { margin: 0; } }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div style="writing-mode: vertical-rl; text-orientation: mixed; font-weight: bold;">Formulaire</div>
+                    <div>
+                        <div class="form-title">Feuille de suivi machine contrôle qualité</div>
+                        <div class="form-info">Code : FOR-SMI-14</div>
+                        <div class="form-info">Version : 00</div>
+                        <div class="form-info">Date : ${new Date().toLocaleDateString('fr-FR')}</div>
+                        <div class="form-info">Page : 1/1</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: bold;">NOVA</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <div class="form-row">
+                    <div class="form-label">Date :</div>
+                    <div class="form-value">${dateControle || '_________________'}</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label">Opérateur :</div>
+                    <div class="form-value">${operateur || '_________________'}</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label">N° dossier :</div>
+                    <div class="form-value">${numeroDossier || '_________________'}</div>
+                </div>
+            </div>
+            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Les tolérances des triages</th>
+                        <th style="width: 30%;">Quantité Conforme</th>
+                        <th style="width: 30%;">Quantité Non-conforme</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+    
+    // Ajouter les lignes de tolérances
+    const toleranceInputs = document.querySelectorAll('input[name="tolerance[]"]');
+    const conformeInputs = document.querySelectorAll('input[name="quantite_conforme[]"]');
+    const nonConformeInputs = document.querySelectorAll('input[name="quantite_non_conforme[]"]');
+    
+    for (let i = 0; i < 9; i++) {
+        const tolerance = toleranceInputs[i] ? toleranceInputs[i].value : '';
+        const conforme = conformeInputs[i] ? conformeInputs[i].value : '';
+        const nonConforme = nonConformeInputs[i] ? nonConformeInputs[i].value : '';
+        
+        printContent += `
+            <tr>
+                <td class="tolerance-col">Tolérance : ${tolerance || '_________________'}</td>
+                <td>${conforme || '0'}</td>
+                <td>${nonConforme || '0'}</td>
+            </tr>`;
+    }
+    
+    printContent += `
+                </tbody>
+            </table>
+            
+            <div class="footer">
+                <div class="footer-row">
+                    <div class="form-label">Rebus :</div>
+                    <div class="form-value">${rebus || '0'}</div>
+                </div>
+                <div class="footer-row">
+                    <div class="form-label">Validation du chef section :</div>
+                    <div class="form-value">${validationChef || '_________________'}</div>
+                </div>
+            </div>
+        </body>
+        </html>`;
+    
+    printWindow.document.write(printContent);
+    printWindow.document.close();
+    printWindow.print();
+}
+
+// Réinitialiser le formulaire avec la structure correcte
+function reinitialiserFormulaire() {
+    document.getElementById('formNouveauControle').reset();
+    
+    // Réinitialiser tous les champs de tolérances
+    const toleranceInputs = document.querySelectorAll('input[name="tolerance[]"]');
+    const conformeInputs = document.querySelectorAll('input[name="quantite_conforme[]"]');
+    const nonConformeInputs = document.querySelectorAll('input[name="quantite_non_conforme[]"]');
+    
+    toleranceInputs.forEach(input => input.value = '');
+    conformeInputs.forEach(input => input.value = '');
+    nonConformeInputs.forEach(input => input.value = '');
+    
+    // Réinitialiser les totaux
+    calculerTotaux();
+    
+    // Définir la date d'aujourd'hui
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date_controle').value = today;
 }
 </script>
 {% endblock %}
