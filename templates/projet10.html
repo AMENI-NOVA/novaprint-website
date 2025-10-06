@@ -2,40 +2,33 @@
 
 {% block title %}Feuille de suivi machine contrôle qualité{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='projet10.css') }}">
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <!-- En-tête du formulaire -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card border-primary">
-                    <div class="card-header bg-primary text-white text-center">
-                        <div class="row align-items-center">
-                            <div class="col-2">
-                                <span class="fw-bold" style="writing-mode: vertical-rl; text-orientation: mixed;">Formulaire</span>
-                            </div>
-                            <div class="col-8">
-                                <h2 class="mb-0">Feuille de suivi machine contrôle qualité</h2>
-                            </div>
-                            <div class="col-2 text-end">
-                                <img src="{{ url_for('static', filename='logo-novaprint.png') }}" alt="NOVA" style="height: 40px;">
-                                <div class="fw-bold">NOVA</div>
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-3">
-                                <small>Code : FOR-SMI-14</small>
-                            </div>
-                            <div class="col-3">
-                                <small>Version : 00</small>
-                            </div>
-                            <div class="col-3">
-                                <small>Date : <span id="form-date"></span></small>
-                            </div>
-                            <div class="col-3">
-                                <small>Page : 1/1</small>
-                            </div>
-                        </div>
+        <div class="form-header fade-in">
+            <div class="header-content">
+                <div class="form-title">Feuille de suivi machine contrôle qualité</div>
+                <div class="form-info">
+                    <div class="info-item">
+                        <span>Code : FOR-SMI-14</span>
                     </div>
+                    <div class="info-item">
+                        <span>Version : 00</span>
+                    </div>
+                    <div class="info-item">
+                        <span>Date : <span id="form-date"></span></span>
+                    </div>
+                    <div class="info-item">
+                        <span>Page : 1/1</span>
+                    </div>
+                </div>
+                <div class="logo-section">
+                    <img src="{{ url_for('static', filename='logo-novaprint.png') }}" alt="NOVA">
+                    <div class="logo-text">NOVA</div>
                 </div>
             </div>
         </div>
@@ -71,7 +64,7 @@
             </div>
             
             <div class="table-responsive">
-                <table class="table table-striped" id="tableControles">
+                <table class="history-table" id="tableControles">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -125,7 +118,7 @@
                         <div class="mb-4">
                             <h5 class="text-center mb-3">Les tolérances des triages</h5>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped">
+                                <table class="tolerances-table">
                                     <thead class="table-primary">
                                         <tr>
                                             <th class="text-center" style="width: 40%;">Les tolérances des triages</th>
@@ -290,31 +283,29 @@
                         </div>
                         
                         <!-- Résumé automatique -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <h6 class="card-title">Résumé automatique :</h6>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <strong>Total Conforme :</strong> <span id="resume-conforme" class="text-success">0</span>
-                        </div>
-                                            <div class="col-md-3">
-                                                <strong>Total Non-conforme :</strong> <span id="resume-non-conforme" class="text-danger">0</span>
-                            </div>
-                            <div class="col-md-3">
-                                                <strong>Rebus :</strong> <span id="resume-rebus" class="text-warning">0</span>
-                            </div>
-                            <div class="col-md-3">
-                                                <strong>Total Général :</strong> <span id="resume-total" class="text-primary">0</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
+                        <div class="summary-card slide-up">
+                            <div class="summary-title">Résumé automatique</div>
+                            <div class="summary-grid">
+                                <div class="summary-item">
+                                    <div class="label">Total Conforme</div>
+                                    <div class="value text-success" id="resume-conforme">0</div>
+                                </div>
+                                <div class="summary-item">
+                                    <div class="label">Total Non-conforme</div>
+                                    <div class="value text-danger" id="resume-non-conforme">0</div>
+                                </div>
+                                <div class="summary-item">
+                                    <div class="label">Rebus</div>
+                                    <div class="value text-warning" id="resume-rebus">0</div>
+                                </div>
+                                <div class="summary-item">
+                                    <div class="label">Total Général</div>
+                                    <div class="value text-primary" id="resume-total">0</div>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="d-flex gap-2 justify-content-center">
+                        <div class="action-buttons">
                             <button type="submit" class="btn btn-success btn-lg">
                                 <i class="fas fa-save"></i> Enregistrer le Contrôle
                             </button>
@@ -324,7 +315,7 @@
                             <button type="button" class="btn btn-info btn-lg" onclick="imprimerFormulaire()">
                                 <i class="fas fa-print"></i> Imprimer
                             </button>
-                    </div>
+                        </div>
                     </form>
                 </div>
                 </div>
