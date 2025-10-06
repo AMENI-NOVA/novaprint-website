@@ -2,33 +2,41 @@
 
 {% block title %}Feuille de suivi machine contrôle qualité{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='projet10.css') }}">
-{% endblock %}
 
 {% block content %}
     <div class="container-fluid">
         <!-- En-tête du formulaire -->
-        <div class="form-header fade-in">
-            <div class="header-content">
-                <div class="form-title">Feuille de suivi machine contrôle qualité</div>
-                <div class="form-info">
-                    <div class="info-item">
-                        <span>Code : FOR-SMI-14</span>
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-primary">
+                    <div class="card-header bg-primary text-white text-center">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <span class="fw-bold" style="writing-mode: vertical-rl; text-orientation: mixed;">Formulaire</span>
+                            </div>
+                            <div class="col-8">
+                                <h2 class="mb-0">Feuille de suivi machine contrôle qualité</h2>
+                            </div>
+                            <div class="col-2 text-end">
+                                <img src="{{ url_for('static', filename='logo-novaprint.png') }}" alt="NOVA" style="height: 40px;">
+                                <div class="fw-bold">NOVA</div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-3">
+                                <small>Code : FOR-SMI-14</small>
+                            </div>
+                            <div class="col-3">
+                                <small>Version : 00</small>
+                            </div>
+                            <div class="col-3">
+                                <small>Date : <span id="form-date"></span></small>
+                            </div>
+                            <div class="col-3">
+                                <small>Page : 1/1</small>
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span>Version : 00</span>
-                    </div>
-                    <div class="info-item">
-                        <span>Date : <span id="form-date"></span></span>
-                    </div>
-                    <div class="info-item">
-                        <span>Page : 1/1</span>
-                    </div>
-                </div>
-                <div class="logo-section">
-                    <img src="{{ url_for('static', filename='logo-novaprint.png') }}" alt="NOVA">
-                    <div class="logo-text">NOVA</div>
                 </div>
             </div>
         </div>
@@ -64,7 +72,7 @@
             </div>
             
             <div class="table-responsive">
-                <table class="history-table" id="tableControles">
+                <table class="table table-striped" id="tableControles">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -91,34 +99,92 @@
                 <div class="card-body">
             <form id="formNouveauControle">
                         <!-- Informations générales -->
-                        <div class="row mb-4">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="date_controle" class="form-label fw-bold">Date :</label>
-                                    <input type="date" class="form-control form-control-lg" id="date_controle" name="date_controle" required>
-                                </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">📋 Informations Générales</h5>
                             </div>
-                            <div class="col-md-4">
+                            <div class="card-body">
+                <div class="row">
+                                    <div class="col-md-4">
                         <div class="mb-3">
-                                    <label for="operateur" class="form-label fw-bold">Opérateur :</label>
-                                    <input type="text" class="form-control form-control-lg" id="operateur" name="operateur" required>
-                                </div>
+                                            <label for="date_controle" class="form-label">📅 Date :</label>
+                            <input type="date" class="form-control" id="date_controle" name="date_controle" required>
                         </div>
-                            <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4">
                         <div class="mb-3">
-                                    <label for="numero_dossier" class="form-label fw-bold">N° dossier :</label>
-                                    <select class="form-control form-control-lg" id="numero_dossier" name="numero_dossier" required>
+                                            <label for="numero_dossier" class="form-label">📁 N° Dossier :</label>
+                            <select class="form-control" id="numero_dossier" name="numero_dossier" required>
                                 <option value="">Sélectionner un numéro...</option>
                             </select>
                         </div>
+                                    </div>
+                                    <div class="col-md-4">
+                        <div class="mb-3">
+                                            <label for="operateur" class="form-label">👤 Opérateur Contrôle :</label>
+                                            <input type="text" class="form-control" id="operateur" name="operateur" required placeholder="Nom de l'opérateur contrôle">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Machine d'impression -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">🖨️ Machine d'Impression :</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="machine_impression" class="form-label">Machine d'impression :</label>
+                                            <input type="text" class="form-control" id="machine_impression" name="machine_impression" placeholder="Ex: Heidelberg Speedmaster">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                        <div class="mb-3">
+                                            <label for="operateur_machine_impression" class="form-label">👥 Opérateur(s) Machine d'impression :</label>
+                                            <textarea class="form-control" id="operateur_machine_impression" name="operateur_machine_impression" rows="2" placeholder="Saisir les noms des opérateurs (séparés par des virgules)"></textarea>
+                                            <small class="form-text text-muted">Ex: Jean Dupont, Marie Martin</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Machine de découpe -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">✂️ Machine de Découpe :</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                        <div class="mb-3">
+                                            <label for="machine_decoupe" class="form-label">Machine de découpe :</label>
+                                            <input type="text" class="form-control" id="machine_decoupe" name="machine_decoupe" placeholder="Ex: Bobst SP 104 E">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                                            <label for="operateur_machine_decoupe" class="form-label">👥 Opérateur(s) Machine de découpe :</label>
+                                            <textarea class="form-control" id="operateur_machine_decoupe" name="operateur_machine_decoupe" rows="2" placeholder="Saisir les noms des opérateurs (séparés par des virgules)"></textarea>
+                                            <small class="form-text text-muted">Ex: Pierre Durand, Sophie Leroy</small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
                         <!-- Tableau des tolérances -->
-                        <div class="mb-4">
-                            <h5 class="text-center mb-3">Les tolérances des triages</h5>
-                            <div class="table-responsive">
-                                <table class="tolerances-table">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">📊 Contrôle des Tolérances et Quantités</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
                                     <thead class="table-primary">
                                         <tr>
                                             <th class="text-center" style="width: 40%;">Les tolérances des triages</th>
@@ -267,52 +333,64 @@
                         </div>
                         
                         <!-- Section validation -->
-                        <div class="row mb-4">
-                            <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
                         <div class="mb-3">
-                                    <label for="rebus" class="form-label fw-bold">Rebus :</label>
-                                    <input type="number" class="form-control form-control-lg" id="rebus" name="rebus" min="0" value="0" onchange="calculerTotaux()">
+                                            <label for="rebus" class="form-label">🗑️ Rebus :</label>
+                                            <input type="number" class="form-control" id="rebus" name="rebus" min="0" value="0" onchange="calculerTotaux()" placeholder="Quantité de rebus">
+                                        </div>
+                        </div>
+                                    <div class="col-md-6">
+                        <div class="mb-3">
+                                            <label for="validation_chef" class="form-label">✅ Validation du chef section :</label>
+                                            <input type="text" class="form-control" id="validation_chef" name="validation_chef" placeholder="Nom du chef de section">
+                                        </div>
+                                    </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                                    <label for="validation_chef" class="form-label fw-bold">Validation du chef section :</label>
-                                    <input type="text" class="form-control form-control-lg" id="validation_chef" name="validation_chef">
-                        </div>
-                        </div>
-                        </div>
-                        
+                </div>
+                
                         <!-- Résumé automatique -->
-                        <div class="summary-card slide-up">
-                            <div class="summary-title">Résumé automatique</div>
-                            <div class="summary-grid">
-                                <div class="summary-item">
-                                    <div class="label">Total Conforme</div>
-                                    <div class="value text-success" id="resume-conforme">0</div>
-                                </div>
-                                <div class="summary-item">
-                                    <div class="label">Total Non-conforme</div>
-                                    <div class="value text-danger" id="resume-non-conforme">0</div>
-                                </div>
-                                <div class="summary-item">
-                                    <div class="label">Rebus</div>
-                                    <div class="value text-warning" id="resume-rebus">0</div>
-                                </div>
-                                <div class="summary-item">
-                                    <div class="label">Total Général</div>
-                                    <div class="value text-primary" id="resume-total">0</div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">📈 Résumé automatique</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <strong>Total Conforme :</strong> <span id="resume-conforme" class="text-success">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <strong>Total Non-conforme :</strong> <span id="resume-non-conforme" class="text-danger">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <strong>Rebus :</strong> <span id="resume-rebus" class="text-warning">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <strong>Total Général :</strong> <span id="resume-total" class="text-primary">0</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="action-buttons">
-                            <button type="submit" class="btn btn-success btn-lg">
+                        <div class="d-flex gap-2 justify-content-center">
+                            <button type="submit" class="btn btn-success">
                                 <i class="fas fa-save"></i> Enregistrer le Contrôle
                             </button>
-                            <button type="button" class="btn btn-secondary btn-lg" onclick="reinitialiserFormulaire()">
+                            <button type="button" class="btn btn-secondary" onclick="reinitialiserFormulaire()">
                                 <i class="fas fa-undo"></i> Réinitialiser
                             </button>
-                            <button type="button" class="btn btn-info btn-lg" onclick="imprimerFormulaire()">
+                            <button type="button" class="btn btn-info" onclick="imprimerFormulaire()">
                                 <i class="fas fa-print"></i> Imprimer
                             </button>
                         </div>
