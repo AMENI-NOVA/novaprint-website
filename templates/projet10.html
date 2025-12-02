@@ -54,9 +54,9 @@
             </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="statistiques-tab" data-bs-toggle="tab" data-bs-target="#statistiques" type="button" role="tab">
+            <a class="nav-link" href="/projet10/stat" target="_blank">
                 📊 Statistiques
-            </button>
+            </a>
         </li>
     </ul>
 
@@ -113,16 +113,22 @@
                                     </div>
                                     <div class="col-md-4">
                         <div class="mb-3">
-                                            <label for="numero_dossier" class="form-label">📁 N° Dossier :</label>
-                            <select class="form-control" id="numero_dossier" name="numero_dossier" required>
+                                            <label for="Numero_COMMANDES" class="form-label">📁 N° Dossier :</label>
+                            <select class="form-control" id="Numero_COMMANDES" name="Numero_COMMANDES" required>
                                 <option value="">Sélectionner un numéro...</option>
                             </select>
                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                        <div class="mb-3">
-                                            <label for="operateur" class="form-label">👤 Opérateur Contrôle :</label>
-                                            <input type="text" class="form-control" id="operateur" name="operateur" required placeholder="Nom de l'opérateur contrôle">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                        <div class="mb-3 position-relative">
+                                            <label class="form-label" for="op_ctrl_input">👤 Opérateur Contrôle :</label>
+                                            <input class="form-control" id="op_ctrl_input" placeholder="Saisir matricule/nom et cliquer une suggestion..." autocomplete="off">
+                                            <div id="op_ctrl_suggestions" class="list-group" style="position:absolute; z-index:1050; max-height:240px; overflow:auto; display:none; width:100%;"></div>
+                                            <div class="mt-2 small text-muted">Sélectionné:</div>
+                                            <div id="op_ctrl_tags" class="mt-1 d-flex flex-wrap gap-2"></div>
+                                            <small class="form-text text-muted">Tapez pour rechercher, cliquez pour sélectionner. Cliquez sur l'étiquette pour enlever.</small>
                                         </div>
                                     </div>
                                 </div>
@@ -137,45 +143,28 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="mb-3">
+                        <div class="mb-3">
                                             <label for="machine_impression" class="form-label">Machine d'impression :</label>
-                                            <input type="text" class="form-control" id="machine_impression" name="machine_impression" placeholder="Ex: Heidelberg Speedmaster">
+                                            <select class="form-select" id="machine_impression" name="machine_impression">
+                                                <option value="">-- Sélectionner une machine --</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                        <div class="mb-3">
-                                            <label for="operateur_machine_impression" class="form-label">👥 Opérateur(s) Machine d'impression :</label>
-                                            <textarea class="form-control" id="operateur_machine_impression" name="operateur_machine_impression" rows="2" placeholder="Saisir les noms des opérateurs (séparés par des virgules)"></textarea>
-                                            <small class="form-text text-muted">Ex: Jean Dupont, Marie Martin</small>
+                        <div class="mb-3 position-relative">
+                                            <label class="form-label" for="op_impression_input">👥 Opérateur(s) Machine d'impression :</label>
+                                            <input class="form-control" id="op_impression_input" placeholder="Saisir matricule/nom et cliquer une suggestion..." autocomplete="off">
+                                            <div id="op_impression_suggestions" class="list-group" style="position:absolute; z-index:1050; max-height:240px; overflow:auto; display:none; width:100%;"></div>
+                                            <div class="mt-2 small text-muted">Sélectionnés:</div>
+                                            <div id="op_impression_tags" class="mt-1 d-flex flex-wrap gap-2"></div>
+                                            <small class="form-text text-muted">Tapez pour rechercher, cliquez pour ajouter. Cliquez sur une étiquette pour enlever.</small>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Machine de découpe -->
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5 class="mb-0">✂️ Machine de Découpe :</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                        <div class="mb-3">
-                                            <label for="machine_decoupe" class="form-label">Machine de découpe :</label>
-                                            <input type="text" class="form-control" id="machine_decoupe" name="machine_decoupe" placeholder="Ex: Bobst SP 104 E">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                                            <label for="operateur_machine_decoupe" class="form-label">👥 Opérateur(s) Machine de découpe :</label>
-                                            <textarea class="form-control" id="operateur_machine_decoupe" name="operateur_machine_decoupe" rows="2" placeholder="Saisir les noms des opérateurs (séparés par des virgules)"></textarea>
-                                            <small class="form-text text-muted">Ex: Pierre Durand, Sophie Leroy</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Machine de découpe (désactivée) -->
                         
                         <!-- Tableau des tolérances -->
                         <div class="card mb-4">
@@ -197,7 +186,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <span class="me-2">Tolérance :</span>
+                                                    <span class="me-2 text-nowrap">Tolérance&nbsp;:</span>
                                                     <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
                                                 </div>
                                             </td>
@@ -211,7 +200,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <span class="me-2">Tolérance :</span>
+                                                    <span class="me-2 text-nowrap">Tolérance&nbsp;:</span>
                                                     <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
                                                 </div>
                                             </td>
@@ -225,7 +214,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <span class="me-2">Tolérance :</span>
+                                                    <span class="me-2 text-nowrap">Tolérance&nbsp;:</span>
                                                     <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
                                                 </div>
                                             </td>
@@ -239,7 +228,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <span class="me-2">Tolérance :</span>
+                                                    <span class="me-2 text-nowrap">Tolérance&nbsp;:</span>
                                                     <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
                                                 </div>
                                             </td>
@@ -253,7 +242,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <span class="me-2">Tolérance :</span>
+                                                    <span class="me-2 text-nowrap">Tolérance&nbsp;:</span>
                                                     <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
                                                 </div>
                                             </td>
@@ -267,7 +256,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <span class="me-2">Tolérance :</span>
+                                                    <span class="me-2 text-nowrap">Tolérance&nbsp;:</span>
                                                     <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
                                                 </div>
                                             </td>
@@ -281,7 +270,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <span class="me-2">Tolérance :</span>
+                                                    <span class="me-2 text-nowrap">Tolérance&nbsp;:</span>
                                                     <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
                                                 </div>
                                             </td>
@@ -295,7 +284,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <span class="me-2">Tolérance :</span>
+                                                    <span class="me-2 text-nowrap">Tolérance&nbsp;:</span>
                                                     <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
                                                 </div>
                                             </td>
@@ -309,7 +298,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <span class="me-2">Tolérance :</span>
+                                                    <span class="me-2 text-nowrap">Tolérance&nbsp;:</span>
                                                     <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
                                                 </div>
                                             </td>
@@ -338,15 +327,19 @@
                                 <div class="row">
                                     <div class="col-md-6">
                         <div class="mb-3">
-                                            <label for="rebus" class="form-label">🗑️ Rebus :</label>
-                                            <input type="number" class="form-control" id="rebus" name="rebus" min="0" value="0" onchange="calculerTotaux()" placeholder="Quantité de rebus">
+                                            <label for="rebus" class="form-label">🗑️ Rebus (calculé automatiquement) :</label>
+                                            <input type="number" class="form-control bg-light" id="rebus" name="rebus" min="0" value="0" readonly title="Calculé automatiquement = Quantité non-conforme de la dernière ligne">
+                                            <small class="form-text text-muted">= Quantité non-conforme de la dernière ligne du tableau</small>
                                         </div>
                         </div>
                                     <div class="col-md-6">
-                        <div class="mb-3">
-                                            <label for="validation_chef" class="form-label">✅ Validation du chef section :</label>
-                                            <input type="text" class="form-control" id="validation_chef" name="validation_chef" placeholder="Nom du chef de section">
-                                        </div>
+                        <div class="mb-3 position-relative">
+                                            <label class="form-label">✅ Validation du chef section :</label>
+                                            <input class="form-control" id="op_chef_input" placeholder="Saisir matricule/nom et cliquer une suggestion..." autocomplete="off">
+                                            <div id="op_chef_suggestions" class="list-group" style="position:absolute; z-index:1050; max-height:240px; overflow:auto; display:none; width:100%;"></div>
+                                            <div class="mt-2 small text-muted">Sélectionné:</div>
+                                            <div id="op_chef_tags" class="mt-1 d-flex flex-wrap gap-2"></div>
+                                                </div>
                                     </div>
                         </div>
                     </div>
@@ -368,18 +361,18 @@
                                         <div class="text-center">
                                             <strong>Total Non-conforme :</strong> <span id="resume-non-conforme" class="text-danger">0</span>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3">
+                            </div>
+                            <div class="col-md-3">
                                         <div class="text-center">
                                             <strong>Rebus :</strong> <span id="resume-rebus" class="text-warning">0</span>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3">
+                            </div>
+                            <div class="col-md-3">
                                         <div class="text-center">
                                             <strong>Total Général :</strong> <span id="resume-total" class="text-primary">0</span>
                                         </div>
                                     </div>
-                                </div>
+                            </div>
                             </div>
                         </div>
                         
@@ -393,29 +386,67 @@
                             <button type="button" class="btn btn-info" onclick="imprimerFormulaire()">
                                 <i class="fas fa-print"></i> Imprimer
                             </button>
-                        </div>
+                    </div>
                     </form>
                 </div>
                 </div>
         </div>
 
-        <!-- Onglet Statistiques -->
-        <div class="tab-pane fade" id="statistiques" role="tabpanel">
-            <h3>Statistiques de Contrôle Qualité</h3>
-            
+        <!-- Onglet Statistiques (maintenant un lien externe) -->
+        <div class="tab-pane fade" id="statistiques" role="tabpanel" style="min-height: 240px; padding: 12px 8px; display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3>Statistiques de Contrôle Qualité</h3>
+                <button class="btn btn-primary btn-sm" onclick="chargerStatistiques()">
+                    🔄 Actualiser les statistiques
+                </button>
+            </div>
             <div class="row" id="statistiques-container">
-                <!-- Statistiques chargées via JavaScript -->
+                <div class="col-12 text-center text-muted py-4" id="stats-placeholder">
+                    Chargement des statistiques...
+                </div>
             </div>
         </div>
     </div>
 {% endblock %}
 
 {% block extra_js %}
+<!-- Bibliothèque pour générer des PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
+// Modal de visualisation
+const VIEW_MODAL_HTML = `
+<div class="modal fade" id="viewControleModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Détails du contrôle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="viewControleContent"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>`;
+if (!document.getElementById('viewControleModal')) {
+  const div = document.createElement('div');
+  div.innerHTML = VIEW_MODAL_HTML;
+  document.body.appendChild(div.firstElementChild);
+}
+let __EDIT_ID__ = null;
 document.addEventListener('DOMContentLoaded', function () {
     
     // Charger les numéros de commandes disponibles
     chargerNumerosCommandes();
+
+    // Charger les opérateurs disponibles
+    chargerOperateurs();
+    
+    // Charger les machines d'impression disponibles
+    chargerMachinesImpression();
     
     // Charger les contrôles existants
     chargerControles();
@@ -423,13 +454,26 @@ document.addEventListener('DOMContentLoaded', function () {
     // Gestion du formulaire
     document.getElementById('formNouveauControle').addEventListener('submit', function(e) {
         e.preventDefault();
+        if (__EDIT_ID__) {
+            updateControle(__EDIT_ID__);
+        } else {
         creerControle();
+        }
     });
     
-    // Gestion des onglets
-    document.getElementById('statistiques-tab').addEventListener('click', function() {
+    // Gestion des onglets - Charger les statistiques lors du clic
+    const statsTab = document.getElementById('statistiques-tab');
+    if (statsTab) {
+        statsTab.addEventListener('shown.bs.tab', function () {
+            console.log('Onglet Statistiques affiché');
+            chargerStatistiques();
+        });
+    }
+    
+    // Charger les statistiques au démarrage (pour qu'elles soient prêtes)
+    setTimeout(() => {
         chargerStatistiques();
-    });
+    }, 500);
     
     // Initialiser la date d'aujourd'hui
     const today = new Date().toISOString().split('T')[0];
@@ -447,7 +491,7 @@ function chargerNumerosCommandes() {
     fetch('/projet10/api/numeros-commandes')
         .then(res => res.json())
         .then(data => {
-            const select = document.getElementById('numero_dossier');
+            const select = document.getElementById('Numero_COMMANDES');
             select.innerHTML = '<option value="">Sélectionner un numéro...</option>';
             
             data.forEach(numero => {
@@ -459,6 +503,215 @@ function chargerNumerosCommandes() {
         })
         .catch(error => {
             console.error('Erreur lors du chargement des numéros:', error);
+        });
+}
+
+// Charger les machines d'impression disponibles
+function chargerMachinesImpression() {
+    fetch('/projet10/api/machines-disponibles')
+        .then(res => res.json())
+        .then(data => {
+            const select = document.getElementById('machine_impression');
+            select.innerHTML = '<option value="">-- Sélectionner une machine --</option>';
+            
+            data.forEach(machine => {
+                const option = document.createElement('option');
+                option.value = machine;
+                option.textContent = machine;
+                select.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des machines:', error);
+        });
+}
+
+// Charger les opérateurs disponibles
+function chargerOperateurs() {
+    console.log('Chargement des opérateurs...');
+    fetch('/projet10/api/operateurs')
+        .then(res => res.json())
+        .then(data => {
+            console.log('Opérateurs reçus:', data);
+            // Mémoriser globalement
+            window.__OPERATEURS__ = data;
+            // Remplir le select matricule pour l'opérateur contrôle
+            const selectOper = document.getElementById('operateur_matricule');
+            if (selectOper) {
+                selectOper.innerHTML = '<option value="">Sélectionner...</option>';
+            data.forEach(o => {
+                const opt = document.createElement('option');
+                    opt.value = (o.matricule||'').trim();
+                    opt.textContent = `${(o.matricule||'').trim()} - ${(o.nom||'').trim()} ${(o.prenom||'').trim()}`.trim();
+                    opt.dataset.nom = o.nom || '';
+                    opt.dataset.prenom = o.prenom || '';
+                    selectOper.appendChild(opt);
+                });
+            }
+
+            // Chef de section — même UX que opérateur contrôle (sélection simple)
+            const opChefInput = document.getElementById('op_chef_input');
+            const opChefSugg = document.getElementById('op_chef_suggestions');
+            const opChefTags = document.getElementById('op_chef_tags');
+
+            // Tables pour opérateurs machines
+            // Pickers Impression / Découpe
+            const opImpInput = document.getElementById('op_impression_input');
+            const opImpSugg = document.getElementById('op_impression_suggestions');
+            const opImpTags = document.getElementById('op_impression_tags');
+            // Découpe désactivée
+            const opDecInput = null;
+            const opDecSugg = document.createElement('div');
+            const opDecTags = document.createElement('div');
+
+            // (opérations spécifiques chef/opérateur sont gérées par les pickers ci-dessous)
+
+            // Opérateur contrôle: suggestions + tag unique (même UX que impression)
+            const opCtrlInput = document.getElementById('op_ctrl_input');
+            const opCtrlSugg = document.getElementById('op_ctrl_suggestions');
+            const opCtrlTags = document.getElementById('op_ctrl_tags');
+            function renderCtrlSuggestions(term) {
+                const t = term.toLowerCase();
+                const results = (window.__OPERATEURS__||[]).filter(o =>
+                    (o.matricule||'').toLowerCase().includes(t) ||
+                    (o.nom||'').toLowerCase().includes(t) ||
+                    (o.prenom||'').toLowerCase().includes(t)
+                ).slice(0,20);
+                if (!results.length) { opCtrlSugg.style.display='none'; opCtrlSugg.innerHTML=''; return; }
+                opCtrlSugg.innerHTML = results.map(o => `
+                    <button type="button" class="list-group-item list-group-item-action" data-m="${(o.matricule||'').replaceAll('"','&quot;')}" data-n="${(o.nom||'').replaceAll('"','&quot;')}" data-p="${(o.prenom||'').replaceAll('"','&quot;')}">
+                        <strong>${o.matricule||''}</strong> — ${(o.nom||'')} ${(o.prenom||'')}
+                    </button>
+                `).join('');
+                opCtrlSugg.style.display='block';
+            }
+            function addCtrlTag(m,n,p){
+                // éviter doublons par matricule
+                const exists = Array.from(opCtrlTags.querySelectorAll('span.badge')).some(b => b.getAttribute('data-m')===m);
+                if (exists) return;
+                const tag = document.createElement('span');
+                tag.className = 'badge bg-primary';
+                tag.textContent = `${m} — ${n} ${p}`;
+                tag.setAttribute('data-m', m);
+                tag.setAttribute('data-n', n);
+                tag.setAttribute('data-p', p);
+                tag.style.cursor = 'pointer';
+                tag.addEventListener('click', () => tag.remove());
+                opCtrlTags.appendChild(tag);
+            }
+            if (opCtrlInput) {
+                opCtrlInput.addEventListener('input', function(){
+                    renderCtrlSuggestions(this.value.trim());
+                });
+            }
+            if (opCtrlSugg) {
+                opCtrlSugg.addEventListener('click', function(e){
+                    const btn = e.target.closest('button'); if (!btn) return;
+                    addCtrlTag(btn.getAttribute('data-m')||'', btn.getAttribute('data-n')||'', btn.getAttribute('data-p')||'');
+                    opCtrlSugg.style.display='none'; opCtrlInput.value='';
+                });
+            }
+            document.addEventListener('click', function(e){
+                if (!opCtrlSugg.contains(e.target) && e.target!==opCtrlInput) opCtrlSugg.style.display='none';
+            });
+
+            // Utils multi-pick
+            function filterOps(term) {
+                const t = term.toLowerCase();
+                return (window.__OPERATEURS__ || []).filter(o =>
+                    (o.matricule||'').toLowerCase().includes(t) ||
+                    (o.nom||'').toLowerCase().includes(t) ||
+                    (o.prenom||'').toLowerCase().includes(t)
+                ).slice(0,20);
+            }
+            function renderOpSuggestions(container, results) {
+                if (!results.length) { container.style.display='none'; container.innerHTML=''; return; }
+                container.innerHTML = results.map(o => `
+                    <button type="button" class="list-group-item list-group-item-action" data-m="${(o.matricule||'').replaceAll('"','&quot;')}" data-n="${(o.nom||'').replaceAll('"','&quot;')}" data-p="${(o.prenom||'').replaceAll('"','&quot;')}">
+                        <strong>${o.matricule||''}</strong> — ${(o.nom||'')} ${(o.prenom||'')}
+                    </button>
+                `).join('');
+                container.style.display='block';
+            }
+            function addTag(container, m,n,p) {
+                // éviter doublons
+                const exists = Array.from(container.querySelectorAll('span.badge')).some(b => b.getAttribute('data-m')===m);
+                if (exists) return;
+                const tag = document.createElement('span');
+                tag.className = 'badge bg-primary';
+                tag.textContent = `${m} — ${n} ${p}`;
+                tag.setAttribute('data-m', m);
+                tag.setAttribute('data-n', n);
+                tag.setAttribute('data-p', p);
+                tag.style.cursor = 'pointer';
+                tag.addEventListener('click', () => tag.remove());
+                container.appendChild(tag);
+            }
+            // Impression
+            opImpInput.addEventListener('input', function(){
+                renderOpSuggestions(opImpSugg, filterOps(this.value.trim()));
+            });
+            opImpSugg.addEventListener('click', function(e){
+                const btn = e.target.closest('button'); if (!btn) return;
+                addTag(opImpTags, btn.getAttribute('data-m')||'', btn.getAttribute('data-n')||'', btn.getAttribute('data-p')||'');
+                opImpSugg.style.display='none'; opImpInput.value='';
+            });
+            // Découpe (aucune interaction)
+            document.addEventListener('click', function(e){
+                if (!opImpSugg.contains(e.target) && e.target!==opImpInput) opImpSugg.style.display='none';
+                // pas de gestion découpe
+            });
+
+            function renderChefSuggestions(term) {
+                if (!term) { opChefSugg.style.display='none'; opChefSugg.innerHTML=''; return; }
+                const t = term.toLowerCase();
+                const results = (window.__OPERATEURS__||[]).filter(o =>
+                    (o.matricule||'').toLowerCase().includes(t) ||
+                    (o.nom||'').toLowerCase().includes(t) ||
+                    (o.prenom||'').toLowerCase().includes(t)
+                ).slice(0,20);
+                if (!results.length) { opChefSugg.style.display='none'; opChefSugg.innerHTML=''; return; }
+                opChefSugg.style.minWidth = (opChefInput ? opChefInput.offsetWidth : 0) + 'px';
+                opChefSugg.innerHTML = results.map(o => `
+                    <button type="button" class="list-group-item list-group-item-action" data-m="${(o.matricule||'').replaceAll('"','&quot;')}" data-n="${(o.nom||'').replaceAll('"','&quot;')}" data-p="${(o.prenom||'').replaceAll('"','&quot;')}">
+                        <strong>${o.matricule||''}</strong> — ${(o.nom||'')} ${(o.prenom||'')}
+                    </button>
+                `).join('');
+                opChefSugg.style.display='block';
+            }
+            function setChefTag(m,n,p){
+                opChefTags.innerHTML = '';
+                const tag = document.createElement('span');
+                tag.className='badge bg-success';
+                tag.textContent = `${m} — ${n} ${p}`;
+                tag.setAttribute('data-m', m);
+                tag.setAttribute('data-n', n);
+                tag.setAttribute('data-p', p);
+                tag.style.cursor='pointer';
+                tag.addEventListener('click', ()=>{ opChefTags.innerHTML=''; opChefInput.value=''; });
+                opChefTags.appendChild(tag);
+            }
+            if (opChefInput) {
+                opChefInput.addEventListener('input', function(){
+                    renderChefSuggestions(this.value.trim());
+                });
+                opChefInput.addEventListener('focus', function(){
+                    renderChefSuggestions(this.value.trim());
+                });
+            }
+            if (opChefSugg) {
+                opChefSugg.addEventListener('click', function(e){
+                    const btn = e.target.closest('button'); if (!btn) return;
+                    setChefTag(btn.getAttribute('data-m')||'', btn.getAttribute('data-n')||'', btn.getAttribute('data-p')||'');
+                    opChefSugg.style.display='none'; opChefInput.value='';
+                });
+            }
+            document.addEventListener('click', function(e){
+                if (!opChefSugg.contains(e.target) && e.target!==opChefInput) opChefSugg.style.display='none';
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des opérateurs:', error);
         });
 }
 
@@ -475,7 +728,7 @@ function chargerControles() {
                 row.innerHTML = `
                     <td>${controle.id}</td>
                     <td>${new Date(controle.date_controle).toLocaleDateString('fr-FR')}</td>
-                    <td>${controle.numero_dossier}</td>
+                    <td>${controle.Numero_COMMANDES}</td>
                     <td>${controle.operateur}</td>
                     <td>${controle.machine_impression || '-'}</td>
                     <td>${controle.machine_decoupe || '-'}</td>
@@ -484,6 +737,7 @@ function chargerControles() {
                     <td>
                         <button class="btn btn-sm btn-info" onclick="voirControle(${controle.id})">Voir</button>
                         <button class="btn btn-sm btn-warning" onclick="editerControle(${controle.id})">Éditer</button>
+                        <a class="btn btn-sm btn-outline-primary" href="/projet10/fiche/${controle.id}">Fiche</a>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -494,49 +748,279 @@ function chargerControles() {
         });
 }
 
-// Charger les statistiques
+// Charger les statistiques - VERSION ULTRA SIMPLIFIÉE
 function chargerStatistiques() {
+    console.log('=== DEBUT chargerStatistiques ===');
+    const container = document.getElementById('statistiques-container');
+    
+    if (!container) {
+        console.error('ERREUR: Container introuvable!');
+        return;
+    }
+    
+    console.log('Container trouvé, appel API...');
+    
     fetch('/projet10/api/statistiques')
         .then(res => res.json())
         .then(data => {
-            const container = document.getElementById('statistiques-container');
-            container.innerHTML = `
-                <div class="col-md-3 mb-3">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">Total Contrôles</h5>
-                            <h2 class="text-primary">${data.total_controles}</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">Contrôles Validés</h5>
-                            <h2 class="text-success">${data.controles_valides}</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">Rebus Moyen</h5>
-                            <h2 class="text-warning">${data.rebus_moyen}</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">Total Rebus</h5>
-                            <h2 class="text-danger">${data.total_rebus}</h2>
-                        </div>
+            console.log('Données reçues:', data);
+            
+            // Formater les nombres avec séparateurs de milliers
+            const formatNumber = (num) => {
+                if (num === null || num === undefined) return '0';
+                return num.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
+            };
+            
+            // Formater les décimales avec 3 chiffres après la virgule
+            const formatDecimal = (num) => {
+                if (num === null || num === undefined) return '0,000';
+                return num.toLocaleString('fr-FR', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+            };
+            
+            // Calculer le taux de validation
+            const tauxValidation = data.total_controles > 0 
+                ? ((data.controles_valides / data.total_controles) * 100).toFixed(3)
+                : '0.000';
+            
+            console.log('Construction du HTML SIMPLIFIÉ...');
+            
+            // VERSION ULTRA SIMPLE POUR DIAGNOSTIC
+            const html = `
+                <div class="col-12" style="background: #f0f8ff; padding: 30px; border: 3px solid #007bff; margin: 20px 0;">
+                    <h1 style="color: #007bff; font-size: 48px; text-align: center;">📊 STATISTIQUES</h1>
+                    
+                    <div style="background: white; padding: 20px; margin: 20px 0; border-radius: 10px;">
+                        <h2 style="color: #28a745;">✅ Données chargées avec succès !</h2>
+                        <hr>
+                        <p style="font-size: 24px;"><strong>Total Contrôles :</strong> <span style="color: #007bff; font-size: 36px;">${data.total_controles}</span></p>
+                        <p style="font-size: 24px;"><strong>Contrôles Validés :</strong> <span style="color: #28a745; font-size: 36px;">${data.controles_valides}</span></p>
+                        <p style="font-size: 24px;"><strong>Total Produit :</strong> <span style="color: #17a2b8; font-size: 36px;">${formatNumber(data.total_produit)}</span> pièces</p>
+                        <p style="font-size: 24px;"><strong>Taux de Conformité :</strong> <span style="color: #28a745; font-size: 36px;">${formatDecimal(data.taux_conformite)}%</span></p>
+                        <p style="font-size: 24px;"><strong>Total Conforme :</strong> <span style="color: #28a745; font-size: 36px;">${formatNumber(data.total_conforme)}</span> pièces</p>
+                        <p style="font-size: 24px;"><strong>Total Rebus :</strong> <span style="color: #dc3545; font-size: 36px;">${formatNumber(data.total_non_conforme)}</span> pièces</p>
+                        <p style="font-size: 24px;"><strong>Taux de Rebus :</strong> <span style="color: #dc3545; font-size: 36px;">${formatDecimal(data.taux_rebus)}%</span></p>
+                        <p style="font-size: 24px;"><strong>Rebus Moyen :</strong> <span style="color: #ffc107; font-size: 36px;">${formatDecimal(data.rebus_moyen)}</span> par contrôle</p>
                     </div>
                 </div>
             `;
+            
+            console.log('Injection du HTML...');
+            container.innerHTML = html;
+            console.log('=== FIN chargerStatistiques ===');
         })
         .catch(error => {
-            console.error('Erreur lors du chargement des statistiques:', error);
+            console.error('=== ERREUR dans chargerStatistiques ===', error);
+            const container = document.getElementById('statistiques-container');
+            if (container) {
+                container.innerHTML = `
+                    <div class="col-12">
+                        <div class="alert alert-danger">
+                            <strong>Erreur:</strong> Impossible de charger les statistiques. ${error.message}
+                        </div>
+                    </div>
+                `;
+            }
+        });
+}
+
+// Charger les statistiques par machine
+function chargerStatsMachines() {
+    console.log('Chargement des statistiques par machine...');
+    fetch('/projet10/api/statistiques/machines')
+        .then(res => res.json())
+        .then(data => {
+            console.log('Stats machines reçues:', data);
+            const container = document.getElementById('stats-additionnelles');
+            
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div class="alert alert-info">Aucune donnée de machine disponible.</div>';
+                return;
+            }
+            
+            const formatNumber = (num) => (num || 0).toLocaleString('fr-FR');
+            
+            let html = `
+                <h4 class="text-primary mb-3">🏭 Performance par Machine d'Impression</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Machine</th>
+                                <th class="text-center">Nb Contrôles</th>
+                                <th class="text-center">Total Conforme</th>
+                                <th class="text-center">Total Rebus</th>
+                                <th class="text-center">Total Produit</th>
+                                <th class="text-center">Taux Conformité</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            data.forEach(m => {
+                const badgeClass = m.taux_conformite >= 95 ? 'success' : (m.taux_conformite >= 90 ? 'warning' : 'danger');
+                html += `
+                    <tr>
+                        <td><strong>${m.machine}</strong></td>
+                        <td class="text-center">${formatNumber(m.nombre_controles)}</td>
+                        <td class="text-center text-success">${formatNumber(m.total_conforme)}</td>
+                        <td class="text-center text-danger">${formatNumber(m.total_rebus)}</td>
+                        <td class="text-center">${formatNumber(m.total_produit)}</td>
+                        <td class="text-center">
+                            <span class="badge bg-${badgeClass}">${m.taux_conformite}%</span>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            document.getElementById('stats-additionnelles').innerHTML = 
+                `<div class="alert alert-danger">Erreur: ${error.message}</div>`;
+        });
+}
+
+// Charger l'évolution de la qualité
+function chargerEvolution() {
+    console.log('Chargement de l\'évolution...');
+    const jours = 30;
+    fetch(`/projet10/api/statistiques/evolution?jours=${jours}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log('Évolution reçue:', data);
+            const container = document.getElementById('stats-additionnelles');
+            
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div class="alert alert-info">Aucune donnée d\'évolution disponible.</div>';
+                return;
+            }
+            
+            const formatNumber = (num) => (num || 0).toLocaleString('fr-FR');
+            
+            let html = `
+                <h4 class="text-primary mb-3">📈 Évolution de la Qualité (${jours} derniers jours)</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-sm">
+                        <thead class="table-info">
+                            <tr>
+                                <th>Date</th>
+                                <th class="text-center">Conforme</th>
+                                <th class="text-center">Rebus</th>
+                                <th class="text-center">Total</th>
+                                <th class="text-center">Taux Conformité</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            data.forEach(d => {
+                const dateFormat = new Date(d.date).toLocaleDateString('fr-FR');
+                const badgeClass = d.taux_conformite >= 95 ? 'success' : (d.taux_conformite >= 90 ? 'warning' : 'danger');
+                html += `
+                    <tr>
+                        <td>${dateFormat}</td>
+                        <td class="text-center text-success">${formatNumber(d.total_conforme)}</td>
+                        <td class="text-center text-danger">${formatNumber(d.total_rebus)}</td>
+                        <td class="text-center">${formatNumber(d.total_produit)}</td>
+                        <td class="text-center">
+                            <span class="badge bg-${badgeClass}">${d.taux_conformite}%</span>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            document.getElementById('stats-additionnelles').innerHTML = 
+                `<div class="alert alert-danger">Erreur: ${error.message}</div>`;
+        });
+}
+
+// Charger les dossiers à problème
+function chargerDossiersProbleme() {
+    console.log('Chargement des dossiers à problème...');
+    const seuil = 10; // 10% de rebus
+    fetch(`/projet10/api/statistiques/dossiers-probleme?seuil=${seuil}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log('Dossiers problème reçus:', data);
+            const container = document.getElementById('stats-additionnelles');
+            
+            if (!data || data.length === 0) {
+                container.innerHTML = `
+                    <div class="alert alert-success">
+                        <strong>✅ Excellent !</strong> Aucun dossier avec un taux de rebus supérieur à ${seuil}%.
+                    </div>
+                `;
+                return;
+            }
+            
+            const formatNumber = (num) => (num || 0).toLocaleString('fr-FR');
+            
+            let html = `
+                <h4 class="text-danger mb-3">⚠️ Dossiers avec Rebus Élevé (>${seuil}%)</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-danger">
+                            <tr>
+                                <th>N° Dossier</th>
+                                <th>Date</th>
+                                <th>Opérateur</th>
+                                <th>Machine</th>
+                                <th class="text-center">Conforme</th>
+                                <th class="text-center">Rebus</th>
+                                <th class="text-center">Total</th>
+                                <th class="text-center">Taux Rebus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            data.forEach(d => {
+                const dateFormat = new Date(d.date).toLocaleDateString('fr-FR');
+                html += `
+                    <tr>
+                        <td><strong>${d.Numero_COMMANDES}</strong></td>
+                        <td>${dateFormat}</td>
+                        <td>${d.operateur || '-'}</td>
+                        <td>${d.machine || '-'}</td>
+                        <td class="text-center text-success">${formatNumber(d.total_conforme)}</td>
+                        <td class="text-center text-danger">${formatNumber(d.total_rebus)}</td>
+                        <td class="text-center">${formatNumber(d.total_produit)}</td>
+                        <td class="text-center">
+                            <span class="badge bg-danger">${d.taux_rebus}%</span>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            document.getElementById('stats-additionnelles').innerHTML = 
+                `<div class="alert alert-danger">Erreur: ${error.message}</div>`;
         });
 }
 
@@ -560,22 +1044,58 @@ function creerControle() {
             data[key] = value;
         }
     }
+
+    // Gérer les sélections pour les opérateurs
+    // Opérateur contrôle (multi-tags)
+    const opCtrlTagsSel = document.querySelectorAll('#op_ctrl_tags .badge');
+    const ctrlList = Array.from(opCtrlTagsSel).map(t => ({
+        m: (t.getAttribute('data-m')||'').trim(),
+        n: (t.getAttribute('data-n')||'').trim(),
+        p: (t.getAttribute('data-p')||'').trim(),
+    }));
+    data.operateur_matricules = ctrlList.map(x => x.m);
+    data.operateur_noms = ctrlList.map(x => x.n);
+    data.operateur_prenoms = ctrlList.map(x => x.p);
+    data.operateur = ctrlList.map(x => `${x.n} ${x.p}`.trim()).join(', ');
     
-    // Organiser les tolérances
+    // Opérateurs machine impression (tags sélectionnés + tableaux)
+    const opImpTagsSel = document.querySelectorAll('#op_impression_tags .badge');
+    data.operateur_machine_impression = Array.from(opImpTagsSel).map(t => `${t.getAttribute('data-n')} ${t.getAttribute('data-p')}`).join(', ');
+    data.operateur_machine_impression_matricules = Array.from(opImpTagsSel).map(t => t.getAttribute('data-m'));
+    data.operateur_machine_impression_noms = Array.from(opImpTagsSel).map(t => t.getAttribute('data-n'));
+    data.operateur_machine_impression_prenoms = Array.from(opImpTagsSel).map(t => t.getAttribute('data-p'));
+    
+    // Opérateurs machine découpe (désactivé)
+    data.operateur_machine_decoupe = '';
+    
+    // Chef de section (tag unique)
+    const chefTag = document.querySelector('#op_chef_tags .badge');
+    const chefM = chefTag ? (chefTag.getAttribute('data-m')||'').trim() : '';
+    const chefN = chefTag ? (chefTag.getAttribute('data-n')||'').trim() : '';
+    const chefP = chefTag ? (chefTag.getAttribute('data-p')||'').trim() : '';
+    data.chef_matricule = chefM;
+    data.chef_nom = chefN;
+    data.chef_prenom = chefP;
+    data.validation_chef = (chefN && chefP) ? `${chefN} ${chefP}` : '';
+    
+    // Organiser les tolérances (clé standard: tolerances)
     if (data.tolerance && data.quantite_conforme && data.quantite_non_conforme) {
-        data.tolérances = [];
+        data.tolerances = [];
         for (let i = 0; i < data.tolerance.length; i++) {
-            if (data.tolerance[i] && data.tolerance[i].trim() !== '') {
-                data.tolérances.push({
-                    tolerance: data.tolerance[i].trim(),
-                    quantite_conforme: parseInt(data.quantite_conforme[i]) || 0,
-                    quantite_non_conforme: parseInt(data.quantite_non_conforme[i]) || 0
+            const tolLabel = (data.tolerance[i] || '').trim();
+            const qConf = Array.isArray(data.quantite_conforme) ? data.quantite_conforme[i] : 0;
+            const qNConf = Array.isArray(data.quantite_non_conforme) ? data.quantite_non_conforme[i] : 0;
+            if (tolLabel !== '') {
+                data.tolerances.push({
+                    tolerance: tolLabel,
+                    quantite_conforme: parseInt(qConf) || 0,
+                    quantite_non_conforme: parseInt(qNConf) || 0
                 });
             }
         }
     }
     
-    // Supprimer les champs temporaires
+    // Supprimer les champs temporaires mais garder les tolérances structurées
     delete data.tolerance;
     delete data.quantite_conforme;
     delete data.quantite_non_conforme;
@@ -617,11 +1137,101 @@ function creerControle() {
     });
 }
 
+// Mettre à jour un contrôle
+function updateControle(id) {
+    const formData = new FormData(document.getElementById('formNouveauControle'));
+    const data = {};
+    for (let [key, value] of formData.entries()) {
+        if (key.includes('[]')) {
+            const fieldName = key.replace('[]', '');
+            if (!data[fieldName]) data[fieldName] = [];
+            data[fieldName].push(value);
+        } else {
+            data[key] = value;
+        }
+    }
+    // Normaliser les tolérances comme dans creerControle()
+    if (data.tolerance && data.quantite_conforme && data.quantite_non_conforme) {
+        data.tolerances = [];
+        for (let i = 0; i < data.tolerance.length; i++) {
+            const tolLabel = (data.tolerance[i] || '').trim();
+            const qConf = Array.isArray(data.quantite_conforme) ? data.quantite_conforme[i] : 0;
+            const qNConf = Array.isArray(data.quantite_non_conforme) ? data.quantite_non_conforme[i] : 0;
+            if (tolLabel !== '' || (parseInt(qConf)||0) > 0 || (parseInt(qNConf)||0) > 0) {
+                data.tolerances.push({
+                    tolerance: tolLabel,
+                    quantite_conforme: parseInt(qConf) || 0,
+                    quantite_non_conforme: parseInt(qNConf) || 0
+                });
+            }
+        }
+        delete data.tolerance;
+        delete data.quantite_conforme;
+        delete data.quantite_non_conforme;
+    }
+    // Opérateurs contrôle multi
+    const opCtrlTagsSel = document.querySelectorAll('#op_ctrl_tags .badge');
+    const ctrlList = Array.from(opCtrlTagsSel).map(t => ({
+        m: (t.getAttribute('data-m')||'').trim(),
+        n: (t.getAttribute('data-n')||'').trim(),
+        p: (t.getAttribute('data-p')||'').trim(),
+    }));
+    data.operateur_matricules = ctrlList.map(x => x.m);
+    data.operateur_noms = ctrlList.map(x => x.n);
+    data.operateur_prenoms = ctrlList.map(x => x.p);
+    data.operateur = ctrlList.map(x => `${x.n} ${x.p}`.trim()).join(', ');
+    
+    // Opérateurs machine impression (tags sélectionnés + tableaux)
+    const opImpTagsSel = document.querySelectorAll('#op_impression_tags .badge');
+    data.operateur_machine_impression = Array.from(opImpTagsSel).map(t => `${t.getAttribute('data-n')} ${t.getAttribute('data-p')}`).join(', ');
+    data.operateur_machine_impression_matricules = Array.from(opImpTagsSel).map(t => t.getAttribute('data-m'));
+    data.operateur_machine_impression_noms = Array.from(opImpTagsSel).map(t => t.getAttribute('data-n'));
+    data.operateur_machine_impression_prenoms = Array.from(opImpTagsSel).map(t => t.getAttribute('data-p'));
+    
+    // Opérateurs machine découpe (désactivé)
+    data.operateur_machine_decoupe = '';
+    
+    // Chef de section (tag unique)
+    const chefTag = document.querySelector('#op_chef_tags .badge');
+    const chefM = chefTag ? (chefTag.getAttribute('data-m')||'').trim() : '';
+    const chefN = chefTag ? (chefTag.getAttribute('data-n')||'').trim() : '';
+    const chefP = chefTag ? (chefTag.getAttribute('data-p')||'').trim() : '';
+    data.chef_matricule = chefM;
+    data.chef_nom = chefN;
+    data.chef_prenom = chefP;
+    data.validation_chef = (chefN && chefP) ? `${chefN} ${chefP}` : '';
+
+    const submitBtn = document.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mise à jour...';
+    submitBtn.disabled = true;
+
+    fetch(`/projet10/api/controle/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    }).then(res => res.json())
+      .then(response => {
+        if (response.status === 'success') {
+            showNotification('Contrôle mis à jour', 'success');
+            __EDIT_ID__ = null;
+            reinitialiserFormulaire();
+            chargerControles();
+            document.getElementById('controles-tab').click();
+        } else {
+            showNotification('Erreur: ' + response.error, 'error');
+        }
+      })
+      .catch(err => { console.error(err); showNotification('Erreur lors de la mise à jour', 'error'); })
+      .finally(() => { submitBtn.innerHTML = originalText; submitBtn.disabled = false; });
+}
+
 // Valider le formulaire
 function validerFormulaire() {
     const dateControle = document.getElementById('date_controle').value;
-    const operateur = document.getElementById('operateur').value.trim();
-    const numeroDossier = document.getElementById('numero_dossier').value;
+    const opCtrlSelected = document.querySelector('#op_ctrl_tags .badge');
+    const operateur = opCtrlSelected ? 'ok' : '';
+    const numeroDossier = document.getElementById('Numero_COMMANDES').value;
     
     // Validation des champs obligatoires
     if (!dateControle) {
@@ -632,13 +1242,13 @@ function validerFormulaire() {
     
     if (!operateur) {
         showNotification('L\'opérateur est obligatoire', 'error');
-        document.getElementById('operateur').focus();
+        (document.getElementById('operateur_matricule')||{}).focus?.();
         return false;
     }
     
     if (!numeroDossier) {
         showNotification('Le numéro de dossier est obligatoire', 'error');
-        document.getElementById('numero_dossier').focus();
+        document.getElementById('Numero_COMMANDES').focus();
         return false;
     }
     
@@ -740,25 +1350,356 @@ function reinitialiserFormulaire() {
 // Voir un contrôle
 function voirControle(id) {
     fetch(`/projet10/api/controle/${id}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.error) {
-                alert('Erreur: ' + data.error);
-            } else {
-                // Afficher les détails du contrôle dans une modal ou une nouvelle page
-                alert(`Contrôle ${id}: ${data.numero_dossier} - ${data.operateur}`);
+        .then(async res => {
+            const data = await res.json().catch(() => ({ error: 'Réponse invalide' }));
+            if (!res.ok || data.error) {
+                showNotification(`Erreur lors du chargement du contrôle #${id}: ${data.error || res.statusText}`, 'error');
+                return;
+            }
+            const c = data || {};
+            const tolerances = Array.isArray(c.tolerances) ? c.tolerances : (Array.isArray(c['tolérances']) ? c['tolérances'] : []);
+
+            // Fonction pour formater les nombres sans décimales avec séparateurs de milliers
+            function formatNumber(num) {
+                if (num === '' || num === null || num === undefined) return '';
+                const n = parseInt(num) || 0;
+                return n.toLocaleString('fr-FR', { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 });
+            }
+
+            // Calculer les totaux
+            // IMPORTANT: Seule la dernière ligne compte pour les non-conformes (= rebus final)
+            // Les non-conformes des lignes précédentes sont retriées avec tolérances plus élevées
+            let totalConforme = 0;
+            let totalNonConforme = 0; // Seule la dernière ligne non vide
+            
+            tolerances.forEach(t => {
+                totalConforme += parseInt(t.quantite_conforme || 0);
+            });
+            
+            // Trouver la dernière ligne non vide pour le rebus
+            for (let i = tolerances.length - 1; i >= 0; i--) {
+                const t = tolerances[i];
+                if (t.quantite_conforme || t.quantite_non_conforme || t.tolerance) {
+                    totalNonConforme = parseInt(t.quantite_non_conforme || 0);
+                    break;
+                }
+            }
+
+            // Construire 9 lignes (compléter avec lignes vides si besoin)
+            const rows = [];
+            for (let i = 0; i < Math.max(9, tolerances.length); i++) {
+                const t = tolerances[i] || { tolerance: '', quantite_conforme: '', quantite_non_conforme: '' };
+                const qc = t.quantite_conforme ? formatNumber(t.quantite_conforme) : '';
+                const qnc = t.quantite_non_conforme ? formatNumber(t.quantite_non_conforme) : '';
+                rows.push(`
+                    <tr>
+                        <td style="border:1px solid #000; padding:6px; white-space:nowrap;">
+                            Tolérance&nbsp;: ${t.tolerance || '................................'}
+                        </td>
+                        <td style="border:1px solid #000; padding:6px; text-align:center;">${qc}</td>
+                        <td style="border:1px solid #000; padding:6px; text-align:center;">${qnc}</td>
+                    </tr>
+                `);
+            }
+
+            const dateAff = c.date_controle ? new Date(c.date_controle).toLocaleDateString('fr-FR') : '_________________';
+            
+            // Afficher les noms complets des opérateurs
+            const opAff = (c.operateur || '_______________________________');
+            const machineImpr = c.machine_impression || '';
+            const opMachineImpr = c.operateur_machine_impression || '';
+            const rebusAff = formatNumber(c.rebus || 0);
+            const validationChef = c.validation_chef || '_______________________________';
+
+            const html = `
+                <div style="font-family: Arial, sans-serif; color:#000;">
+                    <div style="border:2px solid #000; padding:10px; margin-bottom:16px;">
+                        <div style="display:flex; align-items:center; justify-content:space-between;">
+                            <div style="writing-mode: vertical-rl; text-orientation: mixed; font-weight:bold;">Formulaire</div>
+                            <div style="text-align:center;">
+                                <div style="font-weight:bold;">Feuille de suivi machine contrôle qualité</div>
+                                <div style="font-size:12px; margin-top:4px; display:flex; gap:14px; justify-content:center;">
+                                    <span>Code : FOR-SMI-14</span>
+                                    <span>Version : 00</span>
+                                    <span>Date : ${new Date().toLocaleDateString('fr-FR')}</span>
+                                    <span>Page : 1/1</span>
+                                </div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight:bold;">NOVA</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="border:1px solid #000; padding:8px; margin-bottom:16px;">
+                        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+                            <div>Date : ${dateAff}</div>
+                            <div>N° dossier : ${c.Numero_COMMANDES || '_________________'}</div>
+                        </div>
+                        <div style="margin-top:10px;">opérateur : ${opAff}</div>
+                        ${machineImpr ? `<div style="margin-top:6px;">Machine Impression : ${machineImpr}</div>` : ''}
+                        ${opMachineImpr ? `<div style="margin-top:6px;">Opérateur Machine Impression : ${opMachineImpr}</div>` : ''}
+                    </div>
+
+                    <div class="table-responsive" style="margin-top:8px;">
+                        <table style="width:100%; border-collapse:collapse;">
+                            <thead>
+                                <tr>
+                                    <th style="border:1px solid #000; padding:6px; text-align:center; width:40%;">les tolérances des triages</th>
+                                    <th style="border:1px solid #000; padding:6px; text-align:center; width:30%;">Quantité Conforme</th>
+                                    <th style="border:1px solid #000; padding:6px; text-align:center; width:30%;">Quantité Non-conforme</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${rows.join('')}
+                                <tr style="background-color:#f0f0f0; font-weight:bold;">
+                                    <td style="border:1px solid #000; padding:6px; text-align:right;">TOTAL :</td>
+                                    <td style="border:1px solid #000; padding:6px; text-align:center;">${formatNumber(totalConforme)}</td>
+                                    <td style="border:1px solid #000; padding:6px; text-align:center;">${formatNumber(totalNonConforme)} <span style="font-size:0.85em; font-weight:normal;">(dernière ligne)</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-top:16px;">
+                        <div style="margin-bottom:8px;">Rebus : ${rebusAff}</div>
+                        <div>Validation du chef section : ${validationChef}</div>
+                    </div>
+                </div>
+            `;
+
+            const container = document.getElementById('viewControleContent');
+            if (container) container.innerHTML = html;
+            const modalEl = document.getElementById('viewControleModal');
+            if (modalEl) {
+                const bsModal = new bootstrap.Modal(modalEl);
+                bsModal.show();
+            }
+            
+            // Ajouter les boutons Imprimer et PDF dans le footer du modal
+            const modalFooter = modalEl.querySelector('.modal-footer');
+            if (modalFooter) {
+                modalFooter.innerHTML = `
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary" onclick="imprimerFiche()"><i class="fas fa-print"></i> Imprimer</button>
+                    <button type="button" class="btn btn-success" onclick="enregistrerPDF(${id})"><i class="fas fa-file-pdf"></i> Enregistrer PDF</button>
+                `;
             }
         })
         .catch(error => {
             console.error('Erreur:', error);
-            alert('Erreur lors du chargement du contrôle');
+            showNotification('Erreur lors du chargement du contrôle', 'error');
         });
+}
+
+// Imprimer la fiche de contrôle
+function imprimerFiche() {
+    const printContents = document.getElementById('viewControleContent').innerHTML;
+    
+    // Créer une nouvelle fenêtre pour l'impression
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Fiche de Contrôle Qualité</title>');
+    printWindow.document.write('<style>body { font-family: Arial, sans-serif; margin: 20px; } @media print { body { margin: 0; } @page { size: A4; margin: 10mm; } }</style>');
+    printWindow.document.write('</head><body>');
+    printWindow.document.write(printContents);
+    printWindow.document.write('<' + 'script>window.onload = function() { window.print(); window.onafterprint = function() { window.close(); }; };<' + '/script>');
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+}
+
+// Enregistrer la fiche en PDF
+function enregistrerPDF(controleId) {
+    showNotification('Génération du PDF en cours...', 'info');
+    
+    // Utiliser html2pdf.js pour générer le PDF
+    const element = document.getElementById('viewControleContent');
+    const opt = {
+        margin: 10,
+        filename: `Fiche_Controle_Qualite_${controleId}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    
+    // Vérifier si html2pdf est chargé
+    if (typeof html2pdf !== 'undefined') {
+        html2pdf().set(opt).from(element).save().then(() => {
+            showNotification('PDF enregistré avec succès', 'success');
+        }).catch(err => {
+            console.error('Erreur génération PDF:', err);
+            showNotification('Erreur lors de la génération du PDF', 'error');
+        });
+    } else {
+        // Fallback: utiliser window.print
+        showNotification('Utilisez la fonction Imprimer puis "Enregistrer au format PDF"', 'warning');
+        imprimerFiche();
+    }
 }
 
 // Éditer un contrôle
 function editerControle(id) {
-    // Implémenter l'édition
-    alert('Fonction d\'édition à implémenter');
+    __EDIT_ID__ = id;
+    fetch(`/projet10/api/controle/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) { showNotification('Erreur: '+data.error, 'error'); return; }
+            // Remplir formulaire
+            document.getElementById('nouveau-tab').click();
+            document.getElementById('date_controle').value = (data.date_controle||'').split('T')[0] || '';
+            document.getElementById('Numero_COMMANDES').value = data.Numero_COMMANDES || '';
+            // Opérateur contrôle (multi)
+            const opCtrlTags = document.getElementById('op_ctrl_tags');
+            opCtrlTags.innerHTML='';
+            const list = (data.operateur||'').split(',').map(s=>s.trim()).filter(Boolean);
+            // si backend stocke séparément, préférer champs dédiés
+            if (Array.isArray(data.operateur_noms) && Array.isArray(data.operateur_prenoms) && Array.isArray(data.operateur_matricules)) {
+                for (let i=0; i<data.operateur_matricules.length; i++) {
+                    const m = data.operateur_matricules[i]||'';
+                    const n = data.operateur_noms[i]||'';
+                    const p = data.operateur_prenoms[i]||'';
+                    const tag = document.createElement('span');
+                    tag.className='badge bg-primary';
+                    tag.textContent = `${m} — ${n} ${p}`;
+                    tag.setAttribute('data-m', m);
+                    tag.setAttribute('data-n', n);
+                    tag.setAttribute('data-p', p);
+                    tag.style.cursor='pointer';
+                    tag.addEventListener('click', ()=>tag.remove());
+                    opCtrlTags.appendChild(tag);
+                }
+            } else if (list.length) {
+                list.forEach(full=>{
+                    const parts = full.split(' ');
+                    const n = parts[0]||''; const p = parts.slice(1).join(' ');
+                    const m = '';
+                    const tag = document.createElement('span');
+                    tag.className='badge bg-primary';
+                    tag.textContent = `${m} — ${n} ${p}`;
+                    tag.setAttribute('data-m', m);
+                    tag.setAttribute('data-n', n);
+                    tag.setAttribute('data-p', p);
+                    tag.style.cursor='pointer';
+                    tag.addEventListener('click', ()=>tag.remove());
+                    opCtrlTags.appendChild(tag);
+                });
+            }
+            document.getElementById('machine_impression').value = data.machine_impression || '';
+            // Opérateurs machine impression (tags)
+            const opImpTags = document.getElementById('op_impression_tags');
+            opImpTags.innerHTML = '';
+            if (Array.isArray(data.operateur_machine_impression_matricules) && Array.isArray(data.operateur_machine_impression_noms) && Array.isArray(data.operateur_machine_impression_prenoms)) {
+                for (let i=0; i<data.operateur_machine_impression_matricules.length; i++) {
+                    const m = data.operateur_machine_impression_matricules[i]||'';
+                    const n = data.operateur_machine_impression_noms[i]||'';
+                    const p = data.operateur_machine_impression_prenoms[i]||'';
+                    const tag = document.createElement('span');
+                    tag.className = 'badge bg-primary';
+                    tag.textContent = `${m} — ${n} ${p}`;
+                    tag.setAttribute('data-m', m);
+                    tag.setAttribute('data-n', n);
+                    tag.setAttribute('data-p', p);
+                    tag.style.cursor = 'pointer';
+                    tag.addEventListener('click', () => tag.remove());
+                    opImpTags.appendChild(tag);
+                }
+            } else if (typeof data.operateur_machine_impression === 'string' && data.operateur_machine_impression.trim()) {
+                data.operateur_machine_impression.split(',').map(s=>s.trim()).forEach(full=>{
+                    const parts = full.split(' ');
+                    const n = parts[0]||''; const p = parts.slice(1).join(' ');
+                    const m = '';
+                    const tag = document.createElement('span');
+                    tag.className='badge bg-primary';
+                    tag.textContent = `${m} — ${n} ${p}`;
+                    tag.setAttribute('data-m', m);
+                    tag.setAttribute('data-n', n);
+                    tag.setAttribute('data-p', p);
+                    tag.style.cursor='pointer';
+                    tag.addEventListener('click', ()=>tag.remove());
+                    opImpTags.appendChild(tag);
+                });
+            }
+            // Chef section
+            if (data.chef_matricule) {
+                const sel = document.getElementById('chef_matricule');
+                if (sel) sel.value = data.chef_matricule;
+            }
+            const chefNomEl = document.getElementById('chef_nom');
+            const chefPrenomEl = document.getElementById('chef_prenom');
+            if (data.chef_nom && chefNomEl) chefNomEl.value = data.chef_nom;
+            if (data.chef_prenom && chefPrenomEl) chefPrenomEl.value = data.chef_prenom;
+            if (!data.chef_nom && !data.chef_prenom && typeof data.validation_chef === 'string') {
+                const parts = data.validation_chef.split(' ');
+                if (chefNomEl) chefNomEl.value = parts[0]||'';
+                if (chefPrenomEl) chefPrenomEl.value = parts.slice(1).join(' ');
+            }
+            // Tolérances (accepte 'tolerances' ou 'tolérances') — garder la même grille qu'en création
+            (function(){
+                const list = Array.isArray(data.tolerances) ? data.tolerances : (Array.isArray(data['tolérances']) ? data['tolérances'] : []);
+                const tbody = document.getElementById('tolerances-container');
+                // 1) S'assurer d'avoir au moins 9 lignes visibles (comme en saisie)
+                function appendRow(){
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <span class="me-2">Tolérance :</span>
+                                <input type="text" class="form-control" name="tolerance[]" placeholder="Type de tolérance">
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <input type="number" class="form-control text-center" name="quantite_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                        </td>
+                        <td class="text-center">
+                            <input type="number" class="form-control text-center" name="quantite_non_conforme[]" placeholder="0" min="0" onchange="calculerTotaux()">
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+                // Compléter jusqu'à max(9, nb tolérances)
+                const need = Math.max(9, list.length);
+                while (tbody.querySelectorAll('tr').length < need) appendRow();
+                // 2) Vider les champs existants puis réinjecter les valeurs enregistrées
+                const tolInputs = tbody.querySelectorAll('input[name="tolerance[]"]');
+                const qcInputs = tbody.querySelectorAll('input[name="quantite_conforme[]"]');
+                const qnInputs = tbody.querySelectorAll('input[name="quantite_non_conforme[]"]');
+                tolInputs.forEach(i=> i.value = '');
+                qcInputs.forEach(i=> i.value = '');
+                qnInputs.forEach(i=> i.value = '');
+                for (let i=0; i<list.length; i++){
+                    tolInputs[i].value = list[i].tolerance || '';
+                    qcInputs[i].value = list[i].quantite_conforme || 0;
+                    qnInputs[i].value = list[i].quantite_non_conforme || 0;
+                }
+            })();
+            // Rebus et tolérances (si disponibles simplifié)
+            document.getElementById('rebus').value = data.rebus || 0;
+            // Chef section (tag)
+            (function(){
+                const opChefTags = document.getElementById('op_chef_tags');
+                if (!opChefTags) return;
+                opChefTags.innerHTML = '';
+                const m = data.chef_matricule || '';
+                let n = data.chef_nom || '';
+                let p = data.chef_prenom || '';
+                if ((!n || !p) && typeof data.validation_chef === 'string') {
+                    const parts = data.validation_chef.split(' ');
+                    n = parts[0]||''; p = parts.slice(1).join(' ');
+                }
+                if (m || n || p) {
+                    const tag = document.createElement('span');
+                    tag.className='badge bg-success';
+                    tag.textContent = `${m} — ${n} ${p}`;
+                    tag.setAttribute('data-m', m);
+                    tag.setAttribute('data-n', n);
+                    tag.setAttribute('data-p', p);
+                    tag.style.cursor='pointer';
+                    tag.addEventListener('click', ()=>{ opChefTags.innerHTML=''; });
+                    opChefTags.appendChild(tag);
+                }
+            })();
+            calculerTotaux();
+        })
+        .catch(err => { console.error(err); showNotification('Erreur de chargement', 'error'); });
 }
 
 // Actualiser les contrôles
@@ -769,8 +1710,7 @@ function actualiserControles() {
 // Calculer les totaux automatiquement
 function calculerTotaux() {
     let totalConforme = 0;
-    let totalNonConforme = 0;
-    let rebus = parseInt(document.getElementById('rebus').value) || 0;
+    let rebusCalcule = 0; // Quantité non-conforme de la dernière ligne
     
     // Calculer les totaux des tolérances
     const inputsConforme = document.querySelectorAll('input[name="quantite_conforme[]"]');
@@ -780,19 +1720,32 @@ function calculerTotaux() {
         totalConforme += parseInt(input.value) || 0;
     });
     
-    inputsNonConforme.forEach(input => {
-        totalNonConforme += parseInt(input.value) || 0;
-    });
+    // LOGIQUE MÉTIER : Seule la dernière ligne non vide compte pour le rebus
+    // Les non-conformes des lignes précédentes sont retriées avec tolérances plus élevées
+    for (let i = inputsNonConforme.length - 1; i >= 0; i--) {
+        const val = parseInt(inputsNonConforme[i].value) || 0;
+        const valConf = parseInt(inputsConforme[i].value) || 0;
+        if (val > 0 || valConf > 0) {
+            rebusCalcule = val;
+            break;
+        }
+    }
+    
+    // Mettre à jour automatiquement le champ rebus
+    const rebusInput = document.getElementById('rebus');
+    if (rebusInput) {
+        rebusInput.value = rebusCalcule;
+    }
     
     // Mettre à jour les totaux dans le tableau
-    document.getElementById('total-conforme').textContent = totalConforme;
-    document.getElementById('total-non-conforme').textContent = totalNonConforme;
+    document.getElementById('total-conforme').textContent = totalConforme.toLocaleString('fr-FR');
+    document.getElementById('total-non-conforme').textContent = rebusCalcule.toLocaleString('fr-FR') + ' (dernière ligne)';
     
     // Mettre à jour le résumé
-    document.getElementById('resume-conforme').textContent = totalConforme;
-    document.getElementById('resume-non-conforme').textContent = totalNonConforme;
-    document.getElementById('resume-rebus').textContent = rebus;
-    document.getElementById('resume-total').textContent = totalConforme + totalNonConforme + rebus;
+    document.getElementById('resume-conforme').textContent = totalConforme.toLocaleString('fr-FR');
+    document.getElementById('resume-non-conforme').textContent = rebusCalcule.toLocaleString('fr-FR');
+    document.getElementById('resume-rebus').textContent = rebusCalcule.toLocaleString('fr-FR');
+    document.getElementById('resume-total').textContent = (totalConforme + rebusCalcule).toLocaleString('fr-FR');
 }
 
 // Imprimer le formulaire
@@ -802,8 +1755,8 @@ function imprimerFormulaire() {
     
     // Récupérer les données du formulaire
     const dateControle = document.getElementById('date_controle').value;
-    const operateur = document.getElementById('operateur').value;
-    const numeroDossier = document.getElementById('numero_dossier').value;
+    const operateur = `${document.getElementById('operateur_nom')?.value||''} ${document.getElementById('operateur_prenom')?.value||''}`.trim();
+    const numeroDossier = document.getElementById('Numero_COMMANDES').value;
     const rebus = document.getElementById('rebus').value;
     const validationChef = document.getElementById('validation_chef').value;
     
@@ -925,6 +1878,20 @@ function reinitialiserFormulaire() {
     toleranceInputs.forEach(input => input.value = '');
     conformeInputs.forEach(input => input.value = '');
     nonConformeInputs.forEach(input => input.value = '');
+    
+    // Réinitialiser l'auto-complétion opérateur
+    const opCtrlTagsEl = document.getElementById('op_ctrl_tags');
+    if (opCtrlTagsEl) { opCtrlTagsEl.innerHTML = ''; }
+    
+    (function(){
+        const cm = document.getElementById('chef_matricule'); if (cm) cm.selectedIndex = 0;
+        const cn = document.getElementById('chef_nom'); if (cn) cn.value = '';
+        const cp = document.getElementById('chef_prenom'); if (cp) cp.value = '';
+    })();
+    
+    // Réinitialiser les tags opérateurs multi-sélection
+    const impTags = document.getElementById('op_impression_tags'); if (impTags) impTags.innerHTML = '';
+    const decTags = document.getElementById('op_decoupe_tags'); if (decTags) decTags.innerHTML = '';
     
     // Réinitialiser les totaux
     calculerTotaux();

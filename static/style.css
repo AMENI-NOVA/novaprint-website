@@ -7,21 +7,31 @@
     --border-color: #ddd;
 }
 
+html {
+    overflow-y: scroll;
+    height: 100%;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--secondary-color);
     margin: 0;
     padding: 40px;
+    padding-bottom: 100px;
     color: var(--text-color);
+    min-height: 100vh;
+    height: auto;
+    position: relative;
 }
 
 .container {
     max-width: 1200px;
-    margin: auto;
+    margin: 0 auto 30px auto;
     background-color: white;
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    position: relative;
 }
 
 h1 {
@@ -48,6 +58,8 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-width: 1800px;
+    margin: 0 auto;
 }
 
 .navbar-logo {
@@ -61,7 +73,8 @@ h1 {
     padding: 0;
     margin: 0;
     flex-wrap: wrap;
-    max-width: 800px;
+    flex: 1;
+    justify-content: flex-end;
 }
 
 .navbar-links li a {
@@ -168,6 +181,8 @@ h1 {
     font-size: 14px;
     border-top: 1px solid #ddd;
     background-color: var(--secondary-color);
+    position: relative;
+    clear: both;
 }
 
 .footer a {
@@ -215,14 +230,8 @@ h1 {
         max-width: 140px;
     }
 }
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
-  background: #fdfdfd;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
+
+/* Styles pour les projets spécifiques */
 
 .form-section label {
   display: block;

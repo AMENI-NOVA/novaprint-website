@@ -1,0 +1,211 @@
+================================================================================
+PROJET 11 - PRODUCTION PAR LOTS ACTIVÉE
+================================================================================
+
+✅ MODIFICATION TERMINÉE
+
+Le système permet maintenant de créer PLUSIEURS traitements pour une même fiche
+de travail (production par lots).
+
+================================================================================
+CE QUI A CHANGÉ
+================================================================================
+
+AVANT:
+  ❌ Une fiche = UN SEUL traitement maximum
+  ❌ Impossible de créer une 2ème session pour la même fiche
+  ❌ Limitation artificielle
+
+MAINTENANT:
+  ✅ Une fiche = PLUSIEURS traitements possibles
+  ✅ Production par lots supportée
+  ✅ Sessions multiples (matin/après-midi/lendemain)
+  ✅ Changements de machine possibles
+  ✅ Historique des sessions visible
+
+================================================================================
+EXEMPLE CONCRET
+================================================================================
+
+Commande: 2025050026 - 15,000 badges CCIS
+Fiche: #409718 - OFFSET FEUILLES - XL75
+
+SESSION 1 (Lundi matin):
+  Date: 15/10 08:00-12:00
+  Quantité: 5,000
+  Machine: XL75
+  Opérateur: ABBES MARIEM
+
+SESSION 2 (Lundi après-midi):
+  Date: 15/10 14:00-18:00
+  Quantité: 3,000
+  Machine: XL75
+  Opérateur: BACCOUCHE ANIS
+
+SESSION 3 (Mardi matin):
+  Date: 16/10 08:00-11:00
+  Quantité: 7,000
+  Machine: CD102 (changement!)
+  Opérateur: ABBES MARIEM
+
+TOTAL: 3 traitements pour la même fiche ✅
+TOTAL produit: 15,000 badges ✅
+
+================================================================================
+FONCTIONNALITÉS
+================================================================================
+
+1. CRÉATION MULTIPLE ✅
+   - Créer autant de sessions que nécessaire
+   - Même fiche, dates différentes
+   - Machines différentes si besoin
+
+2. HISTORIQUE VISIBLE ✅
+   - Voir les sessions déjà enregistrées
+   - Alerte jaune automatique
+   - Liste des sessions avec détails:
+     * Date et heure
+     * Quantité produite
+     * Machine utilisée
+     * Statut (terminé/en cours)
+
+3. TRAÇABILITÉ ✅
+   - Chaque session = un traitement unique (ID)
+   - Dates de création/modification
+   - Machine réelle vs prévue
+   - Opérateur par session
+
+================================================================================
+INTERFACE
+================================================================================
+
+Quand vous sélectionnez une fiche DÉJÀ TRAITÉE:
+
+┌──────────────────────────────────────────────┐
+│ ⚠️  Production par Lots - Traitements Existants
+│
+│ Cette fiche a déjà 2 traitement(s):
+│
+│ • Session 1: 15/10 08:00 ✅ Terminé
+│              5000 opérations - Machine: XL75
+│
+│ • Session 2: 15/10 14:00 ⏳ En cours
+│              3000 opérations - Machine: XL75
+│
+│ ────────────────────────────────────────────
+│ 💡 Vous pouvez créer un nouveau traitement
+│    pour cette fiche
+└──────────────────────────────────────────────┘
+
+================================================================================
+POUR TESTER
+================================================================================
+
+Le serveur Flask a redémarré automatiquement.
+
+1. Ouvrir: http://localhost:5000/projet11/nouveau
+
+2. Sélectionner une commande (ex: 2025050026)
+
+3. Sélectionner une fiche
+
+4. Si la fiche a déjà des traitements:
+   → Alerte jaune avec l'historique
+
+5. Créer une nouvelle session:
+   → Date différente
+   → Quantité pour cette session
+   → Machine (même ou différente)
+
+6. Enregistrer
+
+7. Dans la liste: plusieurs lignes pour la même commande!
+
+================================================================================
+AVANTAGES
+================================================================================
+
+✅ Flexibilité - Production en plusieurs fois
+✅ Réalisme - Reflète la réalité terrain
+✅ Traçabilité - Historique complet
+✅ Transparence - Sessions visibles
+✅ Analyse - Calculs de totaux possibles
+
+================================================================================
+EXEMPLE D'UTILISATION
+================================================================================
+
+MATIN (Première Session):
+1. Sélectionner commande 2025050026
+2. Sélectionner fiche #409718
+3. Aucun traitement → Créer le premier
+4. Quantité: 5000
+5. Machine: XL75
+6. Enregistrer
+
+APRÈS-MIDI (Deuxième Session):
+1. Sélectionner MÊME commande 2025050026
+2. Sélectionner MÊME fiche #409718
+3. Alerte: "1 traitement existant (5000 opérations)"
+4. Créer un nouveau traitement:
+   - Quantité: 3000 (le reste du midi)
+   - Machine: XL75 (même)
+5. Enregistrer
+
+RÉSULTAT DANS LA LISTE:
+  Ligne 1: 2025050026 | 5000 | XL75 | 15/10 08:00
+  Ligne 2: 2025050026 | 3000 | XL75 | 15/10 14:00
+
+================================================================================
+MODIFICATION TECHNIQUE
+================================================================================
+
+Fichiers modifiés:
+  ✅ logic/projet11.py (3 fonctions + 1 nouvelle)
+  ✅ routes/projet11_routes.py (1 route API)
+  ✅ templates/projet11_nouveau.html (alerte + JavaScript)
+
+Changement principal:
+  - Suppression du filtre "NOT IN (SELECT... FROM WEB_TRAITEMENTS)"
+  - Les fiches sont TOUJOURS disponibles
+  - Plusieurs traitements par fiche = AUTORISÉ
+
+================================================================================
+C'EST PRÊT!
+================================================================================
+
+Le système supporte maintenant la PRODUCTION PAR LOTS!
+
+Actualisez votre navigateur et testez:
+→ http://localhost:5000/projet11/nouveau
+
+Créez plusieurs sessions pour la même fiche et voyez l'historique s'afficher!
+
+================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

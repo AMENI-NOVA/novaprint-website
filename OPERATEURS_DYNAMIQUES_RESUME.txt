@@ -1,0 +1,148 @@
+PROJET 11 - CHAMPS OPÉRATEURS DYNAMIQUES
+=========================================
+
+✅ FAIT - 15 octobre 2024
+
+OBJECTIF
+--------
+Générer automatiquement le nombre de champs d'opérateurs correspondant
+exactement au nombre de personnes saisi.
+
+AVANT
+-----
+1 seul champ opérateur, peu importe le nombre de personnes.
+
+APRÈS
+-----
+Nombre de champs = Nombre de personnes
+
+Exemples:
+  1 personne → 1 champ opérateur
+  3 personnes → 3 champs opérateurs
+  5 personnes → 5 champs opérateurs
+
+IMPLÉMENTATION
+--------------
+
+1. Champ "Nombre de Personnes" déplacé en premier (min=1, max=10)
+
+2. Zone dynamique créée: #operateurs_fields
+
+3. Fonction JavaScript: genererChampsOperateurs(nbPersonnes)
+   - Vide la zone
+   - Génère nbPersonnes champs avec IDs uniques
+   - Initialise Select2 sur chaque champ
+   - Attache événement chronomètre sur le premier
+
+4. Événement: Changement de nb_pers → Régénération automatique
+
+5. Initialisation: 1 champ créé au chargement
+
+INTERFACE
+---------
+
+Nombre de Personnes: [3]
+
+Opérateur(s):
+┌─────────────────────────────────┐
+│ Opérateur 1 (Principal) *       │
+│ [ABBES MARIEM]              ✓  │
+└─────────────────────────────────┘
+
+┌─────────────────────────────────┐
+│ Opérateur 2                      │
+│ [BACCOUCHE ANIS]            ✓  │
+└─────────────────────────────────┘
+
+┌─────────────────────────────────┐
+│ Opérateur 3                      │
+│ [CHELBI NIZAR]              ✓  │
+└─────────────────────────────────┘
+
+CHAMPS GÉNÉRÉS
+--------------
+
+Chaque champ a:
+  - ID unique: operateur_1, operateur_2, operateur_3...
+  - Label: "Opérateur 1 (Principal) *" pour le premier
+  - Required: uniquement le premier
+  - Select2: recherche "contient"
+  - data-index: pour référence
+
+CHRONOMÈTRE
+-----------
+
+Démarre uniquement à la sélection du premier opérateur (Principal).
+Les autres opérateurs n'affectent pas le chronomètre.
+
+VALIDATION
+----------
+
+- Nombre de Personnes: min=1, max=10, required
+- Opérateur 1: required
+- Opérateurs 2+: optionnels
+
+ENREGISTREMENT
+--------------
+
+Pour l'instant:
+  - Nombre de personnes: sauvegardé ✓
+  - Opérateur principal (1er): sauvegardé ✓
+  - Autres opérateurs: visibles mais pas encore stockés
+
+(Évolution future: Table WEB_TRAITEMENTS_OPERATEURS)
+
+AVANTAGES
+---------
+
+✓ Correspondance exacte: Champs = Personnes
+✓ Génération temps réel (change/input)
+✓ Interface claire (Principal/Secondaires)
+✓ Recherche Select2 sur chaque champ
+✓ Validation appropriée
+
+TEST
+----
+
+URL: http://localhost:5000/projet11/nouveau
+
+1. Au chargement: 1 champ visible ✓
+2. Changer à 3: 3 champs générés ✓
+3. Changer à 5: 5 champs générés ✓
+4. Changer à 2: 2 champs restent ✓
+
+DOCUMENTATION
+-------------
+
+Voir: PROJET11_OPERATEURS_DYNAMIQUES.md (complète)
+
+VERSION: 1.7.4
+
+FIN.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

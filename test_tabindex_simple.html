@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Tabindex Simple</title>
+    <style>
+        .container { max-width: 500px; margin: 50px auto; padding: 20px; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea, button { 
+            width: 100%; padding: 8px; margin-bottom: 10px; 
+            border: 1px solid #ccc; font-size: 14px;
+        }
+        button { width: auto; margin-right: 10px; }
+        .focused { border: 3px solid red !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Test Tabindex - Ordre de Navigation</h2>
+        <form>
+            <div class="form-group">
+                <label>1. Date début</label>
+                <input type="datetime-local" tabindex="1" placeholder="tabindex=1">
+            </div>
+            
+            <div class="form-group">
+                <label>2. Date fin</label>
+                <input type="datetime-local" tabindex="2" placeholder="tabindex=2">
+            </div>
+            
+            <div class="form-group">
+                <label>3. Intervenant</label>
+                <input type="text" tabindex="3" placeholder="tabindex=3">
+            </div>
+            
+            <div class="form-group">
+                <label>4. Machine</label>
+                <input type="text" tabindex="4" placeholder="tabindex=4">
+            </div>
+            
+            <div class="form-group">
+                <label>5. Nature (DOIT RECEVOIR LE FOCUS APRÈS MACHINE)</label>
+                <select tabindex="5">
+                    <option>tabindex=5 - Sélectionner</option>
+                    <option>Mécanique</option>
+                    <option>Électrique</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>6. Description</label>
+                <textarea tabindex="6" placeholder="tabindex=6"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <button type="button" tabindex="7">Annuler (tabindex=7)</button>
+                <button type="submit" tabindex="8">Enregistrer (tabindex=8)</button>
+            </div>
+        </form>
+        
+        <script>
+            // Indicateur visuel de focus
+            document.addEventListener('focusin', function(e) {
+                document.querySelectorAll('.focused').forEach(el => el.classList.remove('focused'));
+                e.target.classList.add('focused');
+                console.log('Focus sur:', e.target.tagName, e.target.getAttribute('tabindex'), e.target.placeholder || e.target.textContent);
+            });
+        </script>
+        
+        <p><strong>Instructions:</strong></p>
+        <ol>
+            <li>Cliquez dans le premier champ</li>
+            <li>Appuyez sur Tab plusieurs fois</li>
+            <li>Vérifiez que l'ordre est: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8</li>
+            <li>Le champ avec bordure rouge = focus actuel</li>
+            <li>Regardez la console pour les logs</li>
+        </ol>
+    </div>
+</body>
+</html>

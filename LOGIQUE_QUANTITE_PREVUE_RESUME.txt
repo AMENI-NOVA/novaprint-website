@@ -1,0 +1,111 @@
+PROJET 11 - LOGIQUE QUANTITÉ PRÉVUE
+====================================
+
+✅ FAIT - 15 octobre 2024
+
+RÈGLE IMPLÉMENTÉE
+-----------------
+
+Quantité Prévue = SI (OpPrevDev existe ET > 0)
+                     ALORS OpPrevDev
+                  SINON QteComm_COMMANDES
+
+EXEMPLE
+-------
+
+Cas 1: OpPrevDev Renseigné
+  QteComm = 15,000
+  OpPrevDev = 12,000
+  → Quantité Affichée = 12,000 ✓ (OpPrevDev)
+
+Cas 2: OpPrevDev NULL
+  QteComm = 15,000
+  OpPrevDev = NULL
+  → Quantité Affichée = 15,000 ✓ (QteComm - fallback)
+
+Cas 3: OpPrevDev = 0
+  QteComm = 15,000
+  OpPrevDev = 0
+  → Quantité Affichée = 15,000 ✓ (QteComm - fallback)
+
+IMPLÉMENTATION
+--------------
+
+Fichier: logic/projet11.py
+Fonction: get_postes_prevus_by_commande_service()
+Ligne: 313-316
+
+Code:
+  qte_prevue = row.OpPrevDev if (row.OpPrevDev and row.OpPrevDev > 0) else row.QteComm_COMMANDES
+
+AVANTAGES
+---------
+
+✓ Fallback automatique si OpPrevDev manquant
+✓ Gère productions partielles (OpPrevDev spécifique)
+✓ Gère productions complètes (OpPrevDev = QteComm)
+✓ Toujours une quantité valide affichée
+✓ Logique transparente pour l'utilisateur
+
+CAS D'USAGE
+-----------
+
+Production Totale sur 1 Poste:
+  Commande: 10,000 pièces
+  OpPrevDev: NULL
+  → Affiche 10,000 (toute la commande sur ce poste)
+
+Production Répartie sur 2 Postes:
+  Commande: 15,000 pièces
+  Poste 1 OpPrevDev: 10,000
+  Poste 2 OpPrevDev: 5,000
+  → Affiche 10,000 et 5,000 respectivement
+
+VÉRIFICATION
+------------
+
+Dans l'interface web:
+  - Sélectionner une commande
+  - Sélectionner un service
+  - Observer "Quantité Prévue"
+
+Dans SQL Server:
+  SELECT QteComm, OpPrevDev,
+         CASE WHEN OpPrevDev > 0 THEN OpPrevDev ELSE QteComm END
+  FROM ...
+
+DOCUMENTATION
+-------------
+
+Voir: PROJET11_LOGIQUE_QUANTITE_PREVUE.md (complète)
+
+VERSION: 1.7.5
+
+FIN.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

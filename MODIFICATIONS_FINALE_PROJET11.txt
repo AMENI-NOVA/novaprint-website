@@ -1,0 +1,112 @@
+PROJET 11 - MODIFICATIONS FINALES
+=================================
+
+✅ FAIT - 15 octobre 2024
+
+MODIFICATION 1: AJOUT ID_GP_TRAITEMENTS
+----------------------------------------
+
+Champ ajouté: ID_GP_TRAITEMENTS (INT NULL, position 22)
+Clé étrangère: FK → GP_TRAITEMENTS(ID)
+Index: IDX_WEB_TRAITEMENTS_GP_TRAITEMENTS
+
+Double traçabilité:
+  ✓ ID_FICHE_TRAVAIL → GP_FICHES_TRAVAIL (conservé)
+  ✓ ID_GP_TRAITEMENTS → GP_TRAITEMENTS (nouveau)
+
+Backend mis à jour:
+  ✓ get_all_traitements() inclut id_gp_traitements
+  ✓ get_traitement_by_id() inclut id_gp_traitements
+  ✓ create_traitement() recherche et enregistre automatiquement l'ID depuis GP_TRAITEMENTS
+
+MODIFICATION 2: MACHINE RÉELLE EN DROPDOWN
+------------------------------------------
+
+Avant: <input type="text"> (saisie manuelle)
+Après: <select> avec TOUTES les machines de GP_POSTES
+
+Fonctionnalités:
+  ✓ Liste déroulante avec toutes les machines GP_POSTES
+  ✓ Select2 avec recherche "contient"
+  ✓ Pré-remplie automatiquement avec machine prévue
+  ✓ Modifiable si changement nécessaire
+
+Exemple recherche:
+  - Taper "75" → Trouve XL75, POLAIRE 137, etc.
+  - Taper "CD" → Trouve CD102, etc.
+
+STRUCTURE FINALE
+----------------
+
+WEB_TRAITEMENTS: 22 champs (+1)
+
+Traçabilité:
+  1. ID (PK)
+  2. ID_FICHE_TRAVAIL (FK)
+  3. ID_GP_TRAITEMENTS (FK) ⭐ NOUVEAU
+  ...
+ 19. TpsReel (temps réel calculé)
+ 20. PostesReel (machine réelle - dropdown) ⭐ AMÉLIORÉ
+ 21-22. DateCreation, DateModification
+
+AVANTAGES
+---------
+
+1. Traçabilité complète:
+   WEB_TRAITEMENTS → GP_TRAITEMENTS → GP_FICHES_TRAVAIL → COMMANDES
+
+2. Sélection machine sécurisée:
+   - Pas d'erreur de saisie
+   - Toutes les machines disponibles
+   - Recherche rapide
+
+3. Mapping automatique:
+   - ID_GP_TRAITEMENTS rempli automatiquement lors de la création
+   - Lien direct avec l'historique GP
+
+TEST
+----
+
+URL: http://localhost:5000/projet11/nouveau
+
+1. Sélectionner commande + service
+2. Voir dropdown "Machine Réelle" avec toutes les machines
+3. Rechercher une machine (ex: "75")
+4. Créer un traitement
+5. Vérifier: ID_GP_TRAITEMENTS rempli automatiquement!
+
+DOCUMENTATION
+-------------
+
+Voir: PROJET11_AJOUT_ID_GP_TRAITEMENTS.md (documentation complète)
+
+VERSION: 1.7.2
+
+FIN.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

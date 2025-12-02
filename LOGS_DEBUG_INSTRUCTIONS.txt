@@ -1,0 +1,74 @@
+╔═══════════════════════════════════════════════════════════════════════╗
+║          INSTRUCTIONS POUR CAPTURER LES LOGS DE DEBUG                ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+Le serveur Flask tourne actuellement en arrière-plan.
+Les logs détaillés s'affichent dans la CONSOLE où le serveur a été démarré.
+
+📋 ÉTAPES À SUIVRE :
+
+1. Regardez la sélection de terminal que vous m'avez montrée
+   (où vous voyez "python app.py" et les requêtes HTTP)
+
+2. Réessayez d'enregistrer un service non prévu dans votre navigateur
+
+3. Immédiatement après l'erreur 500, vous devriez voir de NOUVEAUX messages
+   dans cette console, commençant par :
+   
+   [DEBUG API] Données reçues: {...}
+   [INFO API] Service non prévu détecté
+   [DEBUG] Début create_traitement...
+   [ERREUR] ...
+
+4. COPIEZ TOUS ces messages et transmettez-les moi
+
+═══════════════════════════════════════════════════════════════════════
+
+🔍 SI VOUS NE VOYEZ AUCUN MESSAGE [DEBUG] :
+
+Cela signifie que le serveur n'a pas rechargé le nouveau code.
+Dans ce cas :
+
+1. Arrêtez le serveur (Ctrl+C dans la console Flask)
+2. Redémarrez-le : python app.py
+3. Réessayez l'enregistrement
+4. Les logs devraient alors apparaître
+
+═══════════════════════════════════════════════════════════════════════
+
+💡 EXEMPLE DE CE QUE VOUS DEVRIEZ VOIR :
+
+127.0.0.1 - - [20/Oct/2025 15:21:54] "POST /projet11/api/traitements HTTP/1.1" 500 -
+[DEBUG API] Données reçues: {'id_fiche_travail': 0, 'numero_commande': '2025050088', ...}
+[INFO API] Service non prévu détecté
+[INFO API] Appel à create_traitement()
+[DEBUG] Début create_traitement avec data: {...}
+[DEBUG] id_fiche_travail: 0
+[INFO] Service non prévu détecté - Traitement sans fiche de travail
+[ERREUR] INSERT ou COMMIT échoué: ProgrammingError: ...
+Traceback (most recent call last):
+  File "...", line ..., in ...
+    ...
+  
+═══════════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

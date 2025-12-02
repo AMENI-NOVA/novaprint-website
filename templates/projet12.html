@@ -1,0 +1,2892 @@
+{% extends "base.html" %}
+
+{% block title %}Projet 12 - Registre NC & Réclamations{% endblock %}
+
+{% block head %}
+<!-- Version: 2025-10-24-15:00 - Ajout statistiques complètes avec Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+    .projet12-container {
+        max-width: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        min-height: auto;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .page-header h1 {
+        color: #2c3e50;
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .type-selection {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        margin-top: 5px;
+        text-align: center;
+    }
+
+    .type-selection h3 {
+        color: #2c3e50;
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .type-options {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .type-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.1rem;
+    }
+
+    .type-option input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .type-option label {
+        cursor: pointer;
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .table-section {
+        background: white;
+        padding: 25px 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow-x: hidden;
+        overflow-y: visible;
+    }
+
+    .table-section h3 {
+        color: #2c3e50;
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+    }
+
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        table-layout: fixed;
+    }
+
+    .data-table thead {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .data-table th {
+        padding: 12px 6px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        vertical-align: middle;
+        line-height: 1.2;
+    }
+
+    .data-table td {
+        padding: 8px 5px;
+        border-bottom: 1px solid #ecf0f1;
+        font-size: 0.82rem;
+        vertical-align: top;
+        line-height: 1.4;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    /* Alignement spécifique par colonne */
+    .data-table td:nth-child(1) { text-align: center; font-weight: 500; font-size: 0.8rem; }  /* Date */
+    .data-table td:nth-child(2) { text-align: center; font-weight: 600; color: #2c3e50; font-size: 0.8rem; }  /* RefFich */
+    .data-table td:nth-child(3) { font-weight: 500; font-size: 0.78rem; }  /* N° Dossier */
+    .data-table td:nth-child(4) { color: #34495e; font-size: 0.78rem; }  /* Client */
+    .data-table td:nth-child(5) { color: #34495e; font-size: 0.78rem; }  /* Référence */
+    .data-table td:nth-child(6) { text-align: center; font-weight: 500; font-size: 0.8rem; }  /* Qté Commande */
+    .data-table td:nth-child(7) { text-align: center; font-weight: 500; font-size: 0.8rem; }  /* Qté NC */
+    .data-table td:nth-child(8) { text-align: center; font-weight: 600; }  /* Carac */
+    .data-table td:nth-child(9) { font-weight: 600; color: #2c3e50; text-transform: uppercase; font-size: 0.75rem; }  /* NC */
+    .data-table td:nth-child(10) { color: #555; line-height: 1.5; font-size: 0.8rem; }  /* Description */
+    .data-table td:nth-child(11) { color: #555; line-height: 1.5; font-size: 0.8rem; }  /* Cause */
+
+    .data-table tbody tr:hover {
+        background-color: #f8f9fa;
+        transition: background-color 0.2s ease;
+    }
+    
+    /* Alternance de couleur des lignes pour meilleure lisibilité */
+    .data-table tbody tr:nth-child(even) {
+        background-color: #fafbfc;
+    }
+    
+    .data-table tbody tr:nth-child(even):hover {
+        background-color: #f0f2f5;
+    }
+
+    .data-table input[type="date"],
+    .data-table input[type="text"],
+    .data-table input[type="number"],
+    .data-table select,
+    .data-table textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        box-sizing: border-box;
+    }
+
+    .data-table textarea {
+        min-height: 80px;
+        resize: vertical;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.4;
+    }
+    
+    /* Champs plus larges pour NC */
+    .data-table .col-nc input {
+        min-width: 180px;
+        font-size: 0.95rem;
+    }
+    
+    /* Champs textuels plus grands */
+    .data-table .col-desc textarea,
+    .data-table .col-cause textarea {
+        min-height: 100px;
+        font-size: 0.95rem;
+    }
+    
+    /* Champ référence plus visible */
+    .data-table .col-reference input {
+        font-size: 0.9rem;
+        font-weight: 500;
+        min-width: 230px;
+    }
+    
+    /* Champ N° de dossier plus large */
+    .data-table .col-numero select {
+        min-width: 130px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    
+    /* Champs quantité BEAUCOUP plus larges */
+    .data-table .col-qte input[type="number"] {
+        min-width: 140px;
+        font-size: 1rem;
+        text-align: center;
+        font-weight: 600;
+        padding: 10px;
+    }
+    
+    /* Champ date ultra-compact */
+    .data-table .col-date input[type="date"] {
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 8px 4px;
+        min-width: 105px;
+        max-width: 110px;
+    }
+    
+    /* Cache l'icône de calendrier pour gagner de l'espace, mais garde la fonctionnalité */
+    .data-table .col-date input[type="date"]::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+    
+    /* Indicateur visuel au survol du champ date */
+    .data-table .col-date input[type="date"]:hover {
+        background-color: #f8f9fa;
+        border-color: #3498db;
+    }
+
+    .data-table input:focus,
+    .data-table select:focus,
+    .data-table textarea:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+    }
+
+    .btn-add {
+        background: linear-gradient(135deg, #c3f0ca 0%, #d9f7e0 100%);
+        color: #166534;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(195, 240, 202, 0.3);
+    }
+
+    .btn-add:hover {
+        background: linear-gradient(135deg, #d9f7e0 0%, #c3f0ca 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(195, 240, 202, 0.5);
+    }
+
+    .btn-save {
+        background: linear-gradient(135deg, #b5d6ff 0%, #d4e7ff 100%);
+        color: #1e40af;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(181, 214, 255, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .btn-save:hover {
+        background: linear-gradient(135deg, #d4e7ff 0%, #b5d6ff 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(181, 214, 255, 0.5);
+    }
+
+    .btn-qualite {
+        background: linear-gradient(135deg, #15803d 0%, #22c55e 100%);
+        color: #ffffff;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(34, 197, 94, 0.4);
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .btn-qualite:hover {
+        background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.6);
+    }
+    
+    .btn-qualite-light {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        color: #065f46;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(167, 243, 208, 0.4);
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        opacity: 0.7;
+    }
+
+    .btn-qualite-light:hover {
+        background: linear-gradient(135deg, #a7f3d0 0%, #d1fae5 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(167, 243, 208, 0.6);
+        opacity: 1;
+    }
+    
+    .btn-view {
+        background: linear-gradient(135deg, #b8d4f1 0%, #d0e4ff 100%);
+        color: #1e3a8a;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(184, 212, 241, 0.4);
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .btn-view:hover {
+        background: linear-gradient(135deg, #d0e4ff 0%, #b8d4f1 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(184, 212, 241, 0.6);
+    }
+    
+    .btn-edit {
+        background: linear-gradient(135deg, #d8b5e8 0%, #e8d4f5 100%);
+        color: #6b21a8;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(216, 181, 232, 0.4);
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .btn-edit:hover {
+        background: linear-gradient(135deg, #e8d4f5 0%, #d8b5e8 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(216, 181, 232, 0.6);
+    }
+
+    .btn-delete {
+        background: linear-gradient(135deg, #ffc9d4 0%, #ffe0e8 100%);
+        color: #be123c;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(255, 201, 212, 0.4);
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .btn-delete:hover {
+        background: linear-gradient(135deg, #ffe0e8 0%, #ffc9d4 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 201, 212, 0.6);
+    }
+
+    .alert {
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .new-row {
+        background-color: #e8f5e9 !important;
+    }
+
+    .col-date { width: 80px; }
+    .col-reffich { width: 75px; text-align: center; font-weight: 600; }
+    .col-numero { width: 95px; }
+    .col-client { width: 11%; }
+    .col-reference { width: 12%; }
+    .col-qte { width: 60px; text-align: center; }
+    .col-carac { width: 45px; text-align: center; }
+    .col-nc { width: 90px; }
+    .col-desc { width: 22%; }
+    .col-cause { width: 20%; }
+    .col-actions { width: 165px; text-align: center; white-space: nowrap; }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: #7f8c8d;
+    }
+    
+    /* Filtres intégrés dans l'en-tête du tableau */
+    .data-table thead tr.filter-row {
+        background-color: #3498db;
+    }
+    
+    .data-table thead tr.filter-row th {
+        padding: 8px 6px;
+        background-color: #3498db;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .data-table thead tr.filter-row input {
+        width: 100%;
+        padding: 7px 8px;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        border-radius: 4px;
+        font-size: 0.85rem;
+        box-sizing: border-box;
+        transition: all 0.3s;
+        background-color: rgba(255, 255, 255, 0.95);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .data-table thead tr.filter-row input:hover {
+        border-color: rgba(255, 255, 255, 0.7);
+        background-color: #fff;
+    }
+    
+    .data-table thead tr.filter-row input:focus {
+        outline: none;
+        border-color: #fff;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        background-color: #fff;
+        transform: translateY(-1px);
+    }
+    
+    .data-table thead tr.filter-row input::placeholder {
+        color: #7f8c8d;
+        font-size: 0.8rem;
+        font-style: italic;
+        opacity: 0.8;
+    }
+    
+    /* Tri des colonnes */
+    .data-table th.sortable {
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        padding-right: 20px;
+    }
+    
+    .data-table th.sortable:hover {
+        background-color: #2980b9;
+    }
+    
+    .data-table th.sortable::after {
+        content: '⇅';
+        position: absolute;
+        right: 6px;
+        opacity: 0.3;
+        font-size: 0.9rem;
+    }
+    
+    .data-table th.sortable.sort-asc::after {
+        content: '▲';
+        opacity: 1;
+        color: #fff;
+    }
+    
+    .data-table th.sortable.sort-desc::after {
+        content: '▼';
+        opacity: 1;
+        color: #fff;
+    }
+    
+    /* Animation des lignes filtrées */
+    .data-table tbody tr.filtered-out {
+        display: none;
+    }
+    
+    /* Ligne d'information et bouton de réinitialisation */
+    .table-info-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        background: #f8f9fa;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .table-info-bar .filter-info {
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        font-weight: 500;
+    }
+    
+    .table-info-bar .filter-info .count {
+        color: #3498db;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+    
+    .btn-reset-filters {
+        background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 100%);
+        color: #555;
+        padding: 6px 14px;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .btn-reset-filters:hover {
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .button-group {
+        display: flex;
+        gap: 3px;
+        justify-content: center;
+        flex-wrap: nowrap;
+    }
+    
+    /* Navigation par onglets */
+    .tabs-container {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+        justify-content: center;
+    }
+    
+    .tab-card {
+        flex: 1;
+        max-width: 350px;
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+        border: 3px solid transparent;
+    }
+    
+    .tab-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transform: translateY(-2px);
+    }
+    
+    .tab-card.active {
+        border-color: #3498db;
+        box-shadow: 0 4px 16px rgba(52, 152, 219, 0.3);
+        background: #f8f9fa;
+    }
+    
+    .tab-card .icon {
+        font-size: 3rem;
+        margin-bottom: 10px;
+    }
+    
+    .tab-card h3 {
+        color: #2c3e50;
+        font-size: 1.2rem;
+        margin: 10px 0 5px 0;
+    }
+    
+    .tab-card p {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+    
+    .tab-card .count {
+        display: inline-block;
+        background: #3498db;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        margin-top: 10px;
+        font-weight: 600;
+    }
+    
+    /* Contenu des sections */
+    .section-content {
+        display: none;
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        animation: fadeIn 0.3s ease-in;
+    }
+    
+    .section-content.active {
+        display: block;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Formulaire d'ajout */
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+    
+    .form-group label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+    
+    .form-group textarea {
+        min-height: 80px;
+        resize: vertical;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .btn-submit {
+        background: linear-gradient(135deg, #c3f0ca 0%, #d9f7e0 100%);
+        color: #166534;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 10px;
+        box-shadow: 0 2px 6px rgba(195, 240, 202, 0.3);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .btn-submit:hover {
+        background: linear-gradient(135deg, #d9f7e0 0%, #c3f0ca 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(195, 240, 202, 0.5);
+    }
+    
+    /* Section statistiques */
+    .stats-placeholder {
+        text-align: center;
+        padding: 40px;
+        color: #95a5a6;
+    }
+    
+    /* Modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        overflow-y: auto;
+    }
+    
+    .modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .modal-content {
+        background-color: white;
+        padding: 30px;
+        border-radius: 8px;
+        max-width: 900px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        animation: slideDown 0.3s;
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #3498db;
+    }
+    
+    .modal-header h2 {
+        margin: 0;
+        color: #2c3e50;
+    }
+    
+    .close-modal {
+        font-size: 2rem;
+        color: #7f8c8d;
+        cursor: pointer;
+        border: none;
+        background: none;
+        padding: 0;
+        line-height: 1;
+    }
+    
+    .close-modal:hover {
+        color: #e74c3c;
+    }
+    
+    /* Fiche détaillée */
+    .fiche-container {
+        background: white;
+        padding: 40px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .fiche-header {
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 20px;
+    }
+    
+    .fiche-header h1 {
+        color: #2c3e50;
+        margin: 0 0 10px 0;
+    }
+    
+    .fiche-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .fiche-info-full {
+        grid-column: 1 / -1;
+    }
+    
+    .fiche-field {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 4px;
+        background: #f8f9fa;
+    }
+    
+    .fiche-field label {
+        display: block;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+    }
+    
+    .fiche-field value {
+        display: block;
+        color: #34495e;
+        font-size: 1rem;
+    }
+    
+    .fiche-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px solid #ecf0f1;
+    }
+    
+    /* Autocomplétion */
+    .autocomplete-suggestions {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        max-height: 200px;
+        overflow-y: auto;
+        background: white;
+        border: 1px solid #ddd;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        display: none;
+    }
+    
+    .autocomplete-suggestions.active {
+        display: block;
+    }
+    
+    .autocomplete-suggestion {
+        padding: 10px 12px;
+        cursor: pointer;
+        border-bottom: 1px solid #f0f0f0;
+        transition: background-color 0.2s;
+    }
+    
+    .autocomplete-suggestion:last-child {
+        border-bottom: none;
+    }
+    
+    .autocomplete-suggestion:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .autocomplete-suggestion.selected {
+        background-color: #e3f2fd;
+    }
+    
+    .autocomplete-suggestion.keyboard-selected {
+        background-color: #bbdefb;
+        border-left: 3px solid #3498db;
+    }
+    
+    .autocomplete-suggestion strong {
+        color: #3498db;
+        font-weight: 600;
+    }
+    
+    @media print {
+        .fiche-actions,
+        .modal-header button,
+        .close-modal {
+            display: none !important;
+        }
+        
+        .modal-content {
+            max-width: 100%;
+            padding: 20px;
+        }
+    }
+    
+    /* Styles pour les cartes KPI */
+    .kpi-card {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: transform 0.2s;
+    }
+    
+    .kpi-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .kpi-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-top: 5px;
+    }
+    
+    .kpi-badge.positive {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .kpi-badge.negative {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    .kpi-badge.neutral {
+        background: #e2e3e5;
+        color: #383d41;
+    }
+    
+    /* Fix pour le défilement global */
+    #content-stats {
+        overflow: visible;
+        min-height: auto;
+    }
+    
+    /* Conteneurs de graphiques avec hauteur fixe */
+    .chart-wrapper {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="projet12-container">
+    <div class="page-header">
+        <h1>📋 Registre des Produits Non Conformes et Réclamations Clients</h1>
+        <p style="color: #7f8c8d;">Projet 12 - Gestion de la non-conformité et des réclamations</p>
+    </div>
+
+    <!-- Message d'alerte -->
+    <div id="alert-message" class="hidden"></div>
+
+    <!-- Navigation par onglets -->
+    <div class="tabs-container">
+        <!-- Carte 1: Liste -->
+        <div class="tab-card" onclick="switchTab('liste')" id="tab-liste">
+            <div class="icon">📋</div>
+            <h3>Liste des fichiers enregistrés</h3>
+            <p>Consulter les enregistrements</p>
+            <span class="count" id="count-fichiers-tab">0 fichier(s)</span>
+        </div>
+        
+        <!-- Carte 2: Saisie -->
+        <div class="tab-card" onclick="ouvrirModalSaisie()" id="tab-saisie">
+            <div class="icon">➕</div>
+            <h3>Saisie d'un nouveau fichier</h3>
+            <p>Ajouter un fichier</p>
+        </div>
+        
+        <!-- Carte 3: Statistiques -->
+        <div class="tab-card" onclick="switchTab('stats')" id="tab-stats">
+            <div class="icon">📊</div>
+            <h3>Statistiques</h3>
+            <p>Analyses et rapports</p>
+        </div>
+    </div>
+
+    <!-- SECTION 1: Liste des fichiers -->
+    <div class="section-content" id="content-liste">
+        <h2 style="color: #2c3e50; margin-bottom: 20px; border-bottom: 2px solid #3498db; padding-bottom: 10px;">
+            📋 Liste des fichiers enregistrés
+        </h2>
+        
+        <!-- Sélection du type pour la liste -->
+        <div class="type-selection">
+            <h3>Choisissez le type de registre :</h3>
+            <div class="type-options">
+                <div class="type-option">
+                    <input type="radio" id="type-liste-nc" name="type-liste" value="NC" checked>
+                    <label for="type-liste-nc">🔴 Registre produits NC</label>
+                </div>
+                <div class="type-option">
+                    <input type="radio" id="type-liste-rec" name="type-liste" value="REC">
+                    <label for="type-liste-rec">📞 Registre des réclamations clients</label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Barre d'information et réinitialisation -->
+        <div class="table-info-bar">
+            <div class="filter-info">
+                🔍 <span class="count" id="filter-count">0</span> résultat(s) affiché(s)
+            </div>
+            <button class="btn-reset-filters" onclick="reinitialiserFiltres()">
+                🔄 Réinitialiser les filtres
+            </button>
+        </div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-date sortable" onclick="trierTableau('date')" title="Cliquez pour trier par date">DATE</th>
+                    <th class="col-reffich sortable" onclick="trierTableau('reffich')" title="Cliquez pour trier par référence fichier">RÉF.<br>FICHIER</th>
+                    <th class="col-numero sortable" onclick="trierTableau('numero')" title="Cliquez pour trier par n° dossier">N° DOSSIER</th>
+                    <th class="col-client sortable" onclick="trierTableau('client')" title="Cliquez pour trier par client">CLIENT</th>
+                    <th class="col-reference">RÉFÉRENCE</th>
+                    <th class="col-qte">QTÉ<br>CMD</th>
+                    <th class="col-qte">QTÉ<br>NC</th>
+                    <th class="col-carac">CAR</th>
+                    <th class="col-nc">NC</th>
+                    <th class="col-desc">DESCRIPTION DE LA NC</th>
+                    <th class="col-cause">CAUSE</th>
+                    <th class="col-actions">ACTIONS</th>
+                </tr>
+                <!-- Ligne de filtres intégrée -->
+                <tr class="filter-row">
+                    <th class="col-date">
+                        <input type="text" id="filter-date" placeholder="JJ/MM/AAAA" oninput="appliquerFiltres()">
+                    </th>
+                    <th class="col-reffich">
+                        <input type="text" id="filter-reffich" placeholder="NC-..." oninput="appliquerFiltres()">
+                    </th>
+                    <th class="col-numero">
+                        <input type="text" id="filter-numero" placeholder="N°..." oninput="appliquerFiltres()">
+                    </th>
+                    <th class="col-client">
+                        <input type="text" id="filter-client" placeholder="Nom client..." oninput="appliquerFiltres()">
+                    </th>
+                    <th class="col-reference"></th>
+                    <th class="col-qte"></th>
+                    <th class="col-qte"></th>
+                    <th class="col-carac"></th>
+                    <th class="col-nc"></th>
+                    <th class="col-desc"></th>
+                    <th class="col-cause"></th>
+                    <th class="col-actions"></th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <tr>
+                    <td colspan="12" class="empty-state">
+                        <div style="font-size: 2rem;">📄</div>
+                        <p>Chargement des données...</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- SECTION 3: Statistiques -->
+    <div class="section-content" id="content-stats">
+        <h2 style="color: #2c3e50; margin-bottom: 20px; border-bottom: 2px solid #3498db; padding-bottom: 10px;">
+            📊 Statistiques & Tableau de Bord Qualité
+        </h2>
+        
+        <!-- Filtre de période -->
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 25px;">
+            <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                <label style="font-weight: 600;">Période d'analyse :</label>
+                <select id="stats-periode" onchange="chargerStatistiques()" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;">
+                    <option value="mois">Ce mois</option>
+                    <option value="trimestre">Ce trimestre</option>
+                    <option value="semestre">Ce semestre</option>
+                    <option value="annee">Cette année</option>
+                    <option value="tout">Tout</option>
+                </select>
+                <button onclick="rafraichirStatistiques()" style="padding: 8px 15px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    🔄 Rafraîchir
+                </button>
+                <span id="stats-last-update" style="margin-left: auto; color: #7f8c8d; font-size: 0.9rem;"></span>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div class="kpi-card">
+                <div style="font-size: 2.5rem; font-weight: bold; color: #e74c3c;" id="kpi-nc">-</div>
+                <div style="color: #7f8c8d; margin: 5px 0;">Produits NC</div>
+                <div id="evol-nc" class="kpi-badge">-</div>
+            </div>
+            <div class="kpi-card">
+                <div style="font-size: 2.5rem; font-weight: bold; color: #3498db;" id="kpi-rec">-</div>
+                <div style="color: #7f8c8d; margin: 5px 0;">Réclamations</div>
+                <div id="evol-rec" class="kpi-badge">-</div>
+            </div>
+            <div class="kpi-card">
+                <div style="font-size: 2.5rem; font-weight: bold; color: #9b59b6;" id="kpi-total">-</div>
+                <div style="color: #7f8c8d; margin: 5px 0;">Total</div>
+                <div style="font-size: 0.85rem; color: #95a5a6;">Enregistrements</div>
+            </div>
+            <div class="kpi-card">
+                <div style="font-size: 2.5rem; font-weight: bold; color: #f39c12;" id="kpi-majeurs">-</div>
+                <div style="color: #7f8c8d; margin: 5px 0;">NC Majeures</div>
+                <div style="font-size: 0.85rem; color: #e74c3c;">⚠️ Urgence</div>
+            </div>
+            <div class="kpi-card">
+                <div style="font-size: 2.5rem; font-weight: bold; color: #27ae60;" id="kpi-mineurs">-</div>
+                <div style="color: #7f8c8d; margin: 5px 0;">NC Mineures</div>
+                <div style="font-size: 0.85rem; color: #27ae60;">✓ Normales</div>
+            </div>
+            <div class="kpi-card">
+                <div style="font-size: 2.5rem; font-weight: bold; color: #34495e;" id="kpi-taux">-</div>
+                <div style="color: #7f8c8d; margin: 5px 0;">Taux NC</div>
+                <div id="evol-taux" class="kpi-badge">-</div>
+            </div>
+        </div>
+
+        <!-- Graphiques -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 25px; margin-bottom: 30px;">
+            <!-- Évolution temporelle -->
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="color: #2c3e50; margin-bottom: 15px;">📈 Évolution NC vs Réclamations</h3>
+                <div class="chart-wrapper">
+                    <canvas id="chart-evolution"></canvas>
+                </div>
+            </div>
+            
+            <!-- Analyse des causes -->
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="color: #2c3e50; margin-bottom: 15px;">🔍 Principales Causes de NC</h3>
+                <div class="chart-wrapper">
+                    <canvas id="chart-causes"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Clients -->
+        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 30px;">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">👥 Top 10 Clients - NC & Réclamations</h3>
+            <div style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Rang</th>
+                            <th>Client</th>
+                            <th style="text-align: center;">🔴 NC</th>
+                            <th style="text-align: center;">📞 REC</th>
+                            <th style="text-align: center;">Total</th>
+                            <th style="text-align: center;">Taux NC %</th>
+                        </tr>
+                    </thead>
+                    <tbody id="top-clients-tbody">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 40px; color: #95a5a6;">
+                                Chargement des données...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal pour saisie d'un nouveau fichier -->
+    <div id="modal-saisie" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h2>➕ Saisie d'un nouveau fichier</h2>
+                <button class="close-modal" onclick="fermerModalSaisie()">&times;</button>
+            </div>
+            
+            <!-- Sélection du type pour la saisie -->
+            <div class="type-selection">
+                <h3>Choisissez le type de registre :</h3>
+                <div class="type-options">
+                    <div class="type-option">
+                        <input type="radio" id="type-saisie-nc" name="type-saisie" value="NC" checked>
+                        <label for="type-saisie-nc">🔴 Registre produits NC</label>
+                    </div>
+                    <div class="type-option">
+                        <input type="radio" id="type-saisie-rec" name="type-saisie" value="REC">
+                        <label for="type-saisie-rec">📞 Registre des réclamations clients</label>
+                    </div>
+                </div>
+            </div>
+            
+            <form id="form-nouveau" onsubmit="event.preventDefault(); ajouterNouveauFichier();">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="new-date">Date *</label>
+                        <input type="date" id="new-date" required>
+                    </div>
+                    
+                    <div class="form-group" style="position: relative;">
+                        <label for="new-numero">N° de Dossier *</label>
+                        <input type="text" id="new-numero" required placeholder="Rechercher un n° de dossier..." 
+                               autocomplete="off" oninput="onNouveauNumeroSearch()" onblur="hideNumeroSuggestions()" 
+                               onkeydown="handleNumeroKeyboard(event, 'new')">
+                        <div id="new-numero-suggestions" class="autocomplete-suggestions"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new-client">Client</label>
+                        <input type="text" id="new-client" readonly style="background-color: #f0f0f0;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new-reference">Référence</label>
+                        <input type="text" id="new-reference">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new-qte-comm">Qté Commande</label>
+                        <input type="number" id="new-qte-comm" readonly style="background-color: #f0f0f0;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new-qte-nc">Qté NC *</label>
+                        <input type="number" id="new-qte-nc" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new-carac-nc">Caractéristique de la NC *</label>
+                        <select id="new-carac-nc" required>
+                            <option value="">-- Choisir --</option>
+                            <option value="Majeur">Majeur</option>
+                            <option value="Mineur">Mineur</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new-nc">NC *</label>
+                        <input type="text" id="new-nc" required>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="new-desc">Description de la NC *</label>
+                        <textarea id="new-desc" required></textarea>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="new-cause">Cause *</label>
+                        <textarea id="new-cause" required></textarea>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                    <button type="button" class="btn-delete" onclick="fermerModalSaisie()">Annuler</button>
+                    <button type="submit" class="btn-submit">💾 Enregistrer le fichier</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal pour modification -->
+    <div id="modal-edit" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✏️ Modifier l'enregistrement</h2>
+                <button class="close-modal" onclick="fermerModalEdit()">&times;</button>
+            </div>
+            <form id="form-edit" onsubmit="event.preventDefault(); sauvegarderModification();">
+                <input type="hidden" id="edit-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="edit-date">Date *</label>
+                        <input type="date" id="edit-date" required>
+                    </div>
+                    <div class="form-group" style="position: relative;">
+                        <label for="edit-numero">N° de Dossier *</label>
+                        <input type="text" id="edit-numero" required placeholder="Rechercher un n° de dossier..." 
+                               autocomplete="off" oninput="onEditNumeroSearch()" onblur="hideEditNumeroSuggestions()" 
+                               onkeydown="handleNumeroKeyboard(event, 'edit')">
+                        <div id="edit-numero-suggestions" class="autocomplete-suggestions"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-client">Client</label>
+                        <input type="text" id="edit-client" readonly style="background-color: #f0f0f0;">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-reference">Référence</label>
+                        <input type="text" id="edit-reference">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-qte-comm">Qté Commande</label>
+                        <input type="number" id="edit-qte-comm" readonly style="background-color: #f0f0f0;">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-qte-nc">Qté NC</label>
+                        <input type="number" id="edit-qte-nc">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-carac-nc">Caractéristique de la NC</label>
+                        <select id="edit-carac-nc">
+                            <option value="">-- Choisir --</option>
+                            <option value="Majeur">Majeur</option>
+                            <option value="Mineur">Mineur</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-nc">NC</label>
+                        <input type="text" id="edit-nc">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-desc">Description de la NC</label>
+                        <textarea id="edit-desc" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-cause">Cause</label>
+                        <textarea id="edit-cause" rows="3"></textarea>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                    <button type="button" class="btn-delete" onclick="fermerModalEdit()">Annuler</button>
+                    <button type="submit" class="btn-submit">Enregistrer les modifications</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal pour voir la fiche -->
+    <div id="modal-view" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>👁️ Fiche détaillée</h2>
+                <button class="close-modal" onclick="fermerModalView()">&times;</button>
+            </div>
+            <div id="fiche-content" class="fiche-container">
+                <!-- Contenu généré dynamiquement -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour voir le contrôle qualité du Projet 10 -->
+    <div id="modal-controle-qualite" class="modal">
+        <div class="modal-content" style="max-width: 1000px;">
+            <div class="modal-header">
+                <h2>📋 Contrôle Qualité - Projet 10</h2>
+                <button class="close-modal" onclick="fermerModalControleQualite()">&times;</button>
+            </div>
+            <div id="controle-qualite-content" class="fiche-container">
+                <!-- Contenu généré dynamiquement -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let references = [];
+let clients = [];
+let numeros = [];
+let currentType = 'NC';
+let selectedSuggestionIndex = -1;  // Index de la suggestion sélectionnée au clavier
+let currentSuggestions = [];        // Liste des suggestions actuelles
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialiser la date d'aujourd'hui
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('new-date').value = today;
+    
+    // DEBUG: Vérifier l'origine de la navigation
+    const referrer = document.referrer;
+    const currentPath = window.location.pathname;
+    console.log('🔍 DEBUG: Referrer:', referrer);
+    console.log('🔍 DEBUG: Current Path:', currentPath);
+    
+    // Si l'URL contient une section spécifique (/Statistiques ou /ListeDesFichiers),
+    // toujours rediriger vers la page d'accueil pour forcer l'utilisateur à sélectionner une section
+    if (currentPath !== '/projet12' && currentPath !== '/projet12/') {
+        if (currentPath.includes('/Statistiques') || currentPath.includes('/ListeDesFichiers')) {
+            console.log('⚠️  Redirection: Section détectée dans URL, redirection vers page d\'accueil /projet12');
+            window.location.href = '/projet12';
+            return;
+        }
+    }
+
+    // Charger toutes les données de base (pour le formulaire de saisie)
+    Promise.all([
+        chargerReferences(),
+        chargerClients(),
+        chargerNumeros()
+    ]).then(() => {
+        console.log('✓ Toutes les données de base sont chargées');
+        console.log('Numeros chargés:', numeros.length);
+        
+        // Charger la section depuis l'URL (si présente)
+        loadTabFromUrl();
+    }).catch(error => {
+        console.error('Erreur lors du chargement des données de base:', error);
+    });
+
+    // Événements pour le changement de type dans la LISTE
+    document.getElementById('type-liste-nc').addEventListener('change', function() {
+        if (this.checked) {
+            currentType = 'NC';
+            // Synchroniser avec la saisie
+            document.getElementById('type-saisie-nc').checked = true;
+            chargerEnregistrements();
+        }
+    });
+
+    document.getElementById('type-liste-rec').addEventListener('change', function() {
+        if (this.checked) {
+            currentType = 'REC';
+            // Synchroniser avec la saisie
+            document.getElementById('type-saisie-rec').checked = true;
+            chargerEnregistrements();
+        }
+    });
+    
+    // Événements pour le changement de type dans la SAISIE
+    document.getElementById('type-saisie-nc').addEventListener('change', function() {
+        if (this.checked) {
+            currentType = 'NC';
+            // Synchroniser avec la liste
+            document.getElementById('type-liste-nc').checked = true;
+        }
+    });
+
+    document.getElementById('type-saisie-rec').addEventListener('change', function() {
+        if (this.checked) {
+            currentType = 'REC';
+            // Synchroniser avec la liste
+            document.getElementById('type-liste-rec').checked = true;
+        }
+    });
+});
+
+function switchTab(tabName, updateUrl = true) {
+    // Retirer la classe active de toutes les cartes et contenus
+    document.querySelectorAll('.tab-card').forEach(card => {
+        card.classList.remove('active');
+    });
+    document.querySelectorAll('.section-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Ajouter la classe active à la carte et au contenu sélectionnés
+    document.getElementById('tab-' + tabName).classList.add('active');
+    document.getElementById('content-' + tabName).classList.add('active');
+    
+    // Si on ouvre l'onglet "Liste", charger les enregistrements
+    if (tabName === 'liste') {
+        chargerEnregistrements();
+    }
+    
+    // Mettre à jour l'URL si demandé
+    if (updateUrl) {
+        const urlMap = {
+            'liste': '/projet12/ListeDesFichiers',
+            'stats': '/projet12/Statistiques'
+        };
+        const newUrl = urlMap[tabName] || '/projet12';
+        window.history.pushState({ tab: tabName }, '', newUrl);
+    }
+    
+    console.log('Onglet activé:', tabName);
+}
+
+// Fonction pour charger la section depuis l'URL
+function loadTabFromUrl() {
+    const path = window.location.pathname;
+    let tabName = null;
+    
+    console.log('🔍 DEBUG: URL chargée:', path);
+    
+    // Vérifier si c'est exactement '/projet12' (sans section)
+    if (path === '/projet12' || path === '/projet12/') {
+        // Ne rien afficher par défaut - l'utilisateur doit cliquer sur une section
+        console.log('✅ Page d\'accueil du projet 12 - aucune section activée');
+        return;
+    }
+    
+    // Vérifier si c'est le modal de saisie
+    if (path.includes('/SaisieNouveauFichier')) {
+        // Ouvrir le modal sans mettre à jour l'URL (elle est déjà correcte)
+        ouvrirModalSaisie(false);
+        // Initialiser l'état de l'historique pour un accès direct (hors projet 12)
+        window.history.replaceState({ 
+            modal: 'saisie', 
+            isFromProjet12: false,
+            previousUrl: null
+        }, '', window.location.pathname);
+        return;
+    }
+    
+    if (path.includes('/ListeDesFichiers')) {
+        tabName = 'liste';
+    } else if (path.includes('/Statistiques')) {
+        tabName = 'stats';
+    }
+    
+    if (tabName) {
+        switchTab(tabName, false);
+        // Initialiser l'état de l'historique au premier chargement
+        window.history.replaceState({ tab: tabName }, '', window.location.pathname);
+    }
+}
+
+// Gérer le bouton retour/avant du navigateur
+window.addEventListener('popstate', function(event) {
+    // Vérifier si le modal de saisie est ouvert
+    const modalSaisie = document.getElementById('modal-saisie');
+    if (modalSaisie && modalSaisie.classList.contains('active')) {
+        // Fermer le modal sans mettre à jour l'URL (déjà fait par le navigateur)
+        fermerModalSaisie(false);
+        return;
+    }
+    
+    // Vérifier si c'est un état de modal
+    if (event.state && event.state.modal === 'saisie') {
+        ouvrirModalSaisie(false);
+    } else if (event.state && event.state.tab) {
+        switchTab(event.state.tab, false);
+    } else {
+        loadTabFromUrl();
+    }
+});
+
+// Fermer les modals en cliquant en dehors
+window.addEventListener('click', function(event) {
+    if (event.target.classList.contains('modal')) {
+        // Vérifier quel modal est concerné
+        if (event.target.id === 'modal-saisie') {
+            fermerModalSaisie();
+        } else {
+            event.target.classList.remove('active');
+        }
+    }
+});
+
+// Fonction de recherche pour le formulaire de nouveau fichier
+function onNouveauNumeroSearch() {
+    const input = document.getElementById('new-numero');
+    const suggestionsDiv = document.getElementById('new-numero-suggestions');
+    const searchTerm = input.value.trim().toLowerCase();
+    
+    // Réinitialiser l'index de sélection
+    selectedSuggestionIndex = -1;
+    
+    // Vider les suggestions si la recherche est vide
+    if (searchTerm === '') {
+        suggestionsDiv.classList.remove('active');
+        suggestionsDiv.innerHTML = '';
+        currentSuggestions = [];
+        document.getElementById('new-client').value = '';
+        document.getElementById('new-reference').value = '';
+        document.getElementById('new-qte-comm').value = '';
+        return;
+    }
+    
+    // Filtrer les numéros qui contiennent le terme de recherche
+    const filteredNumeros = numeros.filter(num => 
+        num.toLowerCase().includes(searchTerm)
+    );
+    
+    // Sauvegarder les suggestions actuelles
+    currentSuggestions = filteredNumeros.slice(0, 10);
+    
+    // Afficher les suggestions
+    if (filteredNumeros.length > 0) {
+        suggestionsDiv.innerHTML = '';
+        currentSuggestions.forEach((numero, index) => {
+            const div = document.createElement('div');
+            div.className = 'autocomplete-suggestion';
+            div.setAttribute('data-index', index);
+            // Mettre en évidence le terme recherché
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            div.innerHTML = numero.replace(regex, '<strong>$1</strong>');
+            div.onmousedown = () => selectNumeroSuggestion(numero, 'new');
+            suggestionsDiv.appendChild(div);
+        });
+        suggestionsDiv.classList.add('active');
+    } else {
+        suggestionsDiv.innerHTML = '<div class="autocomplete-suggestion">Aucun résultat</div>';
+        suggestionsDiv.classList.add('active');
+        currentSuggestions = [];
+    }
+}
+
+function hideNumeroSuggestions() {
+    setTimeout(() => {
+        const suggestionsDiv = document.getElementById('new-numero-suggestions');
+        suggestionsDiv.classList.remove('active');
+        selectedSuggestionIndex = -1;
+    }, 200);
+}
+
+function selectNumeroSuggestion(numero, type) {
+    const prefix = type === 'new' ? 'new' : 'edit';
+    
+    // Remplir l'input
+    document.getElementById(`${prefix}-numero`).value = numero;
+    
+    // Masquer les suggestions et réinitialiser
+    document.getElementById(`${prefix}-numero-suggestions`).classList.remove('active');
+    selectedSuggestionIndex = -1;
+    currentSuggestions = [];
+    
+    // Charger les informations de la commande
+    fetch('/projet12/get_info_commande/' + encodeURIComponent(numero))
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById(`${prefix}-client`).value = data.data.client || '';
+                document.getElementById(`${prefix}-reference`).value = data.data.reference || '';
+                document.getElementById(`${prefix}-qte-comm`).value = data.data.qte_comm || '';
+            } else {
+                alert('Commande non trouvée');
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors de la récupération des informations');
+        });
+}
+
+function ajouterNouveauFichier() {
+    const dateInput = document.getElementById('new-date').value;
+    const dateParts = dateInput.split('-');
+    const dateFormatted = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
+    
+    const data = {
+        date: dateFormatted,
+        type: currentType,
+        numero_commandes: document.getElementById('new-numero').value,
+        raisoctri_societes: document.getElementById('new-client').value,
+        reference_commandes: document.getElementById('new-reference').value,
+        qte_comm_commandes: document.getElementById('new-qte-comm').value || null,
+        qte_nc: document.getElementById('new-qte-nc').value || null,
+        carac_nc: document.getElementById('new-carac-nc').value || null,
+        nc: document.getElementById('new-nc').value,
+        des_nc: document.getElementById('new-desc').value,
+        cause: document.getElementById('new-cause').value
+    };
+    
+    fetch('/projet12/ajouter', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            afficherMessage('✓ Fichier enregistré avec succès !', 'success');
+            
+            // Vérifier si on vient d'une page du projet 12
+            const currentState = window.history.state;
+            const isFromProjet12 = currentState && currentState.isFromProjet12;
+            
+            if (isFromProjet12) {
+                // Si on vient du projet 12, fermer le modal et revenir à la page précédente
+                fermerModalSaisie();
+                // Recharger la liste si elle est affichée
+                const listContent = document.getElementById('content-liste');
+                if (listContent && listContent.classList.contains('active')) {
+                    chargerEnregistrements();
+                }
+            } else {
+                // Si on vient d'ailleurs, garder le modal ouvert et réinitialiser le formulaire
+                // pour permettre l'ajout d'un autre fichier
+                document.getElementById('form-nouveau').reset();
+                // Réinitialiser la date à aujourd'hui
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('new-date').value = today;
+                console.log('Formulaire réinitialisé pour un nouvel enregistrement');
+            }
+        } else {
+            afficherMessage('✗ Erreur : ' + data.error, 'danger');
+        }
+    })
+    .catch(error => {
+        afficherMessage('✗ Erreur lors de l\'enregistrement', 'danger');
+        console.error('Erreur:', error);
+    });
+}
+
+function chargerReferences() {
+    return fetch('/projet12/get_references')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                references = data.data;
+                console.log('References chargées:', references.length);
+            }
+        })
+        .catch(error => console.error('Erreur chargement références:', error));
+}
+
+function chargerClients() {
+    return fetch('/projet12/get_clients')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                clients = data.data;
+                console.log('Clients chargés:', clients.length);
+            }
+        })
+        .catch(error => console.error('Erreur chargement clients:', error));
+}
+
+function chargerNumeros() {
+    return fetch('/projet12/get_numeros')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                numeros = data.data;
+                console.log('Numeros chargés:', numeros.length);
+            }
+        })
+        .catch(error => console.error('Erreur chargement numéros:', error));
+}
+
+function chargerEnregistrements() {
+    fetch('/projet12/liste?type=' + currentType)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                afficherEnregistrements(data.data);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            afficherErreur('Erreur lors du chargement des données');
+        });
+}
+
+function afficherEnregistrements(enregistrements) {
+    const tbody = document.getElementById('table-body');
+    const countFichiersTab = document.getElementById('count-fichiers-tab');
+    
+    // Sauvegarder tous les enregistrements pour les filtres
+    allEnregistrements = enregistrements;
+    
+    // Mettre à jour le compteur dans la carte de l'onglet
+    countFichiersTab.textContent = enregistrements.length + ' fichier(s)';
+    
+    if (enregistrements.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" class="empty-state"><div style="font-size: 2rem;">📭</div><p>Aucun enregistrement trouvé</p></td></tr>';
+        document.getElementById('filter-count').textContent = '0';
+        return;
+    }
+
+    console.log('Affichage de', enregistrements.length, 'enregistrements (numeros disponibles:', numeros.length, ')');
+    let html = '';
+    enregistrements.forEach(enreg => {
+        html += creerLigneHTML(enreg);
+    });
+    
+    tbody.innerHTML = html;
+    
+    // Appliquer les filtres après l'affichage
+    setTimeout(() => {
+        appliquerFiltres();
+    }, 50);
+}
+
+function creerLigneHTML(enreg) {
+    const id = enreg.ID;
+    
+    // Afficher "Maj" ou "Min" selon la caractéristique
+    let caracDisplay = '';
+    let caracColor = '';
+    if (enreg.CaracNC === 'Majeur') {
+        caracDisplay = '●';  // Point plein pour Majeur
+        caracColor = 'color: #e74c3c; font-size: 1.2rem;';
+    } else if (enreg.CaracNC === 'Mineur') {
+        caracDisplay = '○';  // Point vide pour Mineur
+        caracColor = 'color: #f39c12; font-size: 1.2rem;';
+    }
+    
+    // Déterminer la classe du bouton selon l'existence du contrôle qualité
+    const btnQualiteClass = enreg.has_controle_qualite ? 'btn-qualite' : 'btn-qualite-light';
+    const btnQualiteTitle = enreg.has_controle_qualite ? 'Voir contrôle qualité' : 'Aucun contrôle qualité trouvé';
+    
+    // Tronquer la description et la cause si trop longues
+    const descDisplay = enreg.DesNC && enreg.DesNC.length > 100 ? enreg.DesNC.substring(0, 97) + '...' : (enreg.DesNC || '');
+    const causeDisplay = enreg.Cause && enreg.Cause.length > 90 ? enreg.Cause.substring(0, 87) + '...' : (enreg.Cause || '');
+    
+    return `
+        <tr data-id="${id}">
+            <td>${enreg.Date || ''}</td>
+            <td>${enreg.RefFich || ''}</td>
+            <td>${enreg.Numero_COMMANDES || ''}</td>
+            <td>${enreg.RaiSocTri_SOCIETES || ''}</td>
+            <td>${enreg.Reference_COMMANDES || ''}</td>
+            <td>${enreg.QteComm_COMMANDES || ''}</td>
+            <td>${enreg.QteNC || ''}</td>
+            <td style="${caracColor}" title="${enreg.CaracNC || ''}">${caracDisplay}</td>
+            <td>${enreg.NC || ''}</td>
+            <td title="${enreg.DesNC || ''}">${descDisplay}</td>
+            <td title="${enreg.Cause || ''}">${causeDisplay}</td>
+            <td>
+                <div class="button-group">
+                    <button class="${btnQualiteClass}" onclick="voirControleQualite('${enreg.Numero_COMMANDES || ''}')" title="${btnQualiteTitle}">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <path d="M9 15l2 2 4-4"></path>
+                        </svg>
+                    </button>
+                    <button class="btn-view" onclick="voirFiche(${id})" title="Voir la fiche">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                    <button class="btn-edit" onclick="modifierLigne(${id})" title="Modifier">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                    </button>
+                    <button class="btn-delete" onclick="supprimerLigne(${id})" title="Supprimer">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `;
+}
+
+function supprimerLigne(id) {
+    if (!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) {
+        return;
+    }
+    
+    fetch('/projet12/supprimer/' + id, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            afficherMessage('Enregistrement supprimé avec succès !', 'success');
+            chargerEnregistrements();
+        } else {
+            afficherMessage('Erreur : ' + data.error, 'danger');
+        }
+    })
+    .catch(error => {
+        afficherMessage('Erreur lors de la suppression', 'danger');
+        console.error('Erreur:', error);
+    });
+}
+
+// ==================== MODIFICATION ====================
+let enregistrementActuel = null;
+
+function modifierLigne(id) {
+    // Trouver l'enregistrement dans la liste
+    fetch('/projet12/liste?type=' + currentType)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const enreg = data.data.find(e => e.ID === id);
+                if (enreg) {
+                    enregistrementActuel = enreg;
+                    afficherModalEdit(enreg);
+                } else {
+                    afficherMessage('Enregistrement non trouvé', 'danger');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            afficherMessage('Erreur lors du chargement', 'danger');
+        });
+}
+
+function afficherModalEdit(enreg) {
+    // Convertir la date au format yyyy-mm-dd pour l'input
+    let dateFormatted = '';
+    if (enreg.Date) {
+        const parts = enreg.Date.split('/');
+        if (parts.length === 3) {
+            dateFormatted = parts[2] + '-' + parts[1] + '-' + parts[0];
+        }
+    }
+    
+    // Remplir les champs
+    document.getElementById('edit-id').value = enreg.ID;
+    document.getElementById('edit-date').value = dateFormatted;
+    document.getElementById('edit-numero').value = enreg.Numero_COMMANDES || '';
+    document.getElementById('edit-client').value = enreg.RaiSocTri_SOCIETES || '';
+    document.getElementById('edit-reference').value = enreg.Reference_COMMANDES || '';
+    document.getElementById('edit-qte-comm').value = enreg.QteComm_COMMANDES || '';
+    document.getElementById('edit-qte-nc').value = enreg.QteNC || '';
+    document.getElementById('edit-carac-nc').value = enreg.CaracNC || '';
+    document.getElementById('edit-nc').value = enreg.NC || '';
+    document.getElementById('edit-desc').value = enreg.DesNC || '';
+    document.getElementById('edit-cause').value = enreg.Cause || '';
+    
+    // Afficher la modal
+    document.getElementById('modal-edit').classList.add('active');
+}
+
+function fermerModalEdit() {
+    document.getElementById('modal-edit').classList.remove('active');
+    enregistrementActuel = null;
+}
+
+// Fonction de recherche pour le formulaire d'édition
+function onEditNumeroSearch() {
+    const input = document.getElementById('edit-numero');
+    const suggestionsDiv = document.getElementById('edit-numero-suggestions');
+    const searchTerm = input.value.trim().toLowerCase();
+    
+    // Réinitialiser l'index de sélection
+    selectedSuggestionIndex = -1;
+    
+    // Vider les suggestions si la recherche est vide
+    if (searchTerm === '') {
+        suggestionsDiv.classList.remove('active');
+        suggestionsDiv.innerHTML = '';
+        currentSuggestions = [];
+        document.getElementById('edit-client').value = '';
+        document.getElementById('edit-reference').value = '';
+        document.getElementById('edit-qte-comm').value = '';
+        return;
+    }
+    
+    // Filtrer les numéros qui contiennent le terme de recherche
+    const filteredNumeros = numeros.filter(num => 
+        num.toLowerCase().includes(searchTerm)
+    );
+    
+    // Sauvegarder les suggestions actuelles
+    currentSuggestions = filteredNumeros.slice(0, 10);
+    
+    // Afficher les suggestions
+    if (filteredNumeros.length > 0) {
+        suggestionsDiv.innerHTML = '';
+        currentSuggestions.forEach((numero, index) => {
+            const div = document.createElement('div');
+            div.className = 'autocomplete-suggestion';
+            div.setAttribute('data-index', index);
+            // Mettre en évidence le terme recherché
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            div.innerHTML = numero.replace(regex, '<strong>$1</strong>');
+            div.onmousedown = () => selectNumeroSuggestion(numero, 'edit');
+            suggestionsDiv.appendChild(div);
+        });
+        suggestionsDiv.classList.add('active');
+    } else {
+        suggestionsDiv.innerHTML = '<div class="autocomplete-suggestion">Aucun résultat</div>';
+        suggestionsDiv.classList.add('active');
+        currentSuggestions = [];
+    }
+}
+
+function hideEditNumeroSuggestions() {
+    setTimeout(() => {
+        const suggestionsDiv = document.getElementById('edit-numero-suggestions');
+        suggestionsDiv.classList.remove('active');
+        selectedSuggestionIndex = -1;
+    }, 200);
+}
+
+// Fonction pour gérer la navigation au clavier dans les suggestions
+function handleNumeroKeyboard(event, type) {
+    const suggestionsDiv = document.getElementById(`${type}-numero-suggestions`);
+    
+    // Vérifier si les suggestions sont visibles
+    if (!suggestionsDiv.classList.contains('active') || currentSuggestions.length === 0) {
+        return;
+    }
+    
+    const suggestionElements = suggestionsDiv.querySelectorAll('.autocomplete-suggestion[data-index]');
+    
+    // Touche Flèche Bas (40)
+    if (event.keyCode === 40 || event.key === 'ArrowDown') {
+        event.preventDefault();
+        
+        // Retirer la sélection précédente
+        suggestionElements.forEach(el => el.classList.remove('keyboard-selected'));
+        
+        // Incrémenter l'index
+        selectedSuggestionIndex++;
+        if (selectedSuggestionIndex >= currentSuggestions.length) {
+            selectedSuggestionIndex = 0;
+        }
+        
+        // Ajouter la classe au nouvel élément sélectionné
+        if (suggestionElements[selectedSuggestionIndex]) {
+            suggestionElements[selectedSuggestionIndex].classList.add('keyboard-selected');
+            // Faire défiler si nécessaire
+            suggestionElements[selectedSuggestionIndex].scrollIntoView({ block: 'nearest' });
+        }
+    }
+    // Touche Flèche Haut (38)
+    else if (event.keyCode === 38 || event.key === 'ArrowUp') {
+        event.preventDefault();
+        
+        // Retirer la sélection précédente
+        suggestionElements.forEach(el => el.classList.remove('keyboard-selected'));
+        
+        // Décrémenter l'index
+        selectedSuggestionIndex--;
+        if (selectedSuggestionIndex < 0) {
+            selectedSuggestionIndex = currentSuggestions.length - 1;
+        }
+        
+        // Ajouter la classe au nouvel élément sélectionné
+        if (suggestionElements[selectedSuggestionIndex]) {
+            suggestionElements[selectedSuggestionIndex].classList.add('keyboard-selected');
+            // Faire défiler si nécessaire
+            suggestionElements[selectedSuggestionIndex].scrollIntoView({ block: 'nearest' });
+        }
+    }
+    // Touche Entrée (13)
+    else if (event.keyCode === 13 || event.key === 'Enter') {
+        event.preventDefault();
+        
+        // Si aucune suggestion n'est sélectionnée, prendre la première
+        if (selectedSuggestionIndex === -1 && currentSuggestions.length > 0) {
+            selectedSuggestionIndex = 0;
+        }
+        
+        // Sélectionner la suggestion
+        if (selectedSuggestionIndex >= 0 && selectedSuggestionIndex < currentSuggestions.length) {
+            const selectedNumero = currentSuggestions[selectedSuggestionIndex];
+            selectNumeroSuggestion(selectedNumero, type);
+        }
+    }
+    // Touche Échap (27)
+    else if (event.keyCode === 27 || event.key === 'Escape') {
+        event.preventDefault();
+        suggestionsDiv.classList.remove('active');
+        selectedSuggestionIndex = -1;
+        currentSuggestions = [];
+    }
+}
+
+function sauvegarderModification() {
+    const id = document.getElementById('edit-id').value;
+    const dateInput = document.getElementById('edit-date').value;
+    const dateParts = dateInput.split('-');
+    const dateFormatted = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
+    
+    const data = {
+        date: dateFormatted,
+        type: currentType,
+        numero_commandes: document.getElementById('edit-numero').value,
+        raisoctri_societes: document.getElementById('edit-client').value,
+        reference_commandes: document.getElementById('edit-reference').value,
+        qte_comm_commandes: document.getElementById('edit-qte-comm').value || null,
+        qte_nc: document.getElementById('edit-qte-nc').value || null,
+        carac_nc: document.getElementById('edit-carac-nc').value || null,
+        nc: document.getElementById('edit-nc').value,
+        des_nc: document.getElementById('edit-desc').value,
+        cause: document.getElementById('edit-cause').value
+    };
+    
+    fetch('/projet12/modifier/' + id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            afficherMessage('✓ Modification enregistrée avec succès !', 'success');
+            fermerModalEdit();
+            chargerEnregistrements();
+        } else {
+            afficherMessage('✗ Erreur : ' + data.error, 'danger');
+        }
+    })
+    .catch(error => {
+        afficherMessage('✗ Erreur lors de la modification', 'danger');
+        console.error('Erreur:', error);
+    });
+}
+
+// ==================== VISUALISATION ====================
+function voirFiche(id) {
+    // Trouver l'enregistrement dans la liste
+    fetch('/projet12/liste?type=' + currentType)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const enreg = data.data.find(e => e.ID === id);
+                if (enreg) {
+                    afficherFiche(enreg);
+                } else {
+                    afficherMessage('Enregistrement non trouvé', 'danger');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            afficherMessage('Erreur lors du chargement', 'danger');
+        });
+}
+
+function afficherFiche(enreg) {
+    const typeLabel = enreg.TYPE === 'NC' ? 'Produit Non Conforme' : 'Réclamation Client';
+    const typeIcon = enreg.TYPE === 'NC' ? '🔴' : '📞';
+    
+    const ficheHTML = `
+        <div class="fiche-header">
+            <h1>${typeIcon} Fiche ${typeLabel}</h1>
+            <p style="color: #7f8c8d; margin: 0;">N° d'enregistrement: ${enreg.ID}</p>
+        </div>
+        
+        <div class="fiche-info">
+            <div class="fiche-field">
+                <label>Date</label>
+                <value>${enreg.Date || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Référence Fichier</label>
+                <value style="font-weight: 600; color: #2c3e50;">${enreg.RefFich || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>N° de Dossier</label>
+                <value>${enreg.Numero_COMMANDES || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Client</label>
+                <value>${enreg.RaiSocTri_SOCIETES || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Référence</label>
+                <value>${enreg.Reference_COMMANDES || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Quantité Commande</label>
+                <value>${enreg.QteComm_COMMANDES || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Quantité NC</label>
+                <value>${enreg.QteNC || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Caractéristique NC</label>
+                <value>${enreg.CaracNC === 'Majeur' ? 'Majeur' : enreg.CaracNC === 'Mineur' ? 'Mineur' : '-'}</value>
+            </div>
+            
+            <div class="fiche-field fiche-info-full">
+                <label>NC</label>
+                <value>${enreg.NC || '-'}</value>
+            </div>
+            
+            <div class="fiche-field fiche-info-full">
+                <label>Description de la NC</label>
+                <value>${enreg.DesNC || '-'}</value>
+            </div>
+            
+            <div class="fiche-field fiche-info-full">
+                <label>Cause</label>
+                <value>${enreg.Cause || '-'}</value>
+            </div>
+        </div>
+        
+        <div class="fiche-actions">
+            <button class="btn-save" onclick="imprimerFiche()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                    <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+                Imprimer
+            </button>
+            <button class="btn-submit" onclick="telechargerFichePDF(${enreg.ID})">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Télécharger PDF
+            </button>
+            <button class="btn-delete" onclick="fermerModalView()">Fermer</button>
+        </div>
+    `;
+    
+    document.getElementById('fiche-content').innerHTML = ficheHTML;
+    document.getElementById('modal-view').classList.add('active');
+}
+
+function fermerModalView() {
+    document.getElementById('modal-view').classList.remove('active');
+}
+
+// Fonction pour afficher le contrôle qualité du Projet 10
+function voirControleQualite(numeroCommande) {
+    if (!numeroCommande || numeroCommande.trim() === '') {
+        afficherMessage('❌ Aucun numéro de dossier associé', 'warning');
+        return;
+    }
+    
+    // Appeler l'API pour récupérer le contrôle qualité
+    fetch(`/projet12/controle_qualite/${numeroCommande}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                afficherControleQualite(data.data);
+            } else {
+                afficherMessage(`❌ ${data.error}`, 'warning');
+            }
+        })
+        .catch(error => {
+            afficherMessage('❌ Erreur lors du chargement du contrôle qualité', 'danger');
+            console.error('Erreur:', error);
+        });
+}
+
+// Fonction pour afficher le contenu du modal de contrôle qualité
+function afficherControleQualite(controle) {
+    let tolerancesHTML = '';
+    if (controle.tolérances && controle.tolérances.length > 0) {
+        tolerancesHTML = `
+            <h3 style="margin-top: 30px; margin-bottom: 15px; color: #2c3e50;">Tolérances</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: #f8f9fa;">
+                        <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Tolérance</th>
+                        <th style="padding: 12px; border: 1px solid #dee2e6; text-align: center;">Qté Conforme</th>
+                        <th style="padding: 12px; border: 1px solid #dee2e6; text-align: center;">Qté Non Conforme</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        controle.tolérances.forEach(tolerance => {
+            tolerancesHTML += `
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #dee2e6;">${tolerance.tolerance || ''}</td>
+                    <td style="padding: 12px; border: 1px solid #dee2e6; text-align: center;">${tolerance.quantite_conforme || 0}</td>
+                    <td style="padding: 12px; border: 1px solid #dee2e6; text-align: center;">${tolerance.quantite_non_conforme || 0}</td>
+                </tr>
+            `;
+        });
+        
+        tolerancesHTML += `
+                </tbody>
+            </table>
+        `;
+    }
+    
+    const controleHTML = `
+        <div class="fiche-header">
+            <h1 style="margin: 0; color: #2c3e50;">📋 Contrôle Qualité</h1>
+            <p style="color: #7f8c8d; margin: 5px 0 0 0;">N° Dossier: ${controle.Numero_COMMANDES || '-'}</p>
+        </div>
+        
+        <div class="fiche-info">
+            <div class="fiche-field">
+                <label>Date de contrôle</label>
+                <value>${controle.date_controle || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Opérateur</label>
+                <value>${controle.operateur || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Machine d'impression</label>
+                <value>${controle.machine_impression || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Opérateur machine impression</label>
+                <value>${controle.operateur_machine_impression || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Machine de découpe</label>
+                <value>${controle.machine_decoupe || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Opérateur machine découpe</label>
+                <value>${controle.operateur_machine_decoupe || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Rebuts</label>
+                <value>${controle.rebus || '-'}</value>
+            </div>
+            
+            <div class="fiche-field">
+                <label>Validation chef</label>
+                <value>${controle.validation_chef || '-'}</value>
+            </div>
+            
+            <div class="fiche-field fiche-info-full">
+                <label>Date de création</label>
+                <value>${controle.date_creation || '-'}</value>
+            </div>
+        </div>
+        
+        ${tolerancesHTML}
+        
+        <div class="fiche-actions" style="margin-top: 30px;">
+            <button class="btn-delete" onclick="fermerModalControleQualite()">Fermer</button>
+        </div>
+    `;
+    
+    document.getElementById('controle-qualite-content').innerHTML = controleHTML;
+    document.getElementById('modal-controle-qualite').classList.add('active');
+}
+
+// Fonction pour fermer le modal de contrôle qualité
+function fermerModalControleQualite() {
+    document.getElementById('modal-controle-qualite').classList.remove('active');
+}
+
+function ouvrirModalSaisie(updateUrl = true) {
+    // Réinitialiser le formulaire
+    document.getElementById('form-nouveau').reset();
+    // Réinitialiser la date à aujourd'hui
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('new-date').value = today;
+    // Ouvrir le modal
+    document.getElementById('modal-saisie').classList.add('active');
+    
+    // Mettre à jour l'URL si demandé
+    if (updateUrl) {
+        // Stocker l'URL de provenance pour savoir où revenir
+        const previousUrl = window.location.pathname;
+        const isFromProjet12 = previousUrl.includes('/projet12');
+        
+        window.history.pushState({ 
+            modal: 'saisie', 
+            previousUrl: previousUrl,
+            isFromProjet12: isFromProjet12 
+        }, '', '/projet12/SaisieNouveauFichier');
+    }
+}
+
+function fermerModalSaisie(updateUrl = true) {
+    document.getElementById('modal-saisie').classList.remove('active');
+    
+    // Revenir à l'URL précédente si demandé
+    if (updateUrl) {
+        const currentState = window.history.state;
+        
+        // Si on vient d'une page du projet 12, revenir en arrière
+        if (currentState && currentState.isFromProjet12) {
+            window.history.back();
+        } else {
+            // Sinon, rester sur l'URL actuelle du popup (/projet12/SaisieNouveauFichier)
+            // Le modal est fermé mais l'URL reste, permettant de :
+            // - Rafraîchir pour rouvrir le modal
+            // - Naviguer ailleurs via les liens
+            console.log('Modal fermé, URL maintenue car provenance hors projet 12');
+        }
+    }
+}
+
+function imprimerFiche() {
+    window.print();
+}
+
+function telechargerFichePDF(id) {
+    // Ouvrir une nouvelle fenêtre pour télécharger le PDF
+    window.open('/projet12/pdf/' + id, '_blank');
+}
+
+function afficherMessage(message, type) {
+    const alertMessage = document.getElementById('alert-message');
+    alertMessage.className = 'alert alert-' + type;
+    alertMessage.textContent = message;
+    alertMessage.classList.remove('hidden');
+    
+    setTimeout(function() {
+        alertMessage.classList.add('hidden');
+    }, 5000);
+}
+
+function afficherErreur(message) {
+    afficherMessage(message, 'danger');
+}
+
+// Datalist pour les références
+const datalist = document.createElement('datalist');
+datalist.id = 'references-list';
+document.body.appendChild(datalist);
+
+// ==================== FILTRES ET TRI ====================
+let allEnregistrements = [];  // Tous les enregistrements chargés
+let currentSortColumn = null;  // Colonne de tri actuelle
+let currentSortDirection = 'asc';  // Direction du tri (asc/desc)
+
+// Fonction pour appliquer les filtres
+function appliquerFiltres() {
+    const filterDate = document.getElementById('filter-date').value.toLowerCase().trim();
+    const filterReffich = document.getElementById('filter-reffich').value.toLowerCase().trim();
+    const filterNumero = document.getElementById('filter-numero').value.toLowerCase().trim();
+    const filterClient = document.getElementById('filter-client').value.toLowerCase().trim();
+    
+    const tbody = document.getElementById('table-body');
+    const rows = tbody.getElementsByTagName('tr');
+    let visibleCount = 0;
+    
+    // Parcourir toutes les lignes du tableau
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        
+        // Ignorer la ligne d'état vide
+        if (row.classList.contains('empty-state') || row.querySelector('.empty-state')) {
+            continue;
+        }
+        
+        const cells = row.getElementsByTagName('td');
+        if (cells.length < 4) continue;
+        
+        const dateText = cells[0].textContent.toLowerCase();
+        const reffichText = cells[1].textContent.toLowerCase();
+        const numeroText = cells[2].textContent.toLowerCase();
+        const clientText = cells[3].textContent.toLowerCase();
+        
+        // Vérifier si la ligne correspond à tous les filtres
+        const matchDate = !filterDate || dateText.includes(filterDate);
+        const matchReffich = !filterReffich || reffichText.includes(filterReffich);
+        const matchNumero = !filterNumero || numeroText.includes(filterNumero);
+        const matchClient = !filterClient || clientText.includes(filterClient);
+        
+        if (matchDate && matchReffich && matchNumero && matchClient) {
+            row.classList.remove('filtered-out');
+            visibleCount++;
+        } else {
+            row.classList.add('filtered-out');
+        }
+    }
+    
+    // Mettre à jour le compteur
+    document.getElementById('filter-count').textContent = visibleCount;
+    
+    // Afficher un message si aucun résultat
+    if (visibleCount === 0 && rows.length > 0) {
+        const hasData = Array.from(rows).some(row => !row.classList.contains('empty-state'));
+        if (hasData) {
+            // Ajouter temporairement un message "Aucun résultat"
+            let emptyRow = tbody.querySelector('.no-results');
+            if (!emptyRow) {
+                emptyRow = document.createElement('tr');
+                emptyRow.className = 'no-results';
+                emptyRow.innerHTML = '<td colspan="12" class="empty-state"><div style="font-size: 2rem;">🔍</div><p>Aucun résultat ne correspond aux filtres</p></td>';
+                tbody.appendChild(emptyRow);
+            }
+        }
+    } else {
+        // Supprimer le message "Aucun résultat" si présent
+        const noResultsRow = tbody.querySelector('.no-results');
+        if (noResultsRow) {
+            noResultsRow.remove();
+        }
+    }
+}
+
+// Fonction pour réinitialiser les filtres
+function reinitialiserFiltres() {
+    document.getElementById('filter-date').value = '';
+    document.getElementById('filter-reffich').value = '';
+    document.getElementById('filter-numero').value = '';
+    document.getElementById('filter-client').value = '';
+    
+    // Réappliquer les filtres (ce qui affichera toutes les lignes)
+    appliquerFiltres();
+    
+    // Message de confirmation
+    afficherMessage('✓ Filtres réinitialisés', 'success');
+}
+
+// Fonction pour trier le tableau
+function trierTableau(column) {
+    const tbody = document.getElementById('table-body');
+    const rows = Array.from(tbody.getElementsByTagName('tr')).filter(row => 
+        !row.classList.contains('empty-state') && 
+        !row.classList.contains('no-results') &&
+        !row.querySelector('.empty-state')
+    );
+    
+    if (rows.length === 0) return;
+    
+    // Déterminer la direction du tri
+    if (currentSortColumn === column) {
+        // Inverser la direction si on clique sur la même colonne
+        currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+        // Nouvelle colonne : tri ascendant par défaut
+        currentSortColumn = column;
+        currentSortDirection = 'asc';
+    }
+    
+    // Retirer les classes de tri de tous les en-têtes
+    document.querySelectorAll('.data-table th.sortable').forEach(th => {
+        th.classList.remove('sort-asc', 'sort-desc');
+    });
+    
+    // Ajouter la classe appropriée à l'en-tête actif
+    const columnMap = {
+        'date': 0,
+        'reffich': 1,
+        'numero': 2,
+        'client': 3
+    };
+    
+    const columnIndex = columnMap[column];
+    const headers = document.querySelectorAll('.data-table th.sortable');
+    if (headers[Object.keys(columnMap).indexOf(column)]) {
+        headers[Object.keys(columnMap).indexOf(column)].classList.add('sort-' + currentSortDirection);
+    }
+    
+    // Trier les lignes
+    rows.sort((a, b) => {
+        const cellA = a.getElementsByTagName('td')[columnIndex];
+        const cellB = b.getElementsByTagName('td')[columnIndex];
+        
+        if (!cellA || !cellB) return 0;
+        
+        let valA = cellA.textContent.trim();
+        let valB = cellB.textContent.trim();
+        
+        // Traitement spécial pour les dates (format JJ/MM/AAAA)
+        if (column === 'date') {
+            const parseDate = (dateStr) => {
+                const parts = dateStr.split('/');
+                if (parts.length === 3) {
+                    // Convertir JJ/MM/AAAA en objet Date
+                    return new Date(parts[2], parts[1] - 1, parts[0]);
+                }
+                return new Date(0);
+            };
+            
+            const dateA = parseDate(valA);
+            const dateB = parseDate(valB);
+            
+            if (currentSortDirection === 'asc') {
+                return dateA - dateB;
+            } else {
+                return dateB - dateA;
+            }
+        }
+        
+        // Comparaison alphabétique pour les autres colonnes
+        if (currentSortDirection === 'asc') {
+            return valA.localeCompare(valB, 'fr', { numeric: true });
+        } else {
+            return valB.localeCompare(valA, 'fr', { numeric: true });
+        }
+    });
+    
+    // Réorganiser les lignes dans le tbody
+    rows.forEach(row => tbody.appendChild(row));
+    
+    console.log(`Tableau trié par ${column} (${currentSortDirection})`);
+}
+
+// ==================== STATISTIQUES ====================
+let chartEvolution = null;
+let chartCauses = null;
+
+// Charger les statistiques quand l'onglet stats est activé
+const originalSwitchTab = switchTab;
+switchTab = function(tabName, updateUrl = true) {
+    originalSwitchTab(tabName, updateUrl);
+    if (tabName === 'stats') {
+        chargerStatistiques();
+    }
+};
+
+function chargerStatistiques() {
+    const periode = document.getElementById('stats-periode').value;
+    const dates = getPeriodeDates(periode);
+    
+    // Charger les KPI
+    chargerKPI(dates.debut, dates.fin);
+    
+    // Charger l'évolution temporelle
+    chargerEvolution();
+    
+    // Charger le top clients
+    chargerTopClients(dates.debut, dates.fin);
+    
+    // Charger l'analyse des causes
+    chargerCauses(dates.debut, dates.fin);
+    
+    // Mettre à jour la date de dernière mise à jour
+    const now = new Date();
+    document.getElementById('stats-last-update').textContent = 
+        `Dernière mise à jour : ${now.toLocaleDateString('fr-FR')} ${now.toLocaleTimeString('fr-FR')}`;
+}
+
+function getPeriodeDates(periode) {
+    const today = new Date();
+    let debut, fin;
+    
+    fin = today.toISOString().split('T')[0];
+    
+    switch(periode) {
+        case 'mois':
+            debut = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+            break;
+        case 'trimestre':
+            debut = new Date(today.getFullYear(), Math.floor(today.getMonth() / 3) * 3, 1).toISOString().split('T')[0];
+            break;
+        case 'semestre':
+            debut = new Date(today.getFullYear(), Math.floor(today.getMonth() / 6) * 6, 1).toISOString().split('T')[0];
+            break;
+        case 'annee':
+            debut = new Date(today.getFullYear(), 0, 1).toISOString().split('T')[0];
+            break;
+        default:
+            debut = null;
+            fin = null;
+    }
+    
+    return { debut, fin };
+}
+
+function chargerKPI(dateDebut, dateFin) {
+    let url = '/projet12/api/stats/kpi';
+    if (dateDebut && dateFin) {
+        url += `?date_debut=${dateDebut}&date_fin=${dateFin}`;
+    }
+    
+    fetch(url)
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                const stats = result.data;
+                
+                // Afficher les KPI
+                document.getElementById('kpi-nc').textContent = stats.nb_nc;
+                document.getElementById('kpi-rec').textContent = stats.nb_rec;
+                document.getElementById('kpi-total').textContent = stats.total;
+                document.getElementById('kpi-majeurs').textContent = stats.nb_majeurs;
+                document.getElementById('kpi-mineurs').textContent = stats.nb_mineurs;
+                document.getElementById('kpi-taux').textContent = stats.taux_nc + '%';
+                
+                // Afficher les badges d'évolution
+                afficherBadgeEvolution('evol-nc', stats.evol_nc, true);  // true = inverse (baisse = bon)
+                afficherBadgeEvolution('evol-rec', stats.evol_rec, true);
+                afficherBadgeEvolution('evol-taux', stats.evol_taux, true);
+            }
+        })
+        .catch(error => console.error('Erreur chargement KPI:', error));
+}
+
+function afficherBadgeEvolution(elementId, valeur, inverse = false) {
+    const badge = document.getElementById(elementId);
+    
+    if (valeur === 0) {
+        badge.textContent = '→ 0%';
+        badge.className = 'kpi-badge neutral';
+        return;
+    }
+    
+    const symbole = valeur > 0 ? '▲' : '▼';
+    badge.textContent = `${symbole} ${Math.abs(valeur)}%`;
+    
+    // Si inverse=true, une baisse est bonne (pour NC/REC)
+    const estBon = inverse ? (valeur < 0) : (valeur > 0);
+    badge.className = estBon ? 'kpi-badge positive' : 'kpi-badge negative';
+}
+
+function chargerEvolution() {
+    fetch('/projet12/api/stats/evolution?nb_mois=6')
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                const data = result.data;
+                
+                // Préparer les données pour Chart.js
+                const labels = data.map(d => {
+                    const [annee, mois] = d.mois.split('-');
+                    const moisNom = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
+                    return `${moisNom[parseInt(mois) - 1]} ${annee}`;
+                });
+                const nbNC = data.map(d => d.nb_nc);
+                const nbREC = data.map(d => d.nb_rec);
+                
+                // Détruire le graphique existant s'il existe
+                if (chartEvolution) {
+                    chartEvolution.destroy();
+                }
+                
+                // Créer le graphique
+                const ctx = document.getElementById('chart-evolution').getContext('2d');
+                chartEvolution = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: '🔴 Produits NC',
+                                data: nbNC,
+                                borderColor: '#e74c3c',
+                                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                                tension: 0.4,
+                                fill: true
+                            },
+                            {
+                                label: '📞 Réclamations',
+                                data: nbREC,
+                                borderColor: '#3498db',
+                                backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                                tension: 0.4,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        })
+        .catch(error => console.error('Erreur chargement évolution:', error));
+}
+
+function chargerTopClients(dateDebut, dateFin) {
+    let url = '/projet12/api/stats/top-clients?limit=10';
+    if (dateDebut && dateFin) {
+        url += `&date_debut=${dateDebut}&date_fin=${dateFin}`;
+    }
+    
+    fetch(url)
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                const clients = result.data;
+                const tbody = document.getElementById('top-clients-tbody');
+                
+                if (clients.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px; color: #95a5a6;">Aucune donnée disponible</td></tr>';
+                    return;
+                }
+                
+                let html = '';
+                clients.forEach((client, index) => {
+                    const tauxClass = client.taux_nc > 3 ? 'color: #e74c3c; font-weight: bold;' : '';
+                    html += `
+                        <tr>
+                            <td style="text-align: center;">${index + 1}</td>
+                            <td>${client.client}</td>
+                            <td style="text-align: center;">${client.nb_nc}</td>
+                            <td style="text-align: center;">${client.nb_rec}</td>
+                            <td style="text-align: center; font-weight: bold;">${client.total}</td>
+                            <td style="text-align: center; ${tauxClass}">${client.taux_nc}%</td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html;
+            }
+        })
+        .catch(error => console.error('Erreur chargement top clients:', error));
+}
+
+function chargerCauses(dateDebut, dateFin) {
+    let url = '/projet12/api/stats/causes?limit=5';
+    if (dateDebut && dateFin) {
+        url += `&date_debut=${dateDebut}&date_fin=${dateFin}`;
+    }
+    
+    fetch(url)
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                const causes = result.data;
+                
+                if (causes.length === 0) {
+                    // Afficher un message si aucune donnée
+                    const ctx = document.getElementById('chart-causes').getContext('2d');
+                    if (chartCauses) {
+                        chartCauses.destroy();
+                    }
+                    return;
+                }
+                
+                // Préparer les données pour le graphique
+                const labels = causes.map(c => c.cause.length > 30 ? c.cause.substring(0, 27) + '...' : c.cause);
+                const data = causes.map(c => c.nombre);
+                const colors = ['#e74c3c', '#3498db', '#f39c12', '#27ae60', '#9b59b6'];
+                
+                // Détruire le graphique existant
+                if (chartCauses) {
+                    chartCauses.destroy();
+                }
+                
+                // Créer le graphique
+                const ctx = document.getElementById('chart-causes').getContext('2d');
+                chartCauses = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: colors,
+                            borderWidth: 2,
+                            borderColor: '#fff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    boxWidth: 15,
+                                    padding: 10
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const cause = causes[context.dataIndex];
+                                        return `${cause.cause}: ${cause.nombre} (${cause.pourcentage}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        })
+        .catch(error => console.error('Erreur chargement causes:', error));
+}
+
+function rafraichirStatistiques() {
+    const btn = event.target;
+    btn.disabled = true;
+    btn.textContent = '⏳ Chargement...';
+    
+    chargerStatistiques();
+    
+    setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = '🔄 Rafraîchir';
+    }, 1000);
+}
+
+</script>
+{% endblock %}

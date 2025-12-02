@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Projet 16 JS</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .corrective-options {
+            display: none;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .maintenance-btn {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        .option-btn {
+            background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Maintenance Corrective</h1>
+    
+    <button class="maintenance-btn" onclick="selectMaintenanceType('corrective')">
+        ⚠️ Maintenance Corrective
+    </button>
+    
+    <div id="corrective-options" class="corrective-options">
+        <h4>Options de Maintenance Corrective</h4>
+        <button class="option-btn" onclick="alert('Réclamation cliquée')">
+            📝 Réclamation
+        </button>
+        <button class="option-btn" onclick="alert('Réparation cliquée')">
+            🔧 Réparation
+        </button>
+    </div>
+
+    <script>
+        function selectMaintenanceType(type) {
+            console.log('selectMaintenanceType appelée avec:', type);
+            if (type === 'corrective') {
+                console.log('Affichage des options correctives');
+                $('#corrective-options').slideDown(300);
+            } else if (type === 'preventive') {
+                $('#corrective-options').slideUp(300);
+            }
+        }
+        
+        $(document).ready(function() {
+            console.log('jQuery est prêt');
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,16 @@
+{% macro format_hhmm(value, show_sign=False) -%}
+    {%- if value is not none and value != '' -%}
+        {%- set total_minutes = (value|float * 60.0) | round(0) -%}
+        {%- set sign = '-' if total_minutes < 0 else '' -%}
+        {%- set minutes_abs = total_minutes|abs -%}
+        {%- set hours = (minutes_abs // 60)|int -%}
+        {%- set minutes = (minutes_abs % 60)|int -%}
+        {%- if show_sign and sign == '' and total_minutes > 0 -%}
+            {%- set sign = '+' -%}
+        {%- endif -%}
+        {{ sign }}{{ "%02d"|format(hours) }}:{{ "%02d"|format(minutes) }}
+    {%- else -%}
+        -
+    {%- endif -%}
+{%- endmacro %}
+

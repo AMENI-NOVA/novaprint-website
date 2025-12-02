@@ -1,0 +1,479 @@
+{% extends "base.html" %}
+
+{% block title %}Nouveau Traitement - Projet 11{% endblock %}
+
+{% block head %}
+<!-- Font Awesome pour les icônes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Select2 pour recherche avancée dans les listes déroulantes -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>
+                    <i class="fas fa-plus-circle"></i> Nouveau Traitement
+                </h1>
+                <a href="{{ url_for('projet11.liste_traitements') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour à la liste
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <form id="formNouveauTraitement">
+                        <!-- ÉTAPE 1: Sélection du numéro de commande -->
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="numero_commande" class="form-label">
+                                    <strong>1️⃣ Numéro de Commande (Dossier) *</strong>
+                                </label>
+                                <select class="form-select" id="numero_commande" required>
+                                    <option value="">-- Sélectionner un numéro de commande --</option>
+                                    {% for cmd in commandes %}
+                                    <option value="{{ cmd.numero }}" 
+                                            data-reference="{{ cmd.reference }}" 
+                                            data-client="{{ cmd.client }}"
+                                            data-qte="{{ cmd.qte_commande }}">
+                                        {{ cmd.numero }} - {{ cmd.client }}{% if cmd.reference %} - {{ cmd.reference }}{% endif %}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <small class="text-muted">Choisissez d'abord le dossier/commande que vous voulez traiter</small>
+                            </div>
+                        </div>
+
+                        <!-- Informations de la commande sélectionnée -->
+                        <div id="infoCommandeSelectionnee" style="display: none;">
+                            <div class="alert alert-info">
+                                <h5>📋 Commande Sélectionnée</h5>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <strong>N° Commande:</strong> <span id="info_numero_cmd"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Client:</strong> <span id="info_client_cmd"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Référence:</strong> <span id="info_reference_cmd"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ÉTAPE 2: Sélection de la fiche de travail -->
+                        <div class="row" id="sectionFicheTravail" style="display: none;">
+                            <div class="col-md-12 mb-3">
+                                <label for="id_fiche_travail" class="form-label">
+                                    <strong>2️⃣ Fiche de Travail *</strong>
+                                </label>
+                                <select class="form-select" id="id_fiche_travail" required>
+                                    <option value="">-- Sélectionner une fiche de travail --</option>
+                                </select>
+                                <small class="text-muted">Sélectionnez la fiche de travail à traiter pour cette commande</small>
+                            </div>
+                        </div>
+
+                        <!-- Informations de la commande (affichées après sélection) -->
+                        <div id="infoCommande" style="display: none;">
+                            <div class="alert alert-info">
+                                <h5>📋 Informations de la Fiche Sélectionnée</h5>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <strong>N° Commande:</strong> <span id="info_numero"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Client:</strong> <span id="info_client"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Référence:</strong> <span id="info_reference"></span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <strong>Service:</strong> <span id="info_service"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Poste Prévu:</strong> <span id="info_poste"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Quantité Totale:</strong> <span id="info_quantite"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Alerte si traitements existants -->
+                            <div id="alerteTraitementsExistants" style="display: none;">
+                                <div class="alert alert-warning">
+                                    <h6>⚠️ Production par Lots - Traitements Existants</h6>
+                                    <p class="mb-2">Cette fiche a déjà <strong><span id="nbTraitementsExistants"></span> traitement(s)</strong> enregistré(s):</p>
+                                    <div id="listeTraitementsExistants"></div>
+                                    <hr class="my-2">
+                                    <p class="mb-0"><strong>💡 Vous pouvez créer un nouveau traitement</strong> pour cette fiche (production par lots, machine différente, date différente, etc.)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- ÉTAPE 3: Informations du traitement -->
+                        <h5 class="mb-3">3️⃣ Informations du Traitement</h5>
+
+                        <div class="row">
+                            <!-- Date de début -->
+                            <div class="col-md-6 mb-3">
+                                <label for="dte_deb" class="form-label">
+                                    <strong>Date de Début *</strong>
+                                </label>
+                                <input type="datetime-local" class="form-control" id="dte_deb" required>
+                            </div>
+
+                            <!-- Date de fin -->
+                            <div class="col-md-6 mb-3">
+                                <label for="dte_fin" class="form-label">
+                                    <strong>Date de Fin</strong>
+                                </label>
+                                <input type="datetime-local" class="form-control" id="dte_fin">
+                                <small class="text-muted">Optionnel - Laissez vide si le traitement est en cours</small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Nombre d'opérations -->
+                            <div class="col-md-6 mb-3">
+                                <label for="nb_op" class="form-label">
+                                    <strong>Nombre d'Opérations</strong>
+                                </label>
+                                <input type="number" class="form-control" id="nb_op" min="0" value="0">
+                            </div>
+
+                            <!-- Nombre de personnes -->
+                            <div class="col-md-6 mb-3">
+                                <label for="nb_pers" class="form-label">
+                                    <strong>Nombre de Personnes</strong>
+                                </label>
+                                <input type="number" class="form-control" id="nb_pers" min="0" value="1">
+                            </div>
+                        </div>
+
+                        <!-- Sélection de l'opérateur -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="matricule_personel" class="form-label">
+                                    <strong>Opérateur</strong>
+                                </label>
+                                <select class="form-select" id="matricule_personel">
+                                    <option value="">-- Sélectionner un opérateur --</option>
+                                    {% for op in operateurs %}
+                                    <option value="{{ op.matricule }}">
+                                        {{ op.nom }} {{ op.prenom }} (Matricule: {{ op.matricule }})
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Sélection du poste/machine réel -->
+                            <div class="col-md-6 mb-3">
+                                <label for="postes_reel" class="form-label">
+                                    <strong>Machine/Poste Réel</strong>
+                                </label>
+                                <select class="form-select" id="postes_reel">
+                                    <option value="">-- Sélectionner une machine --</option>
+                                    {% for poste in postes %}
+                                    <option value="{{ poste.nom }}">
+                                        {{ poste.nom_service }} - {{ poste.nom }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <small class="text-muted">Machine réellement utilisée (si différente de celle prévue)</small>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-secondary" onclick="window.history.back()">
+                                <i class="fas fa-times"></i> Annuler
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Enregistrer le Traitement
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ÉTAPE 1: Gérer la sélection du numéro de commande
+document.getElementById('numero_commande').addEventListener('change', function() {
+    const numeroCommande = this.value;
+    
+    if (!numeroCommande) {
+        document.getElementById('infoCommandeSelectionnee').style.display = 'none';
+        document.getElementById('sectionFicheTravail').style.display = 'none';
+        document.getElementById('infoCommande').style.display = 'none';
+        return;
+    }
+    
+    // Afficher les informations de la commande sélectionnée
+    const selectedOption = this.options[this.selectedIndex];
+    document.getElementById('info_numero_cmd').textContent = numeroCommande;
+    document.getElementById('info_client_cmd').textContent = selectedOption.dataset.client || '-';
+    document.getElementById('info_reference_cmd').textContent = selectedOption.dataset.reference || '-';
+    document.getElementById('infoCommandeSelectionnee').style.display = 'block';
+    
+    // Charger les fiches de travail pour cette commande
+    fetch(`/projet11/api/fiches-by-commande/${encodeURIComponent(numeroCommande)}`)
+        .then(response => response.json())
+        .then(fiches => {
+            const selectFiche = document.getElementById('id_fiche_travail');
+            selectFiche.innerHTML = '<option value="">-- Sélectionner une fiche de travail --</option>';
+            
+            if (fiches.length === 0) {
+                selectFiche.innerHTML = '<option value="">Aucune fiche disponible pour cette commande</option>';
+                document.getElementById('sectionFicheTravail').style.display = 'block';
+                return;
+            }
+            
+            fiches.forEach(fiche => {
+                const option = document.createElement('option');
+                option.value = fiche.id_fiche_travail;
+                option.textContent = `Fiche #${fiche.id_fiche_travail} - ${fiche.service} - ${fiche.poste}`;
+                option.dataset.service = fiche.service;
+                option.dataset.poste = fiche.poste;
+                option.dataset.reference = fiche.reference;
+                option.dataset.client = fiche.client;
+                option.dataset.qte = fiche.qte_commande;
+                selectFiche.appendChild(option);
+            });
+            
+            document.getElementById('sectionFicheTravail').style.display = 'block';
+            
+            // Réinitialiser Select2 sur le champ fiche de travail après chargement AJAX
+            $('#id_fiche_travail').select2({
+                theme: 'bootstrap-5',
+                placeholder: '-- Rechercher une fiche --',
+                allowClear: true,
+                language: {
+                    noResults: function() {
+                        return "Aucune fiche trouvée";
+                    }
+                },
+                matcher: function(params, data) {
+                    if ($.trim(params.term) === '') {
+                        return data;
+                    }
+                    if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
+                        return data;
+                    }
+                    return null;
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des fiches:', error);
+            alert('Erreur lors du chargement des fiches de travail');
+        });
+});
+
+// ÉTAPE 2: Gérer la sélection de la fiche de travail
+document.getElementById('id_fiche_travail').addEventListener('change', function() {
+    const ficheId = this.value;
+    
+    if (!ficheId) {
+        document.getElementById('infoCommande').style.display = 'none';
+        document.getElementById('alerteTraitementsExistants').style.display = 'none';
+        return;
+    }
+    
+    // Afficher les informations détaillées de la fiche
+    const selectedOption = this.options[this.selectedIndex];
+    const numeroCommande = document.getElementById('numero_commande').value;
+    
+    document.getElementById('info_numero').textContent = numeroCommande;
+    document.getElementById('info_client').textContent = selectedOption.dataset.client || '-';
+    document.getElementById('info_reference').textContent = selectedOption.dataset.reference || '-';
+    document.getElementById('info_service').textContent = selectedOption.dataset.service || '-';
+    document.getElementById('info_poste').textContent = selectedOption.dataset.poste || '-';
+    document.getElementById('info_quantite').textContent = selectedOption.dataset.qte || 0;
+    
+    document.getElementById('infoCommande').style.display = 'block';
+    
+    // Charger les traitements existants pour cette fiche
+    fetch(`/projet11/api/traitements-fiche/${ficheId}`)
+        .then(response => response.json())
+        .then(traitements => {
+            if (traitements && traitements.length > 0) {
+                // Afficher l'alerte avec les traitements existants
+                document.getElementById('nbTraitementsExistants').textContent = traitements.length;
+                
+                let html = '<ul class="mb-0">';
+                traitements.forEach((t, index) => {
+                    const statut = t.dte_fin ? '✅ Terminé' : '⏳ En cours';
+                    const machine = t.postes_reel ? ` - Machine: ${t.postes_reel}` : '';
+                    html += `<li><small>Session ${index + 1}: ${t.dte_deb} ${statut} - ${t.nb_op} opérations${machine}</small></li>`;
+                });
+                html += '</ul>';
+                
+                document.getElementById('listeTraitementsExistants').innerHTML = html;
+                document.getElementById('alerteTraitementsExistants').style.display = 'block';
+            } else {
+                // Pas de traitements existants
+                document.getElementById('alerteTraitementsExistants').style.display = 'none';
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des traitements existants:', error);
+            // Ne pas bloquer l'utilisateur si erreur
+            document.getElementById('alerteTraitementsExistants').style.display = 'none';
+        });
+});
+
+// Soumission du formulaire
+document.getElementById('formNouveauTraitement').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const data = {
+        id_fiche_travail: parseInt(document.getElementById('id_fiche_travail').value),
+        dte_deb: document.getElementById('dte_deb').value,
+        dte_fin: document.getElementById('dte_fin').value || null,
+        nb_op: parseInt(document.getElementById('nb_op').value) || 0,
+        nb_pers: parseInt(document.getElementById('nb_pers').value) || 1,
+        matricule_personel: parseInt(document.getElementById('matricule_personel').value) || null,
+        postes_reel: document.getElementById('postes_reel').value || null
+    };
+    
+    // Validation
+    if (!data.id_fiche_travail) {
+        alert('Veuillez sélectionner une fiche de travail');
+        return;
+    }
+    
+    if (!data.dte_deb) {
+        alert('Veuillez saisir la date de début');
+        return;
+    }
+    
+    // Envoyer la requête
+    fetch('/projet11/api/traitements', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            alert('Traitement créé avec succès (ID: ' + result.id + ')');
+            window.location.href = '{{ url_for("projet11.liste_traitements") }}';
+        } else {
+            alert('Erreur: ' + (result.error || 'Erreur inconnue'));
+        }
+    })
+    .catch(error => {
+        alert('Erreur lors de la création du traitement');
+        console.error(error);
+    });
+});
+
+// Définir la date/heure actuelle par défaut
+document.addEventListener('DOMContentLoaded', function() {
+    const now = new Date();
+    const dateString = now.toISOString().slice(0, 16);
+    document.getElementById('dte_deb').value = dateString;
+});
+
+// Initialiser Select2 pour recherche avancée
+$(document).ready(function() {
+    // Initialiser Select2 sur les champs de sélection avec recherche "contient"
+    
+    // Machine/Poste Réel - Recherche avancée avec mode "contient"
+    $('#postes_reel').select2({
+        theme: 'bootstrap-5',
+        placeholder: '-- Rechercher une machine --',
+        allowClear: true,
+        language: {
+            noResults: function() {
+                return "Aucune machine trouvée";
+            },
+            searching: function() {
+                return "Recherche en cours...";
+            }
+        },
+        matcher: function(params, data) {
+            // Si pas de terme de recherche, afficher tout
+            if ($.trim(params.term) === '') {
+                return data;
+            }
+            
+            // Recherche "contient" (insensible à la casse)
+            if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
+                return data;
+            }
+            
+            // Aucune correspondance
+            return null;
+        }
+    });
+    
+    // Opérateur - Recherche avancée
+    $('#matricule_personel').select2({
+        theme: 'bootstrap-5',
+        placeholder: '-- Rechercher un opérateur --',
+        allowClear: true,
+        language: {
+            noResults: function() {
+                return "Aucun opérateur trouvé";
+            },
+            searching: function() {
+                return "Recherche en cours...";
+            }
+        },
+        matcher: function(params, data) {
+            if ($.trim(params.term) === '') {
+                return data;
+            }
+            if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
+                return data;
+            }
+            return null;
+        }
+    });
+    
+    // Numéro de commande - Recherche avancée
+    $('#numero_commande').select2({
+        theme: 'bootstrap-5',
+        placeholder: '-- Rechercher une commande --',
+        allowClear: true,
+        language: {
+            noResults: function() {
+                return "Aucune commande trouvée";
+            },
+            searching: function() {
+                return "Recherche en cours...";
+            }
+        },
+        matcher: function(params, data) {
+            if ($.trim(params.term) === '') {
+                return data;
+            }
+            if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
+                return data;
+            }
+            return null;
+        }
+    });
+});
+</script>
+{% endblock %}
+

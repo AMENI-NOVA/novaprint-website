@@ -1,0 +1,119 @@
+PROJET 11 - MODIFICATIONS UX QUANTITÉ
+======================================
+
+✅ FAIT - 15 octobre 2024
+
+MODIFICATION 1: PAS DE SUGGESTION AUTOMATIQUE
+----------------------------------------------
+
+Avant: $('#nb_op').val(reste) ← Pré-rempli automatiquement
+Après: $('#nb_op').val('') ← Vide, saisie manuelle obligatoire
+
+Placeholder informatif:
+  - "Reste à produire: 7,000" (si historique)
+  - "Quantité prévue: 15,000" (si pas d'historique)
+  - "Saisir la quantité produite" (service non prévu)
+
+Avantages:
+  ✓ Force la vérification manuelle
+  ✓ Plus flexible (adapté aux imprévus)
+  ✓ Évite validation automatique
+  ✓ Information visible dans placeholder
+
+MODIFICATION 2: "QUANTITÉ TOTALE" → "QUANTITÉ PRÉVUE"
+------------------------------------------------------
+
+Avant: <strong>Quantité totale:</strong>
+Après: <strong>Quantité prévue:</strong>
+
+Raison:
+  - Plus précis (reflète OpPrevDev ou QteComm)
+  - Cohérent avec "Machine prévue" et "Temps prévu"
+  - Évite confusion avec quantité déjà produite
+
+INTERFACE AVANT
+---------------
+
+┌──────────────────────────────────┐
+│ Machine prévue: XL75             │
+│ Quantité totale: 15,000  ← Ambigu│
+│ Temps prévu: 2.500 h             │
+└──────────────────────────────────┘
+
+Quantité Produite: [15000] ← Pré-rempli
+
+INTERFACE APRÈS
+---------------
+
+┌──────────────────────────────────┐
+│ Machine prévue: XL75             │
+│ Quantité prévue: 15,000  ← Clair │
+│ Temps prévu: 2.500 h             │
+└──────────────────────────────────┘
+
+Quantité Produite: [____] ← Vide
+Placeholder: "Reste à produire: 7,000"
+
+AVANTAGES
+---------
+
+✓ Intitulés cohérents (tous "prévu/prévue")
+✓ Saisie manuelle obligatoire (plus précis)
+✓ Information disponible (placeholder)
+✓ Flexibilité (adapté à la réalité)
+
+CODE MODIFIÉ
+------------
+
+templates/projet11_nouveau.html:
+  - Ligne 125: "totale" → "prévue"
+  - Ligne 641: .val(reste) → .val('')
+  - Ligne 648: .val(qtePrevue) → .val('')
+
+Total: 3 lignes modifiées
+
+TEST
+----
+
+URL: http://localhost:5000/projet11/nouveau
+
+1. Sélectionner commande + service
+2. Vérifier: "Quantité prévue:" ✓
+3. Vérifier: Champ Quantité Produite vide ✓
+4. Vérifier: Placeholder informatif ✓
+
+DOCUMENTATION
+-------------
+
+Voir: PROJET11_MODIFICATIONS_UX_QUANTITE.md
+
+VERSION: 1.7.6
+
+FIN.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

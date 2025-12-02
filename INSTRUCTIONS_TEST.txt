@@ -1,0 +1,65 @@
+═══════════════════════════════════════════════════════════════
+  SERVEUR FLASK REDÉMARRÉ - PRÊT POUR LE TEST
+═══════════════════════════════════════════════════════════════
+
+✓ Le serveur Flask a été complètement arrêté et redémarré
+✓ Tous les nouveaux modules avec logs détaillés sont chargés
+✓ Le serveur est accessible sur http://localhost:5000
+
+═══════════════════════════════════════════════════════════════
+  QUE FAIRE MAINTENANT
+═══════════════════════════════════════════════════════════════
+
+1. Retournez sur votre navigateur
+
+2. Réessayez d'enregistrer un service non prévu:
+   - Commande: 2025050091 (ou autre)
+   - Service: FACONNAGE
+   - Machine: (choisissez une machine)
+   - Opérateur: (choisissez)
+   - Quantité: (saisissez)
+
+3. Cliquez sur "Arrêter et Enregistrer"
+
+4. IMMÉDIATEMENT après, allez dans la CONSOLE FLASK
+   (celle où vous voyez "python app.py")
+
+5. Vous DEVRIEZ maintenant voir de NOUVEAUX messages comme:
+
+   [DEBUG API] Données reçues: {id_fiche_travail: 0, ...}
+   [INFO API] Service non prévu détecté
+   [DEBUG] Début create_traitement...
+   [ERREUR] ...
+   Traceback...
+
+6. COPIEZ TOUS ces messages et envoyez-les moi
+
+═══════════════════════════════════════════════════════════════
+  SI TOUJOURS AUCUN MESSAGE [DEBUG]
+═══════════════════════════════════════════════════════════════
+
+Cela signifierait qu'il y a un problème de chargement des modules.
+Dans ce cas, envoyez-moi juste ce que vous voyez (même sans [DEBUG]).
+
+═══════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

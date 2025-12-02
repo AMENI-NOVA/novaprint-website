@@ -1,0 +1,81 @@
+PROJET 11 - AJOUT DU CHAMP TpsReel
+==================================
+
+✅ FAIT - Octobre 2024
+
+CHAMP AJOUTÉ
+-------------
+Nom: TpsReel
+Type: DECIMAL(10,3) NULL
+Position: Juste après TpsPrevDev_GP_FICHES_OPERATIONS
+
+CALCUL AUTOMATIQUE
+------------------
+Formule: TpsReel = (DteFin - DteDeb) / 60 heures
+Format: 3 décimales (ex: 1.500h = 1h 30min)
+
+TRIGGERS CRÉÉS
+--------------
+- TR_WEB_TRAITEMENTS_INSERT_TPSREEL: Calcul à l'insertion
+- TR_WEB_TRAITEMENTS_UPDATE_TPSREEL: Recalcul si dates changent
+
+AFFICHAGE WEB
+-------------
+Liste des traitements:
+- Nouvelle colonne "Tps Prévu"
+- Nouvelle colonne "Tps Réel" (gras bleu)
+- Nouvelle colonne "Écart" (badge vert si gain, rouge si retard)
+
+Modal détails:
+- Temps Prévu
+- Temps Réel
+- Écart (Réel - Prévu)
+
+EXEMPLES DE DONNÉES
+-------------------
+Traitement #2:
+  Temps prévu: 3.054h
+  Temps réel: 1.500h
+  Écart: -1.554h (GAIN de 51%!) ✅
+
+AVANTAGE
+--------
+Comparaison immédiate et visuelle entre temps prévu et temps réel
+pour analyser la performance de production.
+
+DOCUMENTATION
+-------------
+Voir: PROJET11_TPSREEL_AUTOMATIQUE.md
+
+URL POUR TESTER
+---------------
+http://localhost:5000/projet11/traitements
+
+FIN.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

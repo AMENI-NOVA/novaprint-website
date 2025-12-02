@@ -34,7 +34,7 @@ def test_projet10():
         print(f"   ✅ {len(controles)} contrôles qualité trouvés")
         
         if controles:
-            print(f"   📊 Premier contrôle: ID {controles[0]['id']} - {controles[0]['numero_dossier']}")
+            print(f"   📊 Premier contrôle: ID {controles[0]['id']} - {controles[0]['Numero_COMMANDES']}")
         
         # Test 3: Statistiques
         print("\n3. 📈 STATISTIQUES")

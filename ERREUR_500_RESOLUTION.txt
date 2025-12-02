@@ -1,0 +1,119 @@
+PROJET 11 - RÉSOLUTION ERREUR 500
+==================================
+
+✅ CORRECTIONS APPLIQUÉES - 15 octobre 2024
+
+ERREUR RENCONTRÉE
+-----------------
+
+HTTP 500 Internal Server Error
+POST http://localhost:5000/projet11/api/traitements
+
+CAUSE PROBABLE
+--------------
+
+Problème avec les champs opérateurs dynamiques:
+  - Champ #operateur_1 inexistant ou non initialisé
+  - Valeur invalide pour matricule_personel
+  - Manque de validation avant envoi
+
+CORRECTIONS APPLIQUÉES
+----------------------
+
+1. Validation existence du champ
+   if ($('#operateur_1').length === 0) { alert(...); return; }
+
+2. Validation valeur opérateur
+   if (!operateurPrincipal) { alert(...); return; }
+
+3. Validation matricule
+   if (!data.matricule_personel || isNaN(data.matricule_personel)) { alert(...); return; }
+
+4. Logs de débogage
+   console.log('Opérateur principal:', operateurPrincipal);
+   console.log('Données envoyées:', data);
+   console.log('Response status:', response.status);
+
+5. Gestion d'erreur HTTP améliorée
+   - Vérification response.ok avant parsing JSON
+   - Affichage texte erreur complet
+   - Message d'erreur détaillé
+
+COMMENT TESTER
+--------------
+
+1. Actualisez la page: http://localhost:5000/projet11/nouveau
+
+2. Ouvrez la console (F12)
+
+3. Remplissez le formulaire:
+   - Commande
+   - Service
+   - Opérateur 1 (Principal) ← IMPORTANT!
+   - Quantité
+
+4. Observez les logs dans la console
+
+5. Soumettez le formulaire
+
+LOGS ATTENDUS (Console)
+------------------------
+
+Au chargement:
+  Génération de 1 champ(s) opérateur(s)
+
+À la soumission:
+  Opérateur principal: "123"
+  Données envoyées: { ... }
+  Response status: 200
+  Résultat: { success: true, id: X }
+
+SI ERREUR PERSISTE
+------------------
+
+1. Vérifier dans la console:
+   - Quel log affiche une erreur?
+   - Quelle est la valeur de "Opérateur principal"?
+
+2. Copier tous les logs de la console
+
+3. Regarder les logs Flask dans le terminal
+
+4. Vérifier:
+   - Le champ Opérateur 1 existe bien?
+   - Un opérateur est sélectionné?
+   - Le chronomètre a démarré?
+
+DOCUMENTATION COMPLÈTE
+-----------------------
+
+Voir: PROJET11_CORRECTION_ERREUR_500.md
+
+FIN.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

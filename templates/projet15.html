@@ -1,0 +1,1421 @@
+{% extends "base.html" %}
+
+{% block title %}Projet 15 - Corrélation Déchets/CA{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+    .projet15-container {
+        max-width: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 30px;
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        color: #1565c0;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border: 2px solid #90caf9;
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        color: #0d47a1;
+        font-weight: 700;
+    }
+
+    .page-header p {
+        opacity: 0.85;
+        margin: 0;
+        color: #1976d2;
+    }
+
+    .section-selection {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .section-options {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .section-btn {
+        padding: 15px 30px;
+        background: white;
+        color: #2c3e50;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s;
+        border: 2px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .section-btn:hover {
+        background: #2196f3;
+        color: white;
+        border-color: #2196f3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+    }
+
+    .section-btn.active {
+        background: #2196f3;
+        color: white;
+        border-color: #2196f3;
+    }
+
+    .content-section {
+        background: white;
+        padding: 25px 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+        color: #2196f3;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        border-bottom: 3px solid #2196f3;
+        padding-bottom: 10px;
+    }
+
+    /* Filtre année */
+    .filter-bar {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .filter-bar label {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .filter-bar select {
+        padding: 8px 15px;
+        border: 2px solid #2196f3;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        background: white;
+    }
+
+    /* Tableau */
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .data-table thead {
+        background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+        color: white;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .data-table th {
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+
+    .data-table th.sortable {
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .data-table th .sortable-content {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .sort-icon {
+        font-size: 0.9rem;
+        color: #90a4ae;
+        transition: color 0.2s;
+    }
+
+    .data-table th.sortable.active .sort-icon {
+        color: #1e88e5;
+    }
+
+    .data-table tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .data-table tbody tr:nth-child(even) {
+        background-color: #fafafa;
+    }
+
+    .editable-cell {
+        position: relative;
+        cursor: pointer;
+    }
+
+    .editable-cell:hover {
+        background-color: #e3f2fd !important;
+    }
+
+    .edit-input {
+        width: 100%;
+        padding: 5px;
+        border: 2px solid #2196f3;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    /* Boutons d'action */
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-edit, .btn-save, .btn-cancel {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+    .btn-edit {
+        background: #2196f3;
+        color: white;
+    }
+
+    .btn-edit:hover {
+        background: #1976d2;
+        transform: scale(1.05);
+    }
+
+    .btn-save {
+        background: #4caf50;
+        color: white;
+    }
+
+    .btn-save:hover {
+        background: #388e3c;
+    }
+
+    .btn-cancel {
+        background: #f44336;
+        color: white;
+    }
+
+    .btn-cancel:hover {
+        background: #d32f2f;
+    }
+
+    /* Graphique */
+    .chart-container {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-top: 30px;
+    }
+
+    .chart-container h3 {
+        color: #2196f3;
+        margin-bottom: 20px;
+        font-size: 1.3rem;
+    }
+
+    .chart-wrapper {
+        position: relative;
+        height: 500px;
+    }
+
+    /* Stats cards */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .stat-card.blue {
+        border-left: 4px solid #2196f3;
+    }
+
+    .stat-card.green {
+        border-left: 4px solid #4caf50;
+    }
+
+    .stat-card.orange {
+        border-left: 4px solid #ff9800;
+    }
+
+    .stat-card.purple {
+        border-left: 4px solid #9c27b0;
+    }
+
+    .stats-grid .stat-card:nth-child(5) {
+        grid-column: 1 / -1;
+        max-width: 420px;
+        justify-self: center;
+        margin: 0 auto;
+    }
+
+    .correlation-filter {
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .correlation-filter label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #5c6bc0;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .correlation-filter .filter-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .correlation-filter select {
+        flex: 1;
+        padding: 6px 10px;
+        border-radius: 6px;
+        border: 1px solid #c5cae9;
+        font-size: 0.9rem;
+        color: #2c3e50;
+    }
+
+    .correlation-filter .filter-separator {
+        color: #5c6bc0;
+        font-weight: 700;
+    }
+
+    .stat-card h3 {
+        color: #2196f3;
+        margin-bottom: 15px;
+        font-size: 1em;
+    }
+
+    .stat-value {
+        font-size: 2em;
+        font-weight: bold;
+        color: #2c3e50;
+        margin: 10px 0;
+    }
+
+    .stat-unit {
+        color: #7f8c8d;
+        font-size: 0.9em;
+    }
+
+    /* Alerts */
+    .alert {
+        padding: 15px 20px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        display: none;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    .alert.show {
+        display: block;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* État vide */
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #7f8c8d;
+    }
+
+    .empty-state svg {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+        opacity: 0.3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="projet15-container">
+    <!-- En-tête -->
+    <div class="page-header">
+        <h1>📊 Projet 15 – Analyse de la Corrélation</h1>
+        <p>Déchets et Chiffre d'Affaires</p>
+    </div>
+
+    <!-- Sélection de section (toujours visible) -->
+    {% if section %}
+    <div class="section-selection">
+        <div class="section-options">
+            <a href="{{ url_for('projet15.tableau') }}" class="section-btn {% if section == 'tableau' %}active{% endif %}">
+                📋 Tableau de données
+            </a>
+            <a href="{{ url_for('projet15.graphique') }}" class="section-btn {% if section == 'graphique' %}active{% endif %}">
+                📈 Graphique comparatif
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Page d'accueil (si aucune section sélectionnée) -->
+    {% if not section %}
+    <div class="section-selection">
+        <h3 style="color: #2c3e50; font-size: 1.3rem; margin-bottom: 20px;">Sélectionnez une section</h3>
+        <div class="section-options">
+            <a href="{{ url_for('projet15.tableau') }}" class="section-btn">
+                📋 Tableau de données
+            </a>
+            <a href="{{ url_for('projet15.graphique') }}" class="section-btn">
+                📈 Graphique comparatif
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Zone d'alerte -->
+    <div id="alert-container"></div>
+
+    <!-- Section Tableau -->
+    {% if section == 'tableau' %}
+    <div id="section-tableau" class="content-section">
+        <h2 class="section-title">📋 Tableau de Données Mensuelles</h2>
+        
+        <!-- Filtre par année -->
+        <div class="filter-bar">
+            <label for="filter-annee-tableau">📅 Année :</label>
+            <select id="filter-annee-tableau" onchange="chargerTableau()">
+                <option value="">Toutes les années</option>
+            </select>
+        </div>
+
+        <!-- Tableau -->
+        <div style="overflow-x: auto;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th class="sortable" onclick="changerTri('annee')" data-sort="annee">
+                            <span class="sortable-content">
+                                Année <span class="sort-icon" data-sort-field="annee">↕</span>
+                            </span>
+                        </th>
+                        <th class="sortable" onclick="changerTri('mois')" data-sort="mois">
+                            <span class="sortable-content">
+                                Mois <span class="sort-icon" data-sort-field="mois">↕</span>
+                            </span>
+                        </th>
+                        <th class="sortable" onclick="changerTri('quantite_dechets')" data-sort="quantite_dechets">
+                            <span class="sortable-content">
+                                Déchets Solides (kg) <span class="sort-icon" data-sort-field="quantite_dechets">↕</span>
+                            </span>
+                        </th>
+                        <th class="sortable" onclick="changerTri('total_ca')" data-sort="total_ca">
+                            <span class="sortable-content">
+                                Chiffre d'Affaires HT (€) <span class="sort-icon" data-sort-field="total_ca">↕</span>
+                            </span>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableau-body">
+                    <tr>
+                        <td colspan="5" class="empty-state">
+                            <p>Chargement des données...</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Section Graphique -->
+    {% if section == 'graphique' %}
+    <div id="section-graphique" class="content-section">
+        <h2 class="section-title">📈 Graphique Comparatif</h2>
+        
+        <!-- Filtre par année -->
+        <div class="filter-bar">
+            <label for="filter-annee-graphique">📅 Année :</label>
+            <select id="filter-annee-graphique" onchange="chargerGraphique()">
+                <option value="">Toutes les années</option>
+            </select>
+        </div>
+
+        <!-- Stats cards -->
+        <div class="stats-grid" id="stats-cards">
+            <div class="empty-state">
+                <p>Chargement des statistiques...</p>
+            </div>
+        </div>
+
+        <!-- Graphique Global -->
+        <div class="chart-container">
+            <h3>📊 Évolution Mensuelle - Total Déchets vs Chiffre d'Affaires</h3>
+            <div class="chart-wrapper">
+                <canvas id="chart-correlation"></canvas>
+            </div>
+        </div>
+
+        <!-- Graphique Ratio Déchets / CA -->
+        <div class="chart-container">
+            <h3>📉 Évolution Mensuelle - % Déchets / Chiffre d'Affaires</h3>
+            <div class="chart-wrapper">
+                <canvas id="chart-ratio"></canvas>
+            </div>
+        </div>
+
+        <!-- Graphique kg Déchets par 100k€ CA -->
+        <div class="chart-container">
+            <h3>📊 Évolution Mensuelle - kg Déchets par 100 000€ de CA</h3>
+            <div class="chart-wrapper">
+                <canvas id="chart-kg-dechets-100k-ca"></canvas>
+            </div>
+        </div>
+
+        <!-- Graphiques par Type de Déchet -->
+        <div style="margin-top: 40px;">
+            <h2 class="section-title" style="margin-bottom: 30px;">🔍 Corrélation par Type de Déchet vs Chiffre d'Affaires</h2>
+            
+            <!-- Graphique 1: Papier Offset -->
+            <div class="chart-container" style="margin-bottom: 30px;">
+                <h3>📄 Papier Offset vs Chiffre d'Affaires</h3>
+                <div class="chart-wrapper">
+                    <canvas id="chart-papier-offset"></canvas>
+                </div>
+            </div>
+            
+            <!-- Graphique 2: Carton blanc gris -->
+            <div class="chart-container" style="margin-bottom: 30px;">
+                <h3>📦 Carton blanc gris vs Chiffre d'Affaires</h3>
+                <div class="chart-wrapper">
+                    <canvas id="chart-carton-gris"></canvas>
+                </div>
+            </div>
+            
+            <!-- Graphique 3: Carton blanc bois -->
+            <div class="chart-container" style="margin-bottom: 30px;">
+                <h3>🌳 Carton blanc bois vs Chiffre d'Affaires</h3>
+                <div class="chart-wrapper">
+                    <canvas id="chart-carton-bois"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+let currentEditRow = null;
+let chartCorrelation = null;
+let chartRatio = null;
+let chartKgDechets100kCa = null;
+let chartPapierOffset = null;
+let chartCartonGris = null;
+let chartCartonBois = null;
+let donneesParType = {};
+let tableauData = [];
+let currentSort = { field: null, direction: 'asc' };
+let donneesGraphiqueCourantes = [];
+let correlationFilter = { debut: null, fin: null };
+
+$(document).ready(function() {
+    {% if section == 'tableau' %}
+    chargerAnneesTableau();
+    chargerTableau();
+    {% elif section == 'graphique' %}
+    chargerAnneesGraphique();
+    chargerGraphique();
+    chargerTypesDeche();
+    {% endif %}
+});
+
+// === TABLEAU ===
+
+function chargerAnneesTableau() {
+    $.ajax({
+        url: '{{ url_for("projet15.api_annees") }}',
+        method: 'GET',
+        success: function(annees) {
+            let options = '<option value="">Toutes les années</option>';
+            annees.forEach(annee => {
+                options += `<option value="${annee}">${annee}</option>`;
+            });
+            $('#filter-annee-tableau').html(options);
+        },
+        error: function() {
+            console.error('Erreur lors du chargement des années');
+        }
+    });
+}
+
+function chargerTableau() {
+    const annee = $('#filter-annee-tableau').val();
+    const url = annee 
+        ? '{{ url_for("projet15.api_correlations") }}?annee=' + annee
+        : '{{ url_for("projet15.api_correlations") }}';
+    
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function(data) {
+            tableauData = Array.isArray(data) ? data : [];
+            appliquerTriTableau();
+        },
+        error: function() {
+            showAlert('danger', 'Erreur lors du chargement des données');
+        }
+    });
+}
+
+function appliquerTriTableau() {
+    if (!tableauData || tableauData.length === 0) {
+        afficherTableau([]);
+        mettreAJourIconesTri();
+        return;
+    }
+
+    const donneesTriees = [...tableauData];
+    if (currentSort.field) {
+        donneesTriees.sort((a, b) => {
+            const valA = extraireValeurTri(a, currentSort.field);
+            const valB = extraireValeurTri(b, currentSort.field);
+
+            if (valA === valB) {
+                return 0;
+            }
+            return valA > valB ? 1 : -1;
+        });
+
+        if (currentSort.direction === 'desc') {
+            donneesTriees.reverse();
+        }
+    }
+
+    afficherTableau(donneesTriees);
+    mettreAJourIconesTri();
+}
+
+function extraireValeurTri(row, field) {
+    switch (field) {
+        case 'annee':
+            return row.annee ?? 0;
+        case 'mois':
+            return row.mois ?? 0;
+        case 'quantite_dechets':
+            return row.quantite_dechets ?? 0;
+        case 'total_ca':
+            return row.total_ca ?? 0;
+        default:
+            return 0;
+    }
+}
+
+function changerTri(field) {
+    if (currentSort.field === field) {
+        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+        currentSort.field = field;
+        currentSort.direction = 'asc';
+    }
+    appliquerTriTableau();
+}
+
+function mettreAJourIconesTri() {
+    document.querySelectorAll('th.sortable').forEach(th => {
+        const field = th.getAttribute('data-sort');
+        if (field === currentSort.field) {
+            th.classList.add('active');
+        } else {
+            th.classList.remove('active');
+        }
+    });
+
+    document.querySelectorAll('.sort-icon').forEach(icon => {
+        const field = icon.getAttribute('data-sort-field');
+        if (field === currentSort.field) {
+            icon.textContent = currentSort.direction === 'asc' ? '↑' : '↓';
+        } else {
+            icon.textContent = '↕';
+        }
+    });
+}
+
+function afficherTableau(data) {
+    const tbody = $('#tableau-body');
+    
+    if (!data || data.length === 0) {
+        tbody.html(`
+            <tr>
+                <td colspan="5" class="empty-state">
+                    <p>📦 Aucune donnée disponible</p>
+                </td>
+            </tr>
+        `);
+        return;
+    }
+
+    const moisNoms = ['', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
+                      'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+    
+    let html = '';
+    data.forEach(row => {
+        html += `
+            <tr data-id="${row.id}">
+                <td>${row.annee}</td>
+                <td>${moisNoms[row.mois]}</td>
+                <td class="editable-cell" data-field="quantite_dechets">${row.quantite_dechets.toFixed(2)}</td>
+                <td class="editable-cell" data-field="total_ca">${row.total_ca.toFixed(2)}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn-edit" onclick="editRow(${row.id})">✏️ Modifier</button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    });
+    
+    tbody.html(html);
+}
+
+function editRow(id) {
+    // Si une ligne est déjà en édition, annuler
+    if (currentEditRow) {
+        cancelEdit();
+    }
+    
+    currentEditRow = id;
+    const row = $(`tr[data-id="${id}"]`);
+    
+    // Rendre les cellules éditables
+    row.find('.editable-cell').each(function() {
+        const cell = $(this);
+        const value = cell.text().trim();
+        const field = cell.data('field');
+        cell.html(`<input type="number" class="edit-input" data-field="${field}" value="${value}" step="0.01">`);
+    });
+    
+    // Changer les boutons
+    row.find('.action-buttons').html(`
+        <button class="btn-save" onclick="saveRow(${id})">💾 Enregistrer</button>
+        <button class="btn-cancel" onclick="cancelEdit()">❌ Annuler</button>
+    `);
+}
+
+function saveRow(id) {
+    const row = $(`tr[data-id="${id}"]`);
+    const quantite_dechets = row.find('input[data-field="quantite_dechets"]').val();
+    const total_ca = row.find('input[data-field="total_ca"]').val();
+    
+    $.ajax({
+        url: `/projet15/api/correlation/${id}/update`,
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            quantite_dechets: parseFloat(quantite_dechets),
+            total_ca: parseFloat(total_ca)
+        }),
+        success: function(response) {
+            showAlert('success', response.message || 'Données mises à jour avec succès');
+            currentEditRow = null;
+            chargerTableau();
+        },
+        error: function(xhr) {
+            const error = xhr.responseJSON?.message || 'Erreur lors de la mise à jour';
+            showAlert('danger', error);
+        }
+    });
+}
+
+function cancelEdit() {
+    currentEditRow = null;
+    chargerTableau();
+}
+
+// === GRAPHIQUE ===
+
+function chargerAnneesGraphique() {
+    $.ajax({
+        url: '{{ url_for("projet15.api_annees") }}',
+        method: 'GET',
+        success: function(annees) {
+            let options = '<option value="">Toutes les années</option>';
+            annees.forEach(annee => {
+                options += `<option value="${annee}">${annee}</option>`;
+            });
+            $('#filter-annee-graphique').html(options);
+        },
+        error: function() {
+            console.error('Erreur lors du chargement des années');
+        }
+    });
+}
+
+function chargerGraphique() {
+    const annee = $('#filter-annee-graphique').val();
+    const url = annee 
+        ? '{{ url_for("projet15.api_statistiques") }}?annee=' + annee
+        : '{{ url_for("projet15.api_statistiques") }}';
+    
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function(stats) {
+            donneesGraphiqueCourantes = stats.donnees_graphique || [];
+            correlationFilter = { debut: null, fin: null };
+            afficherStatistiques(stats);
+            afficherGraphique(stats);
+            initialiserFiltreCorrelation();
+            // Recharger les données par type
+            chargerTypesDeche();
+        },
+        error: function() {
+            showAlert('danger', 'Erreur lors du chargement des statistiques');
+        }
+    });
+}
+
+function afficherStatistiques(stats) {
+    const html = `
+        <div class="stat-card blue">
+            <h3>Nombre de Mois</h3>
+            <div class="stat-value">${stats.stats_globales.nb_mois}</div>
+            <div class="stat-unit">mois analysés</div>
+        </div>
+        <div class="stat-card green">
+            <h3>Total Déchets Solides</h3>
+            <div class="stat-value">${stats.stats_globales.total_dechets.toFixed(2)}</div>
+            <div class="stat-unit">kg</div>
+        </div>
+        <div class="stat-card orange">
+            <h3>Total CA HT</h3>
+            <div class="stat-value">${stats.stats_globales.total_ca.toFixed(2)}</div>
+            <div class="stat-unit">€</div>
+        </div>
+        <div class="stat-card blue">
+            <h3>Moyenne Déchets/Mois</h3>
+            <div class="stat-value">${stats.stats_globales.moyenne_dechets.toFixed(2)}</div>
+            <div class="stat-unit">kg</div>
+        </div>
+        <div class="stat-card purple">
+            <h3>Coefficient de Corrélation</h3>
+            <div class="stat-value" id="correlation-value">
+                ${typeof stats.stats_globales.coefficient_correlation === 'number'
+                    ? 'r = ' + stats.stats_globales.coefficient_correlation.toFixed(2)
+                    : 'N/A'}
+            </div>
+            <div class="correlation-filter">
+                <label for="correlation-start">Filtrer la période (Pearson)</label>
+                <div class="filter-row">
+                    <select id="correlation-start"></select>
+                    <span class="filter-separator">→</span>
+                    <select id="correlation-end"></select>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    $('#stats-cards').html(html);
+}
+
+function afficherGraphique(stats) {
+    const ctxCorrelation = document.getElementById('chart-correlation').getContext('2d');
+    const ctxRatio = document.getElementById('chart-ratio').getContext('2d');
+    
+    if (chartCorrelation) chartCorrelation.destroy();
+    if (chartRatio) chartRatio.destroy();
+    if (chartKgDechets100kCa) chartKgDechets100kCa.destroy();
+    
+    chartCorrelation = new Chart(ctxCorrelation, {
+        type: 'line',
+        data: {
+            labels: stats.donnees_graphique.map(d => d.periode),
+            datasets: [
+                {
+                    label: 'Déchets Solides (kg)',
+                    data: stats.donnees_graphique.map(d => d.quantite_dechets),
+                    borderColor: 'rgba(76, 175, 80, 1)',
+                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                    yAxisID: 'y-dechets',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                },
+                {
+                    label: 'Chiffre d\'Affaires HT (€)',
+                    data: stats.donnees_graphique.map(d => d.total_ca),
+                    borderColor: 'rgba(33, 150, 243, 1)',
+                    backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                    yAxisID: 'y-ca',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.y.toFixed(2);
+                            if (context.datasetIndex === 0) {
+                                label += ' kg';
+                            } else {
+                                label += ' €';
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Période (Année-Mois)'
+                    }
+                },
+                'y-dechets': {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Déchets Solides (kg)',
+                        color: 'rgba(76, 175, 80, 1)'
+                    },
+                    ticks: {
+                        color: 'rgba(76, 175, 80, 1)'
+                    }
+                },
+                'y-ca': {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: 'Chiffre d\'Affaires HT (€)',
+                        color: 'rgba(33, 150, 243, 1)'
+                    },
+                    ticks: {
+                        color: 'rgba(33, 150, 243, 1)'
+                    },
+                    grid: {
+                        drawOnChartArea: false
+                    }
+                }
+            }
+        }
+    });
+
+    chartRatio = new Chart(ctxRatio, {
+        type: 'line',
+        data: {
+            labels: stats.donnees_graphique.map(d => d.periode),
+            datasets: [
+                {
+                    label: '% Déchets / CA',
+                    data: stats.donnees_graphique.map(d => d.ratio_dechets_ca),
+                    borderColor: 'rgba(156, 39, 176, 1)',
+                    backgroundColor: 'rgba(156, 39, 176, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ${context.parsed.y.toFixed(2)} %`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Période (Année-Mois)'
+                    }
+                },
+                y: {
+                    type: 'linear',
+                    display: true,
+                    title: {
+                        display: true,
+                        text: '% Déchets / CA',
+                        color: 'rgba(156, 39, 176, 1)'
+                    },
+                    ticks: {
+                        color: 'rgba(156, 39, 176, 1)'
+                    }
+                }
+            }
+        }
+    });
+
+    // Graphique kg Déchets par 100k€ CA
+    const ctxKgDechets100kCa = document.getElementById('chart-kg-dechets-100k-ca').getContext('2d');
+    
+    if (chartKgDechets100kCa) {
+        chartKgDechets100kCa.destroy();
+    }
+    
+    chartKgDechets100kCa = new Chart(ctxKgDechets100kCa, {
+        type: 'line',
+        data: {
+            labels: stats.donnees_graphique.map(d => d.periode),
+            datasets: [
+                {
+                    label: 'kg Déchets par 100 000€ de CA',
+                    data: stats.donnees_graphique.map(d => d.kg_dechets_par_100k_ca),
+                    borderColor: 'rgba(255, 152, 0, 1)',
+                    backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ${context.parsed.y.toFixed(2)} kg`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Période (Année-Mois)'
+                    }
+                },
+                y: {
+                    type: 'linear',
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'kg Déchets par 100 000€ de CA',
+                        color: 'rgba(255, 152, 0, 1)'
+                    },
+                    ticks: {
+                        color: 'rgba(255, 152, 0, 1)'
+                    }
+                }
+            }
+        }
+    });
+}
+
+function initialiserFiltreCorrelation() {
+    const selectStart = document.getElementById('correlation-start');
+    const selectEnd = document.getElementById('correlation-end');
+    
+    if (!selectStart || !selectEnd) {
+        return;
+    }
+
+    const periodes = donneesGraphiqueCourantes.map(d => d.periode);
+
+    if (!periodes.length) {
+        selectStart.innerHTML = '<option value="">-</option>';
+        selectEnd.innerHTML = '<option value="">-</option>';
+        correlationFilter = { debut: null, fin: null };
+        mettreAJourAffichageCoefficient(null);
+        return;
+    }
+
+    const optionsHtml = periodes.map(p => `<option value="${p}">${p}</option>`).join('');
+    selectStart.innerHTML = optionsHtml;
+    selectEnd.innerHTML = optionsHtml;
+
+    if (!correlationFilter.debut || !periodes.includes(correlationFilter.debut)) {
+        correlationFilter.debut = periodes[0];
+    }
+    if (!correlationFilter.fin || !periodes.includes(correlationFilter.fin)) {
+        correlationFilter.fin = periodes[periodes.length - 1];
+    }
+
+    selectStart.value = correlationFilter.debut;
+    selectEnd.value = correlationFilter.fin;
+
+    selectStart.onchange = function() {
+        correlationFilter.debut = this.value;
+        if (correlationFilter.debut > correlationFilter.fin) {
+            correlationFilter.fin = correlationFilter.debut;
+            selectEnd.value = correlationFilter.fin;
+        }
+        appliquerFiltreCorrelation();
+    };
+
+    selectEnd.onchange = function() {
+        correlationFilter.fin = this.value;
+        if (correlationFilter.fin < correlationFilter.debut) {
+            correlationFilter.debut = correlationFilter.fin;
+            selectStart.value = correlationFilter.debut;
+        }
+        appliquerFiltreCorrelation();
+    };
+
+    appliquerFiltreCorrelation();
+}
+
+function appliquerFiltreCorrelation() {
+    if (!donneesGraphiqueCourantes.length) {
+        mettreAJourAffichageCoefficient(null);
+        return;
+    }
+
+    const filtered = donneesGraphiqueCourantes.filter(d => {
+        const periode = d.periode;
+        const debutOK = !correlationFilter.debut || periode >= correlationFilter.debut;
+        const finOK = !correlationFilter.fin || periode <= correlationFilter.fin;
+        return debutOK && finOK;
+    });
+
+    const coefficient = calculerCoefficientCorrelation(filtered);
+    mettreAJourAffichageCoefficient(coefficient);
+}
+
+function calculerCoefficientCorrelation(donnees) {
+    if (!donnees || donnees.length < 2) {
+        return null;
+    }
+
+    let sumX = 0, sumY = 0, sumX2 = 0, sumY2 = 0, sumXY = 0;
+    donnees.forEach(point => {
+        const x = point.quantite_dechets ?? 0;
+        const y = point.total_ca ?? 0;
+        sumX += x;
+        sumY += y;
+        sumX2 += x * x;
+        sumY2 += y * y;
+        sumXY += x * y;
+    });
+
+    const n = donnees.length;
+    const numerator = n * sumXY - sumX * sumY;
+    const denominatorPartX = n * sumX2 - sumX * sumX;
+    const denominatorPartY = n * sumY2 - sumY * sumY;
+
+    if (denominatorPartX <= 0 || denominatorPartY <= 0) {
+        return null;
+    }
+
+    const denominator = Math.sqrt(denominatorPartX * denominatorPartY);
+    if (denominator === 0) {
+        return null;
+    }
+
+    return numerator / denominator;
+}
+
+function mettreAJourAffichageCoefficient(coefficient) {
+    const valueEl = document.getElementById('correlation-value');
+
+    if (valueEl) {
+        if (typeof coefficient === 'number' && !isNaN(coefficient)) {
+            valueEl.textContent = `r = ${coefficient.toFixed(2)}`;
+        } else {
+            valueEl.textContent = 'N/A';
+        }
+    }
+}
+
+// === GRAPHIQUES PAR TYPE ===
+
+function chargerTypesDeche() {
+    // Charger les données pour tous les types et afficher le graphique
+    const annee = $('#filter-annee-graphique').val();
+    const url = annee 
+        ? '{{ url_for("projet15.api_correlation_par_type") }}?annee=' + annee
+        : '{{ url_for("projet15.api_correlation_par_type") }}';
+    
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function(data) {
+            donneesParType = data;
+            afficherGraphiqueTousTypes();
+        },
+        error: function() {
+            console.error('Erreur lors du chargement des données par type');
+        }
+    });
+}
+
+function afficherGraphiqueTousTypes() {
+    // Détruire les graphiques existants
+    if (chartPapierOffset) chartPapierOffset.destroy();
+    if (chartCartonGris) chartCartonGris.destroy();
+    if (chartCartonBois) chartCartonBois.destroy();
+    
+    // Configuration des types et couleurs
+    const typesConfig = [
+        { 
+            nom: 'Papier offset', 
+            couleur: 'rgba(255, 152, 0, 1)',      // Orange vif
+            canvasId: 'chart-papier-offset',
+            chartVar: 'chartPapierOffset'
+        },
+        { 
+            nom: 'Carton blanc gris', 
+            couleur: 'rgba(244, 67, 54, 1)',      // Rouge
+            canvasId: 'chart-carton-gris',
+            chartVar: 'chartCartonGris'
+        },
+        { 
+            nom: 'Carton blanc bois', 
+            couleur: 'rgba(255, 235, 59, 1)',     // Jaune
+            canvasId: 'chart-carton-bois',
+            chartVar: 'chartCartonBois'
+        }
+    ];
+    
+    // Créer un graphique pour chaque type
+    typesConfig.forEach(config => {
+        const donnees = donneesParType[config.nom];
+        
+        if (!donnees || donnees.length === 0) {
+            console.log(`Pas de données pour ${config.nom}`);
+            return;
+        }
+        
+        const labels = donnees.map(d => d.periode);
+        const dataDechet = donnees.map(d => d.quantite_kg);
+        const dataCA = donnees.map(d => d.total_ca);
+        
+        const ctx = document.getElementById(config.canvasId).getContext('2d');
+        
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: `${config.nom} (kg)`,
+                        data: dataDechet,
+                        borderColor: config.couleur,
+                        backgroundColor: config.couleur.replace('1)', '0.2)'),
+                        yAxisID: 'y-dechets',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Chiffre d\'Affaires HT (€)',
+                        data: dataCA,
+                        borderColor: 'rgba(33, 150, 243, 1)',
+                        backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                        yAxisID: 'y-ca',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                const value = context.parsed.y;
+                                if (label.includes('€')) {
+                                    label += value.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+                                } else {
+                                    label += value.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' kg';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Période (Année-Mois)'
+                        }
+                    },
+                    'y-dechets': {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: `${config.nom} (kg)`,
+                            color: config.couleur
+                        },
+                        ticks: {
+                            color: config.couleur
+                        }
+                    },
+                    'y-ca': {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Chiffre d\'Affaires HT (€)',
+                            color: 'rgba(33, 150, 243, 1)'
+                        },
+                        ticks: {
+                            color: 'rgba(33, 150, 243, 1)'
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Assigner le graphique à la variable globale correspondante
+        if (config.chartVar === 'chartPapierOffset') chartPapierOffset = chart;
+        else if (config.chartVar === 'chartCartonGris') chartCartonGris = chart;
+        else if (config.chartVar === 'chartCartonBois') chartCartonBois = chart;
+    });
+}
+
+// === UTILITAIRES ===
+
+function showAlert(type, message) {
+    const alertHtml = `
+        <div class="alert alert-${type} show">
+            ${message}
+        </div>
+    `;
+    
+    $('#alert-container').html(alertHtml);
+    
+    setTimeout(() => {
+        $('.alert').removeClass('show');
+    }, 5000);
+}
+</script>
+{% endblock %}
+

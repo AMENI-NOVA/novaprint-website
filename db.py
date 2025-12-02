@@ -41,6 +41,10 @@ def init_projet6_tables():
 def get_connection_string():
     return ";".join(f"{k}={v}" for k, v in DB_CONFIG.items())
 
+def get_db_connection():
+    """Retourne une connexion à la base de données"""
+    return pyodbc.connect(get_connection_string())
+
 @contextmanager
 def get_db_cursor():
     conn = pyodbc.connect(get_connection_string())
@@ -347,7 +351,7 @@ def get_controles_qualite():
             SELECT 
                 id,
                 date_controle,
-                numero_dossier,
+                Numero_COMMANDES,
                 operateur,
                 machine_impression,
                 operateur_machine_impression,
@@ -364,7 +368,7 @@ def get_controles_qualite():
             controles.append({
                 "id": row.id,
                 "date_controle": row.date_controle,
-                "numero_dossier": row.numero_dossier,
+                "Numero_COMMANDES": row.Numero_COMMANDES,
                 "operateur": row.operateur,
                 "machine_impression": row.machine_impression,
                 "operateur_machine_impression": row.operateur_machine_impression,
@@ -383,7 +387,7 @@ def get_controle_qualite_by_id(controle_id):
             SELECT 
                 id,
                 date_controle,
-                numero_dossier,
+                Numero_COMMANDES,
                 operateur,
                 machine_impression,
                 operateur_machine_impression,
@@ -419,10 +423,60 @@ def get_controle_qualite_by_id(controle_id):
                 "quantite_non_conforme": row.quantite_non_conforme
             })
         
-        return {
+        # Récupérer les détails des opérateurs depuis la table Employes si disponible
+        operateur_machine_impression_details = []
+        chef_details = {}
+        
+        try:
+            if controle.operateur_machine_impression:
+                # Parser les noms des opérateurs séparés par des virgules
+                op_names = [name.strip() for name in controle.operateur_machine_impression.split(',')]
+                for full_name in op_names:
+                    if full_name:
+                        # Essayer de récupérer les détails depuis la base
+                        parts = full_name.split()
+                        if len(parts) >= 2:
+                            nom = parts[0]
+                            prenom = ' '.join(parts[1:])
+                            cursor.execute("""
+                                SELECT TOP 1 Matricule, Nom, Prenom 
+                                FROM Employes 
+                                WHERE LTRIM(RTRIM(Nom)) = ? AND LTRIM(RTRIM(Prenom)) = ?
+                            """, (nom, prenom))
+                            emp = cursor.fetchone()
+                            if emp:
+                                operateur_machine_impression_details.append({
+                                    'matricule': (emp.Matricule or '').strip(),
+                                    'nom': (emp.Nom or '').strip(),
+                                    'prenom': (emp.Prenom or '').strip()
+                                })
+            
+            # Récupérer les détails du chef de section
+            if controle.validation_chef:
+                parts = controle.validation_chef.split()
+                if len(parts) >= 2:
+                    nom = parts[0]
+                    prenom = ' '.join(parts[1:])
+                    cursor.execute("""
+                        SELECT TOP 1 Matricule, Nom, Prenom 
+                        FROM Employes 
+                        WHERE LTRIM(RTRIM(Nom)) = ? AND LTRIM(RTRIM(Prenom)) = ?
+                    """, (nom, prenom))
+                    emp = cursor.fetchone()
+                    if emp:
+                        chef_details = {
+                            'chef_matricule': (emp.Matricule or '').strip(),
+                            'chef_nom': (emp.Nom or '').strip(),
+                            'chef_prenom': (emp.Prenom or '').strip()
+                        }
+        except Exception as e:
+            # Si la table Employes n'existe pas ou autre erreur, on continue sans les détails
+            print(f"Avertissement: Impossible de récupérer les détails des opérateurs depuis Employes: {e}")
+        
+        result = {
             "id": controle.id,
             "date_controle": controle.date_controle,
-            "numero_dossier": controle.numero_dossier,
+            "Numero_COMMANDES": controle.Numero_COMMANDES,
             "operateur": controle.operateur,
             "machine_impression": controle.machine_impression,
             "operateur_machine_impression": controle.operateur_machine_impression,
@@ -433,20 +487,99 @@ def get_controle_qualite_by_id(controle_id):
             "date_creation": controle.date_creation,
             "tolérances": tolérances
         }
+        
+        # Ajouter les détails des opérateurs machine impression si disponibles
+        if operateur_machine_impression_details:
+            result['operateur_machine_impression_matricules'] = [d['matricule'] for d in operateur_machine_impression_details]
+            result['operateur_machine_impression_noms'] = [d['nom'] for d in operateur_machine_impression_details]
+            result['operateur_machine_impression_prenoms'] = [d['prenom'] for d in operateur_machine_impression_details]
+        
+        # Ajouter les détails du chef de section si disponibles
+        if chef_details:
+            result.update(chef_details)
+        
+        return result
+
+def get_controle_qualite_by_numero(numero_commande):
+    """Récupère le contrôle qualité le plus récent par numéro de commande avec ses tolérances"""
+    with get_db_cursor() as cursor:
+        # Nettoyer le numéro de commande (enlever les espaces)
+        numero_clean = numero_commande.strip() if numero_commande else ''
+        
+        cursor.execute("""
+            SELECT TOP 1
+                id,
+                date_controle,
+                Numero_COMMANDES,
+                operateur,
+                machine_impression,
+                operateur_machine_impression,
+                machine_decoupe,
+                operateur_machine_decoupe,
+                rebus,
+                validation_chef,
+                date_creation
+            FROM CONTROLES_QUALITE
+            WHERE LTRIM(RTRIM(Numero_COMMANDES)) = ?
+            ORDER BY date_creation DESC
+        """, (numero_clean,))
+        
+        controle = cursor.fetchone()
+        if not controle:
+            return None
+            
+        # Récupérer les tolérances
+        cursor.execute("""
+            SELECT 
+                tolerance,
+                quantite_conforme,
+                quantite_non_conforme
+            FROM TOLERANCES_CONTROLE
+            WHERE controle_id = ?
+            ORDER BY id
+        """, (controle.id,))
+        
+        tolérances = []
+        for row in cursor.fetchall():
+            tolérances.append({
+                "tolerance": row.tolerance,
+                "quantite_conforme": row.quantite_conforme,
+                "quantite_non_conforme": row.quantite_non_conforme
+            })
+        
+        result = {
+            "id": controle.id,
+            "date_controle": controle.date_controle,
+            "Numero_COMMANDES": controle.Numero_COMMANDES,
+            "operateur": controle.operateur,
+            "machine_impression": controle.machine_impression,
+            "operateur_machine_impression": controle.operateur_machine_impression,
+            "machine_decoupe": controle.machine_decoupe,
+            "operateur_machine_decoupe": controle.operateur_machine_decoupe,
+            "rebus": controle.rebus,
+            "validation_chef": controle.validation_chef,
+            "date_creation": controle.date_creation,
+            "tolérances": tolérances
+        }
+        
+        return result
 
 def create_controle_qualite(data):
     """Crée un nouveau contrôle qualité"""
     try:
         with get_db_cursor() as cursor:
-            # Insérer le contrôle qualité
+            # Insérer le contrôle qualité et récupérer l'ID directement
+            print(f"DEBUG CREATE: Insertion contrôle avec data={data}")
             cursor.execute("""
                 INSERT INTO CONTROLES_QUALITE (
-                    date_controle, numero_dossier, operateur, machine_impression, operateur_machine_impression, 
+                    date_controle, Numero_COMMANDES, operateur, machine_impression, operateur_machine_impression, 
                     machine_decoupe, operateur_machine_decoupe, rebus, validation_chef, date_creation
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE())
+                )
+                OUTPUT INSERTED.id
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE())
             """, (
                 data['date_controle'],
-                data['numero_dossier'],
+                data['Numero_COMMANDES'],
                 data['operateur'],
                 data.get('machine_impression', ''),
                 data.get('operateur_machine_impression', ''),
@@ -457,28 +590,38 @@ def create_controle_qualite(data):
             ))
             
             # Récupérer l'ID du contrôle créé
-            cursor.execute("SELECT @@IDENTITY")
             controle_id = cursor.fetchone()[0]
+            print(f"DEBUG CREATE: Contrôle créé avec ID={controle_id}")
             
-            # Insérer les tolérances
-            if 'tolérances' in data:
-                for tolerance_data in data['tolérances']:
+            # Insérer les tolérances (accepte 'tolérances' ou 'tolerances')
+            tolerances_list = data.get('tolérances') or data.get('tolerances') or []
+            print(f"DEBUG CREATE: Insertion de {len(tolerances_list)} tolérances")
+            if tolerances_list:
+                for i, tolerance_data in enumerate(tolerances_list):
+                    # Ne pas insérer de lignes vides
+                    if (tolerance_data.get('tolerance', '').strip() or 
+                        tolerance_data.get('quantite_conforme', 0) or 
+                        tolerance_data.get('quantite_non_conforme', 0)):
+                        print(f"DEBUG CREATE: Insertion tolérance {i+1}: {tolerance_data}")
                     cursor.execute("""
                         INSERT INTO TOLERANCES_CONTROLE (
                             controle_id, tolerance, quantite_conforme, quantite_non_conforme
                         ) VALUES (?, ?, ?, ?)
                     """, (
                         controle_id,
-                        tolerance_data['tolerance'],
-                        tolerance_data['quantite_conforme'],
-                        tolerance_data['quantite_non_conforme']
+                            tolerance_data.get('tolerance', ''),
+                            tolerance_data.get('quantite_conforme', 0),
+                            tolerance_data.get('quantite_non_conforme', 0)
                     ))
             
             # Valider la transaction
             cursor.commit()
+            print(f"DEBUG CREATE: Transaction validée, retour ID={controle_id}")
             return controle_id
     except Exception as e:
-        print(f"Erreur lors de la création du contrôle qualité: {e}")
+        print(f"ERREUR lors de la création du contrôle qualité: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 def update_controle_qualite(controle_id, data):
@@ -489,7 +632,7 @@ def update_controle_qualite(controle_id, data):
             cursor.execute("""
                 UPDATE CONTROLES_QUALITE SET
                     date_controle = ?,
-                    numero_dossier = ?,
+                    Numero_COMMANDES = ?,
                     operateur = ?,
                     machine_impression = ?,
                     operateur_machine_impression = ?,
@@ -500,7 +643,7 @@ def update_controle_qualite(controle_id, data):
                 WHERE id = ?
             """, (
                 data['date_controle'],
-                data['numero_dossier'],
+                data['Numero_COMMANDES'],
                 data['operateur'],
                 data.get('machine_impression', ''),
                 data.get('operateur_machine_impression', ''),
@@ -514,19 +657,26 @@ def update_controle_qualite(controle_id, data):
             # Supprimer les anciennes tolérances
             cursor.execute("DELETE FROM TOLERANCES_CONTROLE WHERE controle_id = ?", (controle_id,))
             
-            # Insérer les nouvelles tolérances
-            if 'tolérances' in data:
-                for tolerance_data in data['tolérances']:
-                    cursor.execute("""
-                        INSERT INTO TOLERANCES_CONTROLE (
+            # Insérer les nouvelles tolérances (accepte 'tolérances' ou 'tolerances')
+            tolerances_list = data.get('tolérances') or data.get('tolerances') or []
+            if tolerances_list:
+                for tolerance_data in tolerances_list:
+                    # Ne pas insérer de lignes vides
+                    if (tolerance_data.get('tolerance', '').strip() or 
+                        tolerance_data.get('quantite_conforme', 0) or 
+                        tolerance_data.get('quantite_non_conforme', 0)):
+                        cursor.execute("""
+                            INSERT INTO TOLERANCES_CONTROLE (
                             controle_id, tolerance, quantite_conforme, quantite_non_conforme
-                        ) VALUES (?, ?, ?, ?)
-                    """, (
-                        controle_id,
-                        tolerance_data['tolerance'],
-                        tolerance_data['quantite_conforme'],
-                        tolerance_data['quantite_non_conforme']
-                    ))
+                            ) VALUES (?, ?, ?, ?)
+                            """, (
+                            controle_id,
+                            tolerance_data.get('tolerance', ''),
+                            tolerance_data.get('quantite_conforme', 0),
+                            tolerance_data.get('quantite_non_conforme', 0)
+                            ))
+            # Valider la transaction
+            cursor.connection.commit()
             
             return True
     except Exception as e:
@@ -534,8 +684,9 @@ def update_controle_qualite(controle_id, data):
         return False
 
 def get_statistiques_controle_qualite():
-    """Récupère les statistiques de contrôle qualité"""
+    """Récupère les statistiques globales de contrôle qualité"""
     with get_db_cursor() as cursor:
+        # Statistiques globales
         cursor.execute("""
             SELECT 
                 COUNT(*) as total_controles,
@@ -546,14 +697,375 @@ def get_statistiques_controle_qualite():
         """)
         
         row = cursor.fetchone()
-        if row:
-            return {
+        stats = {
                 "total_controles": row.total_controles or 0,
                 "controles_valides": row.controles_valides or 0,
-                "rebus_moyen": round(row.rebus_moyen or 0, 2),
+                "rebus_moyen": round(row.rebus_moyen or 0, 3),
                 "total_rebus": row.total_rebus or 0
             }
-        return {"total_controles": 0, "controles_valides": 0, "rebus_moyen": 0, "total_rebus": 0}
+        
+        # Calculer taux de conformité et taux de rebus
+        cursor.execute("""
+            SELECT 
+                SUM(T.quantite_conforme) as total_conforme,
+                SUM(CASE 
+                    WHEN rn = 1 THEN T.quantite_non_conforme 
+                    ELSE 0 
+                END) as total_non_conforme_final
+            FROM TOLERANCES_CONTROLE T
+            INNER JOIN (
+                SELECT controle_id, id, 
+                       ROW_NUMBER() OVER (PARTITION BY controle_id ORDER BY id DESC) as rn
+                FROM TOLERANCES_CONTROLE
+            ) LastRow ON T.id = LastRow.id
+        """)
+        
+        row2 = cursor.fetchone()
+        total_conforme = row2.total_conforme or 0
+        total_non_conforme = row2.total_non_conforme_final or 0
+        total_produit = total_conforme + total_non_conforme
+        
+        stats["total_conforme"] = total_conforme
+        stats["total_non_conforme"] = total_non_conforme
+        stats["total_produit"] = total_produit
+        stats["taux_conformite"] = round((total_conforme / total_produit * 100) if total_produit > 0 else 0, 3)
+        stats["taux_rebus"] = round((total_non_conforme / total_produit * 100) if total_produit > 0 else 0, 3)
+        
+        return stats
+
+def get_performance_par_machine():
+    """Récupère les statistiques de performance par machine d'impression"""
+    with get_db_cursor() as cursor:
+        cursor.execute("""
+            WITH DernieresLignes AS (
+                SELECT 
+                    T.controle_id,
+                    T.quantite_conforme,
+                    T.quantite_non_conforme,
+                    ROW_NUMBER() OVER (PARTITION BY T.controle_id ORDER BY T.id DESC) as rn
+                FROM TOLERANCES_CONTROLE T
+            ),
+            StatsParControle AS (
+                SELECT 
+                    C.id,
+                    C.machine_impression,
+                    SUM(T.quantite_conforme) as total_conforme,
+                    MAX(CASE WHEN D.rn = 1 THEN D.quantite_non_conforme ELSE 0 END) as rebus
+                FROM CONTROLES_QUALITE C
+                LEFT JOIN TOLERANCES_CONTROLE T ON T.controle_id = C.id
+                LEFT JOIN DernieresLignes D ON D.controle_id = C.id AND D.rn = 1
+                WHERE C.machine_impression IS NOT NULL AND C.machine_impression != ''
+                GROUP BY C.id, C.machine_impression
+            )
+            SELECT 
+                machine_impression,
+                COUNT(*) as nombre_controles,
+                SUM(total_conforme) as total_conforme,
+                SUM(rebus) as total_rebus,
+                SUM(total_conforme + rebus) as total_produit,
+                CASE 
+                    WHEN SUM(total_conforme + rebus) > 0 
+                    THEN ROUND(SUM(total_conforme) * 100.0 / SUM(total_conforme + rebus), 2)
+                    ELSE 0 
+                END as taux_conformite
+            FROM StatsParControle
+            GROUP BY machine_impression
+            ORDER BY taux_conformite DESC
+        """)
+        
+        machines = []
+        for row in cursor.fetchall():
+            machines.append({
+                "machine": row.machine_impression,
+                "nombre_controles": row.nombre_controles or 0,
+                "total_conforme": row.total_conforme or 0,
+                "total_rebus": row.total_rebus or 0,
+                "total_produit": row.total_produit or 0,
+                "taux_conformite": row.taux_conformite or 0
+            })
+        return machines
+
+def get_evolution_qualite(jours=30):
+    """Récupère l'évolution de la qualité sur les N derniers jours"""
+    with get_db_cursor() as cursor:
+        cursor.execute("""
+            WITH DernieresLignes AS (
+                SELECT 
+                    T.controle_id,
+                    T.quantite_non_conforme,
+                    ROW_NUMBER() OVER (PARTITION BY T.controle_id ORDER BY T.id DESC) as rn
+                FROM TOLERANCES_CONTROLE T
+            ),
+            StatsParJour AS (
+                SELECT 
+                    CAST(C.date_controle AS DATE) as jour,
+                    SUM(T.quantite_conforme) as total_conforme,
+                    SUM(CASE WHEN D.rn = 1 THEN D.quantite_non_conforme ELSE 0 END) as total_rebus
+                FROM CONTROLES_QUALITE C
+                LEFT JOIN TOLERANCES_CONTROLE T ON T.controle_id = C.id
+                LEFT JOIN DernieresLignes D ON D.controle_id = C.id
+                WHERE C.date_controle >= DATEADD(day, -?, GETDATE())
+                GROUP BY CAST(C.date_controle AS DATE)
+            )
+            SELECT 
+                jour,
+                total_conforme,
+                total_rebus,
+                (total_conforme + total_rebus) as total_produit,
+                CASE 
+                    WHEN (total_conforme + total_rebus) > 0 
+                    THEN ROUND(total_conforme * 100.0 / (total_conforme + total_rebus), 2)
+                    ELSE 0 
+                END as taux_conformite
+            FROM StatsParJour
+            ORDER BY jour
+        """, (jours,))
+        
+        evolution = []
+        for row in cursor.fetchall():
+            # Gérer le cas où jour est déjà une chaîne
+            date_str = ''
+            if row.jour:
+                if isinstance(row.jour, str):
+                    date_str = row.jour.split('T')[0] if 'T' in row.jour else row.jour
+                else:
+                    date_str = row.jour.strftime('%Y-%m-%d')
+            
+            evolution.append({
+                "date": date_str,
+                "total_conforme": row.total_conforme or 0,
+                "total_rebus": row.total_rebus or 0,
+                "total_produit": row.total_produit or 0,
+                "taux_conformite": row.taux_conformite or 0
+            })
+        return evolution
+
+def get_dossiers_probleme(seuil_rebus_pct=10):
+    """Récupère les contrôles individuels avec un taux de rebus élevé"""
+    with get_db_cursor() as cursor:
+        cursor.execute("""
+            WITH DernieresLignes AS (
+                SELECT 
+                    T.controle_id,
+                    T.quantite_non_conforme,
+                    ROW_NUMBER() OVER (PARTITION BY T.controle_id ORDER BY T.id DESC) as rn
+                FROM TOLERANCES_CONTROLE T
+            ),
+            StatsControle AS (
+                SELECT 
+                    C.id as controle_id,
+                    C.Numero_COMMANDES,
+                    C.date_controle,
+                    C.operateur,
+                    C.machine_impression,
+                    SUM(T.quantite_conforme) as total_conforme,
+                    MAX(CASE WHEN D.rn = 1 THEN D.quantite_non_conforme ELSE 0 END) as total_rebus
+                FROM CONTROLES_QUALITE C
+                LEFT JOIN TOLERANCES_CONTROLE T ON T.controle_id = C.id
+                LEFT JOIN DernieresLignes D ON D.controle_id = C.id
+                GROUP BY C.id, C.Numero_COMMANDES, C.date_controle, C.operateur, C.machine_impression
+            )
+            SELECT 
+                controle_id,
+                Numero_COMMANDES,
+                date_controle,
+                operateur,
+                machine_impression,
+                total_conforme,
+                total_rebus,
+                (total_conforme + total_rebus) as total_produit,
+                CASE 
+                    WHEN (total_conforme + total_rebus) > 0 
+                    THEN ROUND(total_rebus * 100.0 / (total_conforme + total_rebus), 3)
+                    ELSE 0 
+                END as taux_rebus
+            FROM StatsControle
+            WHERE (total_conforme + total_rebus) > 0
+              AND (total_rebus * 100.0 / (total_conforme + total_rebus)) >= ?
+            ORDER BY taux_rebus DESC
+        """, (seuil_rebus_pct,))
+        
+        dossiers = []
+        for row in cursor.fetchall():
+            # Gérer le cas où date_controle est déjà une chaîne
+            date_str = ''
+            if row.date_controle:
+                if isinstance(row.date_controle, str):
+                    date_str = row.date_controle.split('T')[0] if 'T' in row.date_controle else row.date_controle
+                else:
+                    date_str = row.date_controle.strftime('%Y-%m-%d')
+            
+            dossiers.append({
+                "controle_id": row.controle_id,
+                "Numero_COMMANDES": row.Numero_COMMANDES,
+                "date": date_str,
+                "operateur": row.operateur or '',
+                "machine": row.machine_impression or '',
+                "total_conforme": row.total_conforme or 0,
+                "total_rebus": row.total_rebus or 0,
+                "total_produit": row.total_produit or 0,
+                "taux_rebus": row.taux_rebus or 0
+            })
+        return dossiers
+
+def get_comparaison_periodes(date_debut1, date_fin1, date_debut2, date_fin2):
+    """Compare les statistiques entre deux périodes"""
+    with get_db_cursor() as cursor:
+        # Statistiques pour la période 1
+        cursor.execute("""
+            WITH DernieresLignes AS (
+                SELECT 
+                    T.controle_id,
+                    T.quantite_non_conforme,
+                    ROW_NUMBER() OVER (PARTITION BY T.controle_id ORDER BY T.id DESC) as rn
+                FROM TOLERANCES_CONTROLE T
+            )
+            SELECT 
+                COUNT(DISTINCT C.id) as nombre_controles,
+                SUM(T.quantite_conforme) as total_conforme,
+                SUM(CASE WHEN D.rn = 1 THEN D.quantite_non_conforme ELSE 0 END) as total_rebus,
+                SUM(T.quantite_conforme) + SUM(CASE WHEN D.rn = 1 THEN D.quantite_non_conforme ELSE 0 END) as total_produit
+            FROM CONTROLES_QUALITE C
+            LEFT JOIN TOLERANCES_CONTROLE T ON T.controle_id = C.id
+            LEFT JOIN DernieresLignes D ON D.controle_id = C.id
+            WHERE CAST(C.date_controle AS DATE) BETWEEN ? AND ?
+        """, (date_debut1, date_fin1))
+        
+        row1 = cursor.fetchone()
+        periode1 = {
+            "nombre_controles": row1.nombre_controles or 0,
+            "total_conforme": row1.total_conforme or 0,
+            "total_rebus": row1.total_rebus or 0,
+            "total_produit": row1.total_produit or 0
+        }
+        periode1["taux_conformite"] = round((periode1["total_conforme"] / periode1["total_produit"] * 100) if periode1["total_produit"] > 0 else 0, 3)
+        periode1["taux_rebus"] = round((periode1["total_rebus"] / periode1["total_produit"] * 100) if periode1["total_produit"] > 0 else 0, 3)
+        
+        # Statistiques pour la période 2
+        cursor.execute("""
+            WITH DernieresLignes AS (
+                SELECT 
+                    T.controle_id,
+                    T.quantite_non_conforme,
+                    ROW_NUMBER() OVER (PARTITION BY T.controle_id ORDER BY T.id DESC) as rn
+                FROM TOLERANCES_CONTROLE T
+            )
+            SELECT 
+                COUNT(DISTINCT C.id) as nombre_controles,
+                SUM(T.quantite_conforme) as total_conforme,
+                SUM(CASE WHEN D.rn = 1 THEN D.quantite_non_conforme ELSE 0 END) as total_rebus,
+                SUM(T.quantite_conforme) + SUM(CASE WHEN D.rn = 1 THEN D.quantite_non_conforme ELSE 0 END) as total_produit
+            FROM CONTROLES_QUALITE C
+            LEFT JOIN TOLERANCES_CONTROLE T ON T.controle_id = C.id
+            LEFT JOIN DernieresLignes D ON D.controle_id = C.id
+            WHERE CAST(C.date_controle AS DATE) BETWEEN ? AND ?
+        """, (date_debut2, date_fin2))
+        
+        row2 = cursor.fetchone()
+        periode2 = {
+            "nombre_controles": row2.nombre_controles or 0,
+            "total_conforme": row2.total_conforme or 0,
+            "total_rebus": row2.total_rebus or 0,
+            "total_produit": row2.total_produit or 0
+        }
+        periode2["taux_conformite"] = round((periode2["total_conforme"] / periode2["total_produit"] * 100) if periode2["total_produit"] > 0 else 0, 3)
+        periode2["taux_rebus"] = round((periode2["total_rebus"] / periode2["total_produit"] * 100) if periode2["total_produit"] > 0 else 0, 3)
+        
+        return {
+            "periode1": periode1,
+            "periode2": periode2
+        }
+
+def get_machines_impression():
+    """Récupère la liste des machines d'impression depuis GP_POSTES (centre de coût 6)"""
+    with get_db_cursor() as cursor:
+        cursor.execute("""
+            SELECT DISTINCT P.Nom, P.ID
+            FROM GP_POSTES P
+            WHERE P.ID_CENTRE_COUT = 6
+              AND P.Nom IS NOT NULL 
+              AND P.Nom != ''
+            ORDER BY P.Nom
+        """)
+        machines = []
+        for row in cursor.fetchall():
+            machines.append({
+                "nom": row.Nom,
+                "id": row.ID
+            })
+        return machines
+
+def get_comparaison_machines(machine1, machine2, jours=30):
+    """Compare les statistiques entre deux machines sur une période donnée"""
+    with get_db_cursor() as cursor:
+        # Statistiques pour la machine 1
+        cursor.execute("""
+            WITH DernieresLignes AS (
+                SELECT 
+                    T.controle_id,
+                    T.quantite_non_conforme,
+                    ROW_NUMBER() OVER (PARTITION BY T.controle_id ORDER BY T.id DESC) as rn
+                FROM TOLERANCES_CONTROLE T
+            )
+            SELECT 
+                COUNT(DISTINCT C.id) as nombre_controles,
+                SUM(T.quantite_conforme) as total_conforme,
+                SUM(CASE WHEN D.rn = 1 THEN D.quantite_non_conforme ELSE 0 END) as total_rebus,
+                SUM(T.quantite_conforme) + SUM(CASE WHEN D.rn = 1 THEN D.quantite_non_conforme ELSE 0 END) as total_produit
+            FROM CONTROLES_QUALITE C
+            LEFT JOIN TOLERANCES_CONTROLE T ON T.controle_id = C.id
+            LEFT JOIN DernieresLignes D ON D.controle_id = C.id
+            WHERE C.machine_impression = ?
+              AND C.date_controle >= DATEADD(day, -?, GETDATE())
+        """, (machine1, jours))
+        
+        row1 = cursor.fetchone()
+        stats_machine1 = {
+            "machine": machine1,
+            "nombre_controles": row1.nombre_controles or 0,
+            "total_conforme": row1.total_conforme or 0,
+            "total_rebus": row1.total_rebus or 0,
+            "total_produit": row1.total_produit or 0
+        }
+        stats_machine1["taux_conformite"] = round((stats_machine1["total_conforme"] / stats_machine1["total_produit"] * 100) if stats_machine1["total_produit"] > 0 else 0, 3)
+        stats_machine1["taux_rebus"] = round((stats_machine1["total_rebus"] / stats_machine1["total_produit"] * 100) if stats_machine1["total_produit"] > 0 else 0, 3)
+        
+        # Statistiques pour la machine 2
+        cursor.execute("""
+            WITH DernieresLignes AS (
+                SELECT 
+                    T.controle_id,
+                    T.quantite_non_conforme,
+                    ROW_NUMBER() OVER (PARTITION BY T.controle_id ORDER BY T.id DESC) as rn
+                FROM TOLERANCES_CONTROLE T
+            )
+            SELECT 
+                COUNT(DISTINCT C.id) as nombre_controles,
+                SUM(T.quantite_conforme) as total_conforme,
+                SUM(CASE WHEN D.rn = 1 THEN D.quantite_non_conforme ELSE 0 END) as total_rebus,
+                SUM(T.quantite_conforme) + SUM(CASE WHEN D.rn = 1 THEN D.quantite_non_conforme ELSE 0 END) as total_produit
+            FROM CONTROLES_QUALITE C
+            LEFT JOIN TOLERANCES_CONTROLE T ON T.controle_id = C.id
+            LEFT JOIN DernieresLignes D ON D.controle_id = C.id
+            WHERE C.machine_impression = ?
+              AND C.date_controle >= DATEADD(day, -?, GETDATE())
+        """, (machine2, jours))
+        
+        row2 = cursor.fetchone()
+        stats_machine2 = {
+            "machine": machine2,
+            "nombre_controles": row2.nombre_controles or 0,
+            "total_conforme": row2.total_conforme or 0,
+            "total_rebus": row2.total_rebus or 0,
+            "total_produit": row2.total_produit or 0
+        }
+        stats_machine2["taux_conformite"] = round((stats_machine2["total_conforme"] / stats_machine2["total_produit"] * 100) if stats_machine2["total_produit"] > 0 else 0, 3)
+        stats_machine2["taux_rebus"] = round((stats_machine2["total_rebus"] / stats_machine2["total_produit"] * 100) if stats_machine2["total_produit"] > 0 else 0, 3)
+        
+        return {
+            "machine1": stats_machine1,
+            "machine2": stats_machine2
+        }
 
 def marquer_livraison_reelle(numero, date_livraison, user=None):
     """Marque une commande comme livrée avec la date réelle"""
@@ -713,6 +1225,60 @@ def get_contact_principal(id_societe):
                 "fonction": row.Fonction
             }
     return None
+
+# ---------------------------
+# PROJET 10 – Contrôle Qualité - Gestion des Opérateurs
+# ---------------------------
+def get_operateurs():
+    """Récupère la liste des opérateurs disponibles (employés)"""
+    with get_db_cursor() as cursor:
+        operateurs: list[dict] = []
+        # Utiliser la table [dbo].[personel]
+        try:
+            cursor.execute("""
+                SELECT 
+                    Matricule,
+                    COALESCE(Nom, '') AS Nom,
+                    COALESCE(Prenom, '') AS Prenom
+                FROM [dbo].[personel]
+                WHERE Matricule IS NOT NULL
+                ORDER BY Nom, Prenom
+            """)
+            rows = cursor.fetchall()
+            for row in rows:
+                # Matricule peut être un INT, le convertir en string
+                matricule_str = str(row.Matricule) if row.Matricule is not None else ''
+                operateurs.append({
+                    "id": None,
+                    "matricule": matricule_str.strip(),
+                    "nom": (row.Nom or '').strip(),
+                    "prenom": (row.Prenom or '').strip(),
+                    "nom_complet": f"{(row.Nom or '').strip()} {(row.Prenom or '').strip()}".strip(),
+                    "telephone": None,
+                    "email": None
+                })
+        except Exception as e:
+            print(f"Erreur lors de la récupération des opérateurs depuis [dbo].[personel]: {e}")
+            import traceback
+            traceback.print_exc()
+
+        # Dédupliquer par matricule si nécessaire et trier
+        seen = set()
+        unique_operateurs = []
+        for op in operateurs:
+            key = (op.get("matricule") or "").strip().lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            unique_operateurs.append(op)
+
+        # Tri alpha par Nom, Prénom si disponible, sinon par matricule
+        unique_operateurs.sort(key=lambda o: (
+            (o.get("nom") or "").lower(),
+            (o.get("prenom") or "").lower(),
+            (o.get("matricule") or "").lower()
+        ))
+        return unique_operateurs
 
 # ---------------------------
 # PROJET 4 – CRM – Création Prospect + Contact

@@ -1,0 +1,1351 @@
+{% extends (request.args.get('embed') == '1' and "base_embed.html" or "base.html") %}
+
+{% block title %}Nouveau Traitement - Projet 11{% endblock %}
+
+{% block head %}
+<!-- Font Awesome pour les icônes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Select2 pour recherche avancée -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<style>
+    .chrono-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 20px 0;
+    }
+    .chrono-display {
+        font-size: 48px;
+        font-weight: bold;
+        font-family: 'Courier New', monospace;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .badge-service {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+    .info-prevue {
+        background: #e3f2fd;
+        border-left: 4px solid #2196F3;
+        padding: 15px;
+        margin: 10px 0;
+    }
+    .traitement-existant {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 10px;
+        margin: 5px 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1>
+                        <i class="fas fa-plus-circle"></i> Nouveau Traitement de Production
+                    </h1>
+                </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <form id="formNouveauTraitement">
+                        <!-- ÉTAPE 1: Sélection du numéro de commande -->
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="numero_commande" class="form-label">
+                                    <strong>1️⃣ Numéro de Commande (Dossier) *</strong>
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="numero_commande"
+                                       name="numero_commande"
+                                       list="commandes_list"
+                                       placeholder="-- Tapez pour rechercher une commande --"
+                                       autocomplete="off">
+                                <datalist id="commandes_list">
+                                    {% for cmd in commandes %}
+                                    <option value="{{ cmd.numero }}" 
+                                            data-reference="{{ cmd.reference }}" 
+                                            data-client="{{ cmd.client }}"
+                                            data-qte="{{ cmd.qte_commande }}">
+                                        {{ cmd.numero }} - {{ cmd.client }}{% if cmd.reference %} - {{ cmd.reference }}{% endif %}
+                                    </option>
+                                    {% endfor %}
+                                </datalist>
+                                <small class="text-muted">Choisissez d'abord le dossier/commande que vous voulez traiter</small>
+                            </div>
+                        </div>
+
+                        <!-- Info commande sélectionnée -->
+                        <div id="infoCommandeSelectionnee" style="display: none;">
+                            <div class="alert alert-info">
+                                <h5>📋 Commande Sélectionnée</h5>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <strong>N° Commande:</strong> <span id="info_numero_cmd"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Client:</strong> <span id="info_client_cmd"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Référence:</strong> <span id="info_reference_cmd"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ÉTAPE 2: Sélection du SERVICE -->
+                        <div class="row" id="sectionService" style="display: none;">
+                            <div class="col-md-12 mb-3">
+                                <label for="service_prevu" class="form-label">
+                                    <strong>2️⃣ Service de Production *</strong>
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="service_prevu"
+                                       name="service_prevu"
+                                       list="services_list"
+                                       placeholder="-- Tapez pour rechercher un service --"
+                                       autocomplete="off">
+                                <datalist id="services_list">
+                                    <!-- Les options seront ajoutées dynamiquement -->
+                                </datalist>
+                                <small class="text-muted">Choisissez le service dans lequel vous allez produire</small>
+                            </div>
+                        </div>
+
+                        <!-- ÉTAPE 3: Informations PRÉVUES (automatiques) -->
+                        <div id="infoPrevues" style="display: none;">
+                            <div class="info-prevue">
+                                <h5><i class="fas fa-info-circle"></i> Informations Prévues (Automatiques)</h5>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <strong>Machine prévue:</strong><br>
+                                        <span id="machine_prevue" class="badge bg-primary badge-service"></span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong>Quantité prévue:</strong><br>
+                                        <span id="qte_prevue" class="badge bg-info badge-service"></span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong>Temps prévu:</strong><br>
+                                        <span id="temps_prevu" class="badge bg-secondary badge-service"></span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong>ID Fiche:</strong><br>
+                                        <span id="id_fiche_info" class="badge bg-dark badge-service"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ÉTAPE 4: Traitements existants du service -->
+                        <div id="traitementsExistants" style="display: none;">
+                            <div class="alert alert-warning">
+                                <h5><i class="fas fa-clock-rotate-left"></i> Productions Déjà Enregistrées dans ce Service</h5>
+                                <div id="listeTraitementsService"></div>
+                                <hr>
+                                <div id="totauxService"></div>
+                            </div>
+                        </div>
+
+                        <hr id="separator" style="display: none;">
+
+                        <!-- ÉTAPE 5: Chronomètre et données de saisie -->
+                        <div id="sectionSaisie" style="display: none;">
+                            <!-- Chronomètre -->
+                            <div class="chrono-box" id="chronoBox" style="display: none;">
+                                <h5><i class="fas fa-stopwatch"></i> Chronomètre de Production</h5>
+                                <div class="chrono-display" id="chronoDisplay">00:00:00</div>
+                                <small>Démarré à: <span id="chronoStart"></span></small>
+                            </div>
+
+                            <h5 class="mb-3">3️⃣ Informations du Traitement Actuel</h5>
+
+                            <div class="row">
+                                <!-- Nombre de Personnes -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="nb_pers" class="form-label">
+                                        <strong>Nombre de Personnes *</strong>
+                                    </label>
+                                    <input type="number" class="form-control" id="nb_pers" name="nb_pers" min="1" max="10" value="1">
+                                    <small class="text-muted">Nombre d'opérateurs travaillant ensemble sur ce poste</small>
+                                </div>
+
+                                <!-- Machine Réelle -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="machine_reelle" class="form-label">
+                                        <strong>Machine Réelle Utilisée</strong>
+                                    </label>
+                                    <select class="form-select" id="machine_reelle" name="machine_reelle">
+                                        <option value="">-- Sélectionnez d'abord un service --</option>
+                                    </select>
+                                    <small class="text-muted">Machines du service sélectionné uniquement</small>
+                                </div>
+                            </div>
+
+                            <!-- Zone dynamique des opérateurs -->
+                            <div id="operateurs_container">
+                                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">
+                            <strong>Opérateur Principal *</strong>
+                        </label>
+                    </div>
+                                </div>
+                                <div id="operateurs_fields">
+                                    <!-- Le champ opérateur sera généré dynamiquement ici -->
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="pdt_c" class="form-label">
+                                        <strong>Quantité produite conforme *</strong>
+                                    </label>
+                                    <input type="number" class="form-control" id="pdt_c" name="pdt_c" min="0" value="0">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="pdt_nnc" class="form-label">
+                        <strong>Non conformes (bonnes feuilles)</strong>
+                                    </label>
+                                    <input type="number" class="form-control" id="pdt_nnc" name="pdt_nnc" min="0" value="0">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="pdt_anc" class="form-label">
+                        <strong>Non conformes (macules)</strong>
+                                    </label>
+                                    <input type="number" class="form-control" id="pdt_anc" name="pdt_anc" min="0" value="0">
+                                </div>
+                            </div>
+
+                            <!-- Champs cachés -->
+                            <input type="hidden" id="dte_deb" name="dte_deb">
+                            <input type="hidden" id="dte_fin" name="dte_fin">
+                            <input type="hidden" id="id_fiche_travail" name="id_fiche_travail">
+                            <input type="hidden" id="traitement_id" name="traitement_id">
+
+                            <hr>
+
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="button" class="btn btn-secondary" onclick="window.history.back()">
+                                    <i class="fas fa-times"></i> Annuler
+                                </button>
+                                <button type="submit" class="btn btn-success btn-lg" id="btnEnregistrer">
+                                    <i class="fas fa-stop-circle"></i> Arrêter et Enregistrer
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================================
+// VARIABLES GLOBALES
+// ============================================================================
+let chronoStart = null;
+let chronoInterval = null;
+let currentNumeroCommande = null;
+let currentService = null;
+let currentFicheId = null;
+let currentTraitementId = null;
+let startTraitementEnCours = false;
+const estModeEmbed = (new URLSearchParams(window.location.search).get('embed') === '1') || (window.self !== window.top);
+let servicesDisponibles = [];
+let storedFormValues = null;
+let restaurationEtatPlanifiee = false;
+
+function setCurrentTraitementId(id) {
+    currentTraitementId = id;
+    const hidden = document.getElementById('traitement_id');
+    if (hidden) {
+        hidden.value = id ? id : '';
+    }
+}
+
+function mettreAJourMatriculeDepuisTexte(element, texte) {
+    if (!element) return;
+    const valeur = typeof texte === 'string' ? texte : element.value || '';
+    const match = valeur.match(/Matricule:\s*(\d+)/);
+    element.setAttribute('data-matricule', match ? match[1] : '');
+}
+
+function synchroniserMatriculesOperateurs() {
+    document.querySelectorAll('.operateur-input').forEach(input => {
+        mettreAJourMatriculeDepuisTexte(input);
+    });
+}
+
+function restaurerChronoDepuisFormulaire() {
+    const dteDebInput = document.getElementById('dte_deb');
+    const traitementInput = document.getElementById('traitement_id');
+    if (!dteDebInput || !traitementInput) return false;
+    const valeurDebut = dteDebInput.value;
+    const valeurTraitement = traitementInput.value;
+    if (!valeurDebut || !valeurTraitement) return false;
+    const parsed = new Date(valeurDebut);
+    if (Number.isNaN(parsed.getTime())) return false;
+    setCurrentTraitementId(parseInt(valeurTraitement, 10) || null);
+    chronoStart = parsed;
+    if (chronoInterval) {
+        clearInterval(chronoInterval);
+    }
+    $('#chronoBox').css('display', 'block');
+    $('#chronoStart').text(parsed.toLocaleString('fr-FR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    }));
+    chronoInterval = setInterval(() => {
+        const now = new Date();
+        const diff = now - chronoStart;
+        const heures = Math.floor(diff / 3600000);
+        const minutes = Math.floor((diff % 3600000) / 60000);
+        const secondes = Math.floor((diff % 60000) / 1000);
+        $('#chronoDisplay').text(
+            `${heures.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondes.toString().padStart(2, '0')}`
+        );
+    }, 1000);
+    return true;
+}
+
+function planifierRestaurationEtatSauvegarde() {
+    if (restaurationEtatPlanifiee || !storedFormValues) {
+        return;
+    }
+    restaurationEtatPlanifiee = true;
+    let tentatives = 0;
+    const maxTentatives = 15;
+    const essayer = () => {
+        const sectionVisible = $('#sectionSaisie').is(':visible');
+        const operateurChamp = document.getElementById('operateur_1');
+        if (sectionVisible && operateurChamp) {
+            synchroniserMatriculesOperateurs();
+            const chronoOk = restaurerChronoDepuisFormulaire();
+            if (chronoOk) {
+                storedFormValues = null;
+                return;
+            }
+        }
+        if (tentatives < maxTentatives) {
+            tentatives += 1;
+            setTimeout(essayer, 300);
+        }
+    };
+    essayer();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (!estModeEmbed) {
+        const params = sessionStorage.getItem('projet11_form_data');
+        if (params) {
+            const form = document.getElementById('formNouveauTraitement');
+            if (form) {
+                const formData = new URLSearchParams(params);
+                storedFormValues = {};
+                formData.forEach((value, key) => {
+                    storedFormValues[key] = value;
+                    const input = form.querySelector(`[name="${key}"]`);
+                    if (input) {
+                        if (input.type === 'checkbox' || input.type === 'radio') {
+                            input.checked = (input.value === value);
+                        } else {
+                            input.value = value;
+                        }
+                    }
+                });
+                sessionStorage.removeItem('projet11_form_data');
+                if (storedFormValues.numero_commande) {
+                    setTimeout(() => {
+                        const champCommande = document.getElementById('numero_commande');
+                        if (champCommande) {
+                            champCommande.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                    }, 120);
+                    delete storedFormValues.numero_commande;
+                }
+                planifierRestaurationEtatSauvegarde();
+            }
+        }
+    }
+});
+function matcherContient(params, data) {
+    if ($.trim(params.term) === '') {
+        return data;
+    }
+    if (typeof data.text === 'undefined') {
+        return null;
+    }
+    const term = params.term.toLowerCase();
+    const text = data.text.toLowerCase();
+    return text.indexOf(term) > -1 ? data : null;
+}
+
+function initialiserSelect2Contient($element, parentSelector, placeholderText = '-- Rechercher --') {
+    if (!$element || !$element.length) return;
+    if ($element.data('select2')) {
+        $element.select2('destroy');
+    }
+    const select2Instance = $element.select2({
+        theme: 'bootstrap-5',
+        placeholder: placeholderText,
+        allowClear: true,
+        width: '100%',
+        minimumResultsForSearch: 0,
+        dropdownParent: parentSelector ? $(parentSelector) : $(document.body),
+        matcher: matcherContient
+    });
+
+    $element.on('select2:open', function() {
+        setTimeout(() => {
+            const searchField = document.querySelector('.select2-container--open .select2-search__field');
+            if (searchField) {
+                searchField.focus();
+                searchField.placeholder = 'Tapez pour rechercher';
+            }
+        }, 0);
+    });
+}
+
+// ============================================================================
+// ÉTAPE 1: Sélection de la commande
+// ============================================================================
+// S'assurer que le champ est prêt pour la saisie au focus
+$('#numero_commande').on('focus', function() {
+    $(this).select(); // Sélectionner tout le texte s'il y en a
+});
+
+// Empêcher la soumission du formulaire avec la touche Entrée sur le champ de commande
+$('#numero_commande').on('keypress', function(e) {
+    if (e.which === 13) {  // Touche Entrée
+        e.preventDefault();
+        // Déplacer le focus vers le champ de service s'il est visible
+        if ($('#sectionService').is(':visible')) {
+            $('#service_prevu').focus();
+        }
+        return false;
+    }
+});
+
+$('#numero_commande').on('input change', function() {
+    const numeroCommande = $(this).val().trim();
+    currentNumeroCommande = numeroCommande;
+    
+    // Réinitialiser
+    resetForm();
+    
+    if (!numeroCommande) {
+        return;
+    }
+    
+    // Récupérer les infos de la commande depuis le datalist
+    const selectedOption = $('#commandes_list option[value="' + numeroCommande + '"]');
+    
+    if (selectedOption.length > 0) {
+        $('#info_numero_cmd').text(numeroCommande);
+        $('#info_client_cmd').text(selectedOption.data('client') || '-');
+        $('#info_reference_cmd').text(selectedOption.data('reference') || '-');
+        $('#infoCommandeSelectionnee').show();
+    } else {
+        // Si le numéro n'est pas dans la liste, ne rien afficher
+        return;
+    }
+    
+    // Charger les services prévus
+    fetch(`/projet11/api/services-prevus/${encodeURIComponent(numeroCommande)}`)
+        .then(response => response.json())
+        .then(services => {
+            const datalistService = $('#services_list');
+            datalistService.empty();
+            
+            if (services.length > 0) {
+                // Ajouter les services prévus dans le datalist
+                services.forEach(srv => {
+                    datalistService.append(`<option value="${srv.nom_service}">${srv.nom_service} (${srv.nb_fiches} poste(s))</option>`);
+                });
+                
+                // Ajouter l'option pour service non prévu
+                datalistService.append('<option value="__AUTRE__">🔧 Autre service (non prévu)</option>');
+            }
+            
+            $('#sectionService').show();
+            
+            // Mettre automatiquement le focus sur le champ de service
+            setTimeout(function() {
+                $('#service_prevu').focus();
+            }, 100);
+
+            const storedService = storedFormValues && storedFormValues.service_prevu;
+            if (storedService) {
+                $('#service_prevu').val(storedService);
+                setTimeout(function() {
+                    $('#service_prevu').trigger('change');
+                }, 150);
+                delete storedFormValues.service_prevu;
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors du chargement des services');
+        });
+});
+
+// ============================================================================
+// ÉTAPE 2: Sélection du service
+// ============================================================================
+// S'assurer que le champ est prêt pour la saisie au focus
+$('#service_prevu').on('focus', function() {
+    // Le champ est maintenant actif et prêt pour la saisie
+    $(this).select(); // Sélectionner tout le texte s'il y en a
+});
+
+// Gérer la touche Entrée sur le champ de service
+$('#service_prevu').on('keypress keydown', function(e) {
+    if (e.which === 13 || e.keyCode === 13) {  // Touche Entrée
+        e.preventDefault();
+        
+        // Déclencher le traitement du service
+        const service = $(this).val().trim();
+        
+        if (service && currentNumeroCommande) {
+            // Vérifier si le service existe dans le datalist
+            const serviceExists = $('#services_list option[value="' + service + '"]').length > 0;
+            
+            if (serviceExists) {
+                // Déclencher l'événement change pour charger l'étape suivante
+                $(this).trigger('change');
+                
+                // Déplacer le focus vers le champ Nombre de Personnes après chargement
+                setTimeout(function() {
+                    if ($('#sectionSaisie').is(':visible') && $('#nb_pers').length > 0) {
+                        $('#nb_pers').focus().select();
+                    }
+                }, 600); // Attendre que les sections se chargent
+            }
+        }
+        
+        return false;
+    }
+});
+
+$('#service_prevu').on('keydown', function(e) {
+    if (e.key === 'Tab') {
+        e.preventDefault();
+        const valeur = $(this).val().trim();
+        if (valeur === '__AUTRE__') {
+            $(this).trigger('change');
+            setTimeout(function() {
+                const champServiceManuel = document.getElementById('service_manuel');
+                if (champServiceManuel) {
+                    champServiceManuel.focus();
+                    champServiceManuel.select();
+                }
+                const bloc = document.getElementById('sectionServiceNonPrevu');
+                if (bloc) {
+                    bloc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 200);
+        } else {
+            $(this).trigger('change');
+            setTimeout(function() {
+                const sectionSaisie = document.getElementById('sectionSaisie');
+                if (sectionSaisie) {
+                    sectionSaisie.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                if ($('#sectionSaisie').is(':visible') && $('#nb_pers').length > 0) {
+                    $('#nb_pers').focus().select();
+                }
+            }, 300);
+        }
+    }
+});
+
+// Variable pour détecter si le service est valide
+let serviceSelectionTimeout = null;
+
+$('#service_prevu').on('change', function() {
+    const service = $(this).val().trim();
+    currentService = service;
+    
+    if (!service || !currentNumeroCommande) {
+        $('#infoPrevues').hide();
+        $('#traitementsExistants').hide();
+        $('#sectionSaisie').hide();
+        $('#separator').hide();
+        stopChrono();
+        return;
+    }
+    
+    // Vérifier si le service existe dans le datalist
+    const serviceExists = $('#services_list option[value="' + service + '"]').length > 0;
+    
+    if (!serviceExists) {
+        // Le service n'est pas dans la liste, ne rien faire
+        return;
+    }
+    
+    // CASE 1: Service non prévu (AUTRE)
+    if (service === '__AUTRE__') {
+        afficherSelectionServiceNonPrevu();
+        return;
+    }
+    
+    // CASE 2: Service prévu
+    chargerServicePrevu(service);
+});
+
+// ============================================================================
+// Charger un service PRÉVU
+// ============================================================================
+function chargerServicePrevu(service) {
+    fetch(`/projet11/api/postes-prevus/${encodeURIComponent(currentNumeroCommande)}/${encodeURIComponent(service)}`)
+        .then(response => response.json())
+        .then(postes => {
+            if (postes.length === 0) {
+                alert('Aucun poste prévu pour ce service');
+                return;
+            }
+            
+            // Prendre le premier poste (généralement il n'y en a qu'un par service)
+            const poste = postes[0];
+            currentFicheId = poste.id_fiche_travail;
+            
+            // Afficher les infos prévues
+            $('#machine_prevue').text(poste.nom_poste);
+            $('#qte_prevue').text(poste.qte_prevue.toLocaleString('fr-FR'));
+            $('#temps_prevu').text(poste.tps_prev_dev.toFixed(3) + ' h');
+            $('#id_fiche_info').text('#' + poste.id_fiche_travail);
+            $('#id_fiche_travail').val(poste.id_fiche_travail);
+            $('#infoPrevues').show();
+            
+            // Charger les machines du service et pré-sélectionner la machine prévue
+            chargerMachinesService(service, poste.nom_poste);
+            
+            // Charger les traitements existants pour ce service
+            loadTraitementsService(currentNumeroCommande, service, poste.qte_prevue);
+            
+            $('#separator').show();
+            $('#sectionSaisie').show();
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors du chargement des postes prévus');
+        });
+}
+
+// ============================================================================
+// Afficher sélection pour service NON PRÉVU
+// ============================================================================
+function afficherSelectionServiceNonPrevu() {
+    $('#infoPrevues').hide();
+    $('#traitementsExistants').hide();
+    $('#sectionSaisie').hide();
+    
+    // Créer un message explicatif
+    const html = `
+        <div class="alert alert-info">
+            <h5><i class="fas fa-exclamation-triangle"></i> Service Non Prévu</h5>
+            <p>Vous allez ajouter un service qui n'était pas initialement prévu pour ce dossier.</p>
+            <p class="mb-0"><strong>Note:</strong> Les informations prévues ne seront pas disponibles. Vous devrez saisir manuellement la machine et la quantité.</p>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="service_manuel" class="form-label">
+                    <strong>Sélectionnez le Service à Ajouter *</strong>
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="service_manuel"
+                       name="service_manuel"
+                       list="services_manuel_list"
+                       placeholder="-- Tapez pour rechercher un service --"
+                       autocomplete="off"
+                       required>
+                <datalist id="services_manuel_list"></datalist>
+            </div>
+        </div>
+    `;
+    
+    // Afficher avant la section saisie
+    if ($('#sectionServiceNonPrevu').length === 0) {
+        $('#separator').before('<div id="sectionServiceNonPrevu"></div>');
+    }
+    $('#sectionServiceNonPrevu').html(html).show();
+    
+    setTimeout(function() {
+        const bloc = document.getElementById('sectionServiceNonPrevu');
+        if (bloc) {
+            bloc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        const champServiceManuel = document.getElementById('service_manuel');
+        if (champServiceManuel) {
+            champServiceManuel.focus();
+            champServiceManuel.select();
+        }
+    }, 50);
+    
+    // Charger TOUS les services disponibles
+    fetch('/projet11/api/services-tous')
+        .then(response => response.json())
+        .then(services => {
+            servicesDisponibles = services;
+            const datalist = $('#services_manuel_list');
+            datalist.empty();
+            services.forEach(srv => {
+                datalist.append(`<option value="${srv.nom_service}"></option>`);
+            });
+            const storedManual = storedFormValues && storedFormValues.service_manuel;
+            if (storedManual) {
+                $('#service_manuel').val(storedManual).trigger('change');
+                delete storedFormValues.service_manuel;
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+        });
+    
+    // Gérer la sélection du service manuel
+    $(document).on('change input', '#service_manuel', function() {
+        const saisir = $(this).val().trim();
+        if (!saisir) {
+            return;
+        }
+
+        const serviceTrouve = servicesDisponibles.find(srv => srv.nom_service.toLowerCase() === saisir.toLowerCase());
+        if (!serviceTrouve) {
+            return;
+        }
+
+        currentService = serviceTrouve.nom_service;
+        currentFicheId = 0;
+        $('#id_fiche_travail').val(0);
+        
+        // Afficher un message info
+        const infoHtml = `
+            <div class="alert alert-warning">
+                <h5><i class="fas fa-info-circle"></i> Service Non Prévu - Saisie Manuelle</h5>
+                <p><strong>Service:</strong> ${currentService}</p>
+                <p>Vous pouvez maintenant renseigner la machine réellement utilisée dans la section 3️⃣ ci-dessous.</p>
+                <p class="mb-0"><strong>⚠️ Important:</strong> Comme ce service n'était pas prévu, veuillez saisir manuellement la quantité produite et les autres informations.</p>
+            </div>
+        `;
+        
+        if ($('#infoServiceNonPrevu').length === 0) {
+            $('#separator').before('<div id="infoServiceNonPrevu"></div>');
+        }
+        $('#infoServiceNonPrevu').html(infoHtml).show();
+        
+        // Charger les machines du service et pré-sélectionner le poste choisi
+        chargerMachinesService(currentService, null);
+        
+        // CORRECTION: Générer les champs opérateurs pour les services non prévus
+        genererChampsOperateurs(1);
+        
+        // Afficher la section de saisie
+        $('#separator').show();
+        $('#sectionSaisie').show();
+        
+        // Pas de quantité pré-remplie pour les services non prévus
+        $('#pdt_c').val(0).attr('placeholder', 'Quantité conforme produite');
+        $('#pdt_nnc').val(0).attr('placeholder', 'Non conformes (bonnes feuilles)');
+        $('#pdt_anc').val(0).attr('placeholder', 'Non conformes (macules)');
+        
+        // Mettre le focus sur le premier champ de saisie
+        setTimeout(function() {
+            $('#nb_pers').focus().select();
+        }, 300);
+    });
+    
+    $('#separator').show();
+}
+
+// ============================================================================
+// Charger les traitements existants du service
+// ============================================================================
+// Charger les machines/postes d'un service spécifique
+function chargerMachinesService(nomService, machinePreselectionne = null) {
+    const selectMachine = $('#machine_reelle');
+    
+    // Vider et désactiver pendant le chargement
+    selectMachine.empty().append('<option value="">Chargement...</option>').prop('disabled', true);
+    
+    if (!nomService) {
+        selectMachine.empty().append('<option value="">-- Sélectionnez d\'abord un service --</option>');
+        return;
+    }
+    
+    fetch(`/projet11/api/postes-tous-service/${encodeURIComponent(nomService)}`)
+        .then(response => response.json())
+        .then(postes => {
+            selectMachine.empty();
+            
+            if (postes.length === 0) {
+                selectMachine.append('<option value="">Aucune machine disponible</option>');
+            } else {
+                selectMachine.append('<option value="">-- Sélectionnez une machine --</option>');
+                
+                postes.forEach(poste => {
+                    const option = $('<option>')
+                        .val(poste.nom)
+                        .text(poste.nom);
+                    selectMachine.append(option);
+                });
+            }
+            
+            // Pré-sélectionner la machine si fournie
+            if (machinePreselectionne) {
+                selectMachine.val(machinePreselectionne).trigger('change');
+            }
+            
+            // Réactiver et réinitialiser Select2
+            selectMachine.prop('disabled', false);
+            
+            // Détruire et réinitialiser Select2
+            initialiserSelect2Contient(selectMachine, null, '-- Tapez pour rechercher une machine --');
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des machines:', error);
+            selectMachine.empty().append('<option value="">Erreur de chargement</option>');
+            selectMachine.prop('disabled', false);
+        });
+}
+
+function loadTraitementsService(numeroCommande, service, qtePrevue) {
+    fetch(`/projet11/api/traitements-service/${encodeURIComponent(numeroCommande)}/${encodeURIComponent(service)}`)
+        .then(response => response.json())
+        .then(traitements => {
+            if (traitements.length > 0) {
+                let html = '';
+                let totalProduit = 0;
+                
+                traitements.forEach((t, index) => {
+                    let pdtC = Number(t.pdt_c || 0);
+                    let pdtNNC = Number(t.pdt_nnc || 0);
+                    let pdtANC = Number(t.pdt_anc || 0);
+                    let totalSession = pdtC + pdtNNC + pdtANC;
+                    const statut = t.en_cours ? '⏳ En cours' : '✅ Terminé';
+                    const duree = `${t.duree_heures.toFixed(3)}h`;
+                    let detailsQuantites;
+                    if (totalSession === 0 && Number(t.nb_op || 0) > 0) {
+                        totalSession = Number(t.nb_op || 0);
+                        detailsQuantites = '📦 Détail indisponible (données historiques)';
+                    } else {
+                        detailsQuantites = [
+                            `✅ ${pdtC.toLocaleString('fr-FR')} conf.`,
+                            `⚠️ ${pdtNNC.toLocaleString('fr-FR')} NNC`,
+                            `♻️ ${pdtANC.toLocaleString('fr-FR')} ANC`
+                        ].join(' | ');
+                    }
+                    const needsLineBreak = !detailsQuantites.startsWith('📦');
+                    
+                    html += `
+                        <div class="traitement-existant">
+                            <strong>Session ${index + 1}:</strong> ${t.dte_deb} → ${t.dte_fin || 'En cours'} ${statut}<br>
+                            <small>
+                                📦 ${totalSession.toLocaleString('fr-FR')} opérations | ${detailsQuantites}
+                                ${needsLineBreak ? '<br>' : ''}
+                                🏭 ${t.postes_reel} | 
+                                👤 ${t.operateur} | 
+                                ⏱️ ${duree} | 
+                                👥 ${t.nb_pers} pers.
+                            </small>
+                        </div>
+                    `;
+                    
+                    totalProduit += totalSession;
+                });
+                
+                const reste = qtePrevue - totalProduit;
+                const pourcentage = ((totalProduit / qtePrevue) * 100).toFixed(1);
+                
+                html = `<div class="mb-3">${html}</div>`;
+                
+                $('#listeTraitementsService').html(html);
+                $('#totauxService').html(`
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <strong>Total produit:</strong><br>
+                            <span class="badge bg-success">${totalProduit.toLocaleString('fr-FR')}</span>
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Reste à produire:</strong><br>
+                            <span class="badge bg-warning">${reste.toLocaleString('fr-FR')}</span>
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Avancement:</strong><br>
+                            <span class="badge bg-info">${pourcentage}%</span>
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sessions:</strong><br>
+                            <span class="badge bg-secondary">${traitements.length}</span>
+                        </div>
+                    </div>
+                `);
+                
+                // Afficher le reste dans le placeholder (sans pré-remplir)
+                $('#pdt_c').val(0).attr('placeholder', `Reste conforme à produire: ${reste > 0 ? reste : qtePrevue}`);
+                $('#pdt_nnc').val(0).attr('placeholder', 'Non conformes (nouvelles feuilles)');
+                $('#pdt_anc').val(0).attr('placeholder', 'Non conformes (anciennes feuilles)');
+                
+                $('#traitementsExistants').show();
+            } else {
+                $('#traitementsExistants').hide();
+                // Afficher la quantité prévue dans le placeholder (sans pré-remplir)
+                $('#pdt_c').val(0).attr('placeholder', `Quantité conforme prévue: ${qtePrevue}`);
+                $('#pdt_nnc').val(0).attr('placeholder', 'Non conformes (nouvelles feuilles)');
+                $('#pdt_anc').val(0).attr('placeholder', 'Non conformes (anciennes feuilles)');
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            $('#traitementsExistants').hide();
+        });
+}
+
+// ============================================================================
+// Génération dynamique des champs opérateurs
+// ============================================================================
+function genererChampsOperateurs(nbPersonnes) {
+    const container = $('#operateurs_fields');
+    const valeurExistante = $('#operateur_1').val() || '';
+    container.empty();
+    
+    // Toujours générer un seul champ d'opérateur (l'opérateur principal)
+    const operateurHtml = `
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <input type="text" 
+                       class="form-control operateur-input" 
+                       id="operateur_1" 
+                       name="operateur_1" 
+                       list="operateurs_list_1"
+                       placeholder="-- Tapez pour rechercher un opérateur --"
+                       autocomplete="off"
+                       data-index="1"
+                       data-matricule="">
+                <datalist id="operateurs_list_1">
+                    {% for op in operateurs %}
+                    <option value="{{ op.nom }} {{ op.prenom }} (Matricule: {{ op.matricule }})" 
+                            data-matricule="{{ op.matricule }}">
+                    </option>
+                    {% endfor %}
+                </datalist>
+                <small class="text-muted">— Saisir l'opérateur principal de ce poste</small>
+            </div>
+        </div>
+    `;
+    container.append(operateurHtml);
+    const champOperateur = document.getElementById('operateur_1');
+    const valeurACharger = (storedFormValues && storedFormValues.operateur_1) || valeurExistante || '';
+    if (champOperateur && valeurACharger) {
+        champOperateur.value = valeurACharger;
+        mettreAJourMatriculeDepuisTexte(champOperateur, valeurACharger);
+        if (storedFormValues && storedFormValues.operateur_1) {
+            delete storedFormValues.operateur_1;
+        }
+    }
+    
+    // S'assurer que le champ est prêt pour la saisie au focus
+    $('.operateur-input').on('focus', function() {
+        $(this).select(); // Sélectionner tout le texte s'il y en a
+    });
+    
+    // Empêcher la soumission avec Entrée sur les champs opérateurs
+    $('.operateur-input').on('keypress', function(e) {
+        if (e.which === 13) {  // Touche Entrée
+            e.preventDefault();
+            // Déplacer le focus vers le champ de quantité
+            $('#pdt_c').focus();
+            return false;
+        }
+    });
+    
+    // Extraire le matricule depuis le texte sélectionné
+    $('.operateur-input').on('input change', function() {
+        const valeur = $(this).val();
+        // Extraire le matricule entre parenthèses : "Nom Prenom (Matricule: 123)"
+        const match = valeur.match(/Matricule:\s*(\d+)/);
+        if (match) {
+            $(this).attr('data-matricule', match[1]);
+        } else {
+            $(this).attr('data-matricule', '');
+        }
+    });
+    
+    // Événement sur le premier opérateur pour démarrer le chronomètre
+    $('#operateur_1').on('input change', function() {
+        const matricule = $(this).attr('data-matricule');
+        if ($(this).val() && matricule && currentService && currentNumeroCommande) {
+            demarrerChrono();
+        }
+    });
+}
+
+// Le nombre de personnes ne change plus le nombre de champs opérateurs
+// On garde toujours un seul champ pour l'opérateur principal
+
+// Gestionnaire de navigation pour le champ Nombre de Personnes
+$('#nb_pers').on('keypress', function(e) {
+    if (e.which === 13) {  // Touche Entrée
+        e.preventDefault();
+        // Déplacer le focus vers le champ Machine Réelle
+        $('#machine_reelle').focus();
+        return false;
+    }
+});
+
+// Gestionnaire de navigation pour le champ Machine Réelle
+$(document).on('keypress', '#machine_reelle', function(e) {
+    if (e.which === 13) {  // Touche Entrée
+        e.preventDefault();
+        // Déplacer le focus vers le champ Opérateur
+        if ($('#operateur_1').length > 0) {
+            $('#operateur_1').focus();
+        }
+        return false;
+    }
+});
+
+// Gestionnaire de focus pour le champ Nombre de Personnes
+$('#nb_pers').on('focus', function() {
+    $(this).select(); // Sélectionner tout le texte s'il y en a
+});
+
+// Gestionnaire de focus pour le champ de quantité
+$('#pdt_c, #pdt_nnc, #pdt_anc').on('focus', function() {
+    $(this).select();
+});
+
+// ============================================================================
+// Fonctions du chronomètre
+// ============================================================================
+/**
+ * Formate une date en heure locale pour SQL Server (sans conversion UTC)
+ * Format: YYYY-MM-DDTHH:MM:SS (sans le 'Z' qui indique UTC)
+ */
+function formatDateTimeLocal(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+}
+
+function demarrerChrono() {
+    if (chronoStart || startTraitementEnCours || currentTraitementId) {
+        return; // Déjà démarré ou en cours d'initialisation
+    }
+
+    const idFicheTravail = parseInt($('#id_fiche_travail').val(), 10) || 0;
+    if (!currentNumeroCommande || !currentService || idFicheTravail === null || idFicheTravail === undefined) {
+        alert('Veuillez sélectionner une commande et un service avant de démarrer le chronomètre.');
+        return;
+    }
+
+    const matriculeOperateur = parseInt($('#operateur_1').attr('data-matricule'), 10);
+    if (!matriculeOperateur) {
+        alert('Veuillez sélectionner un opérateur valide avant de démarrer le chronomètre.');
+        return;
+    }
+
+    chronoStart = new Date();
+    const dateDebut = formatDateTimeLocal(chronoStart);
+    $('#dte_deb').val(dateDebut);
+    $('#chronoStart').text(chronoStart.toLocaleString('fr-FR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    }));
+
+    $('#chronoBox').css('display', 'block');
+
+    chronoInterval = setInterval(() => {
+        const now = new Date();
+        const diff = now - chronoStart;
+
+        const heures = Math.floor(diff / 3600000);
+        const minutes = Math.floor((diff % 3600000) / 60000);
+        const secondes = Math.floor((diff % 60000) / 1000);
+
+        $('#chronoDisplay').text(
+            `${heures.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondes.toString().padStart(2, '0')}`
+        );
+    }, 1000);
+
+    const payload = {
+        id_fiche_travail: idFicheTravail,
+        dte_deb: dateDebut,
+        nb_pers: parseInt($('#nb_pers').val(), 10) || 1,
+        matricule_personel: matriculeOperateur,
+        postes_reel: $('#machine_reelle').val() || null,
+        numero_commande: currentNumeroCommande || null,
+        nom_service: currentService || null
+    };
+
+    startTraitementEnCours = true;
+
+    fetch('/projet11/api/traitements/start', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(result => {
+        startTraitementEnCours = false;
+        if (result.success) {
+            setCurrentTraitementId(result.id);
+        } else {
+            stopChrono();
+            $('#dte_deb').val('');
+            alert(result.error || 'Impossible de démarrer le traitement sur le serveur.');
+        }
+    })
+    .catch(error => {
+        startTraitementEnCours = false;
+        stopChrono();
+        $('#dte_deb').val('');
+        alert('Erreur lors du démarrage du traitement sur le serveur.');
+        console.error(error);
+    });
+}
+
+function stopChrono() {
+    if (chronoInterval) {
+        clearInterval(chronoInterval);
+        chronoInterval = null;
+    }
+    chronoStart = null;
+    $('#chronoBox').css('display', 'none');
+    $('#chronoDisplay').text('00:00:00');
+}
+
+function resetForm() {
+    stopChrono();
+    startTraitementEnCours = false;
+    if (currentTraitementId) {
+        fetch(`/projet11/api/traitements/${currentTraitementId}`, {
+            method: 'DELETE'
+        }).catch(err => console.error('Erreur suppression traitement démarré:', err));
+        setCurrentTraitementId(null);
+    }
+    $('#sectionService').hide();
+    $('#infoPrevues').hide();
+    $('#traitementsExistants').hide();
+    $('#sectionSaisie').hide();
+    $('#separator').hide();
+    currentService = null;
+    currentFicheId = null;
+}
+
+// ============================================================================
+// Soumission du formulaire
+// ============================================================================
+$('#formNouveauTraitement').on('submit', function(e) {
+    e.preventDefault();
+    
+    // Vérifications préliminaires - Toutes les sections doivent être visibles
+    if (!currentNumeroCommande) {
+        alert('Erreur: Veuillez d\'abord sélectionner un numéro de commande');
+        return;
+    }
+    
+    if (!currentService) {
+        alert('Erreur: Veuillez sélectionner un service de production');
+        return;
+    }
+    
+    if ($('#sectionSaisie').css('display') === 'none') {
+        alert('Erreur: Veuillez compléter toutes les étapes avant de soumettre');
+        return;
+    }
+    
+    // Préparer l'arrêt du chrono et enregistrer la fin (sera appliqué après confirmation)
+    const now = new Date();
+    const dteFinValue = formatDateTimeLocal(now);
+    // CORRECTION: Utiliser l'heure locale du PC au lieu de l'UTC
+    $('#dte_fin').val(dteFinValue);
+    
+    // Vérifier que le champ operateur_1 existe
+    if ($('#operateur_1').length === 0) {
+        alert('Erreur: Le champ opérateur n\'a pas été initialisé. Veuillez recharger la page.');
+        console.error('Le champ #operateur_1 n\'existe pas dans le DOM');
+        return;
+    }
+    
+    // Récupérer le matricule de l'opérateur principal depuis data-matricule
+    const operateurPrincipal = $('#operateur_1').attr('data-matricule');
+    console.log('Matricule opérateur principal:', operateurPrincipal);
+    console.log('Texte complet:', $('#operateur_1').val());
+    
+    // Validation de l'opérateur
+    if (!operateurPrincipal) {
+        alert('Erreur: Veuillez sélectionner au moins l\'opérateur principal dans la liste');
+        return;
+    }
+    
+    const dteDebValue = $('#dte_deb').val();
+    if (!dteDebValue) {
+        alert('Veuillez sélectionner un opérateur pour démarrer le chronomètre');
+        return;
+    }
+    const idFicheRaw = $('#id_fiche_travail').val();
+    const idFicheValue = parseInt(idFicheRaw, 10);
+    const nbPersValue = parseInt($('#nb_pers').val(), 10) || 1;
+    const matriculeValue = parseInt(operateurPrincipal, 10);
+    const posteReelValue = $('#machine_reelle').val() || null;
+    
+    const pdtC = parseInt($('#pdt_c').val(), 10);
+    const pdtNNC = parseInt($('#pdt_nnc').val(), 10);
+    const pdtANC = parseInt($('#pdt_anc').val(), 10);
+    const safePdtC = Number.isFinite(pdtC) && pdtC >= 0 ? pdtC : 0;
+    const safePdtNNC = Number.isFinite(pdtNNC) && pdtNNC >= 0 ? pdtNNC : 0;
+    const safePdtANC = Number.isFinite(pdtANC) && pdtANC >= 0 ? pdtANC : 0;
+    const totalProduite = safePdtC + safePdtNNC + safePdtANC;
+
+    // Validation
+    if (Number.isNaN(idFicheValue)) {
+        alert('Erreur: Fiche de travail non sélectionnée');
+        return;
+    }
+    
+    // Pour les services non prévus (id_fiche_travail = 0), vérifier les infos supplémentaires
+    if (idFicheValue === 0) {
+        if (!currentNumeroCommande || !currentService) {
+            alert('Erreur: Informations de commande et service requises pour un service non prévu');
+            return;
+        }
+    }
+    
+    if (!Number.isFinite(matriculeValue)) {
+        alert('Erreur: Opérateur principal invalide');
+        return;
+    }
+    
+    if (totalProduite <= 0) {
+        alert('Veuillez saisir au moins une quantité produite (conforme ou non conforme)');
+        return;
+    }
+    
+    // Calculer la durée
+    const debut = new Date(dteDebValue);
+    const fin = new Date(dteFinValue);
+    const dureeMinutes = Math.floor((fin - debut) / 60000);
+    const dureeHeures = (dureeMinutes / 60).toFixed(3);
+    
+    // Confirmation
+    if (!confirm(`Enregistrer ce traitement?\n\nConformes: ${safePdtC.toLocaleString('fr-FR')}\nNon conformes (Nouvelles): ${safePdtNNC.toLocaleString('fr-FR')}\nNon conformes (Anciennes): ${safePdtANC.toLocaleString('fr-FR')}\nTotal: ${totalProduite.toLocaleString('fr-FR')}\nDurée: ${dureeHeures}h (${dureeMinutes} min)`)) {
+        // L'utilisateur souhaite garder le traitement en cours : réinitialiser la date de fin
+        $('#dte_fin').val('');
+        return;
+    }
+
+    // Confirmation acceptée : arrêter et masquer le chrono
+    stopChrono();
+    
+    const data = {
+        id_fiche_travail: idFicheValue,
+        dte_deb: dteDebValue,
+        dte_fin: dteFinValue,
+        nb_pers: nbPersValue,
+        matricule_personel: matriculeValue,
+        postes_reel: posteReelValue,
+        pdt_c: safePdtC,
+        pdt_nnc: safePdtNNC,
+        pdt_anc: safePdtANC,
+        nb_op: totalProduite,
+        numero_commande: currentNumeroCommande || null,
+        nom_service: currentService || null
+    };
+    
+    // Log des données envoyées
+    console.log('=== DONNÉES ENVOYÉES AU SERVEUR ===');
+    console.log('id_fiche_travail:', data.id_fiche_travail, 'type:', typeof data.id_fiche_travail);
+    console.log('matricule_personel:', data.matricule_personel, 'type:', typeof data.matricule_personel);
+    console.log('dte_deb:', data.dte_deb);
+    console.log('dte_fin:', data.dte_fin);
+    console.log('pdt_c:', data.pdt_c);
+    console.log('pdt_nnc:', data.pdt_nnc);
+    console.log('pdt_anc:', data.pdt_anc);
+    console.log('total (nb_op):', data.nb_op);
+    console.log('nb_pers:', data.nb_pers);
+    console.log('postes_reel:', data.postes_reel);
+    console.log('Données complètes:', JSON.stringify(data, null, 2));
+    console.log('===================================');
+    
+    // Envoyer
+    let url = '/projet11/api/traitements';
+    let method = 'POST';
+    if (currentTraitementId) {
+        url = `/projet11/api/traitements/${currentTraitementId}`;
+        method = 'PUT';
+    }
+
+    fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+            return response.text().then(text => {
+                throw new Error(`Erreur ${response.status}: ${text}`);
+            });
+        }
+        return response.json();
+    })
+    .then(result => {
+        console.log('Résultat:', result);
+        if (result.success) {
+            const traitementId = currentTraitementId || result.id || 'N/A';
+            setCurrentTraitementId(null);
+            alert(`✅ Traitement enregistré avec succès!\n\nID: ${traitementId}\nDurée: ${dureeHeures}h (${dureeMinutes} min)\nTotal produit: ${totalProduite.toLocaleString('fr-FR')}`);
+            if (estModeEmbed) {
+                window.location.reload();
+            } else {
+                window.location.href = '{{ url_for("projet11.liste_traitements") }}';
+            }
+        } else {
+            alert('❌ Erreur: ' + (result.error || 'Erreur inconnue'));
+        }
+    })
+    .catch(error => {
+        alert('❌ Erreur lors de l\'enregistrement: ' + error.message);
+        console.error('Erreur complète:', error);
+    });
+});
+
+// ============================================================================
+// Initialisation Select2
+// ============================================================================
+$(document).ready(function() {
+    // Le numéro de commande utilise maintenant un datalist HTML5 natif
+    // Le service de production utilise maintenant un datalist HTML5 natif
+    // Pas besoin d'initialisation Select2 pour ces champs
+    
+    // Machine Réelle - Select2 initialisé dynamiquement par chargerMachinesService()
+    
+    // Générer le champ opérateur initial (1 opérateur par défaut)
+    genererChampsOperateurs(1);
+});
+</script>
+{% endblock %}

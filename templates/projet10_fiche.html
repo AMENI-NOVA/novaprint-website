@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Fiche Contrôle Qualité{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h2 class="mb-3">Fiche Contrôle Qualité</h2>
+    <div id="fiche-meta" class="mb-3 text-muted"></div>
+
+    <form id="formFiche">
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th style="width: 40%;">Les tolérances des triages</th>
+                        <th style="width: 30%;" class="text-center">Quantité Conforme</th>
+                        <th style="width: 30%;" class="text-center">Quantité Non-conforme</th>
+                        <th style="width: 1%;" class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="fiche-tolerances"></tbody>
+                <tfoot class="table-secondary">
+                    <tr>
+                        <td class="text-end fw-bold">TOTAL</td>
+                        <td class="text-center fw-bold" id="fiche-total-conforme">0</td>
+                        <td class="text-center fw-bold" id="fiche-total-non-conforme">0</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-primary" id="btn-add-row">➕ Ajouter une ligne</button>
+            <button type="submit" class="btn btn-success">💾 Enregistrer</button>
+            <a href="{{ url_for('projet10.index') }}" class="btn btn-secondary">⬅ Retour</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const CONTROLE_ID = {{ controle_id }};
+
+function rowTemplate(tol = ''){
+    return `
+    <tr>
+        <td><input type="text" class="form-control" name="tolerance[]" value="${tol}" placeholder="Type de tolérance"></td>
+        <td><input type="number" class="form-control text-center" name="quantite_conforme[]" value="" min="0" onchange="recalc()"></td>
+        <td><input type="number" class="form-control text-center" name="quantite_non_conforme[]" value="" min="0" onchange="recalc()"></td>
+        <td class="text-center"><button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">✖</button></td>
+    </tr>`;
+}
+
+function removeRow(btn){ btn.closest('tr').remove(); recalc(); }
+
+function recalc(){
+    let tc=0, tnc=0;
+    document.querySelectorAll('#fiche-tolerances input[name="quantite_conforme[]"]').forEach(i=> tc += parseInt(i.value)||0);
+    document.querySelectorAll('#fiche-tolerances input[name="quantite_non_conforme[]"]').forEach(i=> tnc += parseInt(i.value)||0);
+    document.getElementById('fiche-total-conforme').textContent = tc;
+    document.getElementById('fiche-total-non-conforme').textContent = tnc;
+}
+
+async function loadFiche(){
+    const res = await fetch(`/projet10/api/controle/${CONTROLE_ID}`);
+    const data = await res.json();
+    if (!res.ok || data.error){ showNotification(data.error||'Erreur de chargement', 'error'); return; }
+    document.getElementById('fiche-meta').textContent = `N° ${data.id} — Date: ${(data.date_controle||'').split('T')[0]} — Dossier: ${data.Numero_COMMANDES||''}`;
+    const list = Array.isArray(data.tolerances) ? data.tolerances : (Array.isArray(data['tolérances']) ? data['tolérances'] : []);
+    const tbody = document.getElementById('fiche-tolerances');
+    tbody.innerHTML = '';
+    if (list.length){
+        list.forEach(t=>{
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="text" class="form-control" name="tolerance[]" value="${t.tolerance||''}"></td>
+                <td><input type="number" class="form-control text-center" name="quantite_conforme[]" value="${t.quantite_conforme||0}" min="0" onchange="recalc()"></td>
+                <td><input type="number" class="form-control text-center" name="quantite_non_conforme[]" value="${t.quantite_non_conforme||0}" min="0" onchange="recalc()"></td>
+                <td class="text-center"><button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">✖</button></td>`;
+            tbody.appendChild(tr);
+        });
+    } else {
+        // au moins une ligne vide
+        tbody.insertAdjacentHTML('beforeend', rowTemplate());
+    }
+    recalc();
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    loadFiche();
+    document.getElementById('btn-add-row').addEventListener('click', ()=>{
+        document.getElementById('fiche-tolerances').insertAdjacentHTML('beforeend', rowTemplate());
+    });
+    document.getElementById('formFiche').addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        const form = new FormData(e.currentTarget);
+        const payload = { tolerances: [] };
+        const tol = form.getAll('tolerance[]');
+        const qc = form.getAll('quantite_conforme[]');
+        const qnc = form.getAll('quantite_non_conforme[]');
+        for(let i=0;i<tol.length;i++){
+            if ((tol[i]||'').trim()!=='' || (qc[i]||'')!=='' || (qnc[i]||'')!==''){
+                payload.tolerances.push({
+                    tolerance: (tol[i]||'').trim(),
+                    quantite_conforme: parseInt(qc[i])||0,
+                    quantite_non_conforme: parseInt(qnc[i])||0
+                });
+            }
+        }
+        // Récupérer aussi les champs principaux du contrôle depuis l’API avant PUT
+        const base = await (await fetch(`/projet10/api/controle/${CONTROLE_ID}`)).json();
+        const body = {
+            date_controle: (base.date_controle||'').split('T')[0],
+            Numero_COMMANDES: base.Numero_COMMANDES||'',
+            operateur: base.operateur||'',
+            machine_impression: base.machine_impression||'',
+            operateur_machine_impression: base.operateur_machine_impression||'',
+            machine_decoupe: base.machine_decoupe||'',
+            operateur_machine_decoupe: base.operateur_machine_decoupe||'',
+            rebus: base.rebus||0,
+            validation_chef: base.validation_chef||'',
+            tolerances: payload.tolerances
+        };
+        const resp = await fetch(`/projet10/api/controle/${CONTROLE_ID}`, {
+            method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)
+        });
+        const out = await resp.json();
+        if (resp.ok && out.status==='success') { showNotification('Fiche enregistrée', 'success'); loadFiche(); }
+        else { showNotification(out.error||'Erreur lors de la sauvegarde', 'error'); }
+    });
+});
+</script>
+{% endblock %}
+
+
+

@@ -1,0 +1,132 @@
+PROJET 11 - FILTRAGE MACHINES PAR SERVICE
+==========================================
+
+✅ FAIT - 15 octobre 2024
+
+OBJECTIF
+--------
+Afficher uniquement les machines du service sélectionné dans le dropdown
+"Machine Réelle Utilisée", au lieu de toutes les machines de l'entreprise.
+
+AVANT
+-----
+Dropdown avec TOUTES les machines (100+ machines):
+  - CD102 (OFFSET)
+  - CONTRÔLE VISUEL (CONTRÔLE QUALITÉ)
+  - MASSICOT POLAIRE (MASSICOTAGE)
+  - CTP SCREEN (PRE-PRESS)
+  - ... (toutes les machines)
+
+Problème: Risque d'erreur, liste trop longue
+
+APRÈS
+-----
+Dropdown avec SEULEMENT les machines du service sélectionné:
+
+Service: OFFSET FEUILLES
+  - CD102
+  - HEIDELBERG XL75
+  - KBA RAPIDA 105
+  - ROLAND 700
+  - SM52
+  (5 machines au lieu de 100+)
+
+Service: MASSICOTAGE
+  - MASSICOT POLAIRE 78
+  - MASSICOT POLAIRE 92
+  - MASSICOT POLAIRE 137
+  - MASSICOT WOHLENBERG
+  (4 machines seulement)
+
+IMPLÉMENTATION
+--------------
+
+Nouvelle fonction JavaScript:
+  chargerMachinesService(nomService, machinePreselectionne)
+
+API utilisée:
+  GET /projet11/api/postes-tous-service/<nom_service>
+
+Appels:
+  1. Quand service prévu sélectionné
+  2. Quand service non prévu (manuel) sélectionné
+
+Fonctionnement:
+  1. Service sélectionné → Appel API
+  2. API retourne machines du service
+  3. Dropdown rempli avec ces machines
+  4. Machine prévue pré-sélectionnée
+  5. Select2 réinitialisé (recherche "contient")
+
+AVANTAGES
+---------
+
+✓ Liste ciblée (5-15 machines au lieu de 100+)
+✓ Impossible de sélectionner machine d'autre service
+✓ Navigation plus rapide
+✓ Interface plus claire
+✓ Moins d'erreurs
+
+EXEMPLE
+-------
+
+1. Sélection: Commande 2025050026
+2. Service: OFFSET FEUILLES
+3. → Dropdown Machine Réelle:
+   - CD102
+   - HEIDELBERG XL75  ✓ (pré-sélectionné)
+   - KBA RAPIDA 105
+   - ROLAND 700
+   - SM52
+
+4. Recherche "75" → Trouve uniquement XL75
+   (pas POLAIRE 137 qui est dans MASSICOTAGE)
+
+TEST
+----
+
+URL: http://localhost:5000/projet11/nouveau
+
+1. Sélectionner commande + service OFFSET FEUILLES
+2. Ouvrir dropdown Machine Réelle
+3. Vérifier: Seulement machines OFFSET visibles ✓
+
+4. Changer pour service MASSICOTAGE
+5. Ouvrir dropdown Machine Réelle
+6. Vérifier: Seulement massicots visibles ✓
+
+DOCUMENTATION
+-------------
+
+Voir: PROJET11_MACHINES_PAR_SERVICE.md (complète)
+
+VERSION: 1.7.3
+
+FIN.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

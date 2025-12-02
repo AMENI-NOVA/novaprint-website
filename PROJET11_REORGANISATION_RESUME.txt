@@ -1,0 +1,97 @@
+PROJET 11 - RÉORGANISATION TpsReel
+===================================
+
+✅ FAIT - 15 octobre 2024
+
+OBJECTIF
+--------
+Placer TpsReel juste à côté de TpsPrevDev_GP_FICHES_OPERATIONS
+pour une meilleure lisibilité de la structure.
+
+AVANT
+-----
+Position 17: TpsPrevDev_GP_FICHES_OPERATIONS (Temps prévu)
+Position 18: DateCreation
+Position 19: DateModification
+Position 20: PostesReel
+Position 21: TpsReel (Temps réel) ← ÉLOIGNÉ
+
+Écart: 4 positions (3 colonnes entre les deux)
+
+APRÈS
+-----
+Position 17: TpsPrevDev_GP_FICHES_OPERATIONS (Temps prévu)
+Position 18: TpsReel (Temps réel) ← ADJACENT ✅
+Position 19: PostesReel
+Position 20: DateCreation
+Position 21: DateModification
+
+Écart: 1 position → CÔTE À CÔTE!
+
+MÉTHODE
+-------
+1. Sauvegarde données TpsReel
+2. Suppression triggers
+3. Création table temporaire (bon ordre)
+4. Copie toutes les données
+5. Restauration valeurs TpsReel
+6. Remplacement table
+7. Recréation contraintes/index/triggers
+
+RÉSULTAT
+--------
+✅ TpsPrevDev et TpsReel maintenant côte à côte
+✅ Toutes les données préservées (2 traitements)
+✅ Tous les triggers fonctionnels
+✅ Tous les index recréés
+✅ Clé étrangère recréée
+
+AVANTAGES
+---------
+- Meilleure lisibilité dans SSMS
+- Comparaison facilitée dans SELECT *
+- Organisation logique (prévu → réel)
+- Structure autodocumentée
+
+IMPACT
+------
+✅ Backend Python: AUCUN changement nécessaire
+✅ Frontend Web: AUCUN changement nécessaire
+✅ Application: Fonctionne normalement
+
+DOCUMENTATION
+-------------
+Voir: PROJET11_REORGANISATION_TPSREEL.md
+
+VERSION
+-------
+1.7.1
+
+FIN.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
