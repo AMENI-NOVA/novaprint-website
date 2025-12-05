@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333333;
+            padding: 20px;
+            background: white;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h3 style="color: #e91e63; font-size: 1.8em; margin: 0; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #f0f0f0; font-weight: 600; font-family: Arial, sans-serif;">📝 Fiche de Demande d'Intervention</h3>
+    
+    <form>
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: #333333; font-weight: 600; font-size: 14px;">Date et Heure *</label>
+            <input type="text" value="{{ date_display|default('-', true) }}" readonly style="width: 100%; padding: 12px; border: 2px solid #dddddd; border-radius: 8px; font-size: 14px; font-family: Arial, sans-serif; background-color: #f0f0f0; color: #333333; box-sizing: border-box;">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: #333333; font-weight: 600; font-size: 14px;">Opérateur Demandeur *</label>
+            <input type="text" value="{{ oper_dem|default('', true) }}" readonly style="width: 100%; padding: 12px; border: 2px solid #dddddd; border-radius: 8px; font-size: 14px; font-family: Arial, sans-serif; background-color: #f0f0f0; color: #333333; box-sizing: border-box;">
+            <small style="display: block; color: #666666; font-size: 12.6px; margin-top: 5px;">Tapez un nom ou prénom pour rechercher</small>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: #333333; font-weight: 600; font-size: 14px;">Machine *</label>
+            <input type="text" value="{{ postes_reel|default('', true) }}" readonly style="width: 100%; padding: 12px; border: 2px solid #dddddd; border-radius: 8px; font-size: 14px; font-family: Arial, sans-serif; background-color: #f0f0f0; color: #333333; box-sizing: border-box;">
+            <small style="display: block; color: #666666; font-size: 12.6px; margin-top: 5px;">Tapez le nom de la machine pour rechercher</small>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: #333333; font-weight: 600; font-size: 14px;">État de la Machine *</label>
+            <div style="display: flex; gap: 30px; margin-top: 10px; margin-bottom: 5px;">
+                <label style="display: inline-flex; align-items: center; font-weight: normal; vertical-align: middle;">
+                    <div style="position: relative; display: inline-block; width: 28px; height: 28px; margin-top: -2px; vertical-align: middle;">
+                        {% if etat_avec_arret_checked %}
+                        <input type="checkbox" checked disabled style="width: 28px; height: 28px; border: 2px solid #e91e63; background: #ffffff; border-radius: 4px; margin: 0; padding: 0; position: absolute; top: 0; left: 0; appearance: none; -webkit-appearance: none; box-sizing: border-box;">
+                        <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #e91e63; font-size: 18px; font-weight: bold; line-height: 1; margin: 0; padding: 0; z-index: 10; pointer-events: none;">❌</span>
+                        {% else %}
+                        <input type="checkbox" disabled style="width: 28px; height: 28px; border: 2px solid #dddddd; background: #ffffff; border-radius: 4px; margin: 0; padding: 0; appearance: none; -webkit-appearance: none; box-sizing: border-box;">
+                        {% endif %}
+                    </div>
+                    <span style="line-height: 28px; display: inline-block; vertical-align: middle; font-size: 14px; color: #333333; margin-left: 10px;">Avec Arrêt</span>
+                </label>
+                <label style="display: inline-flex; align-items: center; font-weight: normal; vertical-align: middle;">
+                    <div style="position: relative; display: inline-block; width: 28px; height: 28px; margin-top: -2px; vertical-align: middle;">
+                        {% if etat_sans_arret_checked %}
+                        <input type="checkbox" checked disabled style="width: 28px; height: 28px; border: 2px solid #e91e63; background: #ffffff; border-radius: 4px; margin: 0; padding: 0; position: absolute; top: 0; left: 0; appearance: none; -webkit-appearance: none; box-sizing: border-box;">
+                        <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #e91e63; font-size: 18px; font-weight: bold; line-height: 1; margin: 0; padding: 0; z-index: 10; pointer-events: none;">❌</span>
+                        {% else %}
+                        <input type="checkbox" disabled style="width: 28px; height: 28px; border: 2px solid #dddddd; background: #ffffff; border-radius: 4px; margin: 0; padding: 0; appearance: none; -webkit-appearance: none; box-sizing: border-box;">
+                        {% endif %}
+                    </div>
+                    <span style="line-height: 28px; display: inline-block; vertical-align: middle; font-size: 14px; color: #333333; margin-left: 10px;">Sans Arrêt</span>
+                </label>
+            </div>
+            <small style="display: block; color: #666666; font-size: 12.6px; margin-top: 5px;">Indiquez si la machine est arrêtée ou fonctionne encore</small>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: #333333; font-weight: 600; font-size: 14px;">Description du Problème</label>
+            <textarea readonly style="width: 100%; padding: 12px; border: 2px solid #dddddd; border-radius: 8px; font-size: 14px; font-family: Arial, sans-serif; background-color: #f0f0f0; color: #333333; min-height: 100px; resize: vertical; box-sizing: border-box;">{{ dem_in|default('', true) }}</textarea>
+        </div>
+    </form>
+</body>
+</html>
