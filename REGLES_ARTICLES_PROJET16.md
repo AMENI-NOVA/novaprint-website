@@ -224,3 +224,5 @@ La table est créée et fonctionnelle. Il reste à :
 La structure est prête et respecte toutes vos règles ! 🎉
 
 
+
+

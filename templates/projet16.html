@@ -501,11 +501,47 @@
         font-weight: 600;
     }
 
+    /* Wrapper pour les champs avec symbole ▼ */
+    .input-wrapper {
+        position: relative;
+        width: 100%;
+    }
+    
+    .input-indicator {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        font-size: 0.75em;
+        pointer-events: auto;
+        z-index: 1;
+        cursor: pointer;
+        transition: color 0.2s ease;
+        user-select: none;
+        display: inline-block;
+    }
+    
+    .input-indicator:hover {
+        color: #666;
+    }
+    
+    /* Exclure le symbole pour certains champs spécifiques */
+    .input-wrapper.no-indicator .input-indicator {
+        display: none;
+    }
+    
+    /* Pour textarea, ajuster la position du symbole en haut */
+    .input-wrapper:has(textarea) .input-indicator {
+        top: 15px;
+        transform: none;
+    }
+    
     .form-group input,
     .form-group select,
     .form-group textarea {
         width: 100%;
-        padding: 12px;
+        padding: 12px 30px 12px 12px;
         border: 2px solid #ddd;
         border-radius: 8px;
         font-size: 1em;
@@ -605,7 +641,7 @@
     /* Boutons de statut réparation */
     .status-btn {
         flex: 1;
-        min-width: 150px;
+        min-width: 0;
         color: white;
         border: none;
         padding: 12px 20px;
@@ -615,6 +651,8 @@
         cursor: pointer;
         transition: all 0.3s ease;
         box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        text-align: center;
+        white-space: nowrap;
     }
 
     .status-btn:hover {
@@ -887,19 +925,25 @@
         <form id="demandeForm">
             <div class="form-group">
                 <label for="dte_dem_in">Date et Heure *</label>
-                <input type="datetime-local" id="dte_dem_in" name="dte_dem_in" required readonly style="background-color: #f0f0f0; cursor: not-allowed;">
+                <div class="input-wrapper">
+                    <input type="datetime-local" id="dte_dem_in" name="dte_dem_in" required readonly style="background-color: #f0f0f0; cursor: not-allowed;">
+                    <span class="input-indicator" onclick="showInputList('dte_dem_in')">▼</span>
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="operateur_reclamant">Opérateur Demandeur *</label>
-                <input type="text" 
-                       id="operateur_reclamant" 
-                       name="operateur_reclamant" 
-                       list="operateurs_list"
-                       placeholder="-- Tapez pour rechercher un opérateur --"
-                       autocomplete="off"
-                       data-matricule=""
-                       required>
+                <div class="input-wrapper">
+                    <input type="text" 
+                           id="operateur_reclamant" 
+                           name="operateur_reclamant" 
+                           list="operateurs_list"
+                           placeholder="-- Tapez pour rechercher un opérateur --"
+                           autocomplete="off"
+                           data-matricule=""
+                           required>
+                    <span class="input-indicator" onclick="showInputList('operateur_reclamant')">▼</span>
+                </div>
                 <datalist id="operateurs_list">
                     {% for op in operateurs %}
                     <option value="{{ op.nom }} {{ op.prenom }} (Matricule: {{ op.matricule }})" 
@@ -913,13 +957,16 @@
 
             <div class="form-group">
                 <label for="machine_input">Machine *</label>
-                <input type="text" 
-                       id="machine_input" 
-                       name="machine_input" 
-                       list="machines_list"
-                       placeholder="-- Tapez pour rechercher une machine --"
-                       autocomplete="off"
-                       required>
+                <div class="input-wrapper">
+                    <input type="text" 
+                           id="machine_input" 
+                           name="machine_input" 
+                           list="machines_list"
+                           placeholder="-- Tapez pour rechercher une machine --"
+                           autocomplete="off"
+                           required>
+                    <span class="input-indicator" onclick="showInputList('machine_input')">▼</span>
+                </div>
                 <datalist id="machines_list">
                     {% for machine in machines %}
                     <option value="{{ machine.nom }}">
@@ -947,7 +994,9 @@
 
             <div class="form-group">
                 <label for="dem_in">Description du Problème</label>
-                <textarea id="dem_in" name="dem_in" placeholder="Décrivez le problème rencontré..."></textarea>
+                <div class="input-wrapper no-indicator">
+                    <textarea id="dem_in" name="dem_in" placeholder="Décrivez le problème rencontré..."></textarea>
+                </div>
             </div>
 
             <button type="submit" class="submit-btn">💾 Enregistrer la fiche de Demande d'Intervention</button>
@@ -960,7 +1009,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <h3 class="reparation">🔧 Nouvelle fiche de Réparation</h3>
-            <button class="close-btn" onclick="closeReparationModal()">&times;</button>
+            <button class="close-btn" onclick="enregistrerReparation('annule')">&times;</button>
         </div>
 
         <div id="alert-reparation" class="alert"></div>
@@ -970,13 +1019,16 @@
         <!-- Sélection de la demande (visible seulement pour Nouvelle fiche de Réparation) -->
         <div id="selection-demande" class="form-group" style="display: none;">
             <label for="select_demande_input">Sélectionner une demande d'intervention</label>
-            <input type="text" 
-                   id="select_demande_input" 
-                   name="select_demande_input" 
-                   list="demandes_list"
-                   placeholder="-- Tapez pour rechercher une demande --"
-                   autocomplete="off"
-                   data-demande-id="">
+            <div class="input-wrapper">
+                <input type="text" 
+                       id="select_demande_input" 
+                       name="select_demande_input" 
+                       list="demandes_list"
+                       placeholder="-- Tapez pour rechercher une demande --"
+                       autocomplete="off"
+                       data-demande-id="">
+                <span class="input-indicator" onclick="showInputList('select_demande_input')">▼</span>
+            </div>
             <datalist id="demandes_list">
                 <!-- Sera rempli dynamiquement -->
             </datalist>
@@ -988,12 +1040,15 @@
             <!-- 1. Machine Concernée -->
             <div class="form-group" id="machine-reparation-group">
                 <label for="machine_reparation">Machine Concernée *</label>
-                <input type="text" 
-                       id="machine_reparation" 
-                       name="machine_reparation" 
-                       list="machines_list_rep"
-                       placeholder="-- Tapez pour rechercher une machine --"
-                       autocomplete="off">
+                <div class="input-wrapper">
+                    <input type="text" 
+                           id="machine_reparation" 
+                           name="machine_reparation" 
+                           list="machines_list_rep"
+                           placeholder="-- Tapez pour rechercher une machine --"
+                           autocomplete="off">
+                    <span class="input-indicator" onclick="showInputList('machine_reparation')">▼</span>
+                </div>
                 <datalist id="machines_list_rep">
                     {% for machine in machines %}
                     <option value="{{ machine.nom }}">
@@ -1006,14 +1061,17 @@
             <!-- 2. Intervenant -->
             <div class="form-group">
                 <label for="intervenant_input">Intervenant *</label>
-                <input type="text" 
-                       id="intervenant_input" 
-                       name="intervenant_input" 
-                       list="intervenants_list"
-                       placeholder="-- Tapez pour rechercher un intervenant --"
-                       autocomplete="off"
-                       data-matricule=""
-                       required>
+                <div class="input-wrapper">
+                    <input type="text" 
+                           id="intervenant_input" 
+                           name="intervenant_input" 
+                           list="intervenants_list"
+                           placeholder="-- Tapez pour rechercher un intervenant --"
+                           autocomplete="off"
+                           data-matricule=""
+                           required>
+                    <span class="input-indicator" onclick="showInputList('intervenant_input')">▼</span>
+                </div>
                 <datalist id="intervenants_list">
                     {% for op in operateurs %}
                     <option value="{{ op.nom }} {{ op.prenom }} (Matricule: {{ op.matricule }})" 
@@ -1028,17 +1086,23 @@
             <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr;">
                 <div class="form-group">
                     <label for="dte_deb">Date/Heure Début *</label>
-                    <input type="datetime-local" id="dte_deb" name="dte_deb" required>
+                    <div class="input-wrapper no-indicator">
+                        <input type="datetime-local" id="dte_deb" name="dte_deb" required>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="dte_fin">Date/Heure Fin</label>
-                    <input type="datetime-local" id="dte_fin" name="dte_fin">
+                    <div class="input-wrapper no-indicator">
+                        <input type="datetime-local" id="dte_fin" name="dte_fin">
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="tps_reel">Temps Réel</label>
-                    <input type="text" id="tps_reel" name="tps_reel" placeholder="00:00" pattern="[0-9]{1,2}:[0-5][0-9]" maxlength="5">
+                    <div class="input-wrapper no-indicator">
+                        <input type="text" id="tps_reel" name="tps_reel" placeholder="00:00" pattern="[0-9]{1,2}:[0-5][0-9]" maxlength="5">
+                    </div>
                     <small style="color: #666; font-size: 0.85em;">Format HH:MM (ex: 01:30 = 1h30)</small>
                 </div>
             </div>
@@ -1087,17 +1151,20 @@
 
             <!-- Boutons de statut -->
             <div class="form-group status-buttons-container" style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
-                <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-                    <button type="button" class="status-btn btn-annule" onclick="enregistrerReparation('annule')" style="background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);">
-                        ❌ Annulé
+                <div style="display: flex; gap: 15px; flex-wrap: nowrap; justify-content: center; align-items: center;">
+                    <button type="button" class="status-btn btn-annule" onclick="enregistrerReparation('annule')" style="background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%); flex: 1; min-width: 0;">
+                        ❌ Annuler
                     </button>
-                    <button type="button" class="status-btn btn-cloturer" onclick="enregistrerReparation('cloturer')" style="background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);">
+                    <button type="button" class="status-btn btn-enregistrer" onclick="enregistrerReparation('enregistrer')" style="background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%); flex: 1; min-width: 0;">
+                        💾 Enregistrer
+                    </button>
+                    <button type="button" class="status-btn btn-cloturer" onclick="enregistrerReparation('cloturer')" style="background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%); flex: 1; min-width: 0;">
                         ✅ Clôturer
                     </button>
-                    <button type="button" class="status-btn btn-en-attente" onclick="enregistrerReparation('en_attente')" style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);">
+                    <button type="button" class="status-btn btn-en-attente" onclick="enregistrerReparation('en_attente')" style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); flex: 1; min-width: 0;">
                         ⏸️ En Attente
                     </button>
-                    <button type="button" class="status-btn btn-temporaire" onclick="enregistrerReparation('temporaire')" style="background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);">
+                    <button type="button" class="status-btn btn-temporaire" onclick="enregistrerReparation('temporaire')" style="background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); flex: 1; min-width: 0;">
                         ⏱️ Temporaire
                     </button>
                 </div>
@@ -1105,7 +1172,13 @@
             
             <!-- Bouton Fermer pour mode lecture seule -->
             <div class="form-group close-button-container" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
-                <div style="display: flex; justify-content: center;">
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button type="button" class="submit-btn" onclick="enregistrerFicheReparationPDF()" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 12px 30px;">
+                        💾 Enregistrer
+                    </button>
+                    <button type="button" class="submit-btn" onclick="imprimerFicheReparation()" style="background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%); color: white; padding: 12px 30px;">
+                        🖨️ Imprimer
+                    </button>
                     <button type="button" class="submit-btn" onclick="closeReparationModal()" style="background: linear-gradient(135deg, #757575 0%, #616161 100%); color: white; padding: 12px 30px;">
                         Fermer
                     </button>
@@ -1118,8 +1191,11 @@
 <!-- Modal Détails -->
 <div id="detailsModal" class="modal">
     <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header" style="position: relative;">
             <h3>📝 Fiche de Demande d'Intervention</h3>
+            <div id="version-suffixe-details" style="position: absolute; top: 10px; right: 50px; color: #666; font-size: 0.9em; display: none;">
+                Version N°
+            </div>
             <button class="close-btn" onclick="closeDetailsModal()">&times;</button>
         </div>
 
@@ -1128,7 +1204,13 @@
         </div>
 
         <div style="display: flex; gap: 15px; justify-content: center; padding: 20px; border-top: 2px solid #e0e0e0; margin-top: 20px;">
-            <button class="submit-btn" onclick="closeDetailsModal()" style="background: linear-gradient(135deg, #757575 0%, #616161 100%);">
+            <button class="submit-btn" onclick="enregistrerFicheDemandePDF()" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 12px 30px;">
+                💾 Enregistrer
+            </button>
+            <button class="submit-btn" onclick="imprimerFicheDemande()" style="background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%); color: white; padding: 12px 30px;">
+                🖨️ Imprimer
+            </button>
+            <button class="submit-btn" onclick="closeDetailsModal()" style="background: linear-gradient(135deg, #757575 0%, #616161 100%); color: white; padding: 12px 30px;">
                 Fermer
             </button>
         </div>
@@ -1137,7 +1219,29 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
+    // Fonction pour afficher la liste au clic sur le symbole ▼
+    function showInputList(inputId) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        
+        // Si le champ a un datalist, déclencher l'affichage de la liste
+        if (input.hasAttribute('list')) {
+            // Focus sur le champ et simuler une saisie pour afficher la liste
+            input.focus();
+            // Pour les champs avec datalist, on peut déclencher l'événement input
+            // ou simplement faire un focus qui affichera la liste
+            input.click();
+        } else if (input.type === 'datetime-local') {
+            // Pour les champs datetime-local, ouvrir le sélecteur de date
+            input.showPicker ? input.showPicker() : input.focus();
+        } else {
+            // Pour les autres champs, simplement mettre le focus
+            input.focus();
+        }
+    }
+    
     // Sélection du type de maintenance
     function selectMaintenanceType(type) {
         if (type === 'corrective') {
@@ -1464,6 +1568,7 @@
                 
                 // Stocker l'ID pour référence
                 document.getElementById('demande_id_rep').value = reparationId;
+                currentReparationId = reparationId;
                 
                 // Ouvrir le modal
                 document.getElementById('reparationModal').classList.add('active');
@@ -1505,6 +1610,95 @@
 
     // Variable globale pour stocker l'ID de la demande en cours de visualisation
     let currentDemandeId = null;
+    
+    // Variable globale pour stocker l'ID de la réparation en cours de visualisation
+    let currentReparationId = null;
+    
+    function enregistrerFicheReparationPDF() {
+        const reparationId = document.getElementById('demande_id_rep').value;
+        if (!reparationId) {
+            alert('Aucune fiche de réparation à enregistrer');
+            return;
+        }
+        // Créer un lien de téléchargement sans affecter le popup
+        const link = document.createElement('a');
+        link.href = '/projet16/api/reparation/' + reparationId + '/pdf';
+        link.download = 'fiche_reparation_' + reparationId + '.pdf';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        // Nettoyer immédiatement
+        setTimeout(function() {
+            document.body.removeChild(link);
+        }, 100);
+        // Le popup reste ouvert et intact, aucun changement de focus
+    }
+    
+    function imprimerFicheReparation() {
+        const reparationId = document.getElementById('demande_id_rep').value;
+        if (!reparationId) {
+            alert('Aucune fiche de réparation à imprimer');
+            return;
+        }
+        // Générer le PDF et l'ouvrir pour impression sans affecter le popup
+        const pdfUrl = '/projet16/api/demande/' + reparationId + '/pdf';
+        fetch(pdfUrl)
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                // Créer un iframe complètement caché pour l'impression
+                const iframe = document.createElement('iframe');
+                iframe.style.position = 'fixed';
+                iframe.style.left = '-9999px';
+                iframe.style.top = '-9999px';
+                iframe.style.width = '1px';
+                iframe.style.height = '1px';
+                iframe.style.border = 'none';
+                iframe.style.opacity = '0';
+                iframe.style.pointerEvents = 'none';
+                iframe.src = url;
+                document.body.appendChild(iframe);
+                
+                iframe.onload = function() {
+                    setTimeout(function() {
+                        try {
+                            iframe.contentWindow.focus();
+                            iframe.contentWindow.print();
+                        } catch (e) {
+                            console.error('Erreur lors de l\'impression:', e);
+                            // Fallback: ouvrir dans un nouvel onglet si l'impression directe échoue
+                            const printWindow = window.open(url, '_blank');
+                            if (printWindow) {
+                                printWindow.onload = function() {
+                                    setTimeout(function() {
+                                        printWindow.print();
+                                    }, 500);
+                                };
+                            }
+                        }
+                        // Nettoyer après impression
+                        setTimeout(function() {
+                            if (iframe.parentNode) {
+                                document.body.removeChild(iframe);
+                            }
+                            window.URL.revokeObjectURL(url);
+                        }, 2000);
+                    }, 500);
+                };
+                
+                // Gestion d'erreur si le chargement échoue
+                iframe.onerror = function() {
+                    console.error('Erreur lors du chargement du PDF');
+                    document.body.removeChild(iframe);
+                    window.URL.revokeObjectURL(url);
+                    alert('Erreur lors de la génération du PDF pour impression');
+                };
+            })
+            .catch(error => {
+                console.error('Erreur lors de la génération du PDF:', error);
+                alert('Erreur lors de la génération du PDF pour impression');
+            });
+    }
 
     function openDetailsModal(demandeId) {
         currentDemandeId = demandeId;
@@ -1533,26 +1727,35 @@
                     etatSansArretChecked = 'checked';
                 }
                 
+                // Afficher le Suffixe si > 0
+                const versionSuffixeDiv = document.getElementById('version-suffixe-details');
+                if (demande.suffixe && demande.suffixe > 0) {
+                    versionSuffixeDiv.textContent = `Version N°${demande.suffixe}`;
+                    versionSuffixeDiv.style.display = 'block';
+                } else {
+                    versionSuffixeDiv.style.display = 'none';
+                }
+                
                 // Générer le formulaire identique au formulaire de saisie mais en lecture seule
                 let html = '<form id="detailsForm" style="pointer-events: none;">';
                 
                 // Date et Heure
                 html += '<div class="form-group">';
                 html += '<label for="details_dte_dem_in">Date et Heure *</label>';
-                html += '<input type="datetime-local" id="details_dte_dem_in" value="' + dateValue + '" readonly style="background-color: #f0f0f0; cursor: not-allowed;">';
+                html += '<div class="input-wrapper"><input type="datetime-local" id="details_dte_dem_in" value="' + dateValue + '" readonly style="background-color: #f0f0f0; cursor: not-allowed;"><span class="input-indicator" onclick="showInputList(\'details_dte_dem_in\')">▼</span></div>';
                 html += '</div>';
                 
                 // Opérateur Demandeur
                 html += '<div class="form-group">';
                 html += '<label for="details_operateur">Opérateur Demandeur *</label>';
-                html += '<input type="text" id="details_operateur" value="' + (demande.oper_dem || '') + '" readonly style="background-color: #f0f0f0; cursor: not-allowed;">';
+                html += '<div class="input-wrapper"><input type="text" id="details_operateur" value="' + (demande.oper_dem || '') + '" readonly style="background-color: #f0f0f0; cursor: not-allowed;"><span class="input-indicator" onclick="showInputList(\'details_operateur\')">▼</span></div>';
                 html += '<small style="color: #666; font-size: 0.9em;">Tapez un nom ou prénom pour rechercher</small>';
                 html += '</div>';
                 
                 // Machine
                 html += '<div class="form-group">';
                 html += '<label for="details_machine">Machine *</label>';
-                html += '<input type="text" id="details_machine" value="' + (demande.postes_reel || '') + '" readonly style="background-color: #f0f0f0; cursor: not-allowed;">';
+                html += '<div class="input-wrapper"><input type="text" id="details_machine" value="' + (demande.postes_reel || '') + '" readonly style="background-color: #f0f0f0; cursor: not-allowed;"><span class="input-indicator" onclick="showInputList(\'details_machine\')">▼</span></div>';
                 html += '<small style="color: #666; font-size: 0.9em;">Tapez le nom de la machine pour rechercher</small>';
                 html += '</div>';
                 
@@ -1575,7 +1778,7 @@
                 // Description du Problème
                 html += '<div class="form-group">';
                 html += '<label for="details_dem_in">Description du Problème</label>';
-                html += '<textarea id="details_dem_in" readonly style="background-color: #f0f0f0; cursor: not-allowed; resize: none; min-height: 100px;">' + (demande.dem_in || '') + '</textarea>';
+                html += '<div class="input-wrapper no-indicator"><textarea id="details_dem_in" readonly style="background-color: #f0f0f0; cursor: not-allowed; resize: none; min-height: 100px;">' + (demande.dem_in || '') + '</textarea></div>';
                 html += '</div>';
                 
                 html += '</form>';
@@ -1589,7 +1792,7 @@
         });
     }
     
-    function enregistrerFichePDF() {
+    function enregistrerFicheDemandePDF() {
         if (!currentDemandeId) {
             alert('Aucune fiche à enregistrer');
             return;
@@ -1608,7 +1811,7 @@
         // Le popup reste ouvert et intact, aucun changement de focus
     }
     
-    function imprimerFiche() {
+    function imprimerFicheDemande() {
         if (!currentDemandeId) {
             alert('Aucune fiche à imprimer');
             return;
@@ -1846,9 +2049,12 @@
                         minute: '2-digit'
                     }) : '-';
                     
+                    // Afficher ID-Suffixe si Suffixe > 0, sinon juste ID
+                    const idDisplay = demande.suffixe && demande.suffixe > 0 ? `${demande.id}-${demande.suffixe}` : demande.id;
+                    
                     tbody.append(`
                         <tr>
-                            <td>${demande.id}</td>
+                            <td>${idDisplay}</td>
                             <td>${dateStr}</td>
                             <td>${demande.oper_dem || '-'}</td>
                             <td>${demande.postes_reel || '-'}</td>
@@ -2032,19 +2238,24 @@
             <div class="article-dynamic-row" data-article-id="${articleId}" data-db-id="${articleData ? articleData.id : ''}">
                 <div class="form-group">
                     <label>Article</label>
-                    <input type="text" 
-                           class="article-input" 
-                           id="${articleId}_input" 
-                           data-article-id="${articleId}"
-                           list="articles_list_rep"
-                           placeholder="-- Tapez pour rechercher un article --"
-                           autocomplete="off"
-                           data-id-article="">
+                    <div class="input-wrapper">
+                        <input type="text" 
+                               class="article-input" 
+                               id="${articleId}_input" 
+                               data-article-id="${articleId}"
+                               list="articles_list_rep"
+                               placeholder="-- Tapez pour rechercher un article --"
+                               autocomplete="off"
+                               data-id-article="">
+                        <span class="input-indicator" onclick="showInputList('${articleId}_input')">▼</span>
+                    </div>
                     <input type="hidden" class="article-id-hidden" id="${articleId}_id_hidden" value="${articleData ? articleData.id_article : ''}">
                 </div>
                 <div class="form-group">
                     <label>Quantité</label>
-                    <input type="number" class="article-quantite" id="${articleId}_quantite" step="1" min="0" placeholder="0" value="${articleData ? Math.round(articleData.quantite || 0) : ''}">
+                    <div class="input-wrapper no-indicator">
+                        <input type="number" class="article-quantite" id="${articleId}_quantite" step="1" min="0" placeholder="0" value="${articleData ? Math.round(articleData.quantite || 0) : ''}">
+                    </div>
                 </div>
                 <div class="article-actions">
                     <button type="button" class="btn-add-article-inline" onclick="ajouterLigneArticle()" title="Ajouter un article">
@@ -2285,6 +2496,7 @@
         const dteDeb = $('#dte_deb').val();
         const dteFin = $('#dte_fin').val();
         
+        // Règle : Si DteFin est saisi, calculer TpsReel = DteFin - DteDeb
         if (dteDeb && dteFin) {
             const debut = new Date(dteDeb);
             const fin = new Date(dteFin);
@@ -2294,15 +2506,24 @@
                 const diffHours = diffMs / (1000 * 60 * 60);
                 const hhmm = heuresDecimalesVersHHMM(diffHours);
                 $('#tps_reel').val(hhmm);
+            } else {
+                // Si la date de fin est antérieure à la date de début, vider TpsReel
+                $('#tps_reel').val('');
             }
+        } else if (!dteFin) {
+            // Si DteFin est vidé, ne pas modifier TpsReel (il peut être saisi manuellement)
+            // On ne vide pas TpsReel car il peut avoir été saisi manuellement
         }
     }
 
     function calculerDteFin() {
         const dteDeb = $('#dte_deb').val();
+        const dteFin = $('#dte_fin').val();
         const tpsReelHHMM = $('#tps_reel').val();
         
-        if (dteDeb && tpsReelHHMM && tpsReelHHMM !== '') {
+        // Règle : Si TpsReel est saisi et DteFin n'est pas renseigné, calculer DteFin = DteDeb + TpsReel
+        // Si DteFin est déjà renseigné, on ne le modifie pas (priorité à la saisie manuelle)
+        if (dteDeb && tpsReelHHMM && tpsReelHHMM !== '' && !dteFin) {
             const heuresDecimales = HHMMVersHeuresDecimales(tpsReelHHMM);
             
             if (heuresDecimales > 0) {
@@ -2458,7 +2679,21 @@
                 sauvegarderArticles();
             },
             error: function(xhr) {
-                console.error('Erreur lors de la mise à jour de la fiche en cours:', xhr);
+                let errorMsg = 'Erreur lors de la mise à jour de la fiche en cours';
+                if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMsg += ': ' + xhr.responseJSON.error;
+                } else if (xhr.responseText) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.error) {
+                            errorMsg += ': ' + response.error;
+                        }
+                    } catch (e) {
+                        errorMsg += ': ' + xhr.responseText.substring(0, 200);
+                    }
+                }
+                console.error(errorMsg, xhr);
+                alert(errorMsg);
             }
         });
     }
@@ -2487,15 +2722,139 @@
             demandeId = $('#select_demande_hidden').val();
         }
 
+        // Convertir TpsReel de HH:MM en heures décimales pour le backend
+        const tpsReelHHMM = $('#tps_reel').val();
+        const tpsReelDecimal = tpsReelHHMM ? HHMMVersHeuresDecimales(tpsReelHHMM) : null;
+        
+        // Validation des champs obligatoires
+        if (!$('#dte_deb').val()) {
+            showAlert('alert-reparation', 'Veuillez remplir la date/heure de début', 'error');
+            return;
+        }
+        if (!$('#mat_inter').val() || !$('#intervenant_input').val()) {
+            showAlert('alert-reparation', 'Veuillez sélectionner un intervenant', 'error');
+            return;
+        }
+        if (!$('#machine_reparation').val()) {
+            showAlert('alert-reparation', 'Veuillez remplir la machine concernée', 'error');
+            return;
+        }
+        if (!$('#nat_rep_value').val()) {
+            showAlert('alert-reparation', 'Veuillez sélectionner la nature de la réparation', 'error');
+            return;
+        }
+
+        // Si c'est "Enregistrer" (ID_StatRep = 0), utiliser update_reparation
+        if (statut === 'enregistrer') {
+            const formData = {
+                dte_deb: $('#dte_deb').val(),
+                dte_fin: $('#dte_fin').val() || '',
+                mat_inter: $('#mat_inter').val(),
+                postes_reel: $('#machine_reparation').val(),
+                nat: $('#nat_rep_value').val(),
+                id_stat_rep: 0, // En cours
+                tps_reel: tpsReelDecimal
+            };
+
+            // Si pas de demandeId, créer une nouvelle fiche
+            if (!demandeId) {
+                $.ajax({
+                    url: '/projet16/api/create_reparation_direct',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function(response) {
+                        demandeId = response.id;
+                        reparationEnCoursId = demandeId;
+                        $('#demande_id_rep').val(demandeId);
+                        
+                        // Sauvegarder les articles
+                        $.ajax({
+                            url: `/projet16/api/save_articles/${demandeId}`,
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({ articles: recupererArticlesDuFormulaire() }),
+                            success: function() {
+                                showAlert('alert-reparation', 'Fiche de réparation enregistrée avec succès (En cours) !', 'success');
+                                setTimeout(function() {
+                                    closeReparationModal();
+                                    const activeFilter = $('.filter-btn.active');
+                                    if (activeFilter.length > 0) {
+                                        const filterType = activeFilter.attr('onclick').includes('demandes') ? 'demandes' : 'reparations';
+                                        if (filterType === 'demandes') {
+                                            loadDemandes();
+                                        } else {
+                                            loadReparations();
+                                        }
+                                    } else {
+                                        loadDemandes();
+                                    }
+                                }, 2000);
+                            },
+                            error: function(xhr) {
+                                showAlert('alert-reparation', 'Fiche enregistrée mais erreur lors de la sauvegarde des articles', 'error');
+                            }
+                        });
+                    },
+                    error: function(xhr) {
+                        const error = xhr.responseJSON ? xhr.responseJSON.error : 'Erreur lors de l\'enregistrement';
+                        showAlert('alert-reparation', error, 'error');
+                    }
+                });
+            } else {
+                // Mettre à jour la fiche existante
+                $.ajax({
+                    url: '/projet16/api/update_reparation/' + demandeId,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function() {
+                        reparationEnCoursId = demandeId;
+                        $('#demande_id_rep').val(demandeId);
+                        
+                        // Sauvegarder les articles
+                        $.ajax({
+                            url: `/projet16/api/save_articles/${demandeId}`,
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({ articles: recupererArticlesDuFormulaire() }),
+                            success: function() {
+                                showAlert('alert-reparation', 'Fiche de réparation enregistrée avec succès (En cours) !', 'success');
+                                setTimeout(function() {
+                                    closeReparationModal();
+                                    const activeFilter = $('.filter-btn.active');
+                                    if (activeFilter.length > 0) {
+                                        const filterType = activeFilter.attr('onclick').includes('demandes') ? 'demandes' : 'reparations';
+                                        if (filterType === 'demandes') {
+                                            loadDemandes();
+                                        } else {
+                                            loadReparations();
+                                        }
+                                    } else {
+                                        loadDemandes();
+                                    }
+                                }, 2000);
+                            },
+                            error: function(xhr) {
+                                showAlert('alert-reparation', 'Fiche enregistrée mais erreur lors de la sauvegarde des articles', 'error');
+                            }
+                        });
+                    },
+                    error: function(xhr) {
+                        const error = xhr.responseJSON ? xhr.responseJSON.error : 'Erreur lors de l\'enregistrement';
+                        showAlert('alert-reparation', error, 'error');
+                    }
+                });
+            }
+            return;
+        }
+
+        // Pour les autres statuts (cloturer, en_attente, temporaire)
         if (!demandeId) {
             showAlert('alert-reparation', 'Erreur: Impossible de déterminer l\'ID de la réparation', 'error');
             return;
         }
 
-        // Convertir TpsReel de HH:MM en heures décimales pour le backend
-        const tpsReelHHMM = $('#tps_reel').val();
-        const tpsReelDecimal = tpsReelHHMM ? HHMMVersHeuresDecimales(tpsReelHHMM) : null;
-        
         const formData = {
             dte_deb: $('#dte_deb').val(),
             dte_fin: $('#dte_fin').val(),
@@ -2505,24 +2864,6 @@
             statut: statut, // 'cloturer', 'en_attente', 'temporaire'
             tps_reel: tpsReelDecimal
         };
-
-        // Validation des champs obligatoires
-        if (!formData.dte_deb) {
-            showAlert('alert-reparation', 'Veuillez remplir la date/heure de début', 'error');
-            return;
-        }
-        if (!formData.mat_inter || !$('#intervenant_input').val()) {
-            showAlert('alert-reparation', 'Veuillez sélectionner un intervenant', 'error');
-            return;
-        }
-        if (!formData.postes_reel) {
-            showAlert('alert-reparation', 'Veuillez remplir la machine concernée', 'error');
-            return;
-        }
-        if (!formData.nat) {
-            showAlert('alert-reparation', 'Veuillez sélectionner la nature de la réparation', 'error');
-            return;
-        }
 
         // Sauvegarder les articles avant de finaliser
         $.ajax({
@@ -2754,8 +3095,24 @@
             }
         });
         
-        // Calculs automatiques pour Date/Heure Fin et Temps Réel
-        $('#dte_deb, #dte_fin').on('change', function() {
+        // Calculs automatiques selon les règles :
+        // - Si DteFin est saisi → TpsReel = DteFin - DteDeb
+        // - Si TpsReel est saisi et DteFin vide → DteFin = DteDeb + TpsReel
+        // - Si DteFin et TpsReel sont tous les deux saisis → prioriser DteFin et recalculer TpsReel
+        
+        $('#dte_deb').on('change', function() {
+            // Si DteFin est renseigné, recalculer TpsReel
+            if ($('#dte_fin').val()) {
+                calculerTpsReel();
+            }
+            // Si TpsReel est renseigné et DteFin vide, recalculer DteFin
+            else if ($('#tps_reel').val()) {
+                calculerDteFin();
+            }
+        });
+        
+        $('#dte_fin').on('change', function() {
+            // Si DteFin est saisi, toujours recalculer TpsReel (priorité à DteFin)
             calculerTpsReel();
         });
         
@@ -2765,7 +3122,15 @@
         });
         
         $('#tps_reel').on('change blur', function() {
-            calculerDteFin();
+            // Si DteFin n'est pas renseigné, calculer DteFin à partir de TpsReel
+            // Si DteFin est déjà renseigné, on ne le modifie pas (priorité à la saisie manuelle)
+            if (!$('#dte_fin').val()) {
+                calculerDteFin();
+            }
+            // Si DteFin est renseigné, on recalcule TpsReel (priorité à DteFin)
+            else {
+                calculerTpsReel();
+            }
             // Mettre à jour la fiche en cours si elle existe
             if (reparationEnCoursId) {
                 setTimeout(mettreAJourFicheEnCours, 500);

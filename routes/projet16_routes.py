@@ -176,26 +176,35 @@ def api_update_reparation(demande_id):
     """API pour ajouter/mettre à jour les informations de réparation"""
     try:
         data = request.get_json()
+        print(f"[DEBUG API] update_reparation appelé pour demande_id={demande_id}")
+        print(f"[DEBUG API] Données reçues: {data}")
+        
+        if not data:
+            return jsonify({"error": "Aucune donnée reçue"}), 400
         
         # Validation des champs obligatoires
         required_fields = ['dte_deb', 'mat_inter', 'postes_reel', 'nat']
         for field in required_fields:
             if field not in data or not data[field]:
+                print(f"[DEBUG API] Champ manquant ou vide: {field}")
                 return jsonify({"error": f"Le champ {field} est obligatoire"}), 400
         
+        print(f"[DEBUG API] Validation OK, appel de update_reparation...")
         # Mettre à jour la réparation
         success = update_reparation(demande_id, data)
         
         if success:
+            print(f"[DEBUG API] update_reparation réussi pour demande_id={demande_id}")
             return jsonify({
                 "success": True,
                 "message": "Réparation enregistrée avec succès"
             })
         else:
+            print(f"[DEBUG API] update_reparation a retourné False pour demande_id={demande_id}")
             return jsonify({"error": "Erreur lors de l'enregistrement de la réparation"}), 500
             
     except Exception as e:
-        print(f"[ERREUR API] Erreur dans api_update_reparation: {e}")
+        print(f"[ERREUR API] Erreur dans api_update_reparation pour demande_id={demande_id}: {e}")
         import traceback
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
@@ -320,17 +329,25 @@ def api_demande_pdf(demande_id):
         
         # Formater la date pour l'affichage (format: JJ/MM/AAAA HH:MM)
         date_display = '-'
-        if demande.get('dte_dem_in'):
+        dte_dem_in = demande.get('dte_dem_in')
+        if dte_dem_in:
             try:
-                date_obj = datetime.strptime(demande['dte_dem_in'], '%Y-%m-%dT%H:%M')
-                date_display = date_obj.strftime('%d/%m/%Y %H:%M')
-            except:
-                try:
-                    # Essayer un autre format si nécessaire
-                    date_obj = datetime.strptime(demande['dte_dem_in'], '%Y-%m-%d %H:%M:%S')
+                # Essayer différents formats de date
+                if isinstance(dte_dem_in, str):
+                    if 'T' in dte_dem_in:
+                        date_obj = datetime.strptime(dte_dem_in, '%Y-%m-%dT%H:%M')
+                    elif len(dte_dem_in) == 19:
+                        date_obj = datetime.strptime(dte_dem_in, '%Y-%m-%d %H:%M:%S')
+                    elif len(dte_dem_in) == 16:
+                        date_obj = datetime.strptime(dte_dem_in, '%Y-%m-%d %H:%M')
+                    else:
+                        date_obj = datetime.strptime(dte_dem_in.split('.')[0], '%Y-%m-%d %H:%M:%S')
                     date_display = date_obj.strftime('%d/%m/%Y %H:%M')
-                except:
-                    date_display = demande.get('dte_dem_in', '-')
+                else:
+                    date_display = str(dte_dem_in)
+            except Exception as e:
+                print(f"[WARNING] Erreur lors du formatage de la date: {e}, valeur: {dte_dem_in}")
+                date_display = str(dte_dem_in) if dte_dem_in else '-'
         
         # Déterminer l'état de la machine
         etat_avec_arret_checked = ''
@@ -354,20 +371,24 @@ def api_demande_pdf(demande_id):
         return _generate_pdf_with_reportlab(demande, date_display, etat_avec_arret_checked, etat_sans_arret_checked)
         
     except Exception as e:
-        print(f"[ERREUR API] Erreur dans api_demande_pdf: {e}")
+        print(f"[ERREUR API] Erreur dans api_demande_pdf pour demande_id={demande_id}: {e}")
         import traceback
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 def _generate_pdf_with_reportlab(demande, date_display, etat_avec_arret_checked, etat_sans_arret_checked):
-    """Fallback: générer PDF avec reportlab si pdfkit n'est pas disponible"""
-    from reportlab.lib.pagesizes import A4
-    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-    from reportlab.lib.units import cm
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-    from reportlab.lib import colors
-    from reportlab.lib.enums import TA_CENTER, TA_LEFT
-    from io import BytesIO
+    """Générer PDF avec reportlab"""
+    try:
+        from reportlab.lib.pagesizes import A4
+        from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+        from reportlab.lib.units import cm
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+        from reportlab.lib import colors
+        from reportlab.lib.enums import TA_CENTER, TA_LEFT
+        from io import BytesIO
+    except ImportError as e:
+        print(f"[ERREUR] reportlab n'est pas installé: {e}")
+        raise ImportError("La bibliothèque reportlab est requise pour générer les PDF. Installez-la avec: pip install reportlab")
     
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=A4, 
@@ -393,12 +414,33 @@ def _generate_pdf_with_reportlab(demande, date_display, etat_avec_arret_checked,
                                      textColor=colors.black, spaceAfter=15, leading=14)
     
     story = []
-    story.append(Paragraph("📝 Fiche de Demande d'Intervention", title_style))
+    
+    # Afficher "Version N°Suffixe" en haut à droite si Suffixe > 0
+    suffixe = demande.get('suffixe', 0) or 0
+    if suffixe > 0:
+        version_style = ParagraphStyle('VersionStyle', parent=styles['Normal'],
+                                      fontSize=10, fontName='Helvetica',
+                                      textColor=colors.HexColor('#666'),
+                                      alignment=TA_CENTER)
+        version_text = Paragraph(f"Version N°{suffixe}", version_style)
+        # Créer une table pour positionner le titre à gauche et la version à droite
+        header_table = Table([[Paragraph("📝 Fiche de Demande d'Intervention", title_style), version_text]], 
+                            colWidths=[14*cm, 2*cm])
+        header_table.setStyle(TableStyle([
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('ALIGN', (0, 0), (0, 0), 'LEFT'),
+            ('ALIGN', (1, 0), (1, 0), 'RIGHT'),
+        ]))
+        story.append(header_table)
+    else:
+        story.append(Paragraph("📝 Fiche de Demande d'Intervention", title_style))
+    
     story.append(Spacer(1, 0.8*cm))
     
     # Date et Heure
     story.append(Paragraph("Date et Heure *", label_style))
-    date_table = Table([[Paragraph(date_display, description_style)]], colWidths=[16*cm], rowHeights=[0.8*cm])
+    date_text = date_display if date_display and date_display != '-' else ''
+    date_table = Table([[Paragraph(date_text, description_style)]], colWidths=[16*cm], rowHeights=[0.8*cm])
     date_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#f0f0f0')),
         ('BOX', (0, 0), (-1, -1), 2, colors.HexColor('#ddd')),
@@ -414,7 +456,8 @@ def _generate_pdf_with_reportlab(demande, date_display, etat_avec_arret_checked,
     
     # Opérateur Demandeur
     story.append(Paragraph("Opérateur Demandeur *", label_style))
-    op_table = Table([[Paragraph(demande.get('oper_dem', ''), description_style)]], colWidths=[16*cm], rowHeights=[0.8*cm])
+    oper_text = demande.get('oper_dem', '') or ''
+    op_table = Table([[Paragraph(oper_text, description_style)]], colWidths=[16*cm], rowHeights=[0.8*cm])
     op_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#f0f0f0')),
         ('BOX', (0, 0), (-1, -1), 2, colors.HexColor('#ddd')),
@@ -430,7 +473,8 @@ def _generate_pdf_with_reportlab(demande, date_display, etat_avec_arret_checked,
     
     # Machine
     story.append(Paragraph("Machine *", label_style))
-    machine_table = Table([[Paragraph(demande.get('postes_reel', ''), description_style)]], colWidths=[16*cm], rowHeights=[0.8*cm])
+    machine_text = demande.get('postes_reel', '') or ''
+    machine_table = Table([[Paragraph(machine_text, description_style)]], colWidths=[16*cm], rowHeights=[0.8*cm])
     machine_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#f0f0f0')),
         ('BOX', (0, 0), (-1, -1), 2, colors.HexColor('#ddd')),
@@ -452,7 +496,7 @@ def _generate_pdf_with_reportlab(demande, date_display, etat_avec_arret_checked,
     cross_char = '❌'
     
     # Checkbox "Avec Arrêt"
-    checkbox_content_avec = Paragraph(f'<font color="#e91e63" size="18"><b>{cross_char}</b></font>', ParagraphStyle('CrossStyle', parent=styles['Normal'], alignment=1, fontSize=18, textColor=colors.HexColor('#e91e63'))) if etat_avec_arret_checked else ''
+    checkbox_content_avec = Paragraph(f'<font color="#e91e63" size="18"><b>{cross_char}</b></font>', ParagraphStyle('CrossStyle', parent=styles['Normal'], alignment=TA_CENTER, fontSize=18, textColor=colors.HexColor('#e91e63'))) if etat_avec_arret_checked else Paragraph('', styles['Normal'])
     checkbox_avec_arret = Table([[checkbox_content_avec]], colWidths=[0.8*cm], rowHeights=[0.8*cm])
     checkbox_avec_arret.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, -1), colors.white),
@@ -462,7 +506,7 @@ def _generate_pdf_with_reportlab(demande, date_display, etat_avec_arret_checked,
     ]))
     
     # Checkbox "Sans Arrêt"
-    checkbox_content_sans = Paragraph(f'<font color="#e91e63" size="18"><b>{cross_char}</b></font>', ParagraphStyle('CrossStyle', parent=styles['Normal'], alignment=1, fontSize=18, textColor=colors.HexColor('#e91e63'))) if etat_sans_arret_checked else ''
+    checkbox_content_sans = Paragraph(f'<font color="#e91e63" size="18"><b>{cross_char}</b></font>', ParagraphStyle('CrossStyle', parent=styles['Normal'], alignment=TA_CENTER, fontSize=18, textColor=colors.HexColor('#e91e63'))) if etat_sans_arret_checked else Paragraph('', styles['Normal'])
     checkbox_sans_arret = Table([[checkbox_content_sans]], colWidths=[0.8*cm], rowHeights=[0.8*cm])
     checkbox_sans_arret.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, -1), colors.white),
@@ -505,15 +549,309 @@ def _generate_pdf_with_reportlab(demande, date_display, etat_avec_arret_checked,
     ]))
     story.append(desc_table)
     
-    doc.build(story)
-    buffer.seek(0)
-    pdf_data = buffer.getvalue()
-    buffer.close()
+    try:
+        doc.build(story)
+        buffer.seek(0)
+        pdf_data = buffer.getvalue()
+        buffer.close()
+        
+        demande_id = demande.get('id', 'unknown')
+        response = Response(pdf_data, mimetype='application/pdf')
+        response.headers['Content-Disposition'] = f'inline; filename="fiche_demande_{demande_id}.pdf"'
+        return response
+    except Exception as e:
+        buffer.close()
+        print(f"[ERREUR] Erreur lors de la génération du PDF avec reportlab: {e}")
+        import traceback
+        traceback.print_exc()
+        raise
+
+@projet16_bp.route('/api/reparation/<int:reparation_id>/pdf')
+def api_reparation_pdf(reparation_id):
+    """API pour générer un PDF de la fiche de réparation avec la même mise en page que le popup"""
+    try:
+        reparation = get_demande_by_id(reparation_id)
+        if not reparation:
+            return jsonify({"error": "Réparation non trouvée"}), 404
+        
+        # Vérifier que c'est bien une réparation (a des données de réparation)
+        if not reparation.get('dte_deb') and not reparation.get('mat_inter'):
+            return jsonify({"error": "Cette fiche n'est pas une réparation"}), 400
+        
+        # Formater les dates pour l'affichage
+        dte_deb_display = '-'
+        dte_deb = reparation.get('dte_deb')
+        if dte_deb:
+            try:
+                if isinstance(dte_deb, str):
+                    if 'T' in dte_deb:
+                        date_obj = datetime.strptime(dte_deb, '%Y-%m-%dT%H:%M')
+                    elif len(dte_deb) == 19:
+                        date_obj = datetime.strptime(dte_deb, '%Y-%m-%d %H:%M:%S')
+                    elif len(dte_deb) == 16:
+                        date_obj = datetime.strptime(dte_deb, '%Y-%m-%d %H:%M')
+                    else:
+                        date_obj = datetime.strptime(dte_deb.split('.')[0], '%Y-%m-%d %H:%M:%S')
+                    dte_deb_display = date_obj.strftime('%d/%m/%Y %H:%M')
+                else:
+                    dte_deb_display = str(dte_deb)
+            except Exception as e:
+                print(f"[WARNING] Erreur lors du formatage de dte_deb: {e}")
+                dte_deb_display = str(dte_deb) if dte_deb else '-'
+        
+        dte_fin_display = '-'
+        dte_fin = reparation.get('dte_fin')
+        if dte_fin:
+            try:
+                if isinstance(dte_fin, str):
+                    if 'T' in dte_fin:
+                        date_obj = datetime.strptime(dte_fin, '%Y-%m-%dT%H:%M')
+                    elif len(dte_fin) == 19:
+                        date_obj = datetime.strptime(dte_fin, '%Y-%m-%d %H:%M:%S')
+                    elif len(dte_fin) == 16:
+                        date_obj = datetime.strptime(dte_fin, '%Y-%m-%d %H:%M')
+                    else:
+                        date_obj = datetime.strptime(dte_fin.split('.')[0], '%Y-%m-%d %H:%M:%S')
+                    dte_fin_display = date_obj.strftime('%d/%m/%Y %H:%M')
+                else:
+                    dte_fin_display = str(dte_fin)
+            except Exception as e:
+                print(f"[WARNING] Erreur lors du formatage de dte_fin: {e}")
+                dte_fin_display = str(dte_fin) if dte_fin else '-'
+        
+        # Nature de la réparation
+        nat = reparation.get('nat', '')
+        nat_display = 'Mécanique' if nat == 'Mec' else 'Électrique' if nat == 'Elec' else nat or '-'
+        
+        # Générer le PDF de réparation
+        return _generate_reparation_pdf(reparation, dte_deb_display, dte_fin_display, nat_display)
+        
+    except Exception as e:
+        print(f"[ERREUR API] Erreur dans api_reparation_pdf pour reparation_id={reparation_id}: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+def _generate_reparation_pdf(reparation, dte_deb_display, dte_fin_display, nat_display):
+    """Générer PDF de réparation avec reportlab"""
+    try:
+        from reportlab.lib.pagesizes import A4
+        from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+        from reportlab.lib.units import cm
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
+        from reportlab.lib import colors
+        from reportlab.lib.enums import TA_CENTER, TA_LEFT
+        from io import BytesIO
+    except ImportError as e:
+        print(f"[ERREUR] reportlab n'est pas installé: {e}")
+        raise ImportError("La bibliothèque reportlab est requise pour générer les PDF. Installez-la avec: pip install reportlab")
     
-    demande_id = demande.get('id', 'unknown')
-    response = Response(pdf_data, mimetype='application/pdf')
-    response.headers['Content-Disposition'] = f'inline; filename="fiche_demande_{demande_id}.pdf"'
-    return response
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4, 
+                            rightMargin=2.5*cm, leftMargin=2.5*cm,
+                            topMargin=2*cm, bottomMargin=2*cm)
+    
+    styles = getSampleStyleSheet()
+    # Titre avec couleur violette comme dans le popup
+    title_style = ParagraphStyle('CustomTitle', parent=styles['Heading1'],
+                                 fontSize=25.2, textColor=colors.HexColor('#9c27b0'),
+                                 spaceAfter=25, alignment=TA_LEFT, fontName='Helvetica-Bold')
+    # Labels
+    label_style = ParagraphStyle('LabelStyle', parent=styles['Normal'],
+                                 fontSize=14, fontName='Helvetica-Bold',
+                                 textColor=colors.black, spaceAfter=8, leading=14)
+    # Small
+    small_style = ParagraphStyle('SmallStyle', parent=styles['Normal'],
+                                fontSize=12.6, fontName='Helvetica',
+                                textColor=colors.HexColor('#666'), spaceAfter=15, leading=12.6)
+    # Description/Input
+    description_style = ParagraphStyle('DescriptionStyle', parent=styles['Normal'],
+                                     fontSize=14, fontName='Helvetica',
+                                     textColor=colors.black, spaceAfter=15, leading=14)
+    
+    story = []
+    # Le Suffixe n'est pas affiché pour les réparations (uniquement pour les demandes d'intervention)
+    story.append(Paragraph("🔧 Fiche de Réparation", title_style))
+    story.append(Spacer(1, 0.8*cm))
+    
+    # Machine Concernée
+    story.append(Paragraph("Machine Concernée *", label_style))
+    machine_text = reparation.get('postes_reel', '') or ''
+    machine_table = Table([[Paragraph(machine_text, description_style)]], colWidths=[16*cm], rowHeights=[0.8*cm])
+    machine_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#f0f0f0')),
+        ('BOX', (0, 0), (-1, -1), 2, colors.HexColor('#ddd')),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 12),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 12),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 14),
+    ]))
+    story.append(machine_table)
+    story.append(Paragraph("Machine sur laquelle la réparation sera effectuée", small_style))
+    
+    # Intervenant
+    story.append(Paragraph("Intervenant *", label_style))
+    intervenant_text = reparation.get('intervenant', '') or ''
+    if reparation.get('mat_inter'):
+        intervenant_text += f" (Matricule: {reparation.get('mat_inter')})"
+    inter_table = Table([[Paragraph(intervenant_text, description_style)]], colWidths=[16*cm], rowHeights=[0.8*cm])
+    inter_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#f0f0f0')),
+        ('BOX', (0, 0), (-1, -1), 2, colors.HexColor('#ddd')),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 12),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 12),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 14),
+    ]))
+    story.append(inter_table)
+    
+    # Dates côte à côte
+    story.append(Spacer(1, 0.3*cm))
+    dates_row = [
+        [Paragraph("Date/Heure Début *", label_style), Paragraph("Date/Heure Fin", label_style)]
+    ]
+    dates_header = Table(dates_row, colWidths=[8*cm, 8*cm])
+    dates_header.setStyle(TableStyle([
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+    ]))
+    story.append(dates_header)
+    
+    dates_values = [
+        [Paragraph(dte_deb_display, description_style), Paragraph(dte_fin_display, description_style)]
+    ]
+    dates_table = Table(dates_values, colWidths=[8*cm, 8*cm], rowHeights=[0.8*cm])
+    dates_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#f0f0f0')),
+        ('BOX', (0, 0), (-1, -1), 2, colors.HexColor('#ddd')),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 12),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 12),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 14),
+    ]))
+    story.append(dates_table)
+    
+    # Temps réel
+    story.append(Spacer(1, 0.3*cm))
+    story.append(Paragraph("Temps Réel", label_style))
+    tps_reel_text = reparation.get('tps_reel', '') or '-'
+    tps_table = Table([[Paragraph(tps_reel_text, description_style)]], colWidths=[16*cm], rowHeights=[0.8*cm])
+    tps_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#f0f0f0')),
+        ('BOX', (0, 0), (-1, -1), 2, colors.HexColor('#ddd')),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 12),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 12),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 14),
+    ]))
+    story.append(tps_table)
+    
+    # Nature de la réparation
+    story.append(Spacer(1, 0.3*cm))
+    story.append(Paragraph("Nature *", label_style))
+    
+    # Checkbox pour la nature (violette comme dans le popup)
+    cross_char = '✖️'
+    nat_mec_checked = nat_display == 'Mécanique'
+    nat_elec_checked = nat_display == 'Électrique'
+    
+    checkbox_mec = Paragraph(f'<font color="#9c27b0" size="18"><b>{cross_char}</b></font>', ParagraphStyle('CrossStyle', parent=styles['Normal'], alignment=TA_CENTER, fontSize=18, textColor=colors.HexColor('#9c27b0'))) if nat_mec_checked else Paragraph('', styles['Normal'])
+    checkbox_mec_table = Table([[checkbox_mec]], colWidths=[0.8*cm], rowHeights=[0.8*cm])
+    checkbox_mec_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), colors.white),
+        ('BOX', (0, 0), (-1, -1), 2, colors.HexColor('#9c27b0') if nat_mec_checked else colors.HexColor('#ddd')),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+    ]))
+    
+    checkbox_elec = Paragraph(f'<font color="#9c27b0" size="18"><b>{cross_char}</b></font>', ParagraphStyle('CrossStyle', parent=styles['Normal'], alignment=TA_CENTER, fontSize=18, textColor=colors.HexColor('#9c27b0'))) if nat_elec_checked else Paragraph('', styles['Normal'])
+    checkbox_elec_table = Table([[checkbox_elec]], colWidths=[0.8*cm], rowHeights=[0.8*cm])
+    checkbox_elec_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), colors.white),
+        ('BOX', (0, 0), (-1, -1), 2, colors.HexColor('#9c27b0') if nat_elec_checked else colors.HexColor('#ddd')),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+    ]))
+    
+    nat_table = Table([
+        [checkbox_mec_table, Paragraph("Mécanique", description_style), Spacer(1, 0.5*cm), checkbox_elec_table, Paragraph("Électrique", description_style)]
+    ], colWidths=[0.8*cm, 3*cm, 1*cm, 0.8*cm, 3*cm])
+    nat_table.setStyle(TableStyle([
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (1, 0), (1, 0), 'LEFT'),
+        ('ALIGN', (4, 0), (4, 0), 'LEFT'),
+    ]))
+    story.append(nat_table)
+    story.append(Paragraph("Type de réparation effectuée", small_style))
+    
+    # Articles / Pièces Détachées
+    story.append(Spacer(1, 0.5*cm))
+    story.append(Paragraph("🔩 Articles / Pièces Détachées", label_style))
+    
+    articles = reparation.get('articles', [])
+    if articles and len(articles) > 0:
+        # En-tête du tableau
+        articles_data = [['N°', 'Désignation', 'Quantité']]
+        for idx, art in enumerate(articles, 1):
+            articles_data.append([
+                str(idx),
+                art.get('designation', '') or '',
+                str(art.get('quantite', 0))
+            ])
+        
+        articles_table = Table(articles_data, colWidths=[1.5*cm, 12*cm, 2.5*cm])
+        articles_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#2196F3')),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('ALIGN', (1, 0), (1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, 0), 12),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+            ('GRID', (0, 0), (-1, -1), 1, colors.HexColor('#ddd')),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('LEFTPADDING', (0, 0), (-1, -1), 8),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 8),
+            ('TOPPADDING', (0, 0), (-1, -1), 8),
+            ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
+        ]))
+        story.append(articles_table)
+    else:
+        no_articles = Table([['Aucun article ajouté']], colWidths=[16*cm])
+        no_articles.setStyle(TableStyle([
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('TEXTCOLOR', (0, 0), (-1, -1), colors.HexColor('#999')),
+            ('FONTSTYLE', (0, 0), (-1, -1), 'ITALIC'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('TOPPADDING', (0, 0), (-1, -1), 20),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 20),
+        ]))
+        story.append(no_articles)
+    
+    try:
+        doc.build(story)
+        buffer.seek(0)
+        pdf_data = buffer.getvalue()
+        buffer.close()
+        
+        reparation_id = reparation.get('id', 'unknown')
+        response = Response(pdf_data, mimetype='application/pdf')
+        response.headers['Content-Disposition'] = f'inline; filename="fiche_reparation_{reparation_id}.pdf"'
+        return response
+    except Exception as e:
+        buffer.close()
+        print(f"[ERREUR] Erreur lors de la génération du PDF de réparation: {e}")
+        import traceback
+        traceback.print_exc()
+        raise
 
 @projet16_bp.route('/api/machines')
 def api_machines():
@@ -531,9 +869,29 @@ def api_machines():
 
 @projet16_bp.route('/api/articles/<int:id_web_gmao>')
 def api_get_articles(id_web_gmao):
-    """API pour récupérer les articles d'une fiche de réparation"""
+    """API pour récupérer les articles d'une fiche (détecte automatiquement si c'est une demande ou une réparation directe)"""
     try:
-        articles = get_articles_by_fiche(id_web_gmao)
+        from db import get_db_cursor
+        
+        # Détecter si c'est une demande dans WEB_GMAO ou une réparation directe dans WEB_GMAO_REPARATION
+        with get_db_cursor() as cursor:
+            cursor.execute("SELECT ID FROM WEB_GMAO WHERE ID = ?", (id_web_gmao,))
+            demande_exists = cursor.fetchone()
+            
+            if demande_exists:
+                # C'est une réparation liée à une demande
+                articles = get_articles_by_fiche(id_web_gmao=id_web_gmao)
+            else:
+                # Vérifier si c'est une réparation directe
+                cursor.execute("SELECT ID FROM WEB_GMAO_REPARATION WHERE ID = ?", (id_web_gmao,))
+                reparation_directe = cursor.fetchone()
+                
+                if reparation_directe:
+                    # C'est une réparation directe
+                    articles = get_articles_by_fiche(id_web_gmao_reparation=id_web_gmao)
+                else:
+                    return jsonify({"error": f"L'ID {id_web_gmao} n'existe ni dans WEB_GMAO ni dans WEB_GMAO_REPARATION"}), 404
+        
         return jsonify(articles)
     except Exception as e:
         print(f"[ERREUR API] Erreur dans api_get_articles: {e}")
@@ -543,12 +901,32 @@ def api_get_articles(id_web_gmao):
 
 @projet16_bp.route('/api/save_articles/<int:id_web_gmao>', methods=['POST'])
 def api_save_articles(id_web_gmao):
-    """API pour sauvegarder tous les articles d'une fiche"""
+    """API pour sauvegarder tous les articles d'une fiche (détecte automatiquement si c'est une demande ou une réparation directe)"""
     try:
-        data = request.get_json()
-        articles = data.get('articles', [])
+        from db import get_db_cursor
         
-        saved_articles = save_articles_for_fiche(id_web_gmao, articles)
+        # Détecter si c'est une demande dans WEB_GMAO ou une réparation directe dans WEB_GMAO_REPARATION
+        with get_db_cursor() as cursor:
+            cursor.execute("SELECT ID FROM WEB_GMAO WHERE ID = ?", (id_web_gmao,))
+            demande_exists = cursor.fetchone()
+            
+            if demande_exists:
+                # C'est une réparation liée à une demande
+                data = request.get_json()
+                articles = data.get('articles', [])
+                saved_articles = save_articles_for_fiche(id_web_gmao=id_web_gmao, articles_data=articles)
+            else:
+                # Vérifier si c'est une réparation directe
+                cursor.execute("SELECT ID FROM WEB_GMAO_REPARATION WHERE ID = ?", (id_web_gmao,))
+                reparation_directe = cursor.fetchone()
+                
+                if reparation_directe:
+                    # C'est une réparation directe
+                    data = request.get_json()
+                    articles = data.get('articles', [])
+                    saved_articles = save_articles_for_fiche(id_web_gmao_reparation=id_web_gmao, articles_data=articles)
+                else:
+                    return jsonify({"error": f"L'ID {id_web_gmao} n'existe ni dans WEB_GMAO ni dans WEB_GMAO_REPARATION"}), 404
         
         if saved_articles is not None:
             return jsonify({
@@ -565,21 +943,48 @@ def api_save_articles(id_web_gmao):
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
+@projet16_bp.route('/api/save_articles_reparation/<int:id_web_gmao_reparation>', methods=['POST'])
+def api_save_articles_reparation(id_web_gmao_reparation):
+    """API pour sauvegarder tous les articles d'une fiche de réparation directe"""
+    try:
+        data = request.get_json()
+        articles = data.get('articles', [])
+        
+        saved_articles = save_articles_for_fiche(id_web_gmao_reparation=id_web_gmao_reparation, articles_data=articles)
+        
+        if saved_articles is not None:
+            return jsonify({
+                "success": True,
+                "message": "Articles sauvegardés avec succès",
+                "articles": saved_articles
+            })
+        else:
+            return jsonify({"error": "Erreur lors de la sauvegarde des articles"}), 500
+            
+    except Exception as e:
+        print(f"[ERREUR API] Erreur dans api_save_articles_reparation: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
 @projet16_bp.route('/api/add_article', methods=['POST'])
 def api_add_article():
     """API pour ajouter un article à une fiche"""
     try:
         data = request.get_json()
         
-        required_fields = ['id_web_gmao', 'id_gs_articles', 'quantite']
-        for field in required_fields:
-            if field not in data:
-                return jsonify({"error": f"Le champ {field} est obligatoire"}), 400
+        # Soit id_web_gmao (réparation liée à une demande) soit id_web_gmao_reparation (réparation directe)
+        if 'id_gs_articles' not in data or 'quantite' not in data:
+            return jsonify({"error": "Les champs id_gs_articles et quantite sont obligatoires"}), 400
+        
+        if 'id_web_gmao' not in data and 'id_web_gmao_reparation' not in data:
+            return jsonify({"error": "Soit id_web_gmao soit id_web_gmao_reparation doit être fourni"}), 400
         
         new_id = add_article_to_reparation(
-            data['id_web_gmao'],
-            data['id_gs_articles'],
-            data['quantite']
+            id_web_gmao=data.get('id_web_gmao'),
+            id_web_gmao_reparation=data.get('id_web_gmao_reparation'),
+            id_gs_articles=data['id_gs_articles'],
+            quantite=data['quantite']
         )
         
         return jsonify({
