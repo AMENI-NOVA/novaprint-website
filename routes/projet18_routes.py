@@ -444,12 +444,17 @@ def export_pdf():
                 annee_precedente = annee_ref - 1
                 _, nb_jours_decembre = monthrange(annee_precedente, mois_precedent)
                 
+                # Stocker les dates complètes pour vérifier les jours fériés
+                dates_cal = []  # Liste de tuples (jour_str, date_complete) ou None pour les espaces
+                
                 # Ajouter les 3 derniers jours de décembre (29, 30, 31)
                 for jour_dec in range(29, 32):
                     date_dec = datetime(annee_precedente, mois_precedent, jour_dec)
                     semaine_num = get_semaine_num_for_date(date_dec)
                     semaine_num_cal.append(str(semaine_num) if semaine_num else "")
-                    jours_cal.append(f"{jour_dec:02d}")
+                    jour_str = f"{jour_dec:02d}"
+                    jours_cal.append(jour_str)
+                    dates_cal.append((jour_str, date_dec))  # Stocker la date complète
                 
                 # Après avoir ajouté 29, 30, 31, on a 3 éléments dans jours_cal
                 # Le 29 décembre 2025 est un lundi (weekday=0), donc :
@@ -481,45 +486,27 @@ def export_pdf():
             else:
                 # Pour les autres mois, ajouter simplement les espaces nécessaires
                 nb_espaces_a_ajouter = jour_semaine_premier
+                # Stocker les dates complètes pour vérifier les jours fériés
+                dates_cal = []  # Liste de tuples (jour_str, date_complete) ou None pour les espaces
             
             # Ajouter les espaces nécessaires
             for _ in range(nb_espaces_a_ajouter):
                 if len(jours_cal) < 7:  # Ne pas dépasser 7 jours par semaine
                     semaine_num_cal.append("")
                     jours_cal.append("")
+                    dates_cal.append(None)  # Pas de date pour les espaces
             
             # Ajouter les jours du mois courant avec numéro de semaine
             jour_courant = 1
-            premier_jour_position = None  # Position du premier jour du mois dans la ligne
             while jour_courant <= nb_jours_mois:
                 jour_date = datetime(annee_ref, mois_ref, jour_courant)
                 semaine_num = get_semaine_num_for_date(jour_date)
                 
                 semaine_num_cal.append(str(semaine_num) if semaine_num else "")
                 # Format avec zéro devant si < 10
-                jours_cal.append(f"{jour_courant:02d}")
-                
-                # Marquer la position du premier jour du mois dans la ligne actuelle
-                if jour_courant == 1:
-                    premier_jour_position = len(jours_cal) - 1
-                    # #region agent log
-                    with open(log_path, 'a', encoding='utf-8') as f:
-                        f.write(json.dumps({
-                            'timestamp': datetime.now().isoformat(),
-                            'location': 'projet18_routes.py:export_pdf:cal_premier_jour',
-                            'message': 'Premier jour du mois ajoute',
-                            'data': {
-                                'jour': jour_courant,
-                                'position_dans_ligne': premier_jour_position,
-                                'jour_semaine_attendu': jour_semaine_premier,
-                                'jours_cal': jours_cal,
-                                'len_jours_cal': len(jours_cal)
-                            },
-                            'sessionId': 'debug-session',
-                            'runId': 'run1',
-                            'hypothesisId': 'F'
-                        }) + '\n')
-                    # #endregion
+                jour_str = f"{jour_courant:02d}"
+                jours_cal.append(jour_str)
+                dates_cal.append((jour_str, jour_date))  # Stocker la date complète
                 
                 jour_courant += 1
                 
@@ -541,23 +528,27 @@ def export_pdf():
                     
                     # Dates à droite (7 colonnes)
                     for idx, jour_str in enumerate(jours_cal):
-                        # Highlight bleu clair pour le premier jour du mois (01) du mois courant
-                        if idx == premier_jour_position and jour_str == "01":
-                            # C'est le premier jour du mois courant
-                            cal_row_cells.append(Paragraph(
-                                jour_str,
-                                ParagraphStyle(
-                                    'CalDateHighlight',
-                                    parent=base_style,
-                                    fontSize=8,
-                                    textColor=colors.HexColor('#0066CC'),
-                                    backColor=colors.HexColor('#E6F3FF'),  # Bleu clair
-                                    alignment=TA_CENTER,
-                                    leading=10
-                                )
-                            ))
-                            premier_jour_position = None  # Ne highlight qu'une fois
+                        # Vérifier si c'est un jour férié (uniquement pour les jours du mois courant)
+                        if idx < len(dates_cal) and dates_cal[idx] is not None:
+                            _, date_complete = dates_cal[idx]
+                            if is_jour_ferie(date_complete):
+                                # Highlight bleu clair pour les jours fériés uniquement
+                                cal_row_cells.append(Paragraph(
+                                    jour_str,
+                                    ParagraphStyle(
+                                        'CalDateHighlight',
+                                        parent=base_style,
+                                        fontSize=8,
+                                        textColor=colors.HexColor('#0066CC'),
+                                        backColor=colors.HexColor('#E6F3FF'),  # Bleu clair
+                                        alignment=TA_CENTER,
+                                        leading=10
+                                    )
+                                ))
+                            else:
+                                cal_row_cells.append(Paragraph(jour_str, cal_date_style))
                         else:
+                            # Espace vide ou jour d'un autre mois
                             cal_row_cells.append(Paragraph(jour_str, cal_date_style))
                     
                     # Ajouter la ligne directement à cal_table_rows
@@ -566,6 +557,7 @@ def export_pdf():
                     semaine_cal = []
                     jours_cal = []
                     semaine_num_cal = []
+                    dates_cal = []
             
             # Compléter la dernière semaine avec le début de février (si nécessaire)
             if len(jours_cal) > 0 and len(jours_cal) < 7:
@@ -945,7 +937,7 @@ def export_pdf():
                 dimanche_notes_cell.setStyle(TableStyle([
                     ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                     ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                    ('LEFTPADDING', (0, 0), (-1, -1), 2),
+                    ('LEFTPADDING', (0, 0), (-1, -1), 15),  # Padding à gauche réduit pour décaler un peu les lignes vers la gauche
                     ('RIGHTPADDING', (0, 0), (-1, -1), 2),
                     ('TOPPADDING', (0, 0), (-1, -1), 2),
                     ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
@@ -1758,9 +1750,9 @@ def export_pdf_multilang():
                             ('ALIGN', (0, 1), (0, 1), 'CENTER'),  # Jours centrés
                             ('LEFTPADDING', (0, 0), (-1, -1), 2),
                             ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                            ('TOPPADDING', (0, 0), (0, 0), 8),  # Padding pour la date
+                            ('TOPPADDING', (0, 0), (0, 0), 4),  # Padding réduit pour la date (décalée vers le haut)
                             ('BOTTOMPADDING', (0, 0), (0, 0), 4),  # Espacement entre date et jours
-                            ('TOPPADDING', (0, 1), (0, 1), 4),  # Espacement entre date et jours
+                            ('TOPPADDING', (0, 1), (0, 1), 2),  # Padding réduit pour les jours (décalés vers le haut)
                             ('BOTTOMPADDING', (0, 1), (0, 1), 8),  # Padding pour les jours
                         ]))
                     except Exception as e_header:
@@ -1771,6 +1763,7 @@ def export_pdf_multilang():
                     if jour_ferie:
                         nom_ferie = get_nom_jour_ferie(date_jour)
                         # Réduire le BOTTOMPADDING de la ligne des jours dans header_table quand il y a un jour férié
+                        # Date et jours décalés vers le haut pour tous les jours
                         header_table.setStyle(TableStyle([
                             ('VALIGN', (0, 0), (0, 0), 'MIDDLE'),  # Date centrée verticalement dans sa ligne
                             ('VALIGN', (0, 1), (0, 1), 'MIDDLE'),  # Jours centrés verticalement dans leur ligne
@@ -1778,9 +1771,9 @@ def export_pdf_multilang():
                             ('ALIGN', (0, 1), (0, 1), 'CENTER'),  # Jours centrés
                             ('LEFTPADDING', (0, 0), (-1, -1), 2),
                             ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                            ('TOPPADDING', (0, 0), (0, 0), 8),  # Padding pour la date
+                            ('TOPPADDING', (0, 0), (0, 0), 4),  # Padding réduit pour la date (décalée vers le haut)
                             ('BOTTOMPADDING', (0, 0), (0, 0), 4),  # Espacement entre date et jours
-                            ('TOPPADDING', (0, 1), (0, 1), 4),  # Espacement entre date et jours
+                            ('TOPPADDING', (0, 1), (0, 1), 2),  # Padding réduit pour les jours (décalés vers le haut)
                             ('BOTTOMPADDING', (0, 1), (0, 1), 0),  # Pas de padding en bas des jours quand il y a un jour férié
                         ]))
                         ferie_para = Paragraph(
@@ -1804,7 +1797,7 @@ def export_pdf_multilang():
                         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                         ('LEFTPADDING', (0, 0), (-1, -1), 2),
                         ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                        ('TOPPADDING', (0, 0), (-1, -1), 8),
+                        ('TOPPADDING', (0, 0), (-1, -1), 4),  # Padding réduit pour décaler header_table vers le haut
                         ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
                         # Réduire l'espacement entre header_table (ligne 0) et jour férié (ligne 1)
                         ('BOTTOMPADDING', (0, 0), (-1, 0), 0),  # Pas de padding en bas de header_table
@@ -1933,6 +1926,9 @@ def export_pdf_multilang():
             # Calculer correctement le positionnement du premier jour du mois
             # Le premier jour doit être à la position jour_semaine_premier (0=lundi, 3=jeudi, etc.)
             
+            # Stocker les dates complètes pour vérifier les jours fériés
+            dates_cal = []  # Liste de tuples (jour_str, date_complete) ou None pour les espaces
+            
             # Ajouter les dates de décembre avant janvier (si mois_ref == 1)
             if mois_ref == 1:
                 mois_precedent = 12
@@ -1944,7 +1940,9 @@ def export_pdf_multilang():
                     date_dec = datetime(annee_precedente, mois_precedent, jour_dec)
                     semaine_num = get_semaine_num_for_date(date_dec)
                     semaine_num_cal.append(str(semaine_num) if semaine_num else "")
-                    jours_cal.append(f"{jour_dec:02d}")
+                    jour_str = f"{jour_dec:02d}"
+                    jours_cal.append(jour_str)
+                    dates_cal.append((jour_str, date_dec))  # Stocker la date complète
                 
                 # Après avoir ajouté 29, 30, 31, on a 3 éléments dans jours_cal
                 # Le 29 décembre 2025 est un lundi (weekday=0), donc :
@@ -1964,21 +1962,19 @@ def export_pdf_multilang():
                 if len(jours_cal) < 7:  # Ne pas dépasser 7 jours par semaine
                     semaine_num_cal.append("")
                     jours_cal.append("")
+                    dates_cal.append(None)  # Pas de date pour les espaces
             
             # Ajouter les jours du mois courant avec numéro de semaine
             jour_courant = 1
-            premier_jour_position = None  # Position du premier jour du mois dans la ligne
             while jour_courant <= nb_jours_mois:
                 jour_date = datetime(annee_ref, mois_ref, jour_courant)
                 semaine_num = get_semaine_num_for_date(jour_date)
                 
                 semaine_num_cal.append(str(semaine_num) if semaine_num else "")
                 # Format avec zéro devant si < 10
-                jours_cal.append(f"{jour_courant:02d}")
-                
-                # Marquer la position du premier jour du mois dans la ligne actuelle
-                if jour_courant == 1:
-                    premier_jour_position = len(jours_cal) - 1
+                jour_str = f"{jour_courant:02d}"
+                jours_cal.append(jour_str)
+                dates_cal.append((jour_str, jour_date))  # Stocker la date complète
                 
                 jour_courant += 1
                 
@@ -2000,23 +1996,27 @@ def export_pdf_multilang():
                     
                     # Dates à droite (7 colonnes)
                     for idx, jour_str in enumerate(jours_cal):
-                        # Highlight bleu clair pour le premier jour du mois (01) du mois courant
-                        if idx == premier_jour_position and jour_str == "01":
-                            # C'est le premier jour du mois courant
-                            cal_row_cells.append(Paragraph(
-                                jour_str,
-                                ParagraphStyle(
-                                    'CalDateHighlight',
-                                    parent=base_style,
-                                    fontSize=8,
-                                    textColor=colors.HexColor('#0066CC'),
-                                    backColor=colors.HexColor('#E6F3FF'),  # Bleu clair
-                                    alignment=TA_CENTER,
-                                    leading=10
-                                )
-                            ))
-                            premier_jour_position = None  # Ne highlight qu'une fois
+                        # Vérifier si c'est un jour férié (uniquement pour les jours du mois courant)
+                        if idx < len(dates_cal) and dates_cal[idx] is not None:
+                            _, date_complete = dates_cal[idx]
+                            if is_jour_ferie(date_complete):
+                                # Highlight bleu clair pour les jours fériés uniquement
+                                cal_row_cells.append(Paragraph(
+                                    jour_str,
+                                    ParagraphStyle(
+                                        'CalDateHighlight',
+                                        parent=base_style,
+                                        fontSize=8,
+                                        textColor=colors.HexColor('#0066CC'),
+                                        backColor=colors.HexColor('#E6F3FF'),  # Bleu clair
+                                        alignment=TA_CENTER,
+                                        leading=10
+                                    )
+                                ))
+                            else:
+                                cal_row_cells.append(Paragraph(jour_str, cal_date_style))
                         else:
+                            # Espace vide ou jour d'un autre mois
                             cal_row_cells.append(Paragraph(jour_str, cal_date_style))
                     
                     # Ajouter la ligne directement à cal_table_rows
@@ -2025,6 +2025,7 @@ def export_pdf_multilang():
                     semaine_cal = []
                     jours_cal = []
                     semaine_num_cal = []
+                    dates_cal = []
             
             # Compléter la dernière semaine avec le début de février (si nécessaire)
             if len(jours_cal) > 0 and len(jours_cal) < 7:
@@ -2035,7 +2036,9 @@ def export_pdf_multilang():
                     date_fev = datetime(annee_suivante, mois_suivant, jour_fevrier)
                     semaine_num = get_semaine_num_for_date(date_fev)
                     semaine_num_cal.append(str(semaine_num) if semaine_num else "")
-                    jours_cal.append(f"{jour_fevrier:02d}")
+                    jour_str = f"{jour_fevrier:02d}"
+                    jours_cal.append(jour_str)
+                    dates_cal.append((jour_str, date_fev))  # Stocker la date complète
                     jour_fevrier += 1
                 
                 # Créer la dernière ligne avec numéro de semaine à gauche
@@ -2054,8 +2057,29 @@ def export_pdf_multilang():
                 ))
                 
                 # Dates à droite
-                for jour_str in jours_cal:
-                    cal_row_cells.append(Paragraph(jour_str, cal_date_style))
+                for idx, jour_str in enumerate(jours_cal):
+                    # Vérifier si c'est un jour férié
+                    if idx < len(dates_cal) and dates_cal[idx] is not None:
+                        _, date_complete = dates_cal[idx]
+                        if is_jour_ferie(date_complete):
+                            # Highlight bleu clair pour les jours fériés uniquement
+                            cal_row_cells.append(Paragraph(
+                                jour_str,
+                                ParagraphStyle(
+                                    'CalDateHighlight',
+                                    parent=base_style,
+                                    fontSize=8,
+                                    textColor=colors.HexColor('#0066CC'),
+                                    backColor=colors.HexColor('#E6F3FF'),  # Bleu clair
+                                    alignment=TA_CENTER,
+                                    leading=10
+                                )
+                            ))
+                        else:
+                            cal_row_cells.append(Paragraph(jour_str, cal_date_style))
+                    else:
+                        # Espace vide
+                        cal_row_cells.append(Paragraph(jour_str, cal_date_style))
                 
                 cal_table_rows.append(cal_row_cells)
             
@@ -2077,6 +2101,7 @@ def export_pdf_multilang():
                     ('ALIGN', (1, 1), (-1, -1), 'CENTER'),  # Dates et abréviations centrées
                     ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
                     ('LEFTPADDING', (0, 0), (-1, -1), 2),
+                    ('LEFTPADDING', (0, 1), (0, -1), 6),  # Padding encore augmenté pour décaler davantage le numéro de semaine vers la droite
                     ('RIGHTPADDING', (0, 0), (-1, -1), 2),
                     ('TOPPADDING', (0, 0), (-1, -1), 2),
                     ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
@@ -2225,9 +2250,9 @@ def export_pdf_multilang():
                             ('ALIGN', (0, 1), (0, 1), 'CENTER'),  # Jours centrés
                             ('LEFTPADDING', (0, 0), (-1, -1), 2),
                             ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                            ('TOPPADDING', (0, 0), (0, 0), 8),  # Padding pour la date
+                            ('TOPPADDING', (0, 0), (0, 0), 4),  # Padding réduit pour la date (décalée vers le haut)
                             ('BOTTOMPADDING', (0, 0), (0, 0), 4),  # Espacement entre date et jours
-                            ('TOPPADDING', (0, 1), (0, 1), 4),  # Espacement entre date et jours
+                            ('TOPPADDING', (0, 1), (0, 1), 2),  # Padding réduit pour les jours (décalés vers le haut)
                             ('BOTTOMPADDING', (0, 1), (0, 1), 8),  # Padding pour les jours
                         ]))
                     except Exception as e_header:
@@ -2238,6 +2263,7 @@ def export_pdf_multilang():
                     if jour_ferie:
                         nom_ferie = get_nom_jour_ferie(date_jour)
                         # Réduire le BOTTOMPADDING de la ligne des jours dans header_table quand il y a un jour férié
+                        # Date et jours décalés vers le haut pour tous les jours
                         header_table.setStyle(TableStyle([
                             ('VALIGN', (0, 0), (0, 0), 'MIDDLE'),  # Date centrée verticalement dans sa ligne
                             ('VALIGN', (0, 1), (0, 1), 'MIDDLE'),  # Jours centrés verticalement dans leur ligne
@@ -2245,9 +2271,9 @@ def export_pdf_multilang():
                             ('ALIGN', (0, 1), (0, 1), 'CENTER'),  # Jours centrés
                             ('LEFTPADDING', (0, 0), (-1, -1), 2),
                             ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                            ('TOPPADDING', (0, 0), (0, 0), 8),  # Padding pour la date
+                            ('TOPPADDING', (0, 0), (0, 0), 4),  # Padding réduit pour la date (décalée vers le haut)
                             ('BOTTOMPADDING', (0, 0), (0, 0), 4),  # Espacement entre date et jours
-                            ('TOPPADDING', (0, 1), (0, 1), 4),  # Espacement entre date et jours
+                            ('TOPPADDING', (0, 1), (0, 1), 2),  # Padding réduit pour les jours (décalés vers le haut)
                             ('BOTTOMPADDING', (0, 1), (0, 1), 0),  # Pas de padding en bas des jours quand il y a un jour férié
                         ]))
                         ferie_para = Paragraph(
@@ -2271,7 +2297,7 @@ def export_pdf_multilang():
                         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                         ('LEFTPADDING', (0, 0), (-1, -1), 2),
                         ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                        ('TOPPADDING', (0, 0), (-1, -1), 8),
+                        ('TOPPADDING', (0, 0), (-1, -1), 1),  # Padding très réduit pour décaler tout le bloc (date+jours+jour férié) vers le haut
                         ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
                         # Réduire l'espacement entre header_table (ligne 0) et jour férié (ligne 1)
                         ('BOTTOMPADDING', (0, 0), (-1, 0), 0),  # Pas de padding en bas de header_table
@@ -2393,9 +2419,9 @@ def export_pdf_multilang():
                     ('ALIGN', (0, 1), (0, 1), 'CENTER'),  # Jours centrés
                     ('LEFTPADDING', (0, 0), (-1, -1), 2),
                     ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                    ('TOPPADDING', (0, 0), (0, 0), 8),  # Padding pour la date
+                    ('TOPPADDING', (0, 0), (0, 0), 4),  # Padding réduit pour la date (décalée vers le haut)
                     ('BOTTOMPADDING', (0, 0), (0, 0), 4),  # Espacement entre date et jours
-                    ('TOPPADDING', (0, 1), (0, 1), 4),  # Espacement entre date et jours
+                    ('TOPPADDING', (0, 1), (0, 1), 2),  # Padding réduit pour les jours (décalés vers le haut)
                     ('BOTTOMPADDING', (0, 1), (0, 1), 8),  # Padding pour les jours
                 ]))
                 
@@ -2403,6 +2429,7 @@ def export_pdf_multilang():
                 # Toujours utiliser 2 lignes pour uniformiser la hauteur
                 if jour_ferie:
                     # Réduire le BOTTOMPADDING de la ligne des jours dans dimanche_header_table quand il y a un jour férié
+                    # Date et jours décalés vers le haut pour tous les jours
                     dimanche_header_table.setStyle(TableStyle([
                         ('VALIGN', (0, 0), (0, 0), 'MIDDLE'),  # Date centrée verticalement dans sa ligne
                         ('VALIGN', (0, 1), (0, 1), 'MIDDLE'),  # Jours centrés verticalement dans leur ligne
@@ -2410,9 +2437,9 @@ def export_pdf_multilang():
                         ('ALIGN', (0, 1), (0, 1), 'CENTER'),  # Jours centrés
                         ('LEFTPADDING', (0, 0), (-1, -1), 2),
                         ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                        ('TOPPADDING', (0, 0), (0, 0), 8),  # Padding pour la date
+                        ('TOPPADDING', (0, 0), (0, 0), 4),  # Padding réduit pour la date (décalée vers le haut)
                         ('BOTTOMPADDING', (0, 0), (0, 0), 4),  # Espacement entre date et jours
-                        ('TOPPADDING', (0, 1), (0, 1), 4),  # Espacement entre date et jours
+                        ('TOPPADDING', (0, 1), (0, 1), 2),  # Padding réduit pour les jours (décalés vers le haut)
                         ('BOTTOMPADDING', (0, 1), (0, 1), 0),  # Pas de padding en bas des jours quand il y a un jour férié
                     ]))
                     dimanche_ferie_para = Paragraph(
@@ -2435,7 +2462,7 @@ def export_pdf_multilang():
                     ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                     ('LEFTPADDING', (0, 0), (-1, -1), 2),
                     ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                    ('TOPPADDING', (0, 0), (0, 0), 12),  # Padding pour l'en-tête Dimanche
+                    ('TOPPADDING', (0, 0), (0, 0), 4),  # Padding réduit pour décaler dimanche_header_table vers le haut
                     ('BOTTOMPADDING', (0, 0), (0, 0), 12),
                     # Réduire l'espacement entre dimanche_header_table (ligne 0) et jour férié (ligne 1)
                     ('BOTTOMPADDING', (0, 0), (-1, 0), 0),  # Pas de padding en bas de dimanche_header_table
@@ -2454,7 +2481,7 @@ def export_pdf_multilang():
                 dimanche_notes_cell.setStyle(TableStyle([
                     ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                     ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                    ('LEFTPADDING', (0, 0), (-1, -1), 2),
+                    ('LEFTPADDING', (0, 0), (-1, -1), 15),  # Padding à gauche réduit pour décaler un peu les lignes vers la gauche
                     ('RIGHTPADDING', (0, 0), (-1, -1), 2),
                     ('TOPPADDING', (0, 0), (-1, -1), 2),
                     ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
@@ -2508,8 +2535,8 @@ def export_pdf_multilang():
                 ('RIGHTPADDING', (0, 0), (-1, -1), 0),
                 ('TOPPADDING', (0, 0), (-1, -1), 0),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
-                # Ajouter un espacement en haut de la ligne des en-têtes pour décaler le reste du tableau vers le bas
-                ('TOPPADDING', (0, header_row2_index), (-1, header_row2_index), 0.3*cm),
+                # Réduire l'espacement en haut de la ligne des en-têtes pour décaler le bloc (date+jours+jour férié) vers le haut (sauf dimanche)
+                ('TOPPADDING', (0, header_row2_index), (2, header_row2_index), 0.05*cm),  # Seulement colonnes 0-2 (Jeudi, Vendredi, Samedi), pas dimanche
             ]))
             
             elements.append(page2_table)
