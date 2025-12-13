@@ -345,32 +345,43 @@ def export_pdf():
                             spaceBefore=0,
                             spaceAfter=0
                         )
+                        # Style pour le numéro d'heure aligné avec la première ligne
+                        # Utiliser exactement le même leading que la ligne pour un alignement parfait
+                        heure_num_style = ParagraphStyle(
+                            'HeureNum',
+                            parent=base_style,
+                            fontSize=7,
+                            textColor=colors.HexColor('#999999'),
+                            alignment=TA_LEFT,
+                            leading=12,  # Exactement le même leading que ligne_horaire_style_no_wrap
+                            spaceBefore=0,
+                            spaceAfter=0,
+                            firstLineIndent=0,
+                            leftIndent=0,
+                            rightIndent=0
+                        )
                         heure_cell = Table(
                             [
-                                [Paragraph(str(heure), ParagraphStyle(
-                                    'HeureNum',
-                                    parent=base_style,
-                                    fontSize=7,
-                                    textColor=colors.HexColor('#999999'),
-                                    alignment=TA_LEFT,
-                                    leading=16
-                                )), Paragraph(ligne_underscore, ligne_horaire_style_no_wrap)],
+                                [Paragraph(str(heure), heure_num_style), Paragraph(ligne_underscore, ligne_horaire_style_no_wrap)],
                                 [Paragraph("", base_style), Paragraph(ligne_underscore, ligne_horaire_style_no_wrap)]
                             ],
-                            colWidths=[0.8*cm, 4.7*cm],  # Largeur suffisante pour les nombres à 2 chiffres
+                            colWidths=[0.6*cm, 4.9*cm],  # Réduire la largeur de la colonne du numéro pour le rapprocher
                             rowHeights=[12, 12]  # Hauteur exactement égale au leading pour garantir exactement 2 lignes sans ligne supplémentaire
                         )
                         heure_cell.setStyle(TableStyle([
-                            ('ALIGN', (0, 0), (0, -1), 'LEFT'),
-                            ('ALIGN', (1, 0), (1, -1), 'LEFT'),
-                            ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Alignement en haut pour éviter tout débordement
-                            ('LEFTPADDING', (0, 0), (-1, -1), 2),
-                            ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                            ('TOPPADDING', (0, 0), (-1, -1), 0),  # Pas de padding en haut pour garantir que la première ligne est visible dans le premier cadre
-                            ('BOTTOMPADDING', (0, 0), (-1, -1), 0),  # Pas de padding en bas pour éviter toute ligne supplémentaire
-                            # Supprimer complètement le padding en bas de la dernière ligne pour éviter toute ligne supplémentaire
-                            ('BOTTOMPADDING', (1, 1), (1, 1), 0),  # Pas de padding en bas de la dernière ligne pour éviter toute ligne supplémentaire
-                            ('SPAN', (0, 0), (0, 1)),  # Fusionner la colonne de l'heure sur les deux lignes
+                            ('ALIGN', (0, 0), (0, 0), 'RIGHT'),  # Alignement à droite pour le numéro (plus proche de la ligne)
+                            ('ALIGN', (1, 0), (1, -1), 'LEFT'),  # Alignement à gauche pour les lignes
+                            ('VALIGN', (0, 0), (0, 0), 'TOP'),  # Alignement en haut pour permettre le décalage avec TOPPADDING
+                            ('VALIGN', (1, 0), (1, 0), 'BOTTOM'),  # Aligner la première ligne sur sa ligne de base
+                            ('VALIGN', (1, 1), (1, 1), 'TOP'),  # Alignement en haut pour la deuxième ligne
+                            ('LEFTPADDING', (0, 0), (0, 0), 5),  # Padding à gauche encore augmenté pour décaler davantage le numéro vers la droite
+                            ('RIGHTPADDING', (0, 0), (0, 0), 0),  # Pas de padding à droite pour le numéro (très proche de la ligne)
+                            ('LEFTPADDING', (1, 0), (1, -1), 0),  # Pas de padding à gauche pour les lignes (très proche du numéro)
+                            ('RIGHTPADDING', (1, 0), (1, -1), 2),
+                            ('TOPPADDING', (0, 0), (0, 0), 2),  # Padding en haut légèrement augmenté pour descendre très légèrement le numéro
+                            ('TOPPADDING', (1, 0), (-1, -1), 0),  # Pas de padding en haut pour les lignes
+                            ('BOTTOMPADDING', (0, 0), (-1, -1), 0),  # Pas de padding en bas
+                            ('BOTTOMPADDING', (1, 1), (1, 1), 0),  # Pas de padding en bas de la dernière ligne
                         ]))
                         ligne_row.append(heure_cell)
                     else:
@@ -819,32 +830,43 @@ def export_pdf():
                             spaceBefore=0,
                             spaceAfter=0
                         )
+                        # Style pour le numéro d'heure aligné avec la première ligne
+                        # Utiliser exactement le même leading que la ligne pour un alignement parfait
+                        heure_num_style = ParagraphStyle(
+                            'HeureNum',
+                            parent=base_style,
+                            fontSize=7,
+                            textColor=colors.HexColor('#999999'),
+                            alignment=TA_LEFT,
+                            leading=12,  # Exactement le même leading que ligne_horaire_style_no_wrap
+                            spaceBefore=0,
+                            spaceAfter=0,
+                            firstLineIndent=0,
+                            leftIndent=0,
+                            rightIndent=0
+                        )
                         heure_cell = Table(
                             [
-                                [Paragraph(str(heure), ParagraphStyle(
-                                    'HeureNum',
-                                    parent=base_style,
-                                    fontSize=7,
-                                    textColor=colors.HexColor('#999999'),
-                                    alignment=TA_LEFT,
-                                    leading=16
-                                )), Paragraph(ligne_underscore, ligne_horaire_style_no_wrap)],
+                                [Paragraph(str(heure), heure_num_style), Paragraph(ligne_underscore, ligne_horaire_style_no_wrap)],
                                 [Paragraph("", base_style), Paragraph(ligne_underscore, ligne_horaire_style_no_wrap)]
                             ],
-                            colWidths=[0.8*cm, 4.7*cm],  # Largeur suffisante pour les nombres à 2 chiffres
+                            colWidths=[0.6*cm, 4.9*cm],  # Réduire la largeur de la colonne du numéro pour le rapprocher
                             rowHeights=[12, 12]  # Hauteur exactement égale au leading pour garantir exactement 2 lignes sans ligne supplémentaire
                         )
                         heure_cell.setStyle(TableStyle([
-                            ('ALIGN', (0, 0), (0, -1), 'LEFT'),
-                            ('ALIGN', (1, 0), (1, -1), 'LEFT'),
-                            ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Alignement en haut pour éviter tout débordement
-                            ('LEFTPADDING', (0, 0), (-1, -1), 2),
-                            ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                            ('TOPPADDING', (0, 0), (-1, -1), 0),  # Pas de padding en haut pour garantir que la première ligne est visible dans le premier cadre
-                            ('BOTTOMPADDING', (0, 0), (-1, -1), 0),  # Pas de padding en bas pour éviter toute ligne supplémentaire
-                            # Supprimer complètement le padding en bas de la dernière ligne pour éviter toute ligne supplémentaire
-                            ('BOTTOMPADDING', (1, 1), (1, 1), 0),  # Pas de padding en bas de la dernière ligne pour éviter toute ligne supplémentaire
-                            ('SPAN', (0, 0), (0, 1)),  # Fusionner la colonne de l'heure sur les deux lignes
+                            ('ALIGN', (0, 0), (0, 0), 'RIGHT'),  # Alignement à droite pour le numéro (plus proche de la ligne)
+                            ('ALIGN', (1, 0), (1, -1), 'LEFT'),  # Alignement à gauche pour les lignes
+                            ('VALIGN', (0, 0), (0, 0), 'TOP'),  # Alignement en haut pour permettre le décalage avec TOPPADDING
+                            ('VALIGN', (1, 0), (1, 0), 'BOTTOM'),  # Aligner la première ligne sur sa ligne de base
+                            ('VALIGN', (1, 1), (1, 1), 'TOP'),  # Alignement en haut pour la deuxième ligne
+                            ('LEFTPADDING', (0, 0), (0, 0), 5),  # Padding à gauche encore augmenté pour décaler davantage le numéro vers la droite
+                            ('RIGHTPADDING', (0, 0), (0, 0), 0),  # Pas de padding à droite pour le numéro (très proche de la ligne)
+                            ('LEFTPADDING', (1, 0), (1, -1), 0),  # Pas de padding à gauche pour les lignes (très proche du numéro)
+                            ('RIGHTPADDING', (1, 0), (1, -1), 2),
+                            ('TOPPADDING', (0, 0), (0, 0), 2),  # Padding en haut légèrement augmenté pour descendre très légèrement le numéro
+                            ('TOPPADDING', (1, 0), (-1, -1), 0),  # Pas de padding en haut pour les lignes
+                            ('BOTTOMPADDING', (0, 0), (-1, -1), 0),  # Pas de padding en bas
+                            ('BOTTOMPADDING', (1, 1), (1, 1), 0),  # Pas de padding en bas de la dernière ligne
                         ]))
                         ligne_row.append(heure_cell)
                     else:
@@ -1199,14 +1221,19 @@ def export_pdf_multilang():
             # #endregion
             return text
         
-        # Essayer de charger une police qui supporte l'arabe
-        # Essayer plusieurs polices : Arial Unicode MS, Tahoma, DejaVuSans
-        arabic_font_name = 'Helvetica'  # Par défaut (ne supporte pas l'arabe mais évite les erreurs)
+        # Charger la police Square721 BT (Regular et Bold) pour le texte latin/chiffres
+        # ET une police qui supporte l'arabe pour le texte arabe
+        square721_font_name = 'Helvetica'  # Par défaut en cas d'erreur
+        square721_bold_font_name = 'Helvetica-Bold'  # Par défaut en cas d'erreur
+        arabic_font_name = 'Helvetica'  # Par défaut (ne supporte pas l'arabe)
+        
+        # D'abord charger une police qui supporte l'arabe (priorité)
         try:
-            # Essayer Arial Unicode MS (souvent disponible sur Windows)
+            # Essayer Arial Unicode MS (souvent disponible sur Windows et supporte l'arabe)
             arial_unicode_paths = [
                 'C:/Windows/Fonts/ARIALUNI.TTF',
                 'C:/Windows/Fonts/arialuni.ttf',
+                'C:/Windows/Fonts/ARIALUNI.OTF',
             ]
             for path in arial_unicode_paths:
                 if os.path.exists(path):
@@ -1214,10 +1241,22 @@ def export_pdf_multilang():
                         pdfmetrics.registerFont(TTFont('ArialUnicodeMS', path))
                         arabic_font_name = 'ArialUnicodeMS'
                         break
-                    except:
+                    except Exception as e:
+                        try:
+                            with open(log_path, 'a', encoding='utf-8') as f:
+                                f.write(json.dumps({
+                                    'timestamp': datetime.now().isoformat(),
+                                    'location': 'projet18_routes.py:export_pdf_multilang:arial_unicode_error',
+                                    'message': f'Erreur chargement Arial Unicode: {str(e)}',
+                                    'path': path,
+                                    'sessionId': 'debug-session',
+                                    'runId': 'run1'
+                                }) + '\n')
+                        except:
+                            pass
                         pass
             
-            # Si Arial Unicode MS n'est pas disponible, essayer Tahoma
+            # Si Arial Unicode MS n'est pas disponible, essayer Tahoma (supporte l'arabe)
             if arabic_font_name == 'Helvetica':
                 tahoma_paths = [
                     'C:/Windows/Fonts/tahoma.ttf',
@@ -1232,7 +1271,7 @@ def export_pdf_multilang():
                         except:
                             pass
             
-            # Si Tahoma n'est pas disponible, essayer DejaVuSans
+            # Si Tahoma n'est pas disponible, essayer DejaVuSans (supporte l'arabe)
             if arabic_font_name == 'Helvetica':
                 dejavu_paths = [
                     'C:/Windows/Fonts/DejaVuSans.ttf',
@@ -1251,6 +1290,173 @@ def export_pdf_multilang():
         except Exception as e:
             # En cas d'erreur, utiliser Helvetica (texte arabe ne s'affichera pas correctement)
             arabic_font_name = 'Helvetica'
+        
+        # Ensuite charger Square721 BT (pour le texte latin/chiffres)
+        try:
+            # Chemins possibles pour Square721 BT (chercher dans tous les dossiers possibles)
+            # Bitstream est l'éditeur de Square721 BT, donc chercher aussi sous ce nom
+            square721_paths = [
+                'C:/Windows/Fonts/SQUA721N.TTF',  # Square721 BT Normal
+                'C:/Windows/Fonts/squa721n.ttf',
+                'C:/Windows/Fonts/SQUA721R.TTF',  # Square721 BT Regular
+                'C:/Windows/Fonts/squa721r.ttf',
+                'C:/Windows/Fonts/SQUA721.TTF',
+                'C:/Windows/Fonts/squa721.ttf',
+                'C:/Windows/Fonts/SQUA721N.OTF',
+                'C:/Windows/Fonts/squa721n.otf',
+                # Variantes possibles
+                'C:/Windows/Fonts/SQUARE721.TTF',
+                'C:/Windows/Fonts/square721.ttf',
+                'C:/Windows/Fonts/SQUARE721N.TTF',
+                'C:/Windows/Fonts/square721n.ttf',
+            ]
+            square721_bold_paths = [
+                'C:/Windows/Fonts/SQUA721B.TTF',  # Square721 BT Bold
+                'C:/Windows/Fonts/squa721b.ttf',
+                'C:/Windows/Fonts/SQUA721D.TTF',  # Square721 BT Demi
+                'C:/Windows/Fonts/squa721d.ttf',
+                'C:/Windows/Fonts/SQUA721B.OTF',
+                'C:/Windows/Fonts/squa721b.otf',
+                # Variantes possibles
+                'C:/Windows/Fonts/SQUARE721B.TTF',
+                'C:/Windows/Fonts/square721b.ttf',
+                'C:/Windows/Fonts/SQUARE721D.TTF',
+                'C:/Windows/Fonts/square721d.ttf',
+            ]
+            
+            # Recherche dynamique dans le dossier Fonts si les chemins standards ne fonctionnent pas
+            if square721_font_name == 'Helvetica':
+                try:
+                    fonts_dir = 'C:/Windows/Fonts'
+                    if os.path.exists(fonts_dir):
+                        for font_file in os.listdir(fonts_dir):
+                            font_lower = font_file.lower()
+                            if ('square' in font_lower or 'squa' in font_lower or '721' in font_lower) and (font_lower.endswith('.ttf') or font_lower.endswith('.otf')):
+                                if 'bold' not in font_lower and 'demi' not in font_lower and 'b' not in font_lower[-5:]:
+                                    font_path = os.path.join(fonts_dir, font_file)
+                                    try:
+                                        pdfmetrics.registerFont(TTFont('Square721BT', font_path))
+                                        square721_font_name = 'Square721BT'
+                                        break
+                                    except:
+                                        pass
+                except:
+                    pass
+            
+            if square721_bold_font_name == 'Helvetica-Bold':
+                try:
+                    fonts_dir = 'C:/Windows/Fonts'
+                    if os.path.exists(fonts_dir):
+                        for font_file in os.listdir(fonts_dir):
+                            font_lower = font_file.lower()
+                            if ('square' in font_lower or 'squa' in font_lower or '721' in font_lower) and (font_lower.endswith('.ttf') or font_lower.endswith('.otf')):
+                                if 'bold' in font_lower or 'demi' in font_lower or font_lower[-5:-4] == 'b' or font_lower[-5:-4] == 'd':
+                                    font_path = os.path.join(fonts_dir, font_file)
+                                    try:
+                                        pdfmetrics.registerFont(TTFont('Square721BT-Bold', font_path))
+                                        square721_bold_font_name = 'Square721BT-Bold'
+                                        break
+                                    except:
+                                        pass
+                except:
+                    pass
+            
+            # Charger Square721 BT Regular
+            for path in square721_paths:
+                if os.path.exists(path):
+                    try:
+                        pdfmetrics.registerFont(TTFont('Square721BT', path))
+                        square721_font_name = 'Square721BT'
+                        break
+                    except Exception as e:
+                        # Log l'erreur pour debug
+                        try:
+                            with open(log_path, 'a', encoding='utf-8') as f:
+                                f.write(json.dumps({
+                                    'timestamp': datetime.now().isoformat(),
+                                    'location': 'projet18_routes.py:export_pdf_multilang:square721_error',
+                                    'message': f'Erreur chargement Square721 BT: {str(e)}',
+                                    'path': path,
+                                    'sessionId': 'debug-session',
+                                    'runId': 'run1'
+                                }) + '\n')
+                        except:
+                            pass
+                        pass
+            
+            # Charger Square721 BT Bold
+            for path in square721_bold_paths:
+                if os.path.exists(path):
+                    try:
+                        pdfmetrics.registerFont(TTFont('Square721BT-Bold', path))
+                        square721_bold_font_name = 'Square721BT-Bold'
+                        break
+                    except:
+                        pass
+            
+            # Si Bold n'est pas trouvé, utiliser la même police que Regular
+            if square721_bold_font_name == 'Helvetica-Bold' and square721_font_name != 'Helvetica':
+                square721_bold_font_name = square721_font_name
+        except Exception as e:
+            # En cas d'erreur, utiliser la police arabe comme fallback
+            if square721_font_name == 'Helvetica':
+                square721_font_name = arabic_font_name
+            if square721_bold_font_name == 'Helvetica-Bold':
+                square721_bold_font_name = arabic_font_name
+        
+        # Si Square721 BT n'est pas trouvé, utiliser la police arabe pour tout
+        # (la police arabe supporte aussi le latin, donc c'est acceptable)
+        # Mais on essaie d'abord de créer une version Bold de la police arabe
+        if square721_font_name == 'Helvetica':
+            square721_font_name = arabic_font_name
+            # Essayer de créer une version Bold de la police arabe
+            if arabic_font_name == 'ArialUnicodeMS':
+                try:
+                    # Arial Unicode MS n'a pas de version Bold séparée, utiliser la même
+                    square721_bold_font_name = arabic_font_name
+                except:
+                    square721_bold_font_name = arabic_font_name
+            elif arabic_font_name == 'Tahoma':
+                try:
+                    # Essayer Tahoma Bold
+                    tahoma_bold_paths = [
+                        'C:/Windows/Fonts/tahomabd.ttf',
+                        'C:/Windows/Fonts/TahomaBd.ttf',
+                    ]
+                    for path in tahoma_bold_paths:
+                        if os.path.exists(path):
+                            try:
+                                pdfmetrics.registerFont(TTFont('Tahoma-Bold', path))
+                                square721_bold_font_name = 'Tahoma-Bold'
+                                break
+                            except:
+                                pass
+                    if square721_bold_font_name == 'Helvetica-Bold':
+                        square721_bold_font_name = arabic_font_name
+                except:
+                    square721_bold_font_name = arabic_font_name
+            else:
+                square721_bold_font_name = arabic_font_name
+        elif square721_bold_font_name == 'Helvetica-Bold':
+            square721_bold_font_name = square721_font_name
+        
+        # Log les polices chargées
+        try:
+            with open(log_path, 'a', encoding='utf-8') as f:
+                f.write(json.dumps({
+                    'timestamp': datetime.now().isoformat(),
+                    'location': 'projet18_routes.py:export_pdf_multilang:fonts_loaded',
+                    'message': 'Polices chargees',
+                    'data': {
+                        'square721_font': square721_font_name,
+                        'square721_bold_font': square721_bold_font_name,
+                        'arabic_font': arabic_font_name
+                    },
+                    'sessionId': 'debug-session',
+                    'runId': 'run1'
+                }) + '\n')
+        except:
+            pass
         
         semaines = get_semaines_2026()
         # Limiter à 52 semaines
@@ -1286,7 +1492,7 @@ def export_pdf_multilang():
             parent=styles['Normal'],
             fontSize=9,
             textColor=colors.HexColor('#000000'),
-            fontName='Helvetica',
+            fontName=square721_font_name,
             leading=10
         )
         
@@ -1295,7 +1501,7 @@ def export_pdf_multilang():
             'JourNom',
             parent=base_style,
             fontSize=9,
-            fontName='Helvetica',
+            fontName=square721_font_name,
             alignment=TA_LEFT
         )
         
@@ -1304,7 +1510,7 @@ def export_pdf_multilang():
             'Date',
             parent=base_style,
             fontSize=12,
-            fontName='Helvetica-Bold',
+            fontName=square721_bold_font_name,
             textColor=colors.HexColor('#000000'),  # Noir au lieu de bleu
             alignment=TA_RIGHT
         )
@@ -1340,7 +1546,7 @@ def export_pdf_multilang():
             'DimancheNom',
             parent=base_style,
             fontSize=9,
-            fontName='Helvetica',
+            fontName=square721_font_name,
             alignment=TA_LEFT
         )
         
@@ -1348,7 +1554,7 @@ def export_pdf_multilang():
             'DimancheDate',
             parent=base_style,
             fontSize=12,
-            fontName='Helvetica-Bold',
+            fontName=square721_bold_font_name,
             textColor=colors.HexColor('#000000'),  # Noir au lieu de bleu
             alignment=TA_RIGHT
         )
@@ -1368,7 +1574,7 @@ def export_pdf_multilang():
             parent=base_style,
             fontSize=9,
             textColor=colors.HexColor('#FF0000'),
-            fontName='Helvetica',
+            fontName=square721_font_name,
             alignment=TA_CENTER
         )
         
@@ -1377,7 +1583,7 @@ def export_pdf_multilang():
             'CalHeader',
             parent=base_style,
             fontSize=10,
-            fontName='Helvetica-Bold',
+            fontName=square721_bold_font_name,
             alignment=TA_CENTER
         )
         
@@ -1396,6 +1602,56 @@ def export_pdf_multilang():
             fontSize=8,
             alignment=TA_CENTER,
             leading=10
+        )
+        
+        # Style Bold dédié pour le numéro de semaine
+        # Utiliser un style avec la police Bold directement (sans balise HTML)
+        # Même leading que les autres pour un alignement parfait
+        semaine_num_bold_style = ParagraphStyle(
+            'SemaineNumBold',
+            parent=base_style,
+            fontSize=10,  # Légèrement plus grand pour plus de visibilité
+            fontName=square721_bold_font_name,  # Police Bold directement dans le style
+            textColor=colors.HexColor('#0066CC'),
+            alignment=TA_LEFT,
+            leading=14,  # Même leading que les autres styles
+            spaceBefore=0,
+            spaceAfter=0,
+            firstLineIndent=0,
+            leftIndent=0,
+            rightIndent=0
+        )
+        
+        # Style pour le texte "Semaine Week"
+        # Même leading que le numéro pour un alignement parfait
+        semaine_text_style = ParagraphStyle(
+            'SemaineText',
+            parent=base_style,
+            fontSize=9,
+            fontName=square721_font_name,
+            alignment=TA_LEFT,
+            leading=14,  # Même leading que le numéro
+            spaceBefore=0,
+            spaceAfter=0,
+            firstLineIndent=0,
+            leftIndent=0,
+            rightIndent=0
+        )
+        
+        # Style pour le texte arabe
+        # Même leading que les autres pour un alignement parfait
+        semaine_arabic_style = ParagraphStyle(
+            'SemaineArabic',
+            parent=base_style,
+            fontSize=9,
+            fontName=arabic_font_name,
+            alignment=TA_LEFT,
+            leading=14,  # Même leading que les autres
+            spaceBefore=0,
+            spaceAfter=0,
+            firstLineIndent=0,
+            leftIndent=0,
+            rightIndent=0
         )
         
         elements = []
@@ -1427,18 +1683,23 @@ def export_pdf_multilang():
             page1_data = []
             
             # Ligne avec texte de la semaine en haut à gauche
+            # Utiliser un seul Paragraph avec des balises font pour tout mettre sur une seule ligne
             semaine_num_formate1 = f"{semaine['numero']:02d}"
             semaine_ar1 = 'الأسبوع'
+            # Un seul Paragraph avec des balises font pour changer les polices et le style
+            # Le numéro utilise la police Bold directement dans la balise font
             semaine_row1 = [
                 Paragraph(
-                    f"Semaine Week <font face='Helvetica-Bold' color='#0066CC'>{semaine_num_formate1}</font> {fix_arabic_text(semaine_ar1)}",
+                    f"<font face='{square721_font_name}'>Semaine Week </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate1}</font><font face='{arabic_font_name}'> {fix_arabic_text(semaine_ar1)}</font>",
                     ParagraphStyle(
                         'SemaineHeader',
                         parent=base_style,
                         fontSize=9,
-                        fontName=arabic_font_name,
+                        fontName=arabic_font_name,  # Police de base
                         alignment=TA_LEFT,
-                        leading=14
+                        leading=14,
+                        spaceBefore=0,
+                        spaceAfter=0
                     )
                 ),
                 Paragraph("", base_style),  # Colonne vide
@@ -1466,29 +1727,29 @@ def export_pdf_multilang():
                     try:
                         # Ligne 1 : Date (grande, centrée en haut)
                         # Ligne 2 : Français, Anglais, Arabe (en bas)
-                        # Utiliser Helvetica-Bold pour les dates (chiffres uniquement, pas besoin d'arabe)
-                        # Utiliser la police arabe uniquement pour les jours
+                        # Utiliser Square721 BT Bold pour les dates (chiffres uniquement)
+                        # Utiliser la police arabe pour le texte mixte (contient de l'arabe)
                         header_table = Table([
                             [Paragraph(date_formatee, ParagraphStyle(
                                 'HeaderDateMultilang',
                                 parent=base_style,
                                 fontSize=24,  # Plus grande que la version standard
-                                fontName='Helvetica-Bold',  # Toujours Helvetica-Bold pour les dates
+                                fontName=square721_bold_font_name,  # Square721 BT Bold pour les dates (chiffres)
                                 textColor=colors.HexColor('#0066CC'),
                                 alignment=TA_CENTER,
                                 leading=30  # Augmenter leading pour éviter superposition
-                            ))],  # Ligne 1 : Date seule
+                            ))],  # Ligne 1 : Date seule (chiffres uniquement)
                             [Paragraph(
-                                f"{jour_fr} / {jour_en} / {fix_arabic_text(jour_ar)}",
+                                f"<font face='{square721_font_name}'>{jour_fr}</font> / <font face='{square721_font_name}'>{jour_en}</font> / <font face='{arabic_font_name}'>{fix_arabic_text(jour_ar)}</font>",
                                 ParagraphStyle(
                                     'HeaderJourMultilang',
                                     parent=base_style,
                                     fontSize=9,
-                                    fontName=arabic_font_name,
+                                    fontName=arabic_font_name,  # Police de base (arabe) pour le Paragraph
                                     alignment=TA_CENTER,
                                     leading=16  # Augmenter leading pour l'espacement
                                 )
-                            )]  # Ligne 2 : Trois langues
+                            )]  # Ligne 2 : Trois langues (contient de l'arabe)
                         ], colWidths=[5.5*cm], rowHeights=[1.2*cm, 0.8*cm])  # Hauteurs explicites pour éviter superposition
                         header_table.setStyle(TableStyle([
                             ('VALIGN', (0, 0), (0, 0), 'MIDDLE'),  # Date centrée verticalement dans sa ligne
@@ -1579,32 +1840,43 @@ def export_pdf_multilang():
                             spaceBefore=0,
                             spaceAfter=0
                         )
+                        # Style pour le numéro d'heure aligné avec la première ligne
+                        # Utiliser exactement le même leading que la ligne pour un alignement parfait
+                        heure_num_style = ParagraphStyle(
+                            'HeureNum',
+                            parent=base_style,
+                            fontSize=7,
+                            textColor=colors.HexColor('#999999'),
+                            alignment=TA_LEFT,
+                            leading=12,  # Exactement le même leading que ligne_horaire_style_no_wrap
+                            spaceBefore=0,
+                            spaceAfter=0,
+                            firstLineIndent=0,
+                            leftIndent=0,
+                            rightIndent=0
+                        )
                         heure_cell = Table(
                             [
-                                [Paragraph(str(heure), ParagraphStyle(
-                                    'HeureNum',
-                                    parent=base_style,
-                                    fontSize=7,
-                                    textColor=colors.HexColor('#999999'),
-                                    alignment=TA_LEFT,
-                                    leading=16
-                                )), Paragraph(ligne_underscore, ligne_horaire_style_no_wrap)],
+                                [Paragraph(str(heure), heure_num_style), Paragraph(ligne_underscore, ligne_horaire_style_no_wrap)],
                                 [Paragraph("", base_style), Paragraph(ligne_underscore, ligne_horaire_style_no_wrap)]
                             ],
-                            colWidths=[0.8*cm, 4.7*cm],  # Largeur suffisante pour les nombres à 2 chiffres
+                            colWidths=[0.6*cm, 4.9*cm],  # Réduire la largeur de la colonne du numéro pour le rapprocher
                             rowHeights=[12, 12]  # Hauteur exactement égale au leading pour garantir exactement 2 lignes sans ligne supplémentaire
                         )
                         heure_cell.setStyle(TableStyle([
-                            ('ALIGN', (0, 0), (0, -1), 'LEFT'),
-                            ('ALIGN', (1, 0), (1, -1), 'LEFT'),
-                            ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Alignement en haut pour éviter tout débordement
-                            ('LEFTPADDING', (0, 0), (-1, -1), 2),
-                            ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                            ('TOPPADDING', (0, 0), (-1, -1), 0),  # Pas de padding en haut pour garantir que la première ligne est visible dans le premier cadre
-                            ('BOTTOMPADDING', (0, 0), (-1, -1), 0),  # Pas de padding en bas pour éviter toute ligne supplémentaire
-                            # Supprimer complètement le padding en bas de la dernière ligne pour éviter toute ligne supplémentaire
-                            ('BOTTOMPADDING', (1, 1), (1, 1), 0),  # Pas de padding en bas de la dernière ligne pour éviter toute ligne supplémentaire
-                            ('SPAN', (0, 0), (0, 1)),  # Fusionner la colonne de l'heure sur les deux lignes
+                            ('ALIGN', (0, 0), (0, 0), 'RIGHT'),  # Alignement à droite pour le numéro (plus proche de la ligne)
+                            ('ALIGN', (1, 0), (1, -1), 'LEFT'),  # Alignement à gauche pour les lignes
+                            ('VALIGN', (0, 0), (0, 0), 'TOP'),  # Alignement en haut pour permettre le décalage avec TOPPADDING
+                            ('VALIGN', (1, 0), (1, 0), 'BOTTOM'),  # Aligner la première ligne sur sa ligne de base
+                            ('VALIGN', (1, 1), (1, 1), 'TOP'),  # Alignement en haut pour la deuxième ligne
+                            ('LEFTPADDING', (0, 0), (0, 0), 5),  # Padding à gauche encore augmenté pour décaler davantage le numéro vers la droite
+                            ('RIGHTPADDING', (0, 0), (0, 0), 0),  # Pas de padding à droite pour le numéro (très proche de la ligne)
+                            ('LEFTPADDING', (1, 0), (1, -1), 0),  # Pas de padding à gauche pour les lignes (très proche du numéro)
+                            ('RIGHTPADDING', (1, 0), (1, -1), 2),
+                            ('TOPPADDING', (0, 0), (0, 0), 2),  # Padding en haut légèrement augmenté pour descendre très légèrement le numéro
+                            ('TOPPADDING', (1, 0), (-1, -1), 0),  # Pas de padding en haut pour les lignes
+                            ('BOTTOMPADDING', (0, 0), (-1, -1), 0),  # Pas de padding en bas
+                            ('BOTTOMPADDING', (1, 1), (1, 1), 0),  # Pas de padding en bas de la dernière ligne
                         ]))
                         ligne_row.append(heure_cell)
                     else:
@@ -1827,10 +2099,11 @@ def export_pdf_multilang():
             # Trouver l'index de la ligne des en-têtes (après la ligne de la semaine)
             header_row_index = 1  # La ligne de la semaine est à l'index 0, les en-têtes sont à l'index 1
             semaine_row_index = 0  # La ligne de la semaine est à l'index 0
+            ligne_vide_index = 2  # La ligne vide est à l'index 2 (après la semaine et les en-têtes)
             
             # Trouver l'index de la dernière ligne horaire (20h)
-            # Il y a 13 lignes horaires (8h-20h), donc la dernière est à l'index header_row_index + 13
-            derniere_ligne_horaire_index = header_row_index + len(heures)  # header_row_index (1) + 13 lignes horaires = 14
+            # Il y a 1 ligne vide + 13 lignes horaires (8h-20h), donc la dernière est à l'index ligne_vide_index + 13
+            derniere_ligne_horaire_index = ligne_vide_index + len(heures)  # ligne_vide_index (2) + 13 lignes horaires = 15
             
             # Créer le tableau pour la page 1 (format portrait - colonnes plus étroites)
             # Calculer les hauteurs de lignes : ligne semaine (fixe), ligne en-tête (fixe), autres lignes (auto)
@@ -1839,6 +2112,8 @@ def export_pdf_multilang():
             page1_row_heights = [None] * len(page1_data)  # None = hauteur automatique
             page1_row_heights[semaine_row_index] = 0.7*cm  # Hauteur fixe pour la ligne de la semaine (identique à page 2)
             page1_row_heights[header_row_index] = 2.7*cm  # Hauteur fixe pour la ligne d'en-tête
+            # Hauteur de la ligne vide = même hauteur que les lignes horaires (2 lignes de 12 points chacune = 24 points ≈ 0.85cm)
+            page1_row_heights[ligne_vide_index] = 24  # Même hauteur que les lignes horaires (2 lignes de 12 points)
             page1_table = Table(page1_data, colWidths=[5.5*cm, 5.5*cm, 5.5*cm], rowHeights=page1_row_heights)
             page1_table.setStyle(TableStyle([
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
@@ -1870,16 +2145,20 @@ def export_pdf_multilang():
             # Ligne avec texte de la semaine en haut à gauche et "2026" en haut à droite
             semaine_num_formate2 = f"{semaine['numero']:02d}"
             semaine_ar2 = 'الأسبوع'
+            # Utiliser un seul Paragraph avec des balises font pour tout mettre sur une seule ligne (même approche que page 1)
+            # Le numéro utilise la police Bold directement dans la balise font
             semaine_row2 = [
                 Paragraph(
-                    f"Semaine Week <font face='Helvetica-Bold' color='#0066CC'>{semaine_num_formate2}</font> {fix_arabic_text(semaine_ar2)}",
+                    f"<font face='{square721_font_name}'>Semaine Week </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate2}</font><font face='{arabic_font_name}'> {fix_arabic_text(semaine_ar2)}</font>",
                     ParagraphStyle(
                         'SemaineHeader',
                         parent=base_style,
                         fontSize=9,
-                        fontName=arabic_font_name,
+                        fontName=arabic_font_name,  # Police de base
                         alignment=TA_LEFT,
-                        leading=14
+                        leading=14,
+                        spaceBefore=0,
+                        spaceAfter=0
                     )
                 ),
                 Paragraph("", base_style),  # Colonne vide
@@ -1887,7 +2166,7 @@ def export_pdf_multilang():
                     'AnneePage2',
                     parent=base_style,
                     fontSize=18,
-                    fontName='Helvetica-Bold',
+                    fontName=square721_bold_font_name,
                     textColor=colors.HexColor('#0066CC'),
                     alignment=TA_RIGHT,
                     leading=20
@@ -1915,29 +2194,29 @@ def export_pdf_multilang():
                     try:
                         # Ligne 1 : Date (grande, centrée en haut)
                         # Ligne 2 : Français, Anglais, Arabe (en bas)
-                        # Utiliser Helvetica-Bold pour les dates (chiffres uniquement, pas besoin d'arabe)
-                        # Utiliser la police arabe uniquement pour les jours
+                        # Utiliser Square721 BT Bold pour les dates (chiffres uniquement)
+                        # Utiliser la police arabe pour le texte mixte (contient de l'arabe)
                         header_table = Table([
                             [Paragraph(date_formatee, ParagraphStyle(
                                 'HeaderDateMultilang',
                                 parent=base_style,
                                 fontSize=24,  # Plus grande que la version standard
-                                fontName='Helvetica-Bold',  # Toujours Helvetica-Bold pour les dates
+                                fontName=square721_bold_font_name,  # Square721 BT Bold pour les dates (chiffres)
                                 textColor=colors.HexColor('#0066CC'),
                                 alignment=TA_CENTER,
                                 leading=30  # Augmenter leading pour éviter superposition
-                            ))],  # Ligne 1 : Date seule
+                            ))],  # Ligne 1 : Date seule (chiffres uniquement)
                             [Paragraph(
-                                f"{jour_fr} / {jour_en} / {fix_arabic_text(jour_ar)}",
+                                f"<font face='{square721_font_name}'>{jour_fr}</font> / <font face='{square721_font_name}'>{jour_en}</font> / <font face='{arabic_font_name}'>{fix_arabic_text(jour_ar)}</font>",
                                 ParagraphStyle(
                                     'HeaderJourMultilang',
                                     parent=base_style,
                                     fontSize=9,
-                                    fontName=arabic_font_name,
+                                    fontName=arabic_font_name,  # Police de base (arabe) pour le Paragraph
                                     alignment=TA_CENTER,
                                     leading=16  # Augmenter leading pour l'espacement
                                 )
-                            )]  # Ligne 2 : Trois langues
+                            )]  # Ligne 2 : Trois langues (contient de l'arabe)
                         ], colWidths=[5.5*cm], rowHeights=[1.2*cm, 0.8*cm])  # Hauteurs explicites pour éviter superposition
                         header_table.setStyle(TableStyle([
                             ('VALIGN', (0, 0), (0, 0), 'MIDDLE'),  # Date centrée verticalement dans sa ligne
@@ -2028,32 +2307,43 @@ def export_pdf_multilang():
                             spaceBefore=0,
                             spaceAfter=0
                         )
+                        # Style pour le numéro d'heure aligné avec la première ligne
+                        # Utiliser exactement le même leading que la ligne pour un alignement parfait
+                        heure_num_style = ParagraphStyle(
+                            'HeureNum',
+                            parent=base_style,
+                            fontSize=7,
+                            textColor=colors.HexColor('#999999'),
+                            alignment=TA_LEFT,
+                            leading=12,  # Exactement le même leading que ligne_horaire_style_no_wrap
+                            spaceBefore=0,
+                            spaceAfter=0,
+                            firstLineIndent=0,
+                            leftIndent=0,
+                            rightIndent=0
+                        )
                         heure_cell = Table(
                             [
-                                [Paragraph(str(heure), ParagraphStyle(
-                                    'HeureNum',
-                                    parent=base_style,
-                                    fontSize=7,
-                                    textColor=colors.HexColor('#999999'),
-                                    alignment=TA_LEFT,
-                                    leading=16
-                                )), Paragraph(ligne_underscore, ligne_horaire_style_no_wrap)],
+                                [Paragraph(str(heure), heure_num_style), Paragraph(ligne_underscore, ligne_horaire_style_no_wrap)],
                                 [Paragraph("", base_style), Paragraph(ligne_underscore, ligne_horaire_style_no_wrap)]
                             ],
-                            colWidths=[0.8*cm, 4.7*cm],  # Largeur suffisante pour les nombres à 2 chiffres
+                            colWidths=[0.6*cm, 4.9*cm],  # Réduire la largeur de la colonne du numéro pour le rapprocher
                             rowHeights=[12, 12]  # Hauteur exactement égale au leading pour garantir exactement 2 lignes sans ligne supplémentaire
                         )
                         heure_cell.setStyle(TableStyle([
-                            ('ALIGN', (0, 0), (0, -1), 'LEFT'),
-                            ('ALIGN', (1, 0), (1, -1), 'LEFT'),
-                            ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Alignement en haut pour éviter tout débordement
-                            ('LEFTPADDING', (0, 0), (-1, -1), 2),
-                            ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                            ('TOPPADDING', (0, 0), (-1, -1), 0),  # Pas de padding en haut pour garantir que la première ligne est visible dans le premier cadre
-                            ('BOTTOMPADDING', (0, 0), (-1, -1), 0),  # Pas de padding en bas pour éviter toute ligne supplémentaire
-                            # Supprimer complètement le padding en bas de la dernière ligne pour éviter toute ligne supplémentaire
-                            ('BOTTOMPADDING', (1, 1), (1, 1), 0),  # Pas de padding en bas de la dernière ligne pour éviter toute ligne supplémentaire
-                            ('SPAN', (0, 0), (0, 1)),  # Fusionner la colonne de l'heure sur les deux lignes
+                            ('ALIGN', (0, 0), (0, 0), 'RIGHT'),  # Alignement à droite pour le numéro (plus proche de la ligne)
+                            ('ALIGN', (1, 0), (1, -1), 'LEFT'),  # Alignement à gauche pour les lignes
+                            ('VALIGN', (0, 0), (0, 0), 'TOP'),  # Alignement en haut pour permettre le décalage avec TOPPADDING
+                            ('VALIGN', (1, 0), (1, 0), 'BOTTOM'),  # Aligner la première ligne sur sa ligne de base
+                            ('VALIGN', (1, 1), (1, 1), 'TOP'),  # Alignement en haut pour la deuxième ligne
+                            ('LEFTPADDING', (0, 0), (0, 0), 5),  # Padding à gauche encore augmenté pour décaler davantage le numéro vers la droite
+                            ('RIGHTPADDING', (0, 0), (0, 0), 0),  # Pas de padding à droite pour le numéro (très proche de la ligne)
+                            ('LEFTPADDING', (1, 0), (1, -1), 0),  # Pas de padding à gauche pour les lignes (très proche du numéro)
+                            ('RIGHTPADDING', (1, 0), (1, -1), 2),
+                            ('TOPPADDING', (0, 0), (0, 0), 2),  # Padding en haut légèrement augmenté pour descendre très légèrement le numéro
+                            ('TOPPADDING', (1, 0), (-1, -1), 0),  # Pas de padding en haut pour les lignes
+                            ('BOTTOMPADDING', (0, 0), (-1, -1), 0),  # Pas de padding en bas
+                            ('BOTTOMPADDING', (1, 1), (1, 1), 0),  # Pas de padding en bas de la dernière ligne
                         ]))
                         ligne_row.append(heure_cell)
                     else:
@@ -2072,20 +2362,20 @@ def export_pdf_multilang():
                 dimanche_ar = jours_arabe.get('dimanche', 'الأحد')
                 
                 # Structure : Date en haut (grande), jours en bas (3 langues)
-                # Utiliser Helvetica-Bold pour les dates (chiffres uniquement, pas besoin d'arabe)
-                # Utiliser la police arabe uniquement pour les jours
+                # Utiliser Square721 BT Bold pour les dates (chiffres uniquement, pas besoin d'arabe)
+                # Utiliser Square721 BT pour tous les textes
                 dimanche_header_table = Table([
                     [Paragraph(date_dimanche_formatee, ParagraphStyle(
                         'DimancheDateMultilang',
                         parent=base_style,
                         fontSize=24,  # Plus grande que la version standard
-                        fontName='Helvetica-Bold',  # Toujours Helvetica-Bold pour les dates
+                                fontName=square721_bold_font_name,  # Square721 BT Bold pour les dates
                         textColor=colors.HexColor('#0066CC'),
                         alignment=TA_CENTER,
                         leading=30  # Augmenter leading pour éviter superposition
                     ))],  # Ligne 1 : Date seule
                     [Paragraph(
-                        f"Dimanche / Sunday / {fix_arabic_text(dimanche_ar)}",
+                        f"<font face='{square721_font_name}'>Dimanche</font> / <font face='{square721_font_name}'>Sunday</font> / <font face='{arabic_font_name}'>{fix_arabic_text(dimanche_ar)}</font>",
                         ParagraphStyle(
                             'DimancheJourMultilang',
                             parent=base_style,
@@ -2185,10 +2475,11 @@ def export_pdf_multilang():
             # Trouver l'index de la ligne des en-têtes (après la ligne de la semaine)
             header_row2_index = 1  # La ligne de la semaine est à l'index 0, les en-têtes sont à l'index 1
             semaine_row2_index = 0  # La ligne de la semaine est à l'index 0
+            ligne_vide2_index = 2  # La ligne vide est à l'index 2 (après la semaine et les en-têtes)
             
             # Trouver l'index de la dernière ligne horaire (20h)
-            # Il y a 13 lignes horaires (8h-20h), donc la dernière est à l'index header_row2_index + 13
-            derniere_ligne_horaire2_index = header_row2_index + len(heures)  # header_row2_index (1) + 13 lignes horaires = 14
+            # Il y a 1 ligne vide + 13 lignes horaires (8h-20h), donc la dernière est à l'index ligne_vide2_index + 13
+            derniere_ligne_horaire2_index = ligne_vide2_index + len(heures)  # ligne_vide2_index (2) + 13 lignes horaires = 15
             
             # Créer le tableau pour la page 2 (format portrait - colonnes plus étroites)
             # Calculer les hauteurs de lignes : ligne semaine (fixe), ligne en-tête (fixe), autres lignes (auto)
@@ -2197,6 +2488,8 @@ def export_pdf_multilang():
             page2_row_heights = [None] * len(page2_data)  # None = hauteur automatique
             page2_row_heights[semaine_row2_index] = 0.7*cm  # Hauteur fixe pour la ligne de la semaine (identique à page 1)
             page2_row_heights[header_row2_index] = 2.7*cm  # Hauteur fixe pour la ligne d'en-tête
+            # Hauteur de la ligne vide = même hauteur que les lignes horaires (2 lignes de 12 points chacune = 24 points ≈ 0.85cm)
+            page2_row_heights[ligne_vide2_index] = 24  # Même hauteur que les lignes horaires (2 lignes de 12 points)
             page2_table = Table(page2_data, colWidths=[5.5*cm, 5.5*cm, 5.5*cm], rowHeights=page2_row_heights)
             page2_table.setStyle(TableStyle([
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
