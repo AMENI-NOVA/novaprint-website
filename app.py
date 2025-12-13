@@ -8,6 +8,7 @@ from routes.projet12_routes import projet12_bp
 from routes.projet14_routes import projet14_bp
 from routes.projet15_routes import projet15_bp
 from routes.projet16_routes import projet16_bp
+from routes.projet17_routes import projet17_bp
 import os
 
 # Forcer le rechargement des modules - 20 Oct 2025 16:10
@@ -48,7 +49,15 @@ app.register_blueprint(projet12_bp)
 app.register_blueprint(projet14_bp)
 app.register_blueprint(projet15_bp)
 app.register_blueprint(projet16_bp)
+app.register_blueprint(projet17_bp)
 app.register_blueprint(crystal_reports, url_prefix='/crystal')
+
+# Import et enregistrement du projet 18
+try:
+    from routes.projet18_routes import projet18_bp
+    app.register_blueprint(projet18_bp)
+except ImportError as e:
+    print(f"Attention: Impossible d'importer projet18_bp: {e}")
 
 
 @app.route("/")

@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block title %}Projet 18 - Agenda Semainier 2026{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f5f5f5;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 30px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .header {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    
+    .header h1 {
+        margin: 0;
+        font-size: 2.5em;
+    }
+    
+    .header .subtitle {
+        margin-top: 10px;
+        font-size: 1.2em;
+        opacity: 0.9;
+    }
+    
+    .btn-export-pdf {
+        display: inline-block;
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        color: white;
+        padding: 15px 30px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1em;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 20px;
+        margin-right: 15px;
+    }
+    
+    .btn-export-pdf:hover {
+        background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        transform: translateY(-2px);
+    }
+    
+    .btn-export-multilang {
+        display: inline-block;
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        padding: 15px 30px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1em;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 20px;
+    }
+    
+    .btn-export-multilang:hover {
+        background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        transform: translateY(-2px);
+    }
+    
+    .info-box {
+        background-color: #ecf0f1;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        border-left: 4px solid #3498db;
+    }
+    
+    .info-box p {
+        margin: 5px 0;
+        color: #2c3e50;
+    }
+    
+    .preview-section {
+        margin-top: 30px;
+    }
+    
+    .preview-section h2 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+    }
+    
+    .semaine-preview {
+        background-color: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .semaine-preview .semaine-header {
+        font-weight: bold;
+        color: #34495e;
+        margin-bottom: 10px;
+    }
+    
+    .semaine-preview .jours {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+    }
+    
+    .jour {
+        padding: 8px;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+    }
+    
+    .jour.ferie {
+        background-color: #ffe6e6;
+        border-color: #e74c3c;
+    }
+    
+    .jour .nom {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+    
+    .jour.ferie .nom {
+        color: #e74c3c;
+    }
+    
+    .jour .date {
+        font-size: 0.9em;
+        color: #7f8c8d;
+    }
+    
+    .jour .ferie-nom {
+        font-size: 0.8em;
+        color: #e74c3c;
+        font-style: italic;
+        margin-top: 5px;
+    }
+</style>
+
+<div class="container">
+    <div class="header">
+        <h1>📅 Agenda Semainier 2026</h1>
+        <div class="subtitle">Tunisie - Prêt à remplir et imprimer</div>
+    </div>
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="{{ url_for('projet18.export_pdf') }}" class="btn-export-pdf">
+            📄 Télécharger en PDF
+        </a>
+        <a href="{{ url_for('projet18.export_pdf_multilang') }}" class="btn-export-multilang">
+            🌍 Version Multilingue (AR/EN)
+        </a>
+    </div>
+    
+    <div class="info-box">
+        <p><strong>📋 Caractéristiques de l'agenda :</strong></p>
+        <p>• Chaque semaine sur deux pages (Lundi-Mercredi / Jeudi-Dimanche)</p>
+        <p>• Dates exactes de toutes les semaines de 2026</p>
+        <p>• Jours fériés tunisiens marqués en rouge</p>
+        <p>• Espaces vides pour noter vos rendez-vous et tâches</p>
+        <p>• Zone de notes sur chaque page</p>
+        <p>• Format PDF optimisé pour l'impression</p>
+    </div>
+    
+    <div class="preview-section">
+        <h2>Aperçu des premières semaines</h2>
+        
+        {% for semaine in semaines[:4] %}
+        <div class="semaine-preview">
+            <div class="semaine-header">
+                Semaine {{ semaine.numero }} - {% set date_ref = semaine.jeudi if semaine.lundi is none else semaine.lundi %}{{ get_mois_nom(date_ref.month) }} {{ date_ref.year }}
+            </div>
+            <div class="jours">
+                {% set jours = [
+                    ('Lundi', semaine.lundi),
+                    ('Mardi', semaine.mardi),
+                    ('Mercredi', semaine.mercredi),
+                    ('Jeudi', semaine.jeudi),
+                    ('Vendredi', semaine.vendredi),
+                    ('Samedi', semaine.samedi),
+                    ('Dimanche', semaine.dimanche)
+                ] %}
+                {% for nom_jour, date_jour in jours %}
+                {% if date_jour is not none %}
+                <div class="jour {% if is_jour_ferie(date_jour) %}ferie{% endif %}">
+                    <div class="nom">{{ nom_jour }}</div>
+                    <div class="date">{{ date_jour.strftime('%d/%m/%Y') }}</div>
+                    {% if is_jour_ferie(date_jour) %}
+                    <div class="ferie-nom">{{ get_nom_jour_ferie(date_jour) }}</div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+        
+        <p style="text-align: center; color: #7f8c8d; margin-top: 20px;">
+            ... et {{ semaines|length - 4 }} autres semaines dans le PDF complet
+        </p>
+    </div>
+</div>
+{% endblock %}
+
