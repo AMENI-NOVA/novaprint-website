@@ -4,23 +4,8 @@
 
 {% block content %}
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 20px;
-        background-color: #f5f5f5;
-    }
-    
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        background-color: white;
-        padding: 30px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .header {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    .agenda-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         padding: 30px;
         border-radius: 10px;
@@ -28,201 +13,195 @@
         text-align: center;
     }
     
-    .header h1 {
+    .agenda-header h1 {
         margin: 0;
         font-size: 2.5em;
     }
     
-    .header .subtitle {
-        margin-top: 10px;
-        font-size: 1.2em;
-        opacity: 0.9;
+    .export-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin: 30px 0;
+        flex-wrap: wrap;
     }
     
-    .btn-export-pdf {
-        display: inline-block;
-        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-        color: white;
+    .btn-export {
         padding: 15px 30px;
+        font-size: 1.1em;
         border-radius: 8px;
         text-decoration: none;
         font-weight: bold;
-        font-size: 1.1em;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        border: none;
-        cursor: pointer;
-        margin-bottom: 20px;
-        margin-right: 15px;
+        transition: transform 0.2s, box-shadow 0.2s;
     }
     
-    .btn-export-pdf:hover {
-        background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    .btn-export:hover {
         transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     
-    .btn-export-multilang {
-        display: inline-block;
-        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    .btn-pdf-standard {
+        background-color: #dc3545;
         color: white;
-        padding: 15px 30px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 1.1em;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        border: none;
-        cursor: pointer;
-        margin-bottom: 20px;
     }
     
-    .btn-export-multilang:hover {
-        background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        transform: translateY(-2px);
+    .btn-pdf-multilang {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .btn-pdf-multilang-style2 {
+        background-color: #17a2b8;
+        color: white;
     }
     
     .info-box {
-        background-color: #ecf0f1;
-        padding: 15px;
+        background-color: #f8f9fa;
+        border-left: 4px solid #667eea;
+        padding: 20px;
+        margin: 20px 0;
         border-radius: 5px;
-        margin-bottom: 20px;
-        border-left: 4px solid #3498db;
     }
     
-    .info-box p {
-        margin: 5px 0;
-        color: #2c3e50;
-    }
-    
-    .preview-section {
+    .semaines-preview {
         margin-top: 30px;
     }
     
-    .preview-section h2 {
-        color: #2c3e50;
-        border-bottom: 2px solid #3498db;
-        padding-bottom: 10px;
+    .semaine-card {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
-    .semaine-preview {
-        background-color: #fafafa;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 15px;
-    }
-    
-    .semaine-preview .semaine-header {
+    .semaine-header {
+        font-size: 1.3em;
         font-weight: bold;
-        color: #34495e;
-        margin-bottom: 10px;
+        color: #667eea;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #e0e0e0;
     }
     
-    .semaine-preview .jours {
+    .jours-grid {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         gap: 10px;
     }
     
-    .jour {
-        padding: 8px;
-        background-color: white;
-        border: 1px solid #ddd;
-        border-radius: 3px;
+    .jour-item {
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+        background-color: #f8f9fa;
     }
     
-    .jour.ferie {
-        background-color: #ffe6e6;
-        border-color: #e74c3c;
-    }
-    
-    .jour .nom {
+    .jour-item.ferie {
+        background-color: #ffebee;
+        color: #c62828;
         font-weight: bold;
-        color: #2c3e50;
     }
     
-    .jour.ferie .nom {
-        color: #e74c3c;
+    .jour-date {
+        font-size: 1.1em;
+        font-weight: bold;
     }
     
-    .jour .date {
+    .jour-nom {
         font-size: 0.9em;
-        color: #7f8c8d;
+        color: #666;
+        margin-top: 5px;
     }
     
-    .jour .ferie-nom {
+    .jour-ferie-nom {
         font-size: 0.8em;
-        color: #e74c3c;
-        font-style: italic;
+        color: #c62828;
         margin-top: 5px;
+        font-style: italic;
     }
 </style>
 
-<div class="container">
-    <div class="header">
-        <h1>📅 Agenda Semainier 2026</h1>
-        <div class="subtitle">Tunisie - Prêt à remplir et imprimer</div>
-    </div>
+<div class="agenda-header">
+    <h1>📅 Agenda Semainier 2026</h1>
+    <p style="margin-top: 10px; font-size: 1.2em; opacity: 0.9;">
+        Agenda complet pour l'année 2026 avec jours fériés tunisiens
+    </p>
+</div>
+
+<div class="export-buttons">
+    <a href="{{ url_for('projet18.export_pdf') }}" class="btn-export btn-pdf-standard">
+        📄 Exporter PDF Standard (Français)
+    </a>
+    <a href="{{ url_for('projet18.export_pdf_multilang') }}" class="btn-export btn-pdf-multilang">
+        🌍 Exporter PDF Multilingue (FR/EN/AR)
+    </a>
+    <a href="{{ url_for('projet18.export_pdf_multilang_style2') }}" class="btn-export btn-pdf-multilang-style2">
+        🎨 Exporter PDF Multilingue Style 2 (FR/EN/AR)
+    </a>
+</div>
+
+<div class="info-box">
+    <h3>ℹ️ Informations</h3>
+    <ul>
+        <li><strong>52 semaines complètes</strong> pour l'année 2026</li>
+        <li><strong>Format Quo Vadis</strong> : 2 pages par semaine (Lundi-Mercredi / Jeudi-Dimanche)</li>
+        <li><strong>Jours fériés tunisiens</strong> marqués en rouge</li>
+        <li><strong>Support multilingue</strong> : Français, Anglais, Arabe (version multilingue uniquement)</li>
+        <li><strong>Grille horaire</strong> de 8h à 20h sur chaque page</li>
+        <li><strong>Mini-calendrier mensuel</strong> sur chaque page</li>
+    </ul>
+</div>
+
+<div class="semaines-preview">
+    <h2 style="margin-bottom: 20px;">Aperçu des premières semaines</h2>
     
-    <div style="text-align: center; margin-bottom: 20px;">
-        <a href="{{ url_for('projet18.export_pdf') }}" class="btn-export-pdf">
-            📄 Télécharger en PDF
-        </a>
-        <a href="{{ url_for('projet18.export_pdf_multilang') }}" class="btn-export-multilang">
-            🌍 Version Multilingue (AR/EN)
-        </a>
-    </div>
-    
-    <div class="info-box">
-        <p><strong>📋 Caractéristiques de l'agenda :</strong></p>
-        <p>• Chaque semaine sur deux pages (Lundi-Mercredi / Jeudi-Dimanche)</p>
-        <p>• Dates exactes de toutes les semaines de 2026</p>
-        <p>• Jours fériés tunisiens marqués en rouge</p>
-        <p>• Espaces vides pour noter vos rendez-vous et tâches</p>
-        <p>• Zone de notes sur chaque page</p>
-        <p>• Format PDF optimisé pour l'impression</p>
-    </div>
-    
-    <div class="preview-section">
-        <h2>Aperçu des premières semaines</h2>
+    {% for semaine in semaines[:8] %}
+    <div class="semaine-card">
+        <div class="semaine-header">
+            Semaine {{ semaine.numero }} - 
+            {% if semaine.lundi.month == semaine.dimanche.month %}
+                {{ get_mois_nom(semaine.lundi.month) }} {{ semaine.lundi.year }}
+            {% else %}
+                {{ get_mois_nom(semaine.lundi.month) }} - {{ get_mois_nom(semaine.dimanche.month) }} {{ semaine.lundi.year }}
+            {% endif %}
+        </div>
         
-        {% for semaine in semaines[:4] %}
-        <div class="semaine-preview">
-            <div class="semaine-header">
-                Semaine {{ semaine.numero }} - {% set date_ref = semaine.jeudi if semaine.lundi is none else semaine.lundi %}{{ get_mois_nom(date_ref.month) }} {{ date_ref.year }}
-            </div>
-            <div class="jours">
-                {% set jours = [
-                    ('Lundi', semaine.lundi),
-                    ('Mardi', semaine.mardi),
-                    ('Mercredi', semaine.mercredi),
-                    ('Jeudi', semaine.jeudi),
-                    ('Vendredi', semaine.vendredi),
-                    ('Samedi', semaine.samedi),
-                    ('Dimanche', semaine.dimanche)
-                ] %}
-                {% for nom_jour, date_jour in jours %}
-                {% if date_jour is not none %}
-                <div class="jour {% if is_jour_ferie(date_jour) %}ferie{% endif %}">
-                    <div class="nom">{{ nom_jour }}</div>
-                    <div class="date">{{ date_jour.strftime('%d/%m/%Y') }}</div>
-                    {% if is_jour_ferie(date_jour) %}
-                    <div class="ferie-nom">{{ get_nom_jour_ferie(date_jour) }}</div>
-                    {% endif %}
+        <div class="jours-grid">
+            {% set jours_semaine = [
+                {'date': semaine.lundi, 'nom': 'Lundi'},
+                {'date': semaine.mardi, 'nom': 'Mardi'},
+                {'date': semaine.mercredi, 'nom': 'Mercredi'},
+                {'date': semaine.jeudi, 'nom': 'Jeudi'},
+                {'date': semaine.vendredi, 'nom': 'Vendredi'},
+                {'date': semaine.samedi, 'nom': 'Samedi'},
+                {'date': semaine.dimanche, 'nom': 'Dimanche'}
+            ] %}
+            {% for jour in jours_semaine %}
+            <div class="jour-item {% if is_jour_ferie(jour.date) %}ferie{% endif %}">
+                <div class="jour-date">
+                    {{ jour.date.day }}
+                </div>
+                <div class="jour-nom">
+                    {{ jour.nom }}
+                </div>
+                {% if is_jour_ferie(jour.date) %}
+                <div class="jour-ferie-nom">
+                    {{ get_nom_jour_ferie(jour.date) }}
                 </div>
                 {% endif %}
-                {% endfor %}
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        
-        <p style="text-align: center; color: #7f8c8d; margin-top: 20px;">
-            ... et {{ semaines|length - 4 }} autres semaines dans le PDF complet
-        </p>
     </div>
+    {% endfor %}
+    
+    {% if semaines|length > 8 %}
+    <div style="text-align: center; margin-top: 20px; color: #666;">
+        <p>... et {{ semaines|length - 8 }} semaines supplémentaires</p>
+    </div>
+    {% endif %}
 </div>
-{% endblock %}
 
+{% endblock %}
