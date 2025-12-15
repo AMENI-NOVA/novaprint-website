@@ -296,7 +296,7 @@ def export_pdf():
                     if jour_ferie:
                         nom_ferie = get_nom_jour_ferie(date_jour)
                         ferie_para = Paragraph(
-                            f"<font color='#FF0000'>{nom_ferie}</font>",
+                            f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
                             ferie_style
                         )
                         # Table avec 2 lignes : header_table en haut, jour férié en bas
@@ -784,7 +784,7 @@ def export_pdf():
                     if jour_ferie:
                         nom_ferie = get_nom_jour_ferie(date_jour)
                         ferie_para = Paragraph(
-                            f"<font color='#FF0000'>{nom_ferie}</font>",
+                            f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
                             ferie_style
                         )
                         # Table avec 2 lignes : header_table en haut, jour férié en bas
@@ -1811,7 +1811,7 @@ def export_pdf_multilang():
                             ('BOTTOMPADDING', (0, 1), (0, 1), 8),  # Même padding en bas des jours pour alignement vertical uniforme
                         ]))
                         ferie_para = Paragraph(
-                            f"<font color='#FF0000'>{nom_ferie}</font>",
+                            f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
                             ferie_style
                         )
                     else:
@@ -2329,7 +2329,7 @@ def export_pdf_multilang():
                             ('BOTTOMPADDING', (0, 1), (0, 1), 8),  # Même padding en bas des jours pour alignement vertical uniforme
                         ]))
                         ferie_para = Paragraph(
-                            f"<font color='#FF0000'>{nom_ferie}</font>",
+                            f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
                             ferie_style
                         )
                     else:
@@ -2501,7 +2501,7 @@ def export_pdf_multilang():
                             ('BOTTOMPADDING', (0, 1), (0, 1), 0),  # Pas de padding en bas des jours quand il y a un jour férié
                         ]))
                     dimanche_ferie_para = Paragraph(
-                        f"<font color='#FF0000'>{nom_ferie}</font>",
+                        f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
                         ferie_style
                     )
                 else:
@@ -3559,7 +3559,7 @@ def export_pdf_multilang_style2():
                             ('BOTTOMPADDING', (0, 1), (0, 1), 8),  # Même padding en bas des jours pour alignement vertical uniforme
                         ]))
                         ferie_para = Paragraph(
-                            f"<font color='#FF0000'>{nom_ferie}</font>",
+                            f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
                             ferie_style
                         )
                     else:
@@ -4093,7 +4093,7 @@ def export_pdf_multilang_style2():
                             ('BOTTOMPADDING', (0, 1), (0, 1), 8),  # Même padding en bas des jours pour alignement vertical uniforme
                         ]))
                         ferie_para = Paragraph(
-                            f"<font color='#FF0000'>{nom_ferie}</font>",
+                            f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
                             ferie_style
                         )
                     else:
@@ -4265,7 +4265,7 @@ def export_pdf_multilang_style2():
                             ('BOTTOMPADDING', (0, 1), (0, 1), 8),  # Même padding en bas des jours pour garder le dimanche au même emplacement
                         ]))
                     dimanche_ferie_para = Paragraph(
-                        f"<font color='#FF0000'>{nom_ferie}</font>",
+                        f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
                         ferie_style
                     )
                 else:
