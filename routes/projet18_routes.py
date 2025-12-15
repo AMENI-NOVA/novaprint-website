@@ -1713,7 +1713,7 @@ def export_pdf_multilang():
             # Le numéro utilise la police Bold directement dans la balise font
             semaine_row1 = [
                 Paragraph(
-                    f"<font face='{square721_font_name}'>Semaine Week </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate1}</font><font face='{arabic_font_name}'> {fix_arabic_text(semaine_ar1)}</font>",
+                    f"<font face='{square721_font_name}'>Semaine Week  </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate1}</font><font face='{arabic_font_name}'>  {fix_arabic_text(semaine_ar1)}</font>",
                     ParagraphStyle(
                         'SemaineHeader',
                         parent=base_style,
@@ -2222,7 +2222,7 @@ def export_pdf_multilang():
             # Le numéro utilise la police Bold directement dans la balise font
             semaine_row2 = [
                 Paragraph(
-                    f"<font face='{square721_font_name}'>Semaine Week </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate2}</font><font face='{arabic_font_name}'> {fix_arabic_text(semaine_ar2)}</font>",
+                    f"<font face='{square721_font_name}'>Semaine Week  </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate2}</font><font face='{arabic_font_name}'>  {fix_arabic_text(semaine_ar2)}</font>",
                     ParagraphStyle(
                         'SemaineHeader',
                         parent=base_style,
@@ -3041,8 +3041,18 @@ def export_pdf_multilang_style2():
             pass
         
         semaines = get_semaines_2026()
-        # Limiter à 52 semaines
-        semaines = semaines[:52]
+        # Ajouter la semaine 53 (du lundi 28/12/2026 au dimanche 03/01/2027)
+        semaine_53 = {
+            'numero': 53,
+            'lundi': datetime(2026, 12, 28),
+            'mardi': datetime(2026, 12, 29),
+            'mercredi': datetime(2026, 12, 30),
+            'jeudi': datetime(2026, 12, 31),
+            'vendredi': datetime(2027, 1, 1),
+            'samedi': datetime(2027, 1, 2),
+            'dimanche': datetime(2027, 1, 3),
+        }
+        semaines.append(semaine_53)
         
         # Log nombre de semaines
         with open(log_path, 'a', encoding='utf-8') as f:
@@ -3451,7 +3461,7 @@ def export_pdf_multilang_style2():
             # Le numéro utilise la police Bold directement dans la balise font
             semaine_row1 = [
                 Paragraph(
-                    f"<font face='{square721_font_name}'>Semaine Week </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate1}</font><font face='{arabic_font_name}'> {fix_arabic_text(semaine_ar1)}</font>",
+                    f"<font face='{square721_font_name}'>Semaine Week  </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate1}</font><font face='{arabic_font_name}'>  {fix_arabic_text(semaine_ar1)}</font>",
                     ParagraphStyle(
                         'SemaineHeader',
                         parent=base_style,
@@ -3976,7 +3986,7 @@ def export_pdf_multilang_style2():
             # Le numéro utilise la police Bold directement dans la balise font
             semaine_row2 = [
                 Paragraph(
-                    f"<font face='{square721_font_name}'>Semaine Week </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate2}</font><font face='{arabic_font_name}'> {fix_arabic_text(semaine_ar2)}</font>",
+                    f"<font face='{square721_font_name}'>Semaine Week  </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate2}</font><font face='{arabic_font_name}'>  {fix_arabic_text(semaine_ar2)}</font>",
                     ParagraphStyle(
                         'SemaineHeader',
                         parent=base_style,
@@ -4240,7 +4250,7 @@ def export_pdf_multilang_style2():
                 # Colonne 1 : En-tête Dimanche + date (et jour férié si applicable)
                 # Toujours utiliser 2 lignes pour uniformiser la hauteur
                 if jour_ferie:
-                    # Réduire le BOTTOMPADDING de la ligne des jours dans dimanche_header_table quand il y a un jour férié
+                    # Garder le même BOTTOMPADDING pour les jours pour que le dimanche reste au même niveau vertical
                     # Date et jours décalés vers le haut pour tous les jours
                     dimanche_header_table.setStyle(TableStyle([
                             ('VALIGN', (0, 0), (0, 0), 'MIDDLE'),  # Date centrée verticalement dans sa ligne
@@ -4252,7 +4262,7 @@ def export_pdf_multilang_style2():
                             ('TOPPADDING', (0, 0), (0, 0), 4),  # Padding réduit pour la date (décalée vers le haut)
                             ('BOTTOMPADDING', (0, 0), (0, 0), 4),  # Espacement entre date et jours
                             ('TOPPADDING', (0, 1), (0, 1), 2),  # Padding réduit pour les jours (décalés vers le haut)
-                            ('BOTTOMPADDING', (0, 1), (0, 1), 0),  # Pas de padding en bas des jours quand il y a un jour férié
+                            ('BOTTOMPADDING', (0, 1), (0, 1), 8),  # Même padding en bas des jours pour garder le dimanche au même emplacement
                         ]))
                     dimanche_ferie_para = Paragraph(
                         f"<font color='#FF0000'>{nom_ferie}</font>",
@@ -4274,11 +4284,11 @@ def export_pdf_multilang_style2():
                     ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                     ('LEFTPADDING', (0, 0), (-1, -1), 2),
                     ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-                    ('TOPPADDING', (0, 0), (0, 0), 4 + 0.5*cm),  # Décaler dimanche_header_table vers le bas de 0,5 cm (date et jour décalés ensemble)
+                    ('TOPPADDING', (0, 0), (0, 0), 4 + 0.5*cm),  # Décaler dimanche_header_table vers le bas de 0,5 cm (date et jour décalés ensemble) - position originale
                     ('BOTTOMPADDING', (0, 0), (0, 0), 12),
                     # Réduire l'espacement entre dimanche_header_table (ligne 0) et jour férié (ligne 1)
                     ('BOTTOMPADDING', (0, 0), (-1, 0), 0),  # Pas de padding en bas de dimanche_header_table
-                    ('TOPPADDING', (0, 1), (-1, 1), 0),  # Pas de padding en haut du jour férié
+                    ('TOPPADDING', (0, 1), (-1, 1), 0.55*cm),  # Décaler le texte du jour férié vers le haut de 0,2 cm (0.55 = 0.75 - 0.2)
                 ]))
                 
                 # Colonnes 2 et 3 : 5 lignes grises (fusionnées sur 2 colonnes)
