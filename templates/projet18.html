@@ -155,9 +155,18 @@
 </div>
 
 <div class="semaines-preview">
-    <h2 style="margin-bottom: 20px;">Aperçu des premières semaines</h2>
+    <h2 style="margin-bottom: 20px;">Aperçu des semaines</h2>
+
+    <form method="get" style="margin-bottom: 20px; display: inline-flex; align-items: center; gap: 10px;">
+        <label for="annee" style="font-weight: bold;">Filtrer par année :</label>
+        <select id="annee" name="annee" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #ccc;">
+            {% for annee in annees_disponibles %}
+            <option value="{{ annee }}" {% if annee_selectionnee == annee %}selected{% endif %}>{{ annee }}</option>
+            {% endfor %}
+        </select>
+    </form>
     
-    {% for semaine in semaines[:8] %}
+    {% for semaine in semaines %}
     <div class="semaine-card">
         <div class="semaine-header">
             Semaine {{ semaine.numero }} - 
@@ -196,13 +205,8 @@
         </div>
     </div>
     {% endfor %}
-    
-    {% if semaines|length > 8 %}
-    <div style="text-align: center; margin-top: 20px; color: #666;">
-        <p>... et {{ semaines|length - 8 }} semaines supplémentaires</p>
-    </div>
-    {% endif %}
 </div>
 
 {% endblock %}
+
 

@@ -7,29 +7,26 @@ from calendar import monthrange
 # Jours fériés en Tunisie pour 2026
 JOURS_FERIES_TUNISIE_2026 = [
     # Jours fériés fixes
-    datetime(2026, 1, 1),   # Jour de l'an
-    datetime(2026, 1, 14),  # Fête de la Révolution
-    datetime(2026, 3, 20),  # Fête de l'Indépendance
-    datetime(2026, 4, 9),   # Jour des Martyrs
-    datetime(2026, 5, 1),   # Fête du Travail
-    datetime(2026, 6, 1),   # Fête de la République
-    datetime(2026, 7, 25),  # Fête de la République
-    datetime(2026, 8, 13),  # Fête de la Femme
-    datetime(2026, 10, 15), # Fête de l'Évacuation
-    datetime(2026, 11, 7),   # Fête de l'Évacuation
+    datetime(2026, 1, 1),    # Jour de l'An
+    datetime(2026, 3, 20),   # Fête de l'Indépendance
+    datetime(2026, 4, 9),    # Journée des Martyrs
+    datetime(2026, 5, 1),    # Fête du Travail
+    datetime(2026, 7, 25),   # Fête de la République
+    datetime(2026, 8, 13),   # Fête de la Femme
+    datetime(2026, 10, 15),  # Fête de l'Évacuation
+    datetime(2026, 12, 17),  # Fête de la Révolution
     
-    # Jours fériés religieux (approximatifs, à ajuster selon le calendrier lunaire)
-    # Aïd al-Fitr (fin du Ramadan) - approximatif
-    datetime(2026, 3, 30),   # Aïd al-Fitr (approximatif)
-    datetime(2026, 3, 31),   # Aïd al-Fitr (approximatif)
-    # Aïd al-Adha (Fête du Sacrifice) - approximatif
-    datetime(2026, 6, 6),    # Aïd al-Adha (approximatif)
-    datetime(2026, 6, 7),    # Aïd al-Adha (approximatif)
-    datetime(2026, 6, 8),    # Aïd al-Adha (approximatif)
-    # Mouled (Naissance du Prophète) - approximatif
-    datetime(2026, 9, 15),   # Mouled (approximatif)
-    # Ras el-Am (Nouvel An de l'Hégire) - approximatif
-    datetime(2026, 7, 7),    # Ras el-Am (approximatif)
+    # Jours fériés religieux (prévisionnels)
+    # Aïd al-Fitr (2 jours)
+    datetime(2026, 3, 21),   # Aïd al-Fitr jour 1
+    datetime(2026, 3, 22),   # Aïd al-Fitr jour 2
+    # Aïd al-Adha (2 jours)
+    datetime(2026, 5, 26),   # Aïd al-Adha jour 1
+    datetime(2026, 5, 27),   # Aïd al-Adha jour 2
+    # Nouvel An hégirien (1 jour)
+    datetime(2026, 6, 15),   # Nouvel An hégirien
+    # Mouled (1 jour)
+    datetime(2026, 8, 24),   # Mouled (Anniversaire du Prophète)
 ]
 
 def is_jour_ferie(date):
@@ -43,16 +40,22 @@ def get_nom_jour_ferie(date):
     if date is None:
         return ""
     jours_feries_noms = {
-        datetime(2026, 1, 1).date(): "Nouvel An",
+        # Jours fériés fixes
+        datetime(2026, 1, 1).date(): "Jour de l'An",
         datetime(2026, 3, 20).date(): "Fête de l'Indépendance",
+        datetime(2026, 4, 9).date(): "Journée des Martyrs",
         datetime(2026, 5, 1).date(): "Fête du Travail",
         datetime(2026, 7, 25).date(): "Fête de la République",
         datetime(2026, 8, 13).date(): "Fête de la Femme",
-        datetime(2026, 10, 15).date(): "Jour de l'Évacuation",
+        datetime(2026, 10, 15).date(): "Fête de l'Évacuation",
         datetime(2026, 12, 17).date(): "Fête de la Révolution",
-        datetime(2026, 7, 17).date(): "Aïd el-Fitr",
-        datetime(2026, 9, 23).date(): "Aïd el-Adha",
-        datetime(2026, 12, 14).date(): "Mouled",
+        # Jours fériés religieux
+        datetime(2026, 3, 21).date(): "Aïd al-Fitr",
+        datetime(2026, 3, 22).date(): "Aïd al-Fitr",
+        datetime(2026, 5, 26).date(): "Aïd al-Adha",
+        datetime(2026, 5, 27).date(): "Aïd al-Adha",
+        datetime(2026, 6, 15).date(): "Nouvel An hégirien",
+        datetime(2026, 8, 24).date(): "Mouled",
     }
     return jours_feries_noms.get(date.date(), "")
 
@@ -113,4 +116,8 @@ def get_mois_nom(mois_numero):
         9: "Septembre", 10: "Octobre", 11: "Novembre", 12: "Décembre"
     }
     return mois.get(mois_numero, "")
+
+
+
+
 
