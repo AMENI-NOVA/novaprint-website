@@ -622,7 +622,7 @@ def export_pdf():
 
                                 fontName='Helvetica-Bold',
 
-                                textColor=colors.HexColor('#0066CC'),  # Bleu comeme dans l'image
+                                textColor=colors.HexColor('#004499'),  # Bleu plus foncé  # Bleu comeme dans l'image
 
                                 alignment=TA_RIGHT
 
@@ -712,7 +712,7 @@ def export_pdf():
 
                         ferie_para = Paragraph(
 
-                            f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
+                            f"<font color='#004499'>{nom_ferie}</font>",  # Même bleu que les dates
 
                             ferie_style
 
@@ -1256,7 +1256,7 @@ def export_pdf():
 
                                         fontSize=8,
 
-                                        textColor=colors.HexColor('#0066CC'),
+                                        textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                                         backColor=colors.HexColor('#E6F3FF'),  # Bleu clair
 
@@ -1642,7 +1642,7 @@ def export_pdf():
 
                                 fontName='Helvetica-Bold',
 
-                                textColor=colors.HexColor('#0066CC'),  # Bleu comeme dans l'image
+                                textColor=colors.HexColor('#004499'),  # Bleu plus foncé  # Bleu comeme dans l'image
 
                                 alignment=TA_RIGHT
 
@@ -1732,7 +1732,7 @@ def export_pdf():
 
                         ferie_para = Paragraph(
 
-                            f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
+                            f"<font color='#004499'>{nom_ferie}</font>",  # Même bleu que les dates
 
                             ferie_style
 
@@ -1978,7 +1978,7 @@ def export_pdf():
 
                         fontName='Helvetica-Bold',
 
-                        textColor=colors.HexColor('#0066CC'),  # Bleu comeme dans l'image
+                        textColor=colors.HexColor('#004499'),  # Bleu plus foncé  # Bleu comeme dans l'image
 
                         alignment=TA_RIGHT
 
@@ -3681,7 +3681,7 @@ def export_pdf_multilang():
 
                 Paragraph(
 
-                    f"<font face='{square721_font_name}'>Semaine Week  </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate1}</font><font face='{arabic_font_name}'>  {fix_arabic_text(semaine_ar1)}</font>",
+                    f"<font face='{square721_font_name}'>Semaine Week  </font><font face='{square721_bold_font_name}' color='#004499' size='10'>{semaine_num_formate1}</font><font face='{arabic_font_name}'>  {fix_arabic_text(semaine_ar1)}</font>",
 
                     ParagraphStyle(
 
@@ -3771,7 +3771,7 @@ def export_pdf_multilang():
 
                                 fontName=square721_bold_font_name,  # Square721 BT Bold pour les dates (chiffres)
 
-                                textColor=colors.HexColor('#0066CC'),
+                                textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                                 alignment=TA_CENTER,
 
@@ -3877,7 +3877,7 @@ def export_pdf_multilang():
 
                         ferie_para = Paragraph(
 
-                            f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
+                            f"<font color='#004499'>{nom_ferie}</font>",  # Même bleu que les dates
 
                             ferie_style
 
@@ -4393,7 +4393,7 @@ def export_pdf_multilang():
 
                                         fontSize=8,
 
-                                        textColor=colors.HexColor('#0066CC'),
+                                        textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                                         backColor=colors.HexColor('#E6F3FF'),  # Bleu clair
 
@@ -4517,7 +4517,7 @@ def export_pdf_multilang():
 
                                     fontSize=8,
 
-                                    textColor=colors.HexColor('#0066CC'),
+                                    textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                                     backColor=colors.HexColor('#E6F3FF'),  # Bleu clair
 
@@ -4744,7 +4744,7 @@ def export_pdf_multilang():
 
                 Paragraph(
 
-                    f"<font face='{square721_font_name}'>Semaine Week  </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate2}</font><font face='{arabic_font_name}'>  {fix_arabic_text(semaine_ar2)}</font>",
+                    f"<font face='{square721_font_name}'>Semaine Week  </font><font face='{square721_bold_font_name}' color='#004499' size='10'>{semaine_num_formate2}</font><font face='{arabic_font_name}'>  {fix_arabic_text(semaine_ar2)}</font>",
 
                     ParagraphStyle(
 
@@ -4780,7 +4780,7 @@ def export_pdf_multilang():
 
                     fontName=square721_bold_font_name,
 
-                    textColor=colors.HexColor('#0066CC'),
+                    textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                     alignment=TA_RIGHT,
 
@@ -4852,7 +4852,7 @@ def export_pdf_multilang():
 
                                 fontName=square721_bold_font_name,  # Square721 BT Bold pour les dates (chiffres)
 
-                                textColor=colors.HexColor('#0066CC'),
+                                textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                                 alignment=TA_CENTER,
 
@@ -4958,7 +4958,7 @@ def export_pdf_multilang():
 
                         ferie_para = Paragraph(
 
-                            f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
+                            f"<font color='#004499'>{nom_ferie}</font>",  # Même bleu que les dates
 
                             ferie_style
 
@@ -5210,7 +5210,7 @@ def export_pdf_multilang():
 
                                 fontName=square721_bold_font_name,  # Square721 BT Bold pour les dates
 
-                        textColor=colors.HexColor('#0066CC'),
+                        textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                         alignment=TA_CENTER,
 
@@ -5304,7 +5304,7 @@ def export_pdf_multilang():
 
                     dimanche_ferie_para = Paragraph(
 
-                        f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
+                        f"<font color='#004499'>{nom_ferie}</font>",  # Même bleu que les dates
 
                         ferie_style
 
@@ -6673,7 +6673,7 @@ def export_pdf_multilang_style2():
 
                 cal_x_start = left_margin + cal_x_offset
 
-                cal_width_total = 7 * 0.7*cm  # 7 colonnes de 0.7cm
+                cal_width_total = 7 * 0.73*cm  # 7 colonnes de 0.73cm (largeur réduite de 0.2cm)
 
                 
 
@@ -6684,112 +6684,81 @@ def export_pdf_multilang_style2():
                 
 
                 # Position Y de la première ligne de dates (ligne 2 du tableau, après mois et jours)
-
-                # Le mini-calendrier comemence après les heures
-
-                cal_y_top_base = page_height - top_margin - semaine_height - header_height - ligne_vide_height - nb_lignes_horaires * ligne_horaire_height
-
+                # Le mini-calendrier commence après les heures
+                # Ajuster pour la nouvelle hauteur de la ligne vide : 15 points au lieu de 24 points
+                # Différence : 24 - 15 = 9 points = 0.32cm (le calendrier commence plus haut)
                 
-
-                # Calculer la position Y de la ligne de la semaine encadrée
-
+                ligne_vide_height_reelle = 15 / 28.35 * cm  # Hauteur réelle de la ligne vide (15 points en cm)
+                ligne_vide_height_ancienne = 24 / 28.35 * cm  # Ancienne hauteur (24 points en cm)
+                difference_ligne_vide = ligne_vide_height_ancienne - ligne_vide_height_reelle  # Différence = 0.32cm
+                
+                # Position Y du haut du mini-calendrier (ajustée pour la nouvelle hauteur de ligne vide)
+                cal_y_top_base = page_height - top_margin - semaine_height - header_height - ligne_vide_height_reelle - nb_lignes_horaires * ligne_horaire_height
+                
+                # Hauteurs des lignes du mini-calendrier
+                cal_ligne_mois_height = 0.5*cm  # Hauteur approximative de la ligne de mois
+                cal_ligne_jours_height = 0.4*cm  # Hauteur approximative de la ligne de jours
+                
+                # Position Y de la première ligne de dates (ligne 2 du tableau)
+                # = position du haut du calendrier - hauteur ligne mois - hauteur ligne jours
+                cal_y_premiere_ligne_dates = cal_y_top_base - cal_ligne_mois_height - cal_ligne_jours_height
+                
+                # Calculer la position Y réelle de la ligne de la semaine encadrée
                 # Ligne 0 = mois, ligne 1 = jours, ligne 2+ = dates
-
                 # On encadre la ligne (semaine_encadree_row + 2) du tableau
-
-                # Pour septembre (9), novembre (11) et décembre (12) : utiliser le numéro de semaine dans le mois (comme janvier)
-                # Pour les autres mois : utiliser le système basé sur semaine_encadree_row
+                # Premier cadre (semaine_encadree_row == 0) : décalage fixe de 1.57cm (garder fixe - NE JAMAIS MODIFIER)
+                # Augmenter la distance entre les cadres de manière cumulative :
+                # - Distance entre cadre n°1 et n°2 : +0.03cm
+                # - Distance entre cadre n°2 et n°3 : +0.06cm
+                # - Distance entre cadre n°3 et n°4 : +0.09cm
+                # - Distance entre cadre n°4 et n°5 : +0.12cm
+                decalage_base = 1.0*cm + 0.5*cm + 0.2*cm - 0.1*cm - 0.05*cm - 0.02*cm  # 1.57cm
+                decalage_global = 0.04*cm  # Décalage global de tous les cadres vers le bas (0.03cm + 0.01cm)
                 
-                # Vérifier si c'est septembre, novembre ou décembre et si on a le numéro de semaine
-                # Pour septembre : utiliser le numéro de semaine dans le mois avec décalage spécial
-                if mois_page == 9:
-                    # Pour septembre, utiliser toujours semaine_encadree_row pour garantir l'application du décalage
-                    if semaine_encadree_row == 0:
-                        # Première semaine de septembre : décalée vers le bas de 0.27cm
-                        decalage_vertical = 1.5*cm + 0.27*cm
-                    elif semaine_encadree_row == 1:
-                        # Deuxième semaine de septembre : décalée vers le bas de 0.38cm (0.33cm + 0.05cm supplémentaire)
-                        decalage_vertical = 1.5*cm + 0.38*cm
-                    elif semaine_encadree_row == 2:
-                        # Troisième semaine de septembre : décalée vers le bas de 0.47cm (0.46cm + 0.01cm supplémentaire)
-                        decalage_vertical = 1.5*cm + 0.47*cm
-                    elif semaine_encadree_row == 3:
-                        # Quatrième semaine de septembre : décalée vers le bas de 0.56cm (0.55cm + 0.01cm supplémentaire)
-                        decalage_vertical = 1.5*cm + 0.56*cm
-                    elif semaine_encadree_row == 4:
-                        # Cinquième semaine de septembre
-                        decalage_vertical = 1.5*cm + 0.37*cm
-                    else:
-                        decalage_vertical = 1.5*cm
-                elif mois_page in [11, 12] and numero_semaine_mois is not None:
-                    # Système spécial pour novembre et décembre : utiliser le numéro de semaine dans le mois
-                    if numero_semaine_mois == 1:
-                        # Première semaine : position fixe (bien positionnée)
-                        if mois_page == 11:  # Novembre : décalée vers le bas de 0.37cm (0.35cm + 0.02cm supplémentaire)
-                            decalage_vertical = 1.5*cm + 0.37*cm
-                        else:  # Décembre : décalée vers le bas de 0.29cm (0.31cm - 0.02cm vers le haut)
-                            decalage_vertical = 1.5*cm + 0.29*cm
-                    elif numero_semaine_mois == 2:
-                        # Deuxième semaine : décalée de 0.08cm vers le bas
-                        if mois_page == 11:  # Novembre : décalée vers le bas de 0.47cm (0.45cm + 0.02cm supplémentaire)
-                            decalage_vertical = 1.5*cm + 0.47*cm
-                        else:  # Décembre : décalée vers le bas de 0.47cm (0.45cm + 0.02cm supplémentaire)
-                            decalage_vertical = 1.5*cm + 0.47*cm
-                    elif numero_semaine_mois == 3:
-                        # Troisième semaine : décalée de 0.18cm vers le bas
-                        if mois_page == 11:  # Novembre : décalée vers le bas de 0.56cm (0.55cm + 0.01cm supplémentaire)
-                            decalage_vertical = 1.5*cm + 0.56*cm
-                        else:  # Décembre : décalée vers le bas de 0.55cm (0.18cm + 0.37cm supplémentaire)
-                            decalage_vertical = 1.5*cm + 0.55*cm
-                    elif numero_semaine_mois == 4:
-                        # Quatrième semaine : décalée de 0.27cm vers le bas
-                        if mois_page == 11:  # Novembre : décalée vers le bas de 0.66cm (0.27cm + 0.39cm supplémentaire)
-                            decalage_vertical = 1.5*cm + 0.66*cm
-                        else:  # Décembre : décalée vers le bas de 0.64cm (0.27cm + 0.37cm supplémentaire)
-                            decalage_vertical = 1.5*cm + 0.64*cm
-                    elif numero_semaine_mois == 5:
-                        # Cinquième semaine : décalée de 0.37cm vers le bas
-                        decalage_vertical = 1.5*cm + 0.37*cm
-                    elif numero_semaine_mois == 6:
-                        # Sixième semaine (novembre) : décalée de 0.37cm vers le bas (même que la 5ème)
-                        decalage_vertical = 1.5*cm + 0.37*cm
-                    else:
-                        # Autres semaines : position par défaut
-                        decalage_vertical = 1.5*cm
+                # Décalage supplémentaire pour mars, août et novembre : décaler tous les cadres vers le haut de 0.06cm (0.03cm + 0.03cm)
+                decalage_mois_speciaux = 0
+                if mois_page in [3, 8, 11]:  # Mars, août, novembre
+                    decalage_mois_speciaux = 0.06*cm  # Décaler vers le haut (ajouter au Y)
+                
+                # Calculer la position du premier cadre UNE SEULE FOIS (position fixe - ne jamais modifier)
+                cal_y_rect_top_premier = cal_y_premiere_ligne_dates - decalage_base - decalage_global + decalage_mois_speciaux
+                
+                # Calculer la position des autres cadres par rapport au premier cadre
+                # Distances ajustées selon les spécifications :
+                # - Entre cadre 1 et 2 : 0.06cm (réduit de 0.01cm supplémentaire)
+                # - Entre cadre 2 et 3 : 0.12cm
+                # - Entre cadre 3 et 4 : 0.10cm (réduit de 0.03cm)
+                # - Entre cadre 4 et 5 : 0.06cm (augmenté de 0.03cm)
+                if semaine_encadree_row == 0:
+                    # Premier cadre : position fixe avec décalage global
+                    cal_y_rect_top = cal_y_rect_top_premier
+                elif semaine_encadree_row == 1:
+                    # Cadre 2 : position du premier cadre - 1 ligne - 0.06cm (distance entre cadre 1 et 2 réduite)
+                    cal_y_rect_top = cal_y_rect_top_premier - 1 * ligne_date_height - 0.06*cm
+                elif semaine_encadree_row == 2:
+                    # Cadre 3 : position du premier cadre - 2 lignes - 0.18cm (0.06 + 0.12 cumulatif)
+                    cal_y_rect_top = cal_y_rect_top_premier - 2 * ligne_date_height - 0.06*cm - 0.12*cm
+                elif semaine_encadree_row == 3:
+                    # Cadre 4 : position du premier cadre - 3 lignes - 0.28cm (0.06 + 0.12 + 0.10 cumulatif)
+                    cal_y_rect_top = cal_y_rect_top_premier - 3 * ligne_date_height - 0.06*cm - 0.12*cm - 0.10*cm
+                elif semaine_encadree_row == 4:
+                    # Cadre 5 : position du premier cadre - 4 lignes - 0.34cm (0.06 + 0.12 + 0.10 + 0.06 cumulatif)
+                    cal_y_rect_top = cal_y_rect_top_premier - 4 * ligne_date_height - 0.06*cm - 0.12*cm - 0.10*cm - 0.06*cm
                 else:
-                    # Système normal pour les autres mois : utiliser semaine_encadree_row
-                    if semaine_encadree_row == 0:
-                        # Première semaine : position fixe (bien positionnée)
-                        decalage_vertical = 1.5*cm
-                    elif semaine_encadree_row == 1:
-                        # Deuxième semaine : décalée de 0.1cm vers le bas, puis 0.02cm vers le haut (net: 0.08cm vers le bas)
-                        decalage_vertical = 1.5*cm + 0.08*cm
-                    elif semaine_encadree_row == 2:
-                        # Troisième semaine : décalée de 0.18cm vers le bas (0.16cm + 0.02cm)
-                        decalage_vertical = 1.5*cm + 0.18*cm
-                    elif semaine_encadree_row == 3:
-                        # Quatrième semaine : décalée de 0.27cm vers le bas (0.26cm + 0.01cm)
-                        decalage_vertical = 1.5*cm + 0.27*cm
-                    elif semaine_encadree_row == 4:
-                        # Cinquième semaine : décalée de 0.37cm vers le bas (0.36cm + 0.01cm)
-                        decalage_vertical = 1.5*cm + 0.37*cm
-                    else:
-                        # Autres semaines : position par défaut
-                        decalage_vertical = 1.5*cm
-
-                cal_y_rect_top = cal_y_top_base - (semaine_encadree_row + 2) * ligne_date_height - 0.1*cm - decalage_vertical
-
+                    # Autres cadres : position du premier cadre - nombre de lignes
+                    cal_y_rect_top = cal_y_rect_top_premier - semaine_encadree_row * ligne_date_height
+                
                 cal_y_rect_bottom = cal_y_rect_top - ligne_date_height
 
-                # Décaler vers la droite de 0.25cm (0.2cm + 0.05cm vers la droite = 0.25cm net vers la droite)
+                # Décaler vers la droite de 0.15cm (0.25cm - 0.1cm vers la gauche = 0.15cm net vers la droite)
 
-                cal_x_start_rect = cal_x_start + 0.25*cm
+                cal_x_start_rect = cal_x_start + 0.15*cm
 
                 
 
                 # Dessiner le rectangle bleu fin autour de la semaine
 
-                canvas.setStrokeColor(colors.HexColor('#0066CC'))
+                canvas.setStrokeColor(colors.HexColor('#004499'))  # Bleu clairement plus foncé que #0066CC
 
                 canvas.setLineWidth(0.5)  # Épaisseur fine (modifiable)
 
@@ -6949,9 +6918,9 @@ def export_pdf_multilang_style2():
 
             
 
-            # Déplacer uniquement le cadre vers le bas de 0,85 cm (diminuer Y pour déplacer vers le bas dans ReportLab)
+            # Déplacer uniquement le cadre vers le bas de 0,60 cm (diminuer Y pour déplacer vers le bas dans ReportLab), puis décaler vers le haut de 0.25cm (0.2cm + 0.05cm)
 
-            dimanche_y_frame = dimanche_y - 0.85*cm
+            dimanche_y_frame = dimanche_y - 0.85*cm + 0.2*cm + 0.05*cm
 
             # Cadre du dimanche avec le nouveau modèle : rectangle ouvert en haut,
 
@@ -7532,7 +7501,7 @@ def export_pdf_multilang_style2():
 
                 Paragraph(
 
-                    f"<font face='{square721_font_name}'>Semaine Week  </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate1}</font><font face='{arabic_font_name}'>  {fix_arabic_text(semaine_ar1)}</font>",
+                    f"<font face='{square721_font_name}'>Semaine Week  </font><font face='{square721_bold_font_name}' color='#004499' size='10'>{semaine_num_formate1}</font><font face='{arabic_font_name}'>  {fix_arabic_text(semaine_ar1)}</font>",
 
                     ParagraphStyle(
 
@@ -7622,7 +7591,7 @@ def export_pdf_multilang_style2():
 
                                 fontName=square721_bold_font_name,  # Square721 BT Bold pour les dates (chiffres)
 
-                                textColor=colors.HexColor('#0066CC'),
+                                textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                                 alignment=TA_CENTER,
 
@@ -7728,7 +7697,7 @@ def export_pdf_multilang_style2():
 
                         ferie_para = Paragraph(
 
-                            f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
+                            f"<font color='#004499'>{nom_ferie}</font>",  # Même bleu que les dates
 
                             ferie_style
 
@@ -8024,7 +7993,7 @@ def export_pdf_multilang_style2():
 
                 fontName=square721_bold_font_name,
 
-                textColor=colors.HexColor('#0066CC'),
+                textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                 alignment=TA_LEFT
 
@@ -8040,7 +8009,7 @@ def export_pdf_multilang_style2():
 
                 fontName=arabic_font_name,
 
-                textColor=colors.HexColor('#0066CC'),
+                textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                 alignment=TA_RIGHT,
 
@@ -8062,7 +8031,7 @@ def export_pdf_multilang_style2():
 
                 fontName=arabic_font_name,
 
-                textColor=colors.HexColor('#0066CC'),
+                textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                 alignment=TA_CENTER,
 
@@ -8080,7 +8049,7 @@ def export_pdf_multilang_style2():
 
                 fontName=square721_font_name,
 
-                textColor=colors.HexColor('#0066CC'),
+                textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                 alignment=TA_CENTER,
 
@@ -8098,7 +8067,7 @@ def export_pdf_multilang_style2():
 
                 fontName=square721_font_name,
 
-                textColor=colors.HexColor('#0066CC'),
+                textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                 alignment=TA_CENTER,
 
@@ -8116,7 +8085,7 @@ def export_pdf_multilang_style2():
 
                 fontName=square721_bold_font_name,
 
-                textColor=colors.HexColor('#0066CC'),
+                textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                 alignment=TA_CENTER,
 
@@ -8154,18 +8123,22 @@ def export_pdf_multilang_style2():
             
 
             # Ligne 1 : Mois FR à gauche, mois AR à droite (bleu)
-
-            cal_table_rows.append([
-
-                Paragraph(mois_fr, cal_mois_style),  # Colonne 0
-
-                Paragraph("", base_style),  # Colonne 1 (pour le SPAN du mois FR sur colonnes 0-1)
-
-                Paragraph(fix_arabic_text(mois_ar), cal_mois_ar_style),  # Colonne 2 (première colonne du SPAN pour le mois AR sur colonnes 2-6)
-
-                Paragraph("", base_style), Paragraph("", base_style), Paragraph("", base_style), Paragraph("", base_style),  # Colonnes 3-6 (pour le SPAN du mois AR)
-
-            ])
+            # Pour septembre, novembre et décembre, utiliser plus de colonnes pour le mois français (colonnes 0-2 au lieu de 0-1)
+            if mois_ref in [9, 11, 12]:  # Septembre, novembre ou décembre
+                cal_table_rows.append([
+                    Paragraph(mois_fr, cal_mois_style),  # Colonne 0 (taille normale pour tous les mois)
+                    Paragraph("", base_style),  # Colonne 1 (pour le SPAN du mois FR sur colonnes 0-2)
+                    Paragraph("", base_style),  # Colonne 2 (pour le SPAN du mois FR sur colonnes 0-2)
+                    Paragraph(fix_arabic_text(mois_ar), cal_mois_ar_style),  # Colonne 3 (première colonne du SPAN pour le mois AR sur colonnes 3-6)
+                    Paragraph("", base_style), Paragraph("", base_style), Paragraph("", base_style),  # Colonnes 4-6 (pour le SPAN du mois AR)
+                ])
+            else:
+                cal_table_rows.append([
+                    Paragraph(mois_fr, cal_mois_style),  # Colonne 0
+                    Paragraph("", base_style),  # Colonne 1 (pour le SPAN du mois FR sur colonnes 0-1)
+                    Paragraph(fix_arabic_text(mois_ar), cal_mois_ar_style),  # Colonne 2 (première colonne du SPAN pour le mois AR sur colonnes 2-6)
+                    Paragraph("", base_style), Paragraph("", base_style), Paragraph("", base_style), Paragraph("", base_style),  # Colonnes 3-6 (pour le SPAN du mois AR)
+                ])
 
             
 
@@ -8405,21 +8378,32 @@ def export_pdf_multilang_style2():
 
                     cal_table_rows,
 
-                    colWidths=[0.7*cm] * 7  # 7 colonnes pour les jours
+                    colWidths=[0.73*cm] * 7  # 7 colonnes pour les jours (augmenté de 0.2cm au total : 0.7 + 0.2/7 ≈ 0.73cm par colonne)
 
                 )
 
-                cal_table.setStyle(TableStyle([
-
+                # Créer le TableStyle avec SPAN conditionnel selon le mois
+                cal_table_style_list = [
                     # Ligne 0 : Mois FR/AR
-
-                    ('SPAN', (0, 0), (1, 0)),              # Mois FR sur colonnes 0 à 1 (réduit pour donner plus d'espace au mois AR)
-
-                    ('SPAN', (2, 0), (6, 0)),              # Mois AR sur colonnes 2 à 6 (augmenté pour afficher entièrement sur une ligne)
-
-                    ('ALIGN', (0, 0), (1, 0), 'LEFT'),     # Mois FR aligné à gauche
-
-                    ('ALIGN', (2, 0), (6, 0), 'RIGHT'),    # Mois AR aligné à droite
+                ]
+                
+                # SPAN conditionnel selon le mois
+                if mois_ref in [9, 11, 12]:  # Septembre, novembre ou décembre : mois FR sur colonnes 0-2, mois AR sur colonnes 3-6
+                    cal_table_style_list.extend([
+                        ('SPAN', (0, 0), (2, 0)),              # Mois FR sur colonnes 0 à 2 (augmenté pour septembre, novembre et décembre)
+                        ('SPAN', (3, 0), (6, 0)),              # Mois AR sur colonnes 3 à 6 (réduit pour septembre, novembre et décembre)
+                        ('ALIGN', (0, 0), (2, 0), 'LEFT'),     # Mois FR aligné à gauche
+                        ('ALIGN', (3, 0), (6, 0), 'RIGHT'),    # Mois AR aligné à droite
+                    ])
+                else:  # Autres mois : mois FR sur colonnes 0-1, mois AR sur colonnes 2-6
+                    cal_table_style_list.extend([
+                        ('SPAN', (0, 0), (1, 0)),              # Mois FR sur colonnes 0 à 1 (réduit pour donner plus d'espace au mois AR)
+                        ('SPAN', (2, 0), (6, 0)),              # Mois AR sur colonnes 2 à 6 (augmenté pour afficher entièrement sur une ligne)
+                        ('ALIGN', (0, 0), (1, 0), 'LEFT'),     # Mois FR aligné à gauche
+                        ('ALIGN', (2, 0), (6, 0), 'RIGHT'),    # Mois AR aligné à droite
+                    ])
+                
+                cal_table_style_list.extend([
 
                     # Ligne 1 : Jours AR/FR
 
@@ -8427,7 +8411,7 @@ def export_pdf_multilang_style2():
 
                     # Ligne de séparation bleue après les jours (ligne 1)
 
-                    ('LINEBELOW', (0, 1), (-1, 1), 0.5, colors.HexColor('#0066CC')),
+                    ('LINEBELOW', (0, 1), (-1, 1), 0.5, colors.HexColor('#004499')),  # Bleu clairement plus foncé que #0066CC
 
                     # Lignes de dates (ligne 2+)
 
@@ -8443,7 +8427,9 @@ def export_pdf_multilang_style2():
 
                     ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
 
-                ]))
+                ])
+                
+                cal_table.setStyle(TableStyle(cal_table_style_list))
 
                 
 
@@ -8473,19 +8459,25 @@ def export_pdf_multilang_style2():
 
             cal_notes_rows = []
 
+            # Ajouter une ligne vide en haut
+            cal_notes_rows.append([Paragraph("", ligne_note_style)])
+
             for i in range(5):
 
-                if i == 0:  # Ligne 1 : @, longueur réduite de 0,1cm
+                if i == 0:  # Ligne 1 : @, longueur augmentée de 0,5cm
 
-                    cal_notes_rows.append([Paragraph("@" + "_" * 65, ligne_note_style)])
+                    cal_notes_rows.append([Paragraph("@" + "_" * 68, ligne_note_style)])
 
-                elif i == 3:  # Ligne 4 : ✆ avec taille 9, longueur réduite de 0,1cm
+                elif i == 3:  # Ligne 4 : ✆ avec taille 9, longueur augmentée de 0,5cm
 
-                    cal_notes_rows.append([Paragraph('<font size="9">✆</font>' + "_" * 65, ligne_note_style)])
+                    cal_notes_rows.append([Paragraph('<font size="9">✆</font>' + "_" * 68, ligne_note_style)])
 
-                else:  # Lignes 2, 3, 5 : pas de symbole, longueur augmentée de 0,1cm
+                else:  # Lignes 2, 3, 5 : pas de symbole, longueur augmentée de 0,5cm
 
-                    cal_notes_rows.append([Paragraph("_" * 67, ligne_note_style)])
+                    cal_notes_rows.append([Paragraph("_" * 70, ligne_note_style)])
+
+            # Ajouter une 6ème ligne en bas (sans symbole, longueur augmentée de 0,5cm)
+            cal_notes_rows.append([Paragraph("_" * 70, ligne_note_style)])
 
             
 
@@ -8493,7 +8485,7 @@ def export_pdf_multilang_style2():
 
                 cal_notes_rows,
 
-                colWidths=[11.5*cm]  # Largeur réduite de 0,5cm (12cm - 0,5cm = 11,5cm)
+                colWidths=[12.0*cm]  # Largeur augmentée de 0,5cm (11,5cm + 0,5cm = 12,0cm)
 
             )
 
@@ -8579,7 +8571,7 @@ def export_pdf_multilang_style2():
 
             if ligne_vide_apres_heures_index < len(page1_row_heights):
 
-                page1_row_heights[ligne_vide_apres_heures_index] = 24  # Même hauteur que les lignes horaires
+                page1_row_heights[ligne_vide_apres_heures_index] = 15  # Hauteur réduite encore plus (20 -> 15)
 
             page1_table = Table(page1_data, colWidths=[5.5*cm, 5.5*cm, 5.5*cm], rowHeights=page1_row_heights)
 
@@ -8647,7 +8639,7 @@ def export_pdf_multilang_style2():
 
                 Paragraph(
 
-                    f"<font face='{square721_font_name}'>Semaine Week  </font><font face='{square721_bold_font_name}' color='#0066CC' size='10'>{semaine_num_formate2}</font><font face='{arabic_font_name}'>  {fix_arabic_text(semaine_ar2)}</font>",
+                    f"<font face='{square721_font_name}'>Semaine Week  </font><font face='{square721_bold_font_name}' color='#004499' size='10'>{semaine_num_formate2}</font><font face='{arabic_font_name}'>  {fix_arabic_text(semaine_ar2)}</font>",
 
                     ParagraphStyle(
 
@@ -8683,7 +8675,7 @@ def export_pdf_multilang_style2():
 
                     fontName=square721_bold_font_name,
 
-                    textColor=colors.HexColor('#0066CC'),
+                    textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                     alignment=TA_RIGHT,
 
@@ -8755,7 +8747,7 @@ def export_pdf_multilang_style2():
 
                                 fontName=square721_bold_font_name,  # Square721 BT Bold pour les dates (chiffres)
 
-                                textColor=colors.HexColor('#0066CC'),
+                                textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                                 alignment=TA_CENTER,
 
@@ -8861,7 +8853,7 @@ def export_pdf_multilang_style2():
 
                         ferie_para = Paragraph(
 
-                            f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
+                            f"<font color='#004499'>{nom_ferie}</font>",  # Même bleu que les dates
 
                             ferie_style
 
@@ -9145,7 +9137,7 @@ def export_pdf_multilang_style2():
 
                         fontName=square721_bold_font_name,  # Square721 BT Bold pour les dates
 
-                        textColor=colors.HexColor('#0066CC'),
+                        textColor=colors.HexColor('#004499'),  # Bleu plus foncé
 
                         alignment=TA_CENTER,
 
@@ -9239,7 +9231,7 @@ def export_pdf_multilang_style2():
 
                     dimanche_ferie_para = Paragraph(
 
-                        f"<font color='#0066CC'>{nom_ferie}</font>",  # Même bleu que les dates
+                        f"<font color='#004499'>{nom_ferie}</font>",  # Même bleu que les dates
 
                         ferie_style
 
@@ -9297,7 +9289,10 @@ def export_pdf_multilang_style2():
 
                 for i in range(5):
 
-                    dimanche_notes_rows.append([Paragraph("_" * 68, ligne_note_style)])  # Ajuster pour 11,7cm de largeur
+                    dimanche_notes_rows.append([Paragraph("_" * 71, ligne_note_style)])  # Ajuster pour 12,2cm de largeur (augmenté de 0,5cm)
+
+                # Ajouter une 6ème ligne en bas
+                dimanche_notes_rows.append([Paragraph("_" * 71, ligne_note_style)])  # Ajuster pour 12,2cm de largeur (augmenté de 0,5cm)
 
                 
 
@@ -9305,7 +9300,7 @@ def export_pdf_multilang_style2():
 
                     dimanche_notes_rows,
 
-                    colWidths=[11.7*cm]  # Largeur augmentée de 0,2cm (11,5cm + 0,2cm = 11,7cm)
+                    colWidths=[12.2*cm]  # Largeur augmentée de 0,5cm (11,7cm + 0,5cm = 12,2cm)
 
                 )
 
@@ -9395,7 +9390,7 @@ def export_pdf_multilang_style2():
 
             if ligne_vide_apres_heures2_index < len(page2_row_heights):
 
-                page2_row_heights[ligne_vide_apres_heures2_index] = 24  # Même hauteur que les lignes horaires
+                page2_row_heights[ligne_vide_apres_heures2_index] = 15  # Hauteur réduite encore plus (24 -> 15)
 
             page2_table = Table(page2_data, colWidths=[5.5*cm, 5.5*cm, 5.5*cm], rowHeights=page2_row_heights)
 
